@@ -270,6 +270,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startBtn{width:100%;margin-top:14px;padding:13px;font-size:1.08rem}
 .allDone{text-align:center;margin-top:14px;padding:12px;background:var(--waka-s);border-radius:12px}
 .todayFoot{text-align:center;margin-top:12px}
+.card.intro{position:relative}.newBadge{position:absolute;top:12px;left:14px;font-size:.72rem;padding:2px 9px;border-radius:999px;background:var(--yama-s);border:1.5px solid var(--ink)}.introTip{margin-top:14px;padding:8px 12px;border-radius:12px;background:#F6F1E8;font-size:.8rem;color:var(--muted);text-align:center}
 .bigBar{height:10px;border-radius:6px;background:#EFE9DF;margin-top:12px;overflow:hidden}.bigBar i{display:block;height:100%;width:0;background:var(--coral);border-radius:6px;transition:width .4s}
 .moreNew{width:100%;margin-top:10px}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
@@ -1914,12 +1915,478 @@ async function ensureIpa(c){
   const ent = dictCache()[String(c.word).trim().toLowerCase()];
   if (ent && ent.t && !c.ipa){ c.ipa = ent.t; markDirty(c.ck); if (cur === c && revealed) renderReview(); if ($('#modal').classList.contains('on') && $('#modalBox').dataset.card === c.id && !$('#eWord')) openEditor(c); }
 }
+const SYN_ZH_RAW = `market share|share of the market|市場占有率|描述性說法，意思相同；market share 較簡潔常用
+agenda|schedule|時間表|schedule 著重時間安排；agenda 指會議要討論的項目
+agenda|program|節目單；計畫|program 指活動整體流程，agenda 專指會議議題
+assign|allocate|分配（資源）|allocate 多指分配預算、資源；assign 多指分派工作、任務給人
+assign|give|給|give 最口語、範圍最廣，assign 有正式指派的意味
+attach|enclose|隨函附上|enclose 用於紙本信件附件；attach 用於電子郵件附檔
+attach|fasten|固定；扣緊|fasten 指實體上扣住、綁緊，不用於郵件附檔
+colleague|coworker|同事|coworker 較口語，指同公司一起工作的人；colleague 較正式，也可指同行
+colleague|associate|同仁；合夥人|associate 較正式，常指業務往來夥伴或職稱
+deadline|due date|到期日|due date 多指繳費、交件、預產期的日期；deadline 強調不可逾越的最後期限
+deadline|time limit|時間限制|time limit 指一段允許的時間長度，如考試限時
+department|division|事業部|division 通常比 department 大，指公司的大部門
+department|section|科；組|section 通常比 department 小，是部門底下的單位
+document|file|檔案|file 常指電腦檔案或檔案夾；document 指文件內容本身
+document|paper|紙本文件|papers 常用複數，指證件、文件資料，較口語
+file|submit|提交|submit 指交出文件給審核者；file 多用於正式申請（file a claim）
+file|store|存放|store 指一般保存物品；file 指依系統歸檔文件
+memo|note|便條；筆記|note 指非正式的短訊或筆記；memo 指公司內部正式備忘錄
+memo|notice|公告；通知|notice 指公開張貼或發布的通知，對象較廣
+postpone|delay|延誤；延遲|delay 常指非預期地被耽誤；postpone 是刻意延後到之後的時間
+postpone|put off|拖延；延後|put off 是口語說法，意思同 postpone，有時帶「拖延」意味
+priority|precedence|優先權|precedence 較正式，指依順序或重要性排在前面
+priority|focus|重點|focus 指注意力集中的地方，不一定有排序概念
+reception|front desk|櫃台|front desk 多指飯店、大樓櫃台；reception 也可指公司接待區
+reception|welcome|歡迎|welcome 指歡迎的態度或致意，不指地點或歡迎會
+remind|prompt|促使；提示|prompt 指引發某人去做某事，不一定是忘記了
+remind|notify|通知|notify 是正式告知新消息；remind 是提醒原本知道但可能忘記的事
+schedule|timetable|時刻表|timetable 多指固定的時刻表，如火車、課表
+schedule|plan|計畫|plan 著重打算要做什麼，不一定有確切時間
+supervisor|manager|經理|manager 職位較高，負責管理部門；supervisor 多指第一線督導
+supervisor|boss|老闆；上司|boss 口語，泛指上司
+supply|stock|存貨|stock 指店內或倉庫現有的庫存
+supply|provision|供應；準備|provision 較正式，常指預先準備的物資或條款
+workload|work|工作|work 泛指工作；workload 特指工作分量的多寡
+workload|burden|負擔|burden 帶有沉重、壓力的負面語氣
+coordinate|organize|組織；籌辦|organize 指規劃安排一件事；coordinate 強調讓多方配合
+coordinate|arrange|安排|arrange 指安排細節，如時間、座位
+delegate|assign|分派|assign 指派工作；delegate 強調把自己的權責交給下屬
+delegate|entrust|託付|entrust 強調信任對方而交付重要事物
+efficient|productive|有生產力的|productive 強調產出多；efficient 強調不浪費時間資源
+efficient|effective|有效的|effective 指能達到目的；efficient 指用最少成本達到目的
+in charge of|responsible for|負責|responsible for 也可指要為後果負責
+in charge of|managing|管理|managing 指實際在管理運作
+notify|inform|告知|inform 較常用，泛指提供資訊；notify 較正式，常用於官方通知
+notify|tell|告訴|tell 最口語
+operate|run|經營；運轉|run 較口語，run a business / the machine is running
+operate|work|運作|work 指機器正常運作（It doesn't work.）
+facility|building|建築物|building 只指建築本身；facility 指具特定用途的場所或設施
+facility|plant|工廠|plant 專指工廠或發電廠
+applicant|candidate|候選人|candidate 指進入評選的人選；applicant 是提出申請的人
+applicant|job seeker|求職者|job seeker 泛指找工作的人，不一定已投遞某職缺
+candidate|applicant|應徵者|applicant 只要投履歷就是；candidate 通常指被考慮的人選
+candidate|nominee|被提名人|nominee 指被提名參選或得獎的人
+qualification|requirement|要求|requirement 是職缺要求的條件；qualification 是應徵者具備的資格
+qualification|credential|資格證明|credential 指證書、學歷等證明文件
+resume|CV|履歷|CV 英式常用，通常較長、詳列學經歷；resume 美式常用，較精簡
+interview|meeting|會議|meeting 泛指見面開會；interview 特指面試或訪談
+hire|employ|雇用|employ 較正式，也指「目前雇用中」的狀態
+hire|recruit|招募|recruit 強調主動尋找、招攬人才
+recruit|hire|雇用|hire 指正式錄用；recruit 指招募的過程
+recruit|enlist|徵募；爭取|enlist 原指從軍，也指爭取他人協助
+position|job|工作|job 口語泛指工作；position 較正式，指職位
+position|post|職位|post 較正式，多見於公告與英式用法
+experience|background|背景|background 指教育、工作等整體經歷
+experience|expertise|專業知識|expertise 強調專業技能深度
+reference|referee|推薦人|referee 為英式說法，指提供推薦的人
+reference|recommendation|推薦信|recommendation 指推薦的內容或推薦信
+promote|advance|晉升；推進|advance 較正式，常用於職涯 advance one's career
+promote|upgrade|升級|upgrade 多指產品、座位、設備升級
+promotion|advancement|晉升；進展|advancement 較正式，指職涯發展
+salary|pay|薪資|pay 泛指報酬，口語常用
+salary|wage|工資|wage 多指時薪或週薪；salary 指固定月薪或年薪
+benefit|advantage|優點|advantage 指勝過他人的優勢
+benefit|perk|額外好處|perk 口語，指公司福利如免費午餐
+employee|staff member|員工|staff 是集合名詞，指全體員工；staff member 指其中一人
+employee|worker|勞工|worker 常指基層或體力工作者
+employer|company|公司|company 指公司本身；employer 強調雇用關係
+employer|boss|老闆|boss 口語，指上司個人
+retire|step down|卸任|step down 指辭去職位，不一定是退休
+resign|quit|辭職|quit 口語；resign 正式，常用於正式提出辭呈
+resign|step down|下台；卸任|step down 多用於高階職位
+evaluation|assessment|評估|assessment 常用於測驗或風險評估
+evaluation|review|考核|review 常指 performance review 年度考核
+performance|achievement|成就|achievement 指達成的成果
+performance|results|成果|results 指具體數字或結果
+training|instruction|指導|instruction 指教學或操作說明
+training|coaching|教練指導|coaching 指一對一的指導與輔導
+orientation|introduction|介紹|introduction 泛指介紹
+orientation|induction|入職訓練|induction 英式用法，指新人入職訓練
+personnel|staff|員工|staff 較口語；personnel 較正式，也指人事部門
+personnel|HR|人資部|HR 是現代常用說法，等同 personnel department
+probation|trial period|試用期|trial period 也用於免費試用產品
+transfer|move|移動；搬遷|move 最口語
+transfer|relocate|調遷|relocate 強調搬到另一個城市或地點
+conference|meeting|會議|meeting 規模小、日常；conference 規模大，常有多場議程
+conference|convention|大會|convention 指大型年會、展覽型大會
+presentation|talk|演講|talk 較口語、輕鬆
+presentation|demonstration|示範|demonstration 指實際操作示範產品
+attend|be present at|出席|be present at 較正式，強調在場
+attend|go to|去|go to 口語；attend 正式
+participant|attendee|出席者|attendee 指出席活動的人；participant 強調參與其中
+participant|member|成員|member 指團體成員
+proposal|plan|計畫|plan 泛指打算；proposal 是提出供人考慮或核准的方案
+proposal|suggestion|建議|suggestion 較輕鬆、非正式
+summarize|sum up|總結|sum up 較口語，常用於結尾 To sum up
+summarize|outline|概述|outline 指列出要點架構
+discuss|talk about|談論|talk about 口語；discuss 不加 about
+discuss|review|檢討|review 指仔細檢視
+consensus|agreement|同意；協議|agreement 可指兩方；consensus 強調群體的普遍共識
+consensus|accord|一致；協定|accord 較正式，常見於國際協定
+minutes|record|紀錄|record 泛指紀錄
+minutes|notes|筆記|notes 指個人筆記，較不正式
+handout|leaflet|傳單|leaflet 指宣傳傳單
+handout|printout|列印資料|printout 指從電腦印出的資料
+brainstorm|generate ideas|發想點子|generate ideas 是描述性說法
+objective|goal|目標|goal 最常用；objective 較正式，指具體可衡量的目標
+objective|aim|目的|aim 指想達成的方向
+input|feedback|回饋|feedback 指對已完成事物的評語；input 指事前提供的意見
+input|contribution|貢獻|contribution 指付出的心力或金錢
+reschedule|postpone|延後|postpone 只能往後延；reschedule 可提前或延後
+reschedule|rearrange|重新安排|rearrange 也可指重新擺放
+venue|location|地點|location 泛指位置；venue 指活動舉辦場地
+venue|site|場所|site 常指工地或特定用途的地點
+keynote|main speech|主要演講|main speech 是描述性說法
+outline|summarize|摘要|summarize 是濃縮重點；outline 是列出架構
+outline|sketch|草擬|sketch 指粗略描繪
+clarify|explain|解釋|explain 泛指說明；clarify 是把模糊之處講清楚
+clarify|make clear|講清楚|make clear 較口語
+address|deal with|處理|deal with 較口語
+address|handle|處理|handle 常指處理具體事務或客訴
+agree on|settle on|決定|settle on 指經考慮後選定
+agree on|decide on|決定|decide on 可以是一個人決定，不一定是共識
+follow up|check back|回頭確認|check back 較口語
+follow up|pursue|追查|pursue 較正式，有持續追求的意味
+point out|indicate|指出；表明|indicate 也可指數據顯示
+point out|mention|提到|mention 只是順帶提起，沒有特別強調
+highlight|emphasize|強調|emphasize 較正式
+highlight|stress|強調|stress 常用於口說 I want to stress that...
+refreshments|snacks|點心|snacks 口語，指零食
+refreshments|drinks|飲料|drinks 只指飲品
+register|sign up|報名|sign up 較口語
+register|enroll|註冊（課程）|enroll 多用於課程、學校
+advertise|promote|推廣|promote 範圍較廣，含折扣活動等
+advertise|publicize|宣傳|publicize 指讓大眾知道
+campaign|drive|運動；活動|drive 指為特定目的而發起的活動（fund-raising drive）
+campaign|promotion|促銷|promotion 多指降價促銷活動
+competitor|rival|對手|rival 強調長期互相競爭的對手
+competitor|competition|競爭者|competition 指整體競爭對手（集合）
+consumer|customer|顧客|customer 指向某店家購買的人；consumer 指整體消費者
+consumer|buyer|買方|buyer 也指採購人員
+demand|need|需要|need 泛指需要；demand 指市場需求量
+demand|request|請求|request 指禮貌提出的要求
+launch|release|發行|release 多用於電影、音樂、軟體
+launch|introduce|推出|introduce 較中性
+survey|questionnaire|問卷|questionnaire 指問卷本身
+survey|poll|民調|poll 多指意見或選舉民調
+target|goal|目標|goal 一般用法
+target|objective|目標|objective 較正式
+brand|label|品牌；標籤|label 多指服飾或唱片品牌
+brand|trademark|商標|trademark 是法律上註冊的標誌
+discount|reduction|減少|reduction 泛指減少
+discount|markdown|降價|markdown 指商品標價調降
+estimate|quote|報價|quote 是正式、有約束力的報價；estimate 是概估
+estimate|approximation|近似值|approximation 偏數學、統計用語
+revenue|income|收入|income 常指個人收入
+revenue|earnings|盈餘；收益|earnings 常指扣除後的獲利或個人所得
+strategy|plan|計畫|plan 較具體；strategy 指長期整體方針
+strategy|approach|方法|approach 指處理事情的方式
+trend|tendency|傾向|tendency 指人或事物的傾向
+trend|movement|動向|movement 指變動或社會運動
+feature|include|包含|include 只表示包含其中
+feature|highlight|特別呈現|highlight 強調重點
+promotional|advertising|廣告的|advertising 指廣告相關
+promotional|marketing|行銷的|marketing 範圍較廣
+retail|sales|銷售|sales 泛指銷售
+retail|selling|販售|selling 動作本身
+wholesale|bulk|大量|bulk 指大量購買，不一定是批發商
+client|customer|顧客|customer 指購買商品；client 指購買專業服務（律師、顧問）
+client|account|客戶帳戶|account 指廣告、業務上的客戶（大客戶 key account）
+quote|estimate|估價|estimate 是概估，可能變動
+quote|price|價格|price 泛指價格
+affordable|reasonable|合理的|reasonable 指價格公道
+affordable|inexpensive|不貴的|inexpensive 較 cheap 有禮貌，無品質差的含意
+exclusive|sole|唯一的|sole 指唯一（sole distributor 獨家經銷）
+exclusive|special|特別的|special 一般用法
+expand|grow|成長|grow 指自然成長
+expand|extend|延伸|extend 多指時間或範圍延長
+potential|possibility|可能性|possibility 指事情發生的可能
+potential|promise|前途|promise 指有發展前景
+budget|allowance|額度；津貼|allowance 指可用的固定金額，如出差津貼
+budget|funds|資金|funds 指實際可用的錢
+expense|cost|成本|cost 泛指花費
+expense|spending|支出|spending 指花錢的行為或總額
+invoice|bill|帳單|bill 常用於日常帳單；invoice 用於商業請款
+invoice|statement|對帳單|statement 指一段期間的明細
+account|record|紀錄|record 泛指紀錄
+account|ledger|分類帳|ledger 指會計帳簿
+audit|inspection|檢查|inspection 多指實地查驗
+audit|review|審查|review 較一般
+balance|remainder|剩餘部分|remainder 泛指剩下的部分
+deposit|down payment|頭期款|down payment 指購屋、車的頭期款
+profit|earnings|收益|earnings 常指公司財報盈餘
+profit|gain|獲益|gain 泛指增加或好處
+loss|deficit|赤字|deficit 指支出大於收入的差額
+reimburse|refund|退款|refund 是退還購物款；reimburse 是補償代墊的費用
+reimburse|repay|償還|repay 指還錢
+receipt|proof of purchase|購買證明|proof of purchase 用於退換貨
+tax|duty|關稅|duty 多指進口關稅
+tax|levy|徵稅|levy 較正式，指徵收稅款
+fiscal|financial|財務的|financial 一般用法
+fiscal|budgetary|預算的|budgetary 專指預算相關
+forecast|predict|預測|predict 一般用法
+forecast|projection|推估|projection 指依數據推算的預測
+investment|funding|資金|funding 指提供的資金
+investment|stake|股份|stake 指持有的股權
+loan|credit|信貸|credit 指信用額度
+loan|advance|預支款|advance 指預先支付或借支
+interest rate|rate|利率|rate 是簡稱
+payroll|wages|工資|wages 指工資本身
+payroll|salary list|薪資表|salary list 是描述性說法
+quarterly|every three months|每三個月|描述性說法
+statement|report|報告|report 泛指報告
+statement|record|紀錄|record 泛指紀錄
+transaction|deal|交易|deal 指談成的生意
+transaction|exchange|交換|exchange 指互換
+cost-effective|economical|經濟的|economical 指省錢
+cost-effective|efficient|有效率的|efficient 指不浪費
+overdue|late|遲的|late 一般用法
+overdue|unpaid|未付的|unpaid 只指未付款
+refund|repayment|償還|repayment 指還款
+refund|reimbursement|報銷|reimbursement 指代墊款的補償
+outstanding|unpaid|未付的|unpaid 只指未付款
+outstanding|due|到期的|due 指已到期應付
+order|purchase|購買|purchase 正式用語
+order|request|請求|request 泛指請求
+purchase|buy|買|buy 口語
+purchase|acquire|取得|acquire 也指公司併購
+supplier|vendor|廠商|vendor 常指軟體或設備供應商
+supplier|provider|提供者|provider 多指服務提供者
+vendor|supplier|供應商|supplier 指供應原料、貨物
+vendor|seller|賣方|seller 泛指賣家
+inventory|stock|存貨|stock 口語
+inventory|supply|供應量|supply 指可供應的量
+shipment|delivery|交貨|delivery 強調送達
+shipment|consignment|託運貨物|consignment 較正式
+deliver|send|寄送|send 只是寄出，不保證送達
+deliver|transport|運輸|transport 指運送過程
+warehouse|storehouse|倉庫|storehouse 較少用
+warehouse|depot|物流站|depot 常指轉運站
+in stock|available|可取得的|available 用途較廣
+out of stock|sold out|售完|sold out 常用於門票、活動
+out of stock|unavailable|無法取得|unavailable 原因不一定是缺貨
+backorder|delayed order|延遲的訂單|描述性說法
+dispatch|send|寄出|send 口語
+dispatch|ship|出貨|ship 指寄送貨品
+track|trace|追查|trace 指追查來源或下落
+track|follow|跟隨|follow 一般用法
+package|parcel|包裹|parcel 英式常用
+package|box|箱子|box 只指容器
+fragile|breakable|易破的|breakable 口語
+fragile|delicate|細緻易損的|delicate 也指精緻
+bulk|large quantity|大量|描述性說法
+procurement|purchasing|採購|purchasing 較口語，等同 procurement
+procurement|acquisition|取得；併購|acquisition 也指收購公司
+contract|agreement|協議|agreement 可以是口頭的；contract 是有法律效力的書面合約
+contract|deal|交易|deal 口語，指談成的生意
+negotiate|bargain|討價還價|bargain 多指殺價
+negotiate|discuss|討論|discuss 不一定有談判
+specification|requirement|要求|requirement 指必須符合的條件
+specification|standard|標準|standard 指普遍標準
+expedite|speed up|加快|speed up 口語
+expedite|hasten|加速|hasten 較文雅
+freight|cargo|貨物|cargo 指船、飛機載運的貨
+freight|shipping|運送|shipping 指運送服務或運費
+courier|delivery service|快遞服務|描述性說法
+courier|messenger|送信人|messenger 指送訊息或文件的人
+confirm|verify|核實|verify 強調查證是否正確
+confirm|approve|批准|approve 指同意通過
+cancel|call off|取消|call off 口語，常用於活動、會議
+cancel|scrap|作廢|scrap 指廢棄計畫
+itinerary|schedule|時間表|schedule 一般用法
+itinerary|route|路線|route 指行走的路線
+reservation|booking|預訂|booking 英式常用，意思相同
+accommodation|lodging|住宿|lodging 較正式
+accommodation|housing|住房|housing 指長期住屋
+depart|leave|離開|leave 口語
+depart|set off|出發|set off 口語，指啟程
+departure|leaving|離開|一般說法
+arrival|coming|到來|一般說法
+luggage|baggage|行李|baggage 美式、航空常用，意思相同
+luggage|bags|包包|口語
+destination|end point|終點|描述性說法
+delay|holdup|耽擱|holdup 口語
+delay|postponement|延期|postponement 指刻意延後
+fare|ticket price|票價|描述性說法
+fare|fee|費用|fee 指服務費、手續費
+round-trip|return|來回的|return 英式用法 a return ticket
+check in|register|登記|register 較正式
+connecting flight|connection|轉機|connection 簡稱
+aisle|passage|通道|passage 泛指通道
+aisle|walkway|步道|walkway 多指戶外步道
+customs|border control|邊境管制|border control 指護照查驗
+passport|travel document|旅行證件|travel document 泛稱
+book|reserve|預訂|reserve 較正式
+rental|lease|租約|lease 指長期租賃合約
+rental|hire|租用|hire 英式用法 car hire
+commute|journey to work|上班路程|描述性說法
+transportation|transport|交通|transport 英式常用
+transportation|transit|大眾運輸|transit 多指大眾運輸系統
+excursion|trip|旅行|trip 一般用法
+excursion|outing|郊遊|outing 指團體出遊
+brochure|pamphlet|小冊子|pamphlet 較薄、資訊性
+brochure|leaflet|傳單|leaflet 通常只有一張
+complimentary|free|免費的|free 一般用法；complimentary 較禮貌、正式
+complimentary|on the house|店家招待|on the house 口語，指店家請客
+amenities|facilities|設施|facilities 指設施本身
+amenities|conveniences|便利設施|conveniences 較少用
+assemble|put together|組合|put together 口語
+assemble|build|建造|build 一般用法
+equipment|apparatus|儀器|apparatus 偏科學、技術
+equipment|gear|裝備|gear 口語，指運動或戶外裝備
+machinery|machines|機器|machinery 是集合名詞，machines 可數
+machinery|equipment|設備|equipment 範圍較廣
+manufacture|produce|生產|produce 也可用於農產品
+manufacture|make|製作|make 口語
+production|manufacturing|製造業|manufacturing 指製造產業
+production|output|產量|output 指產出數量
+capacity|volume|容量；量|volume 指體積或數量
+capacity|ability|能力|ability 指人的能力
+defect|flaw|缺陷|flaw 也可指性格缺點
+defect|fault|故障；過錯|fault 也可指責任歸屬
+inspect|examine|檢查|examine 較仔細
+inspect|check|檢查|check 口語
+inspection|examination|檢查|examination 也指考試
+inspection|check|檢查|check 口語
+quality control|QC|品管|QC 是縮寫
+quality control|quality assurance|品質保證|QA 著重預防，QC 著重檢驗
+maintenance|upkeep|保養|upkeep 指維持費用或保養
+maintenance|servicing|檢修|servicing 指定期保養
+malfunction|break down|故障|break down 口語
+malfunction|fail|失靈|fail 一般用法
+procedure|process|流程|process 指整體過程
+procedure|method|方法|method 指做事方法
+safety|security|保全；安全|security 指防止犯罪或入侵
+safety|protection|保護|protection 指防護措施
+regulation|rule|規則|rule 一般用法
+regulation|law|法律|law 指國家法律
+comply with|follow|遵循|follow 口語
+comply with|obey|服從|obey 多用於命令、法律
+standard|norm|規範|norm 指社會常態
+standard|benchmark|基準|benchmark 指比較用的基準
+output|production|生產|production 指生產活動
+output|yield|產出；收益|yield 也指農作收成或投資報酬
+material|substance|物質|substance 偏化學用語
+material|matter|物質|matter 偏物理用語
+plant|factory|工廠|factory 一般用法
+plant|facility|設施|facility 範圍較廣
+automate|mechanize|機械化|mechanize 指用機器取代人力
+efficiency|productivity|生產力|productivity 指產出量
+prototype|model|模型|model 一般用法
+prototype|sample|樣品|sample 指樣本
+upgrade|improve|改善|improve 一般用法
+upgrade|update|更新|update 指更新到最新版本
+install|set up|設置|set up 口語
+install|fit|安裝|fit 英式常用
+agreement|contract|合約|contract 是有法律效力的書面文件
+agreement|deal|交易|deal 口語
+terms|conditions|條件|conditions 常與 terms 並用
+terms|provisions|規定|provisions 指合約條文
+clause|provision|條款|provision 較廣
+clause|article|條|article 指法條編號
+sign|endorse|背書；簽署|endorse 也指公開支持
+sign|autograph|親筆簽名|autograph 指名人簽名
+signature|autograph|簽名|autograph 指名人簽名
+renew|extend|延長|extend 指延長期限
+renew|update|更新|update 指更新內容
+expire|end|結束|end 一般用法
+expire|run out|用完；到期|run out 口語
+valid|effective|有效的|effective 指生效
+valid|legitimate|合法的|legitimate 強調合法正當
+obligation|duty|義務|duty 也指職責
+obligation|responsibility|責任|responsibility 範圍較廣
+liability|responsibility|責任|responsibility 較一般；liability 指法律上的責任
+breach|violation|違反|violation 較一般
+breach|infringement|侵權|infringement 多指侵害權利
+draft|version|版本|version 指某一版
+draft|outline|大綱|outline 指架構
+amend|revise|修訂|revise 較一般
+amend|modify|修改|modify 指部分調整
+binding|enforceable|可強制執行的|enforceable 法律用語
+confidential|private|私人的|private 一般用法
+confidential|classified|機密的|classified 多指政府機密
+authorize|approve|批准|approve 一般用法
+authorize|permit|允許|permit 較正式
+permit|license|執照|license 指證照
+permit|pass|通行證|pass 指出入證
+policy|rule|規則|rule 一般用法
+policy|guideline|指引|guideline 指建議性規範
+warranty|guarantee|保證|guarantee 泛指承諾；warranty 指產品書面保固
+guarantee|promise|承諾|promise 一般用法
+guarantee|assure|保證|assure 指讓人放心
+dispute|disagreement|意見不合|disagreement 較一般
+dispute|conflict|衝突|conflict 程度較強
+legal|lawful|合法的|lawful 較正式
+legal|legitimate|正當的|legitimate 強調合理正當
+party|side|一方|side 口語
+party|participant|參與者|participant 一般用法
+effective|in effect|生效中|in effect 片語
+effective|valid|有效的|valid 指在有效期內
+terminate|end|結束|end 一般用法
+terminate|cancel|取消|cancel 指取消
+complaint|grievance|申訴|grievance 較正式，多指員工申訴
+complaint|criticism|批評|criticism 指評論、批評
+inquiry|question|問題|question 一般用法
+inquiry|query|詢問|query 較正式
+respond|reply|回覆|reply 指回信或回答
+respond|answer|回答|answer 一般用法
+resolve|solve|解決|solve 多指解題
+resolve|settle|和解；解決|settle 多指解決爭端
+satisfaction|contentment|滿足|contentment 指內心滿足
+apologize|say sorry|道歉|say sorry 口語
+inconvenience|trouble|麻煩|trouble 一般用法
+inconvenience|bother|打擾|bother 口語
+assistance|help|幫助|help 一般用法
+assistance|support|支援|support 指持續的支援
+feedback|comments|評論|comments 一般用法
+feedback|response|回應|response 指回覆
+replace|substitute|代替|substitute 指暫時代替
+replace|exchange|交換|exchange 指互換
+exchange|swap|交換|swap 口語
+exchange|trade|交易|trade 指貿易
+representative|agent|代理人|agent 指代理商
+representative|rep|代表|rep 是口語縮寫
+available|free|有空的|free 口語
+available|accessible|可取得的|accessible 指容易到達或使用
+appreciate|value|重視|value 指重視
+appreciate|be grateful for|感激|be grateful for 較強烈
+courteous|polite|有禮貌的|polite 一般用法
+courteous|respectful|尊重的|respectful 指尊敬
+prompt|quick|快的|quick 一般用法
+prompt|immediate|立即的|immediate 指馬上
+via|through|透過|through 一般用法
+via|by way of|經由|by way of 較正式
+regarding|about|關於|about 一般用法
+regarding|concerning|關於|concerning 較正式
+further|additional|額外的|additional 指另外增加的
+further|more|更多|more 一般用法
+attention|notice|注意|notice 指察覺
+attention|focus|專注|focus 指集中
+accommodate|hold|容納|hold 一般用法
+accommodate|serve|服務|serve 指提供服務
+convenient|suitable|合適的|suitable 指適合
+convenient|handy|方便的|handy 口語
+on behalf of|representing|代表|representing 一般用法
+on behalf of|for|為了|for 一般用法
+get back to|reply to|回覆|reply to 一般用法
+get back to|call back|回電|call back 指回電話
+look into|investigate|調查|investigate 較正式
+look into|examine|檢查|examine 較仔細`;
+let SYN_ZH = null;
+function fillSynZh(c){
+  if (!SYN_ZH){ SYN_ZH = {}; SYN_ZH_RAW.split('\n').forEach(l => { const [h, s, zh, note] = l.split('|'); SYN_ZH[h.toLowerCase() + '|' + s.toLowerCase()] = [zh, note]; }); }
+  let ch = false; const hw = String(c.word || '').trim().toLowerCase();
+  for (const s of c.syn){ const d = SYN_ZH[hw + '|' + String(s.w).trim().toLowerCase()]; if (!d) continue; if (!s.zh){ s.zh = d[0]; ch = true; } if (!s.note){ s.note = d[1]; ch = true; } }
+  return ch;
+}
 function applyBuiltin(c){
   if (c.ai || c.builtin) return false;
   const d = builtinFor(c.word); if (!d) return false;
   const b = JSON.parse(JSON.stringify(d));
   if (!c.ex.length) c.ex = b.ex;
-  if (!c.syn.length) c.syn = b.syn;
+  if (!c.syn.length){ c.syn = b.syn; fillSynZh(c); }
   if (!c.ant.length){ c.ant = b.ant.filter(a => a && a !== '—'); c.antZh = c.ant.map(antZhBuiltin); }
   if (!c.senses.length) c.senses = b.senses;
   if (!c.coll.length){ c.coll = b.coll; c.collZh = b.coll.map(collZhBuiltin); }
@@ -2086,7 +2553,7 @@ const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeou
 function finishLoad(m, note){
   loaded = true; mode = m;
   if (note) showNotice(note); else $('#notice').classList.remove('on');
-  let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c), d = fillCollZh(c); if (a || b || d){ dirty.chunks.add(c.ck); fixed++; } }
+  let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c), d = fillCollZh(c) | fillSynZh(c); if (a || b || d){ dirty.chunks.add(c.ck); fixed++; } }
   if (fixed) markDirty();
   setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
   if (PACK.state === 'ready') hydrateAll(); else loadPack();
@@ -4104,6 +4571,18 @@ function renderReview(){
     return;
   }
   const c = cur;
+  if (c.state === 'new'){
+    // 新字：先完整認識，再進入短間隔小測驗（1 分鐘 → 10 分鐘 → 隔天）
+    area.innerHTML = sessionHead() + `<div class="card intro"><div class="newBadge">新字・先認識</div><div style="text-align:center">${headHTML(c)}</div>${marksHTML(c)}<hr class="divider">${detailHTML(c, true)}<div class="introTip">按「記住了」後，約 1 分鐘、10 分鐘後會各考一次，答對再排到隔天複習。</div></div>
+      <div class="sesControls"><div class="row" style="flex-wrap:nowrap"><button class="btn" id="knowBtn" style="flex:1">早就會了</button><button class="btn pri" id="learnBtn" style="flex:2">記住了，稍後小測驗</button></div></div>`;
+    bindSessionHead(c);
+    prefetchTTS([c.word, c.ex[0] && c.ex[0].en]);
+    area.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => queueEnrich([b.dataset.enrich]));
+    $('#learnBtn').onclick = () => rate(1);
+    $('#knowBtn').onclick = () => rate(4);
+    ensureZh(c); ensureIpa(c);
+    return;
+  }
   let verdictHTML = '';
   if (revealed && verdict) verdictHTML = verdict.text ? `<div class="verdict ${verdict.cls}"><span>${esc(verdict.text)}</span></div>` : '';
   let fbHTML = '';
@@ -4170,7 +4649,7 @@ async function grade(){
   }
 }
 function rate(r){
-  if (!cur || !revealed) return;
+  if (!cur || (!revealed && cur.state !== 'new')) return;
   const now = Date.now(); ensureDaily();
   undoStack.push({id: cur.id, card: JSON.parse(JSON.stringify(cur)), daily: {...S.daily}, day: S.daily.day});
   if (undoStack.length > 30) undoStack.shift();
@@ -4200,6 +4679,7 @@ document.addEventListener('keydown', e => {
   const tag = (e.target.tagName || '').toLowerCase();
   if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (cur && cur.state === 'new' && (e.key === ' ' || e.key === 'Enter')){ e.preventDefault(); rate(1); return; }
   if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); if (revealed) rate(verdict && verdict.sug ? verdict.sug : 3); else if (curMode !== 'produce') reveal(); }
   else if (['1','2','3','4'].includes(e.key) && revealed) rate(+e.key);
   else if (e.key === 'r' || e.key === 'R'){ if (cur) speak(cur.word); }
