@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vocab Studio｜英文單字學習</title>
 <meta name="description" content="英文單字間隔複習、影片學單字、活用練習與班級對戰">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#FFFCF6">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vocab Studio">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
@@ -229,6 +237,11 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .saBox:not(:empty){margin-top:10px;border-top:1.5px dashed #d9d1c4;padding-top:10px}
 .chip.sayc{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 4px}
 .chip .zhm{font-size:.85rem;color:#5d5654}
+.addable .w{cursor:pointer;border-radius:3px;transition:background .15s}
+.addable .w:hover{background:var(--mizu-s)}
+.addable .w.hl{background:linear-gradient(transparent 45%,var(--yama) 45%)}
+.wpop{position:fixed;z-index:28;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:10px;box-shadow:0 3px 0 var(--ink);display:none}
+.wpop.on{display:block}
 /* modal etc */
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
@@ -456,6 +469,8 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
       <li>選擇你的程度後按「分析字幕找單字」，勾選想學的字加入。</li>
       <li>每張卡片都會附上影片原句，並可從該秒數開始播放。</li>
     </ol>
+    <h3>4-1. 例句中的生字</h3>
+    <p>看例句時遇到不熟的字，直接點那個字（或用滑鼠選取一段片語），按「加入單字」就會加入單字庫，並自動加上 #例句生字 標籤、保留原本的例句。設定 Gemini 金鑰時可以不填中文，AI 會依照例句的意思補上。</p>
     <h3>5. 標記與標籤</h3>
     <p>複習或查看單字時可按「☆ 標記」或「# 標籤」（例如 #易混淆、#發音難）。在複習頁上方的牌組選單、單字庫、活用練習中，都可以只挑選已標記或某個標籤的字。</p>
     <h3>6. 活用練習</h3>
@@ -476,7 +491,13 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
       <li>「對戰紀錄」會保存每場比賽的名次與成績，並統計你和每位同學的勝負與勝率、你的最佳成績。</li>
       <li>遊戲中答錯的字只會排入<b>你自己</b>的複習，不影響別人。</li>
     </ul>
-    <h3>9. 備份</h3>
+    <h3>9. 加到手機主畫面</h3>
+    <ul>
+      <li><b>iPhone／iPad</b>：用 Safari 開啟本網站 → 點下方「分享」按鈕 → 「加入主畫面」→「新增」。</li>
+      <li><b>Android</b>：用 Chrome 開啟 → 右上角「⋮」→「加到主畫面」或「安裝應用程式」。</li>
+      <li>之後點主畫面上的「Vocab Studio」圖示就會全螢幕開啟，資料和網頁版完全相同。</li>
+    </ul>
+    <h3>9-1. 備份</h3>
     <p>建議每月到「設定與備份」按「產生備份」並複製保存一份，需要時可貼回還原。</p>
     <h3>10. 帳號與登入</h3>
     <ul>
@@ -560,6 +581,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 </div></div>
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
 <div class="aibar" id="aibar"><span class="spin"></span><span id="aibarText"></span><button id="aibarStop">停止</button></div>
+<div class="wpop" id="wpop"></div>
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -1157,6 +1179,504 @@ convenience=方便`;
 let FORM_ZH = null;
 function formZh(w){ if (!FORM_ZH){ FORM_ZH = {}; FORM_ZH_RAW.split('\n').forEach(l => { const i = l.indexOf('='); if (i > 0) FORM_ZH[l.slice(0, i).trim().toLowerCase()] = l.slice(i + 1).trim(); }); } return FORM_ZH[String(w || '').trim().toLowerCase()] || ''; }
 function fillFormZh(c){ let ch = false; for (const f of c.forms){ if (f && f.word && !f.meaning){ const z = formZh(f.word); if (z){ f.meaning = z; ch = true; } } } return ch; }
+const COLL_ZH_RAW = `set the agenda=訂定議程；主導方向
+on the agenda=在議程上
+assign a task=分派任務
+be assigned to=被指派到…
+attach importance to=重視…
+attached file=附件檔案
+a former colleague=前同事
+colleagues at work=職場同事
+meet a deadline=趕上截止期限
+miss the deadline=錯過截止期限
+sales department=業務部
+department store=百貨公司
+legal document=法律文件
+document the process=記錄流程
+ask for an extension=要求延期
+extension cord=延長線
+file a complaint=提出申訴
+file a claim=提出索賠
+send a memo=發送備忘錄
+internal memo=內部備忘錄
+postpone a meeting=延後會議
+postpone until=延到…
+top priority=第一優先
+give priority to=優先處理…
+reception desk=接待櫃檯
+a warm reception=熱烈歡迎
+remind sb of sth=提醒某人某事
+remind sb to do=提醒某人去做
+on schedule=按進度
+behind schedule=進度落後
+direct supervisor=直屬主管
+shift supervisor=值班主管
+office supplies=辦公用品
+supply sb with sth=提供某人某物
+heavy workload=繁重的工作量
+reduce the workload=減輕工作量
+coordinate with=與…協調
+coordinate efforts=協調各方努力
+delegate tasks=分派工作
+delegate authority=授權
+energy-efficient=節能的
+efficient use of time=有效運用時間
+person in charge=負責人
+take charge of=接管；負責
+notify sb of sth=通知某人某事
+notify in advance=事先通知
+operate a business=經營事業
+operating hours=營業時間
+sports facility=運動設施
+manufacturing facility=製造廠
+successful applicant=錄取者
+job applicant=求職者
+ideal candidate=理想人選
+shortlist candidates=列出候選名單
+meet the qualifications=符合資格
+professional qualifications=專業資格
+submit a resume=投遞履歷
+update your resume=更新履歷
+job interview=工作面試
+interview for a position=應徵某職位的面試
+hire staff=雇用員工
+new hire=新進員工
+recruit staff=招募員工
+new recruit=新成員
+apply for a position=應徵職位
+open position=職缺
+work experience=工作經驗
+years of experience=年資
+for reference=供參考
+reference letter=推薦信
+be promoted to=被升為…
+promote a product=推廣產品
+get a promotion=獲得升遷
+sales promotion=促銷活動
+annual salary=年薪
+salary increase=加薪
+health benefits=健康福利
+benefit from=從…中獲益
+full-time employee=全職員工
+employee benefits=員工福利
+former employer=前雇主
+equal opportunity employer=提供平等就業機會的雇主
+retire from=從…退休
+early retirement=提早退休
+resign from=辭去…
+letter of resignation=辭職信
+performance evaluation=績效評估
+conduct an evaluation=進行評估
+job performance=工作表現
+performance review=績效考核
+training session=訓練課程
+on-the-job training=在職訓練
+orientation session=說明會
+new hire orientation=新進人員說明會
+personnel department=人事部
+key personnel=關鍵人員
+probation period=試用期
+on probation=試用期中
+transfer to=調職到…
+bank transfer=銀行轉帳
+press conference=記者會
+conference call=電話會議
+give a presentation=做簡報
+upon presentation of=出示…即可
+attend a meeting=出席會議
+attend to a customer=接待顧客
+workshop participants=工作坊參加者
+active participant=積極參與者
+submit a proposal=提交提案
+budget proposal=預算提案
+summarize the findings=總結研究結果
+to summarize=總而言之
+discuss a plan=討論計畫
+discuss with=與…討論
+reach a consensus=達成共識
+general consensus=普遍共識
+take the minutes=做會議記錄
+meeting minutes=會議記錄
+distribute handouts=發講義
+hand out=分發
+brainstorm ideas=集思廣益想點子
+brainstorming session=腦力激盪會議
+achieve an objective=達成目標
+objective opinion=客觀意見
+provide input=提供意見
+data input=資料輸入
+reschedule an appointment=重新安排約會
+reschedule for=改期到…
+event venue=活動場地
+change of venue=更換場地
+keynote speaker=主講人
+keynote address=主題演講
+outline a plan=概述計畫
+in outline=概略地
+clarify a point=釐清某一點
+clarify the details=釐清細節
+address an issue=處理問題
+address the audience=對聽眾發表演說
+agree on a price=談定價格
+agree on terms=談妥條件
+follow up on=追蹤後續
+follow-up meeting=後續會議
+point out a mistake=指出錯誤
+point out that=指出…
+highlight the importance=強調重要性
+highlights of the trip=旅程的精彩部分
+light refreshments=簡單茶點
+serve refreshments=提供茶點
+register for=報名參加…
+cash register=收銀機
+advertise a product=為產品打廣告
+advertise for staff=刊登徵才廣告
+marketing campaign=行銷活動
+launch a campaign=發起活動
+main competitor=主要競爭對手
+stay ahead of competitors=保持領先競爭對手
+consumer demand=消費需求
+consumer goods=消費品
+in demand=需求量大的
+meet demand=滿足需求
+product launch=產品發表
+gain market share=提高市占率
+lose market share=失去市占率
+conduct a survey=進行調查
+survey results=調查結果
+sales target=銷售目標
+target audience=目標客群
+brand image=品牌形象
+brand loyalty=品牌忠誠度
+offer a discount=提供折扣
+at a discount=打折地
+rough estimate=粗略估計
+cost estimate=成本估算
+annual revenue=年營收
+generate revenue=創造營收
+business strategy=經營策略
+develop a strategy=制定策略
+market trend=市場趨勢
+follow the trend=跟隨潮流
+key features=主要特色
+feature story=專題報導
+promotional event=促銷活動
+promotional materials=宣傳資料
+retail price=零售價
+retail store=零售店
+wholesale price=批發價
+wholesale market=批發市場
+potential client=潛在客戶
+client list=客戶名單
+price quote=報價
+get a quote=取得報價
+affordable price=平價
+affordable housing=平價住宅
+exclusive offer=獨家優惠
+exclusive rights=獨家權利
+expand the business=擴大事業
+expand into=拓展到…
+potential customers=潛在顧客
+reach full potential=發揮全部潛力
+within budget=在預算內
+budget cuts=預算刪減
+travel expenses=差旅費
+at one's expense=由某人出錢；犧牲某人
+send an invoice=寄送請款單
+invoice number=發票號碼
+bank account=銀行帳戶
+take into account=考慮到
+internal audit=內部稽核
+conduct an audit=進行稽核
+account balance=帳戶餘額
+work-life balance=工作與生活平衡
+make a deposit=存款；付訂金
+security deposit=押金
+net profit=淨利
+make a profit=獲利
+suffer a loss=蒙受損失
+at a loss=虧本；不知所措
+reimburse expenses=核銷費用
+be reimbursed for=獲得…的核銷
+keep the receipt=保留收據
+upon receipt of=一收到…就
+sales tax=營業稅
+tax return=報稅單
+fiscal year=會計年度
+fiscal policy=財政政策
+sales forecast=銷售預測
+weather forecast=天氣預報
+return on investment=投資報酬率
+make an investment=進行投資
+take out a loan=申請貸款
+repay a loan=償還貸款
+low interest rate=低利率
+raise interest rates=升息
+on the payroll=在職；受雇
+payroll department=薪資部門
+quarterly report=季報
+quarterly earnings=季度獲利
+bank statement=銀行對帳單
+issue a statement=發表聲明
+business transaction=商業交易
+online transaction=線上交易
+cost-effective solution=划算的解決方案
+highly cost-effective=非常划算
+overdue payment=逾期款項
+long overdue=早該如此
+full refund=全額退款
+request a refund=要求退款
+outstanding balance=未付餘額
+outstanding performance=傑出表現
+place an order=下訂單
+out of order=故障
+make a purchase=購買
+proof of purchase=購買證明
+main supplier=主要供應商
+local supplier=在地供應商
+software vendor=軟體廠商
+street vendor=路邊攤販
+take inventory=盤點庫存
+inventory control=庫存管理
+track a shipment=追蹤貨運
+shipment date=出貨日期
+deliver a package=遞送包裹
+deliver a speech=發表演說
+warehouse manager=倉庫經理
+warehouse space=倉儲空間
+keep in stock=保持庫存
+items in stock=現貨商品
+temporarily out of stock=暫時缺貨
+run out of stock=庫存用完
+on backorder=延期交貨中
+backorder an item=延期交貨某商品
+dispatch an order=寄出訂單
+dispatch a team=派遣團隊
+track an order=追蹤訂單
+keep track of=掌握；記錄
+package deal=套裝方案
+benefits package=福利方案
+fragile items=易碎品
+fragile economy=脆弱的經濟
+in bulk=大量地
+bulk order=大量訂單
+procurement process=採購流程
+procurement department=採購部
+sign a contract=簽約
+contract terms=合約條款
+negotiate a deal=談成交易
+negotiate with=與…談判
+technical specifications=技術規格
+meet specifications=符合規格
+expedite delivery=加快交貨
+expedite the process=加速流程
+freight charges=運費
+air freight=空運
+by courier=以快遞
+courier service=快遞服務
+confirm a booking=確認預訂
+confirm that=確認…
+cancel an order=取消訂單
+cancel a meeting=取消會議
+travel itinerary=旅遊行程表
+detailed itinerary=詳細行程
+make a reservation=預約；訂位
+have reservations about=對…有疑慮
+hotel accommodation=飯店住宿
+find accommodation=找住處
+depart from=從…出發；偏離
+depart for=出發前往…
+departure time=出發時間
+departure gate=登機門
+arrival time=抵達時間
+new arrivals=新到貨；新來的人
+print a boarding pass=列印登機證
+mobile boarding pass=手機登機證
+carry-on luggage=隨身行李
+luggage allowance=行李限額
+final destination=最終目的地
+tourist destination=觀光景點
+without delay=立即
+flight delay=班機延誤
+bus fare=公車車資
+round-trip fare=來回票價
+round-trip ticket=來回票
+round-trip flight=來回航班
+check in at the hotel=辦理飯店入住
+check-in counter=報到櫃檯
+catch a connecting flight=趕上轉機航班
+miss a connection=錯過轉機
+aisle seat=靠走道座位
+in aisle 5=在第 5 排貨架走道
+go through customs=通關
+customs declaration=海關申報
+renew a passport=更新護照
+passport control=護照查驗處
+book a flight=訂機票
+fully booked=客滿
+car rental=租車
+rental fee=租金
+daily commute=每天通勤
+commute to work=通勤上班
+public transportation=大眾運輸
+means of transportation=交通工具
+day excursion=一日遊
+go on an excursion=去短途旅行
+travel brochure=旅遊手冊
+product brochure=產品型錄
+complimentary breakfast=免費早餐
+complimentary tickets=招待券
+hotel amenities=飯店設施
+modern amenities=現代化設施
+assemble a product=組裝產品
+assemble a team=組成團隊
+office equipment=辦公設備
+safety equipment=安全裝備
+heavy machinery=重型機械
+operate machinery=操作機器
+manufacture goods=製造商品
+date of manufacture=製造日期
+production line=生產線
+mass production=量產
+full capacity=滿載
+seating capacity=座位數
+product defect=產品瑕疵
+free of defects=沒有瑕疵
+inspect equipment=檢查設備
+inspect for damage=檢查是否損壞
+safety inspection=安全檢查
+on inspection=經檢查後
+quality control process=品管流程
+strict quality control=嚴格品管
+routine maintenance=例行保養
+maintenance staff=維修人員
+equipment malfunction=設備故障
+system malfunction=系統故障
+standard procedure=標準程序
+follow procedures=遵守程序
+safety regulations=安全法規
+for safety reasons=基於安全考量
+comply with regulations=遵守法規
+comply with rules=遵守規定
+comply with a request=配合要求
+meet standards=符合標準
+daily output=日產量
+increase output=提高產量
+raw materials=原料
+training materials=訓練教材
+power plant=發電廠
+manufacturing plant=製造工廠
+automate a process=將流程自動化
+fully automated=全自動的
+improve efficiency=提高效率
+energy efficiency=能源效率
+build a prototype=製作原型
+prototype design=原型設計
+upgrade the system=升級系統
+get an upgrade=獲得升等
+install software=安裝軟體
+install equipment=安裝設備
+reach an agreement=達成協議
+in agreement=意見一致
+terms and conditions=條款與細則
+payment terms=付款條件
+contract clause=合約條款
+include a clause=納入一項條款
+sign up for=報名；註冊
+electronic signature=電子簽名
+signature dish=招牌菜
+renew a contract=續約
+renew a subscription=續訂
+expire on=於…到期
+expiration date=到期日
+valid ID=有效證件
+valid point=有道理的論點
+legal obligation=法律義務
+without obligation=無義務；免費
+limited liability=有限責任
+accept liability=承擔責任
+breach of contract=違約
+data breach=資料外洩
+first draft=初稿
+draft a proposal=草擬提案
+amend a contract=修改合約
+amend the law=修法
+legally binding=具法律約束力
+binding agreement=有約束力的協議
+confidential information=機密資訊
+keep confidential=保密
+authorize payment=核准付款
+authorized dealer=授權經銷商
+work permit=工作許可證
+permit sb to do=允許某人做
+return policy=退貨政策
+insurance policy=保單
+under warranty=在保固期內
+extended warranty=延長保固
+money-back guarantee=保證退款
+guarantee that=保證…
+settle a dispute=解決爭議
+labor dispute=勞資糾紛
+legal advice=法律諮詢
+legal action=法律行動
+third party=第三方
+the parties involved=相關各方
+effective immediately=立即生效
+effective solution=有效的解決方案
+terminate a contract=終止合約
+terminate employment=終止僱用
+customer complaint=顧客投訴
+make an inquiry=詢問
+inquiry about=關於…的詢問
+respond to=回應…
+respond quickly=迅速回應
+resolve a problem=解決問題
+resolve to do=決心做
+customer satisfaction=顧客滿意度
+job satisfaction=工作滿意度
+apologize for=為…道歉
+apologize to sb=向某人道歉
+cause inconvenience=造成不便
+apologize for the inconvenience=對造成的不便致歉
+technical assistance=技術支援
+be of assistance=幫得上忙
+positive feedback=正面回饋
+give feedback=給予回饋
+replace A with B=用 B 取代 A
+replace a part=更換零件
+exchange rate=匯率
+in exchange for=作為…的交換
+customer service representative=客服專員
+sales representative=業務代表
+available for=可以…；有空…
+readily available=容易取得的
+appreciate your help=感謝你的幫忙
+appreciate in value=增值
+courteous service=有禮貌的服務
+courteous staff=有禮貌的員工
+prompt reply=迅速回覆
+prompt payment=即時付款
+via email=透過電子郵件
+fly via Hong Kong=經香港轉機
+regarding your inquiry=關於您的詢問
+questions regarding=關於…的問題
+further information=更多資訊
+until further notice=直到另行通知
+pay attention to=注意…
+attention to detail=注重細節
+accommodate a request=配合要求
+accommodate guests=接待客人
+convenient time=方便的時間
+convenient location=便利的地點
+on behalf of the company=代表公司
+act on behalf of=代表…行事
+get back to sb=回覆某人
+get back to work=回去工作
+look into a problem=調查問題
+look into the possibility=研究可能性`;
+let COLL_ZH = null;
+function collZhBuiltin(en){ if (!COLL_ZH){ COLL_ZH = {}; COLL_ZH_RAW.split('\n').forEach(l => { const i = l.indexOf('='); if (i > 0) COLL_ZH[l.slice(0, i).trim().toLowerCase()] = l.slice(i + 1).trim(); }); } return COLL_ZH[String(en || '').trim().toLowerCase()] || ''; }
+function fillCollZh(c){ let ch = false; c.coll.forEach((en, i) => { if (!c.collZh[i]){ const z = collZhBuiltin(en); if (z){ c.collZh[i] = z; ch = true; } } }); return ch; }
 let BUILTIN = null;
 function builtinFor(word){
   if (!BUILTIN){
@@ -1184,7 +1704,7 @@ function applyBuiltin(c){
   if (!c.syn.length) c.syn = b.syn;
   if (!c.ant.length) c.ant = b.ant;
   if (!c.senses.length) c.senses = b.senses;
-  if (!c.coll.length) c.coll = b.coll;
+  if (!c.coll.length){ c.coll = b.coll; c.collZh = b.coll.map(collZhBuiltin); }
   if (!c.forms.length) c.forms = b.forms;
   c.builtin = true;
   return true;
@@ -1202,7 +1722,8 @@ function normalizeCard(c){
   if (typeof c.ex === 'string') c.ex = c.ex ? [{en: c.ex, zh: ''}] : [];
   c.ex = arr(c.ex).filter(e => e && e.en); c.senses = arr(c.senses); c.forms = arr(c.forms);
   c.syn = arr(c.syn).map(s => typeof s === 'string' ? {w: s, note: ''} : s).filter(s => s && s.w);
-  c.ant = arr(c.ant).map(String); c.coll = arr(c.coll).map(String);
+  c.ant = arr(c.ant).map(String);
+  { const raw = arr(c.coll), zl = arr(c.collZh); c.coll = []; c.collZh = []; raw.forEach((x, i) => { if (x && typeof x === 'object'){ if (x.en){ c.coll.push(String(x.en)); c.collZh.push(String(x.zh || '')); } } else if (x){ c.coll.push(String(x)); c.collZh.push(String(zl[i] || '')); } }); }
   c.tags = arr(c.tags).map(String).filter(Boolean); c.star = !!c.star;
   c.imp = int15(c.imp); c.prac = int15(c.prac); c.diff = int15(c.diff);
   if (!c.state) c.state = 'new';
@@ -1347,7 +1868,7 @@ const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeou
 function finishLoad(m, note){
   loaded = true; mode = m;
   if (note) showNotice(note); else $('#notice').classList.remove('on');
-  let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c); if (a || b){ dirty.chunks.add(c.ck); fixed++; } }
+  let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c), d = fillCollZh(c); if (a || b || d){ dirty.chunks.add(c.ck); fixed++; } }
   if (fixed) markDirty();
   setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
 }
@@ -1425,6 +1946,9 @@ function openProfile(first){
   draw(); $('#modal').classList.add('on');
 }
 let logoutArmed = false;
+let installEvt = null;
+const isStandalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if ($('#p-account') && $('#p-account').style.display !== 'none') renderAccount(); });
 function renderAccount(){
   const el = $('#accArea'); if (!el) return;
   if (!FBX){ el.innerHTML = `<div class="box"><h2>帳號</h2><p class="muted">${FB_FAIL ? '無法連線到資料庫。' : '尚未設定 Firebase，無法登入。請依 README 完成設定後重新整理。'}</p></div>`; return; }
@@ -1433,8 +1957,12 @@ function renderAccount(){
   el.innerHTML = `<div class="box"><div class="row" style="gap:14px"><span class="av big">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><div style="flex:1"><div style="font-size:1.2rem">${esc(S.settings.nick || '尚未設定暱稱')}</div><div class="tiny muted">${anon ? '匿名帳號（資料綁定在這個瀏覽器）' : 'Google 帳號' + (ACCOUNT.email ? '・' + esc(ACCOUNT.email) : '') + '（可在任何裝置登入）'}</div></div><button class="btn small" id="accEdit">更換暱稱／頭像</button></div>
       <div class="tiny muted" style="margin-top:12px">使用者 ID：<code id="accUid">${esc(UID)}</code> <button class="btn small" id="accCopyUid">複製</button>${SOC.siteAdmin ? ' <span class="role">網站管理員</span>' : ''}</div></div>
     <div class="box"><h2>跨裝置使用</h2>${anon ? `<p class="tiny muted" style="margin:4px 0 10px">匿名帳號免註冊，但只存在這個瀏覽器；清除瀏覽資料或換手機就找不回來。綁定 Google 帳號後，目前所有單字與進度都會保留，之後在其他裝置用同一個 Google 帳號登入即可。</p><button class="btn pri" id="accLink">綁定 Google 帳號</button>` : '<p class="tiny muted" style="margin:4px 0 0">已綁定 Google，在其他裝置用同一個 Google 帳號登入即可看到相同資料。</p>'}<div class="tiny muted" id="accMsg" style="margin-top:8px"></div></div>
+    <div class="box"><h2>加到手機主畫面</h2>${isStandalone() ? '<p class="tiny muted" style="margin:4px 0 0">✓ 你正在使用主畫面上的 App。</p>' : `<p class="tiny muted" style="margin:4px 0 8px">加到主畫面後，就能像 App 一樣從圖示直接開啟、全螢幕使用。</p>
+      ${installEvt ? '<button class="btn pri" id="accInstall">安裝到主畫面</button>' : ''}
+      <ul class="tiny" style="margin:8px 0 0;padding-left:20px"><li><b>iPhone／iPad</b>：用 Safari 開啟本網站 → 點下方「分享」按鈕 → 「加入主畫面」→「新增」。</li><li><b>Android</b>：用 Chrome 開啟 → 右上角「⋮」→「加到主畫面」或「安裝應用程式」。</li></ul>`}</div>
     <div class="box"><h2>登出</h2><p class="tiny muted" style="margin:4px 0 10px">${anon ? '<b>注意：</b>匿名帳號登出後就無法再登入回來，資料會遺失。請先綁定 Google 帳號或下載備份。' : '登出後可隨時用 Google 帳號登入回來。'}</p><button class="btn danger" id="accOut">登出</button></div>`;
   $('#accEdit').onclick = () => openProfile(false);
+  if ($('#accInstall')) $('#accInstall').onclick = async () => { try { installEvt.prompt(); await installEvt.userChoice; } catch(e){} installEvt = null; renderAccount(); };
   $('#accCopyUid').onclick = async () => { try { await navigator.clipboard.writeText(UID); toast('已複製使用者 ID'); } catch(e){ toast('請手動選取複製'); } };
   if ($('#accLink')) $('#accLink').onclick = async () => {
     $('#accMsg').innerHTML = '<span class="spin"></span> 綁定中…';
@@ -1537,7 +2065,7 @@ const ENRICH_SPEC = `For each item return an object with these fields:
 - "forms": 0–4 word-family / part-of-speech variants, [{"word": "...", "pos": "...", "meaning": "中文"}]
 - "syn": 2–4 synonyms with the nuance difference, [{"w": "...", "note": "short Traditional Chinese note on how it differs"}]
 - "ant": 0–3 antonyms, ["..."]
-- "coll": 2–4 common collocations or patterns, e.g. ["mitigate the risk", "mitigate the impact of"]
+- "coll": 2–4 common collocations or set phrases with their Traditional Chinese meaning, e.g. [{"en": "mitigate the risk", "zh": "降低風險"}, {"en": "mitigate the impact of", "zh": "減輕…的影響"}]
 - "usage": 1–2 Traditional Chinese sentences on register (formal/informal), typical contexts, and common mistakes Taiwanese learners make`;
 
 async function aiEnrichBatch(cards, signal){
@@ -1562,7 +2090,7 @@ function applyEnrich(c, r){
   c.forms = arr(r.forms).filter(x => x && s(x.word)).map(x => ({word: s(x.word), pos: s(x.pos), meaning: s(x.meaning)}));
   c.syn = arr(r.syn).map(x => typeof x === 'string' ? {w: x, note: ''} : {w: s(x && x.w), note: s(x && x.note)}).filter(x => x.w);
   c.ant = arr(r.ant).map(x => s(String(x))).filter(Boolean);
-  c.coll = arr(r.coll).map(x => s(String(x))).filter(Boolean);
+  { const cl = arr(r.coll).map(x => x && typeof x === 'object' ? {en: s(x.en), zh: s(x.zh)} : {en: s(String(x)), zh: ''}).filter(x => x.en); c.coll = cl.map(x => x.en); c.collZh = cl.map(x => x.zh || collZhBuiltin(x.en)); }
   if (s(r.usage)) c.usage = s(r.usage);
   c.ai = true;
   if (c.state === 'new') c.ease = easeFor(c);
@@ -1802,7 +2330,7 @@ async function namesFor(ids){
 const avatarHTML = p => `<span class="av">${avatarSVG(p.avatar, p.name)}</span>`;
 
 /* ----- shared sets ----- */
-const SHARE_KEYS = ['word','ipa','pos','meaning','ex','senses','forms','syn','ant','coll','usage','cat','level','type','topic','imp','prac','diff','src','ai'];
+const SHARE_KEYS = ['word','ipa','pos','meaning','ex','senses','forms','syn','ant','coll','collZh','usage','cat','level','type','topic','imp','prac','diff','src','ai'];
 const shareFields = c => { const o = {}; SHARE_KEYS.forEach(k => { if (c[k] !== undefined && c[k] !== null && c[k] !== '') o[k] = c[k]; }); if (o.ex) o.ex = o.ex.filter(e => !e.mine || true); return o; };
 async function shareDeck(){
   const deck = $('#shDeck').value; if (!deck){ toast('請選擇要分享的牌組'); return; }
@@ -2318,6 +2846,89 @@ async function renderSiteAdmin(){
     renderManage(b.dataset.sa, box, {onGone: () => { if (SOC.cls && SOC.cls.code === b.dataset.sa) dropClass(b.dataset.sa); setTimeout(renderSiteAdmin, 600); }});
   });
 }
+
+/* ---------- add unknown words from sentences ---------- */
+const lemmaGuess = w => {
+  w = w.toLowerCase().replace(/[’]/g, "'").replace(/'s$/, '');
+  if (S.cards.some(c => norm(c.word) === w) || builtinFor(w)) return w;
+  const tries = [];
+  if (/ies$/.test(w)) tries.push(w.slice(0, -3) + 'y');
+  if (/ied$/.test(w)) tries.push(w.slice(0, -3) + 'y');
+  if (/es$/.test(w)) tries.push(w.slice(0, -2));
+  if (/s$/.test(w) && !/ss$/.test(w)) tries.push(w.slice(0, -1));
+  if (/ed$/.test(w)){ tries.push(w.slice(0, -2), w.slice(0, -1)); if (/(\w)\1ed$/.test(w)) tries.push(w.slice(0, -3)); }
+  if (/ing$/.test(w)){ tries.push(w.slice(0, -3), w.slice(0, -3) + 'e'); if (/(\w)\1ing$/.test(w)) tries.push(w.slice(0, -4)); }
+  for (const t of tries) if (S.cards.some(c => norm(c.word) === t) || builtinFor(t)) return t;
+  return w;
+};
+let wpopCtx = null;
+function closeWordPop(){ const el = $('#wpop'); if (el) el.classList.remove('on'); wpopCtx = null; }
+function openWordPop(text, anchor, fromId, sentence){
+  const el = $('#wpop');
+  const from = S.cards.find(c => c.id === fromId);
+  const guess = text.includes(' ') ? text.toLowerCase().trim() : lemmaGuess(text);
+  wpopCtx = {fromId, sentence};
+  const draw = word => {
+    const ex = S.cards.find(c => norm(c.word) === norm(word));
+    el.innerHTML = `<div class="row" style="gap:6px"><input type="text" id="wpWord" value="${esc(word)}" style="flex:1;min-width:0;font-size:1.05rem">${sayBtn(word, 1)}<button class="btn small" id="wpX" aria-label="關閉">✕</button></div>
+      ${guess !== text.toLowerCase() && !text.includes(' ') ? `<div class="tiny muted" style="margin-top:4px">原文是「${esc(text)}」，已幫你改成原形，可自行修改</div>` : ''}
+      ${ex ? `<div class="tiny" style="margin-top:8px">「${esc(ex.word)}」已經在你的單字庫：${esc(ex.meaning || '')}</div><div class="row" style="margin-top:8px"><button class="btn small" id="wpOpen">查看</button><button class="btn small" id="wpStar">${ex.star ? '★ 已標記' : '☆ 標記為重點'}</button></div>`
+        : `<input type="text" id="wpMeaning" placeholder="${AI ? '中文意思（可留空，由 AI 補上）' : '中文意思（必填）'}" style="margin-top:8px">
+           <div class="row" style="margin-top:8px"><button class="btn pri small" id="wpAdd">加入單字</button><span class="tiny muted">${from && from.deck ? '加到「' + esc(from.deck) + '」・' : ''}#例句生字</span></div>`}`;
+    $('#wpX').onclick = closeWordPop;
+    $('#wpWord').oninput = e => { const v = e.target.value; clearTimeout(el._t); el._t = setTimeout(() => { const pos = e.target.selectionStart; draw(v); const i = $('#wpWord'); i.focus(); i.setSelectionRange(pos, pos); }, 350); };
+    if ($('#wpOpen')) $('#wpOpen').onclick = () => { closeWordPop(); openEditor(ex); };
+    if ($('#wpStar')) $('#wpStar').onclick = () => { toggleStar(ex); draw(word); };
+    if ($('#wpAdd')) {
+      const add = () => {
+        const w = $('#wpWord').value.trim(), m = $('#wpMeaning').value.trim();
+        if (!/[A-Za-z]/.test(w)){ toast('請輸入英文單字'); return; }
+        if (!m && !AI){ toast('請輸入中文意思（或先設定 Gemini 金鑰，由 AI 補上）'); $('#wpMeaning').focus(); return; }
+        const r = addCards([{word: w, meaning: m, deck: (from && from.deck) || '例句生字', lazy: !m,
+          src: {kind: 'ex', line: sentence, title: from ? `出自「${from.word}」的例句` : '例句'}}]);
+        const c = r.added[0];
+        if (!c){ toast('這個字已經在同一個牌組裡了'); return; }
+        c.tags = [...new Set([...c.tags, '例句生字'])]; if (m) c.userMeaning = true; markDirty(c.ck); renderDeckSelects();
+        if (AI) queueEnrich([c.id]);
+        closeWordPop(); toast(`已加入「${w}」${AI ? '，AI 補齊中…' : ''}`);
+      };
+      $('#wpAdd').onclick = add;
+      $('#wpMeaning').onkeydown = e => { if (e.key === 'Enter') add(); };
+    }
+  };
+  draw(guess);
+  el.classList.add('on');
+  const r = anchor.getBoundingClientRect(), pw = Math.min(320, window.innerWidth - 16);
+  el.style.width = pw + 'px';
+  el.style.left = Math.max(8, Math.min(window.innerWidth - pw - 8, r.left + r.width / 2 - pw / 2)) + 'px';
+  const below = r.bottom + 8, h = el.offsetHeight;
+  el.style.top = (below + h > window.innerHeight - 70 ? Math.max(8, r.top - h - 8) : below) + 'px';
+}
+document.addEventListener('click', e => {
+  const w = e.target.closest('.addable .w');
+  if (w){
+    const sel = window.getSelection && String(window.getSelection()).trim();
+    if (sel && sel.includes(' ')) return;
+    e.stopPropagation();
+    const box = w.closest('.addable');
+    openWordPop(w.dataset.w, w, box.dataset.from, box.textContent.trim());
+    return;
+  }
+  if (!e.target.closest('#wpop')) closeWordPop();
+});
+const phrasePick = () => setTimeout(() => {
+  const sel = window.getSelection(); if (!sel || sel.isCollapsed) return;
+  const t = String(sel).trim().replace(/\s+/g, ' ');
+  if (!t.includes(' ') || t.split(' ').length > 6 || !/^[A-Za-z][A-Za-z '’-]*[A-Za-z]$/.test(t)) return;
+  const node = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement);
+  const box = node && node.closest && node.closest('.addable'); if (!box) return;
+  const rng = sel.getRangeAt(0);
+  openWordPop(t, {getBoundingClientRect: () => rng.getBoundingClientRect()}, box.dataset.from, box.textContent.trim());
+}, 10);
+document.addEventListener('mouseup', phrasePick);
+document.addEventListener('touchend', phrasePick);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWordPop(); });
+window.addEventListener('scroll', closeWordPop, {passive: true});
 /* ---------- speech ---------- */
 function speak(text){
   try {
@@ -2342,6 +2953,19 @@ function wordRegex(word){
     return i === 0 ? base + "[a-z]*" : p;
   }).join('\\s+');
   return new RegExp('\\b(' + pat + ')\\b', 'i');
+}
+function clickable(text, word){
+  const t = String(text || ''); const re = word && wordRegex(word);
+  const ranges = [];
+  if (re){ const g = new RegExp(re.source, 'gi'); let m; while ((m = g.exec(t))){ ranges.push([m.index, m.index + m[0].length]); if (!m[0].length) g.lastIndex++; } }
+  let out = '', i = 0; const tokRe = /[A-Za-z][A-Za-z'’-]*/g; let m;
+  while ((m = tokRe.exec(t))){
+    out += esc(t.slice(i, m.index));
+    const hl = ranges.some(([a, b]) => m.index >= a && m.index < b);
+    out += `<span class="w${hl ? ' hl' : ''}" data-w="${esc(m[0])}">${esc(m[0])}</span>`;
+    i = m.index + m[0].length;
+  }
+  return out + esc(t.slice(i));
 }
 function highlight(text, word){
   const e = esc(text); const re = word && wordRegex(esc(word)); if (!re) return e;
@@ -2421,16 +3045,16 @@ function tagsHTML(c){
 function detailHTML(c){
   const out = [];
   out.push(`<div style="text-align:center"><div class="meaning">${esc(c.meaning || '（尚未有中文意思）')}</div>${tagsHTML(c)}</div>`);
-  if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl">${sayBtn(e.en, 1)}<div><div class="en">${highlight(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
+  if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl">${sayBtn(e.en, 1)}<div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
   if (c.src && c.src.line){
     const u = videoUrl(c.src);
-    out.push(`<div class="sec"><b>影片中的原句</b><div class="video"><div class="exl" style="margin:0">${sayBtn(c.src.line, 1)}<div><div class="en">${highlight(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">🎬 ${esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
+    out.push(`<div class="sec"><b>${c.src.kind === 'ex' ? '來源例句' : '影片中的原句'}</b><div class="video"><div class="exl" style="margin:0">${sayBtn(c.src.line, 1)}<div><div class="en addable" data-from="${c.id}">${clickable(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">${c.src.kind === 'ex' ? '📖 ' + esc(c.src.title || '') : '🎬 ' + esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
   }
-  if (c.senses.length) out.push(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh">${highlight(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`);
+  if (c.senses.length) out.push(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh addable" data-from="${c.id}">${clickable(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`);
   if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip sayc">${sayBtn(f.word, 1)}<span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`);
   if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl">${sayBtn(s.w, 1)}<span class="chip">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
   if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant sayc">${sayBtn(a, 1)}${esc(a)}</span>`).join('')}</div></div>`);
-  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map(a => `<span class="chip sayc">${sayBtn(a, 1)}<span>${highlight(a, c.word)}</span></span>`).join('')}</div></div>`);
+  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map((a, i) => `<span class="chip sayc">${sayBtn(a, 1)}<span>${highlight(a, c.word)}${c.collZh[i] ? ` <span class="zhm">${esc(c.collZh[i])}</span>` : ''}</span></span>`).join('')}</div></div>`);
   if (c.usage) out.push(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`);
   if (c.note) out.push(`<div class="sec"><b>我的筆記</b><div style="white-space:pre-wrap">${esc(c.note)}</div></div>`);
   if (!c.ai && AI) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊${c.builtin ? '更多細節（音標、用法說明、更多例句）' : '這張卡'}</button></div>`);
@@ -2955,7 +3579,8 @@ function openEditor(c, editing){
     <label>中文意思</label><input type="text" id="eMeaning" value="${esc(c.meaning)}">
     <label>例句（一行一句：英文 | 中文）</label><textarea id="eEx" style="min-height:70px">${esc(c.ex.map(e => e.en + (e.zh ? ' | ' + e.zh : '')).join('\n'))}</textarea>
     <label>同義字（一行一個：字 | 差異說明）</label><textarea id="eSyn" style="min-height:60px">${esc(c.syn.map(s => s.w + (s.note ? ' | ' + s.note : '')).join('\n'))}</textarea>
-    <div class="row"><div style="flex:1;min-width:160px"><label>反義字（逗號分隔）</label><input type="text" id="eAnt" value="${esc(c.ant.join(', '))}"></div><div style="flex:1;min-width:160px"><label>常用搭配（逗號分隔）</label><input type="text" id="eColl" value="${esc(c.coll.join(', '))}"></div></div>
+    <div class="row"><div style="flex:1;min-width:160px"><label>反義字（逗號分隔）</label><input type="text" id="eAnt" value="${esc(c.ant.join(', '))}"></div></div>
+    <label>常用搭配・片語（一行一個：英文 | 中文）</label><textarea id="eColl" style="min-height:60px">${esc(c.coll.map((x, i) => x + (c.collZh[i] ? ' | ' + c.collZh[i] : '')).join('\n'))}</textarea>
     <label>用法說明</label><input type="text" id="eUsage" value="${esc(c.usage)}">
     <div class="row">
       <div style="flex:1;min-width:110px"><label>分類</label>${sel('eCat', c.cat || '', [['', '—'], ...CATS.map(x => [x, x])])}</div>
@@ -2982,7 +3607,7 @@ function openEditor(c, editing){
     if (m !== c.meaning) c.userMeaning = true;
     Object.assign(c, {word: w, meaning: m, pos: $('#ePos').value.trim(), ipa: $('#eIpa').value.trim(), usage: $('#eUsage').value.trim(),
       ex: lines('#eEx').map(p => ({en: p[0], zh: p[1] || ''})), syn: lines('#eSyn').map(p => ({w: p[0], note: p[1] || ''})),
-      ant: $('#eAnt').value.split(/[,，]/).map(s => s.trim()).filter(Boolean), coll: $('#eColl').value.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+      ant: $('#eAnt').value.split(/[,，]/).map(s => s.trim()).filter(Boolean), coll: lines('#eColl').map(p => p[0]), collZh: lines('#eColl').map(p => p[1] || collZhBuiltin(p[0])),
       cat: $('#eCat').value, level: $('#eLevel').value, type: $('#eType').value, imp: +$('#eImp').value, prac: +$('#ePrac').value, diff: +$('#eDiff').value,
       deck: $('#eDeck').value.trim(), note: $('#eNote').value.trim(), tags: [...new Set($('#eTags').value.split(/[,，]/).map(s => s.trim().replace(/^#/, '')).filter(Boolean))]});
     markDirty(c.ck); closeModal(); refreshAll(true); toast('已儲存');

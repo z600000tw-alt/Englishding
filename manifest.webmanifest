@@ -1,0 +1,16 @@
+{
+  "name": "Vocab Studio 英文單字學習",
+  "short_name": "Vocab Studio",
+  "description": "英文單字間隔複習、影片學單字、活用練習與班級對戰",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFFCF6",
+  "theme_color": "#FFFCF6",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
