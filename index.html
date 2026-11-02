@@ -273,6 +273,9 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .card.intro{position:relative}.newBadge{position:absolute;top:12px;left:14px;font-size:.72rem;padding:2px 9px;border-radius:999px;background:var(--yama-s);border:1.5px solid var(--ink)}.introTip{margin-top:14px;padding:8px 12px;border-radius:12px;background:#F6F1E8;font-size:.8rem;color:var(--muted);text-align:center}
 .bigBar{height:10px;border-radius:6px;background:#EFE9DF;margin-top:12px;overflow:hidden}.bigBar i{display:block;height:100%;width:0;background:var(--coral);border-radius:6px;transition:width .4s}
 .moreNew{width:100%;margin-top:10px}
+.startRow{display:flex;gap:10px;margin-top:14px}.startRow .btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 8px;min-width:0}.startRow .btn b{font-weight:400;font-size:1.08rem}.startRow .btn small{font-size:.72rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.startRow .startRev:not(:disabled){background:var(--waka)}.startRow .btn:disabled{opacity:.5}
+.linkBtn{display:block;margin:10px auto 0;background:none;border:0;color:var(--muted);font-size:.85rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
 .qt:hover{background:var(--yama-s)}
@@ -2466,12 +2469,15 @@ function queueInfo(){
   const news = pool.filter(c => c.state === 'new').sort(S.settings.newOrder === 'prio' ? ((a,b) => (prio(b) - prio(a)) || ((a.order||0) - (b.order||0))) : ((a,b) => (a.order||0) - (b.order||0)));
   return {now, learnNow, learnToday, revs: revs.slice(0, revLeft), news: news.slice(0, newLeft), allNew: news.length, pool};
 }
+let SES_KIND = 'all';  // all：全部一起；new：只學新字；rev：只複習
 function nextCard(){
   const q = queueInfo();
-  if (q.learnNow.length) return q.learnNow[0];
-  if (q.revs.length) return q.revs[0];
-  if (q.news.length) return q.news[0];
-  return q.pool.filter(c => isLearning(c) && c.due <= q.now + LEARN_AHEAD).sort((a,b) => a.due - b.due)[0] || null;
+  const okL = c => SES_KIND !== 'new' || c.state === 'learning';
+  const learnNow = q.learnNow.filter(okL);
+  if (learnNow.length) return learnNow[0];
+  if (SES_KIND !== 'new' && q.revs.length) return q.revs[0];
+  if (SES_KIND !== 'rev' && q.news.length) return q.news[0];
+  return q.pool.filter(c => isLearning(c) && okL(c) && c.due <= q.now + LEARN_AHEAD).sort((a,b) => a.due - b.due)[0] || null;
 }
 
 /* ---------- storage ---------- */
@@ -4479,8 +4485,11 @@ function renderToday(){
         </div>
       </div>
       <div class="deckRow"><span class="tiny muted">範圍</span><select id="deckSel"></select></div>
-      ${left ? `<button class="btn pri startBtn" id="startBtn">開始複習・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
-      ${!q.news.length && q.allNew ? `<button class="btn moreNew" id="moreNew">＋ 再多學 5 個新字（還有 ${q.allNew} 個）</button>` : ''}
+      <div class="startRow">
+        ${q.news.length ? `<button class="btn pri startNew" id="newBtn"><b>學新字</b><small>${q.news.length} 個・先認識再小測驗</small></button>` : q.allNew ? `<button class="btn startNew" id="moreNew"><b>＋ 再學 5 個新字</b><small>今天額度已用完・還有 ${q.allNew} 個</small></button>` : `<button class="btn startNew" disabled><b>學新字</b><small>沒有新字・到「單字」新增</small></button>`}
+        ${q.revs.length + q.learnToday.length ? `<button class="btn pri startRev" id="revBtn"><b>複習</b><small>${q.revs.length + q.learnToday.length} 張到期</small></button>` : `<button class="btn startRev" disabled><b>複習</b><small>今天沒有到期的卡</small></button>`}
+      </div>
+      ${left ? `<button class="linkBtn" id="startBtn">全部一起來・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
       <div class="tiny muted todayFoot">🔥 連續 ${computeStreak()} 天　・　本週 ${myXP()} XP　・　已學 ${learned} 字</div>
     </div>
     <div class="quick">
@@ -4491,8 +4500,11 @@ function renderToday(){
   if (!DECK_OPTS) renderDeckSelects();
   $('#deckSel').innerHTML = DECK_OPTS ? DECK_OPTS(S.settings.deck) : '';
   $('#deckSel').onchange = e => { S.settings.deck = e.target.value; markDirty(); cur = null; showNext(); };
-  if ($('#startBtn')) $('#startBtn').onclick = () => { inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
-  if ($('#moreNew')) $('#moreNew').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
+  const go = kind => { SES_KIND = kind; inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
+  if ($('#startBtn')) $('#startBtn').onclick = () => go('all');
+  if ($('#newBtn')) $('#newBtn').onclick = () => go('new');
+  if ($('#revBtn')) $('#revBtn').onclick = () => go('rev');
+  if ($('#moreNew')) $('#moreNew').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); go('new'); };
   area.querySelectorAll('[data-q]').forEach(b => b.onclick = () => {
     const k = b.dataset.q;
     if (k === 'games'){ SOC.sub = 'games'; switchTab('friends'); }
@@ -4561,12 +4573,13 @@ function renderReview(){
     const q = queueInfo();
     const nextL = q.pool.filter(isLearning).sort((a,b) => a.due - b.due)[0];
     let tip = '';
-    if (nextL) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後再複習。`;
+    if (nextL && (SES_KIND !== 'new' || nextL.state === 'learning')) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後再複習。`;
     else if (q.allNew && S.daily.newDone >= S.settings.newPerDay) tip = `今天的新字額度（${S.settings.newPerDay}）已用完，明天繼續。`;
-    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">今日進度已完成</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center"><button class="btn pri" id="doneBack">回今日</button>${q.allNew ? '<button class="btn" id="doneMore">再學 5 個新字</button>' : ''}${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
+    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">${SES_KIND === 'new' ? '新字學完了' : SES_KIND === 'rev' ? '複習完成了' : '今日進度已完成'}</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center">${SES_KIND === 'new' && q.revs.length ? `<button class="btn pri" id="doneSwitch" data-k="rev">接著複習 ${q.revs.length} 張</button>` : SES_KIND === 'rev' && q.news.length ? `<button class="btn pri" id="doneSwitch" data-k="new">接著學新字 ${q.news.length} 個</button>` : ''}<button class="btn${(SES_KIND === 'new' && q.revs.length) || (SES_KIND === 'rev' && q.news.length) ? '' : ' pri'}" id="doneBack">回今日</button>${!q.news.length && q.allNew ? '<button class="btn" id="doneMore">再學 5 個新字</button>' : ''}${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
     bindSessionHead(null);
     $('#doneBack').onclick = () => { inSession = false; renderReview(); };
-    if ($('#doneMore')) $('#doneMore').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); cur = null; showNext(); };
+    if ($('#doneSwitch')) $('#doneSwitch').onclick = () => { SES_KIND = $('#doneSwitch').dataset.k; cur = null; showNext(); };
+    if ($('#doneMore')) $('#doneMore').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); SES_KIND = 'new'; cur = null; showNext(); };
     area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { inSession = false; switchTab(b.dataset.go); });
     return;
   }
