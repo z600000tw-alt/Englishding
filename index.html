@@ -65,11 +65,11 @@ nav#nav button:not(.center).on::after{content:'';position:absolute;bottom:1px;le
 label{font-size:.85rem;color:var(--muted);display:block;margin:10px 0 4px}
 label.inline{display:inline-flex;align-items:center;gap:7px;margin:7px 14px 0 0;color:var(--ink);font-size:.93rem}
 input[type=checkbox]{accent-color:#e07f6f;width:17px;height:17px}
-input[type=text],input[type=search],input[type=number],input[type=url],input[type=password],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff}
+input[type=text],input[type=search],input[type=number],input[type=url],input[type=password],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:var(--paper)}
 input[type=file]{font-size:.85rem}
 textarea{min-height:110px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:3px solid var(--yama);outline-offset:1px}
-.btn{border:2px solid var(--ink);background:#fff;padding:8px 18px;border-radius:12px;cursor:pointer;box-shadow:0 2px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.btn{border:2px solid var(--ink);background:var(--paper);padding:8px 18px;border-radius:12px;cursor:pointer;box-shadow:0 2px 0 var(--ink);transition:transform .08s,box-shadow .08s}
 .btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn.pri{background:var(--coral)}
@@ -143,7 +143,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .marks{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
 .starMark{color:#e0a92a;font-size:1rem}
 .tagMark{font-size:.75rem;color:#5a7f93;background:var(--mizu-s);border-radius:6px;padding:0 6px}
-.tagPick{border:1.5px solid var(--ink);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+.tagPick{border:1.5px solid var(--ink);background:var(--paper);border-radius:8px;padding:3px 10px;cursor:pointer}
 .tagPick.on{background:var(--mizu)}
 .btn.on{background:var(--yama-s)}
 /* list */
@@ -154,7 +154,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .item .m{font-size:.92rem}
 .badge{font-size:.72rem;border-radius:999px;padding:1px 9px;white-space:nowrap;align-self:start;border:1.5px solid var(--ink)}
 .b-new{background:var(--mizu-s)} .b-learning,.b-relearning{background:var(--coral-s)} .b-review{background:var(--waka-s)}
-.cand{display:grid;grid-template-columns:auto 1fr;gap:10px;background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:10px 14px;cursor:pointer}
+.cand{display:grid;grid-template-columns:auto 1fr;gap:10px;background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:10px 14px;cursor:pointer}
 .cand input{margin-top:6px}
 .cand .ctx{font-size:.85rem;color:#5d5654;margin-top:3px}
 
@@ -184,7 +184,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .fbList{margin:8px 0 0;padding-left:0;list-style:none;font-size:.92em;line-height:1.6}
 .fbList li{padding:6px 10px;background:#FFF6F3;border-radius:10px;margin-top:6px} .fbList s{color:#B4554A}
 .bank{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
-.q{background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;margin-top:10px}
+.q{background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;margin-top:10px}
 .opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
 .opt{border:2px solid var(--ink);background:var(--bg);border-radius:14px;padding:8px 10px;cursor:pointer;text-align:left}
 .opt.ok{background:var(--waka)} .opt.no{background:var(--coral)}
@@ -192,7 +192,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 /* class & games */
 .code{font-family:ui-monospace,Menlo,monospace;letter-spacing:2px;background:var(--yama-s);border-radius:6px;padding:1px 8px;font-weight:400}
 .board{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-.brow{display:flex;align-items:center;gap:10px;border:1.5px solid var(--ink);border-radius:12px;padding:8px 12px;background:#fff}
+.brow{display:flex;align-items:center;gap:10px;border:1.5px solid var(--ink);border-radius:12px;padding:8px 12px;background:var(--paper)}
 .brow.me{background:var(--yama-s)}
 .rank{width:20px;text-align:center;color:var(--muted)}
 .av{width:30px;height:30px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);font-size:.85rem;object-fit:cover;color:var(--ink)}
@@ -210,7 +210,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .gbig{font-size:1.6rem;margin:20px 0 6px}
 .countdown{font-size:4.5rem;line-height:1;margin:40px 0 10px;animation:pop .5s ease-out infinite}
 .mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-.tile{min-height:64px;border:2px solid var(--ink);border-radius:12px;background:#fff;cursor:pointer;padding:6px;font-size:.95rem;line-height:1.3;box-shadow:0 2px 0 var(--ink);transition:opacity .25s,transform .25s}
+.tile{min-height:64px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);cursor:pointer;padding:6px;font-size:.95rem;line-height:1.3;box-shadow:0 2px 0 var(--ink);transition:opacity .25s,transform .25s}
 .tile.w{background:var(--mizu-s)}
 .tile.sel{background:var(--yama);transform:translateY(-2px)}
 .tile.gone{opacity:0;transform:scale(.85);pointer-events:none}
@@ -230,13 +230,13 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .avrow{display:flex;justify-content:center;gap:4px;margin-bottom:20px;flex-wrap:wrap}
 .avrow svg{width:38px;height:38px}
 .avgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.avpick{border:2px solid transparent;background:#fff;border-radius:14px;padding:6px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font-size:.72rem;color:var(--muted)}
+.avpick{border:2px solid transparent;background:var(--paper);border-radius:14px;padding:6px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font-size:.72rem;color:var(--muted)}
 .avpick svg{width:48px;height:48px}
 .avpick.on{border-color:var(--ink);background:var(--yama-s);color:var(--ink)}
 .av svg{width:100%;height:100%;display:block}
 .av{background:none!important;overflow:hidden}
 .av.big{width:64px;height:64px}
-.mechip{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:2px 12px 2px 3px;cursor:pointer;font-size:.85rem}
+.mechip{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:var(--paper);border-radius:999px;padding:2px 12px 2px 3px;cursor:pointer;font-size:.85rem}
 .mechip .av{width:26px;height:26px;border-width:1px}
 .aiHint{display:none}
 .aiHint.on{display:block}
@@ -248,7 +248,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .addable .w{cursor:pointer;border-radius:3px;transition:background .15s}
 .addable .w:hover{background:var(--mizu-s)}
 .addable .w.hl{background:linear-gradient(transparent 45%,var(--yama) 45%)}
-.wpop{position:fixed;z-index:28;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:10px;box-shadow:0 3px 0 var(--ink);display:none}
+.wpop{position:fixed;z-index:28;background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:10px;box-shadow:0 3px 0 var(--ink);display:none}
 .wpop.on{display:block}
 .say{cursor:pointer}
 .word.say:hover{color:#2f7fa3}
@@ -270,6 +270,26 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startBtn{width:100%;margin-top:14px;padding:13px;font-size:1.08rem}
 .allDone{text-align:center;margin-top:14px;padding:12px;background:var(--waka-s);border-radius:12px}
 .todayFoot{text-align:center;margin-top:12px}
+.hintBtn{margin-top:12px;border:1.5px dashed var(--muted);background:none;color:var(--muted);border-radius:999px;padding:4px 14px;font:inherit;font-size:.85rem;cursor:pointer}.hintWrap{margin-top:4px}
+.mcOpts{display:grid;gap:8px;margin:16px auto 0;max-width:460px;text-align:left}
+.mcOpt{display:flex;gap:10px;align-items:center;width:100%;padding:11px 14px;border:2px solid var(--ink);border-radius:14px;background:var(--paper);color:var(--ink);font:inherit;font-size:1rem;cursor:pointer;text-align:left}
+.mcOpt .k{flex:none;width:22px;height:22px;border-radius:50%;background:var(--mizu-s);display:inline-flex;align-items:center;justify-content:center;font-size:.75rem}
+.mcOpt:not(:disabled):active{transform:translateY(1px)} .mcOpt.ok{background:var(--waka-s);border-color:#5E8F48} .mcOpt.ok .k{background:var(--waka)} .mcOpt.no{background:var(--coral-s);border-color:#c0675a} .mcOpt.dim{opacity:.55} .mcOpt:disabled{cursor:default}
+.bigSay{width:84px;height:84px;border-radius:50%;border:2px solid var(--ink);background:var(--mizu-s);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin-top:6px}.bigSay svg{width:40px;height:40px}
+.answers.two{grid-template-columns:1fr 1fr}
+.newCut{margin-top:12px;padding:8px 12px;border-radius:12px;background:var(--yama-s);font-size:.82rem;line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cfSent{font-size:1.15rem;margin-top:12px;line-height:1.7}.cfBlank{display:inline-block;min-width:70px;border-bottom:2.5px solid var(--ink);text-align:center;color:transparent}.cfAns{background:var(--yama-s);padding:0 4px;border-radius:5px;font-weight:400}
+.cfExp{margin-top:14px;display:grid;gap:8px}.cfRow{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}.cfRow .tiny{flex:1;min-width:150px;margin-top:5px}
+/* dark theme */
+:root[data-theme=dark]{--bg:#1d1b1a;--paper:#292625;--ink:#E9E3DC;--muted:#A69E98;--coral:#C97A6D;--yama:#B8973F;--mizu:#4F8DA8;--waka:#6E9658;--coral-s:#4A332F;--yama-s:#45392030;--mizu-s:#243843;--waka-s:#2B3A25;color-scheme:dark}
+:root[data-theme=dark] .newCut,:root[data-theme=dark] .introTip,:root[data-theme=dark] .fbList li{background:#3a3430}
+:root[data-theme=dark] .exSay{background:#2f4450;color:var(--ink)}
+:root[data-theme=dark] [stroke="#3E3A39"]{stroke:#E9E3DC} :root[data-theme=dark] [fill="#3E3A39"]{fill:#E9E3DC} :root[data-theme=dark] [fill="#fff"],:root[data-theme=dark] [fill="#FFFFFF"]{fill:#292625}
+:root[data-theme=dark] [stroke="#efe9df"]{stroke:#3a3634} :root[data-theme=dark] text[fill="#3E3A39"]{fill:#E9E3DC}
+:root[data-theme=dark] nav#nav button.center::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='176' height='28' viewBox='0 0 176 28'%3E%3Cpath d='M0 23.0 C 52.8 23.0, 59.8 1.5, 88.0 1.5 C 116.2 1.5, 123.2 23.0, 176 23.0 L176 28 L0 28 Z' fill='%231d1b1a'/%3E%3Cpath d='M0 23.0 C 52.8 23.0, 59.8 1.5, 88.0 1.5 C 116.2 1.5, 123.2 23.0, 176 23.0' fill='none' stroke='%23E9E3DC' stroke-width='2'/%3E%3C/svg%3E")}
+:root[data-theme=dark] .bigBar{background:#3a3634} :root[data-theme=dark] input,:root[data-theme=dark] select,:root[data-theme=dark] textarea{color:var(--ink)}
+:root[data-theme=dark] .hl,:root[data-theme=dark] mark{background:#5a4a1e;color:var(--ink)}
 .card.intro{position:relative}.newBadge{position:absolute;top:12px;left:14px;font-size:.72rem;padding:2px 9px;border-radius:999px;background:var(--yama-s);border:1.5px solid var(--ink)}.introTip{margin-top:14px;padding:8px 12px;border-radius:12px;background:#F6F1E8;font-size:.8rem;color:var(--muted);text-align:center}
 .bigBar{height:10px;border-radius:6px;background:#EFE9DF;margin-top:12px;overflow:hidden}.bigBar i{display:block;height:100%;width:0;background:var(--coral);border-radius:6px;transition:width .4s}
 .moreNew{width:100%;margin-top:10px}
@@ -277,19 +297,19 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startRow .startRev:not(:disabled){background:var(--waka)}.startRow .btn:disabled{opacity:.5}
 .linkBtn{display:block;margin:10px auto 0;background:none;border:0;color:var(--muted);font-size:.85rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
-.qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
+.qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:var(--paper);border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
 .qt:hover{background:var(--yama-s)}
 .qi svg{width:26px;height:26px}
 .sesHead{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .menuWrap{position:relative}
-.menuBox{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:2px solid var(--ink);border-radius:12px;box-shadow:0 3px 0 var(--ink);z-index:8;min-width:190px;display:none;padding:4px}
+.menuBox{position:absolute;right:0;top:calc(100% + 6px);background:var(--paper);border:2px solid var(--ink);border-radius:12px;box-shadow:0 3px 0 var(--ink);z-index:8;min-width:190px;display:none;padding:4px}
 .menuBox.on{display:block}
 .menuBox button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:.95rem}
 .menuBox button:hover{background:var(--yama-s)}
 .swipeable{touch-action:pan-y;user-select:text}
 .swipeable[data-swipe]::after{content:'';position:absolute;top:16px;padding:4px 14px;border:2.5px solid;border-radius:10px;font-size:1.1rem;opacity:0;transition:opacity .1s}
-.swipeable[data-swipe=right]::after{content:'記得 ✓';left:16px;color:#3f7d3a;border-color:#3f7d3a;opacity:1;background:#fff}
-.swipeable[data-swipe=left]::after{content:'忘記';right:16px;color:#b4513f;border-color:#b4513f;opacity:1;background:#fff}
+.swipeable[data-swipe=right]::after{content:'記得 ✓';left:16px;color:#3f7d3a;border-color:#3f7d3a;opacity:1;background:var(--paper)}
+.swipeable[data-swipe=left]::after{content:'忘記';right:16px;color:#b4513f;border-color:#b4513f;opacity:1;background:var(--paper)}
 .swipeHint{text-align:center;margin-top:8px}
 @media (hover:hover) and (pointer:fine){ .swipeHint{display:none} }
 details.more{margin-top:14px;border-top:1.5px solid #ece6dc;padding-top:10px}
@@ -298,7 +318,7 @@ details.more > summary::-webkit-details-marker{display:none}
 details.more > summary::after{content:' ▾'}
 details.more[open] > summary::after{content:' ▴'}
 .addMenu{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.addTile{display:flex;flex-direction:column;gap:2px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px;text-decoration:none;color:var(--ink)}
+.addTile{display:flex;flex-direction:column;gap:2px;border:1.5px solid var(--ink);background:var(--paper);border-radius:14px;padding:12px;text-decoration:none;color:var(--ink)}
 .addTile:hover{background:var(--yama-s)}
 .addTile span{font-size:.78rem;color:var(--muted)}
 .addTile b{font-weight:400}
@@ -325,7 +345,7 @@ details.more[open] > summary::after{content:' ▴'}
 /* nav center */
 nav#nav button.center::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:-30px;width:176px;height:28px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='176' height='28' viewBox='0 0 176 28'%3E%3Cpath d='M0 23.0 C 52.8 23.0, 59.8 1.5, 88.0 1.5 C 116.2 1.5, 123.2 23.0, 176 23.0 L176 28 L0 28 Z' fill='%23FFFCF6'/%3E%3Cpath d='M0 23.0 C 52.8 23.0, 59.8 1.5, 88.0 1.5 C 116.2 1.5, 123.2 23.0, 176 23.0' fill='none' stroke='%233E3A39' stroke-width='2'/%3E%3C/svg%3E") no-repeat;pointer-events:none}
 nav#nav button.center .ic,nav#nav button.center span:last-child{position:relative;z-index:1}
-nav#nav button.center .ic{margin-top:-22px;width:50px;height:50px;border-radius:50%;border:2px solid var(--ink);background:#fff;color:var(--ink);transition:background .2s,transform .15s}
+nav#nav button.center .ic{margin-top:-22px;width:50px;height:50px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);color:var(--ink);transition:background .2s,transform .15s}
 nav#nav button.center:active .ic{transform:scale(.94)}
 nav#nav button.center.on .ic{background:var(--coral)}
 nav#nav button.center .ic svg{width:26px;height:26px}
@@ -338,7 +358,7 @@ nav#nav button.center.on{color:var(--ink)}
 .searchRow{display:flex;gap:8px}
 .searchRow input{flex:1;min-width:0}
 .segs{display:flex;gap:6px;overflow-x:auto;margin:10px 0 4px;padding-bottom:2px}
-.segs button{border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:4px 12px;cursor:pointer;white-space:nowrap;flex:none;font-size:.88rem}
+.segs button{border:1.5px solid var(--ink);background:var(--paper);border-radius:999px;padding:4px 12px;cursor:pointer;white-space:nowrap;flex:none;font-size:.88rem}
 .segs button.on{background:var(--ink);color:#fff}
 .fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 10px}
 .fgrid label{margin-top:6px}
@@ -351,7 +371,7 @@ nav#nav button.center.on{color:var(--ink)}
 .wiState{font-size:.72rem;color:var(--muted);white-space:nowrap;background:none!important;border:0!important;padding:0!important}
 .wiState.b-new{color:#2f7fa3}.wiState.b-learning{color:#b4513f}.wiState.b-review{color:#4f7d3f}
 .hubList{display:flex;flex-direction:column;gap:10px}
-.hubItem{display:flex;align-items:center;gap:14px;border:1.5px solid var(--ink);background:#fff;border-radius:16px;padding:14px;cursor:pointer;text-align:left;width:100%}
+.hubItem{display:flex;align-items:center;gap:14px;border:1.5px solid var(--ink);background:var(--paper);border-radius:16px;padding:14px;cursor:pointer;text-align:left;width:100%}
 .hubItem:hover{background:var(--yama-s)}
 .hubIc{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;border:1.5px solid var(--ink)}
 .hubIc svg{width:26px;height:26px}
@@ -391,7 +411,7 @@ nav#nav button.center.on{color:var(--ink)}
 .aibar{position:fixed;left:50%;top:10px;transform:translateX(-50%);background:var(--yama);border:2px solid var(--ink);border-radius:999px;padding:7px 10px 7px 16px;display:none;align-items:center;gap:10px;font-size:.88rem;z-index:25;max-width:94vw;box-shadow:0 3px 0 var(--ink)}
 .aibar.on{display:flex}
 .aibar #aibarText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.aibar button{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;cursor:pointer;flex:none}
+.aibar button{background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:1px 10px;cursor:pointer;flex:none}
 .spin{display:inline-block;width:14px;height:14px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;flex:none}
 @keyframes sp{to{transform:rotate(360deg)}}
 .loading{text-align:center;padding:60px 0;color:var(--muted)}
@@ -439,10 +459,17 @@ nav#nav button.center.on{color:var(--ink)}
     <h2 class="ptitle">練習</h2>
     <div class="hubList">
       <button class="hubItem" data-goto="listen"><span class="hubIc" style="background:var(--mizu-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/></svg></span><span class="hubTx"><b>聽力模式</b><span>自動唸單字、中文與例句，通勤時用耳朵複習</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
+      <button class="hubItem" data-goto="confuse"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h8M5 14h6M15 9l4 5-4 5M21 9l-2 2.5"/><circle cx="21.5" cy="19" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>易混淆字辨析</b><span>同義字放進例句選最適合的，附使用差異・免 AI</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-goto="practice"><span class="hubIc" style="background:var(--yama-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/></svg></span><span class="hubTx"><b>活用練習</b><span>情境短文填空、近義字辨析、中翻英造句</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-hub="games"><span class="hubIc" style="background:var(--coral-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>班級對戰</b><span>連連看、快問快答，和同學比誰背得快</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-goto="video"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/></svg></span><span class="hubTx"><b>影片學單字</b><span>貼上影片字幕，挑出值得學的單字</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
     </div>
+  </section>
+
+  <!-- CONFUSE -->
+  <section class="panel" id="p-confuse">
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>練習</button></div>
+    <div id="cfArea"></div>
   </section>
 
   <!-- LISTEN -->
@@ -690,9 +717,17 @@ nav#nav button.center.on{color:var(--ink)}
         <div style="flex:1;min-width:140px"><label>每日新卡上限</label><input type="number" id="sNew" min="0" max="999"></div>
         <div style="flex:1;min-width:140px"><label>每日複習上限</label><input type="number" id="sRev" min="0" max="9999"></div>
       </div>
+      <label class="inline"><input type="checkbox" id="sAutoNew"> 複習量多時自動減少新字（到期 100 張以上減半，150 張以上暫停新字）</label>
       <label>新卡出現順序</label>
       <select id="sOrder"><option value="prio">重要度、實用度高的先學</option><option value="added">依加入順序</option></select>
       <label class="inline"><input type="checkbox" id="sWeight"> 依「重要度 × 實用度 × 難度」調整複習頻率（重要、實用的字更常出現；難的字起始間隔較短）</label>
+      <h3>介面</h3>
+      <div class="row">
+        <div style="flex:1;min-width:140px"><label>字體大小</label><select id="sFont"><option value="15">小</option><option value="16">標準</option><option value="18">大</option><option value="20">特大</option></select></div>
+        <div style="flex:1;min-width:140px"><label>外觀</label><select id="sTheme"><option value="auto">跟隨手機設定</option><option value="light">淺色</option><option value="dark">深色</option></select></div>
+      </div>
+      <label>複習評分按鈕</label><select id="sTwoBtn"><option value="0">四個：忘記／困難／良好／簡單</option><option value="1">兩個：不記得／記得（較簡單）</option></select>
+      <label class="inline"><input type="checkbox" id="sHaptic"> 答題時震動回饋（Android 手機）</label>
       <h3>練習方式（複習時輪流出現）</h3>
       <label class="inline"><input type="checkbox" id="mRecog"> 看字想意思</label>
       <label class="inline"><input type="checkbox" id="mRecall"> 看中文拼英文</label>
@@ -2454,7 +2489,7 @@ function previewLabel(c, r){ const now = Date.now(), n = schedule(c, r, now, fal
 const matchDeck = (c, d) => !d || (d === '__star' ? c.star : d[0] === '#' ? c.tags.includes(d.slice(1)) : c.deck === d);
 const inDeck = c => matchDeck(c, S.settings.deck);
 const allTags = () => [...new Set(S.cards.flatMap(c => c.tags))].sort();
-const TAG_PRESETS = ['易混淆','發音難','拼字難','工作常用','想造句','考前複習'];
+const TAG_PRESETS = ['常忘', '易混淆','發音難','拼字難','工作常用','想造句','考前複習'];
 const decks = () => [...new Set(S.cards.map(c => c.deck).filter(Boolean))].sort();
 const isLearning = c => c.state === 'learning' || c.state === 'relearning';
 function queueInfo(){
@@ -2465,12 +2500,19 @@ function queueInfo(){
   const learnToday = pool.filter(c => isLearning(c) && c.due < nd);
   const revLeft = Math.max(0, S.settings.maxRev - S.daily.revDone);
   const revs = pool.filter(c => c.state === 'review' && c.due < nd).sort((a,b) => (a.due - b.due) || (prio(b) - prio(a)));
-  const newLeft = Math.max(0, S.settings.newPerDay + (S.daily.bonus || 0) - S.daily.newDone);
+  // 複習量大時自動減少新字，避免越堆越多
+  const dueAll = pool.filter(c => c.state === 'review' && c.due < nd).length;
+  let newCap = S.settings.newPerDay, cut = null;
+  if (S.settings.autoNew !== false && newCap > 0){ if (dueAll >= 150) newCap = 0; else if (dueAll >= 100) newCap = Math.ceil(newCap / 2); if (newCap < S.settings.newPerDay) cut = {due: dueAll, to: newCap}; }
+  const newLeft = Math.max(0, newCap + (S.daily.bonus || 0) - S.daily.newDone);
   const news = pool.filter(c => c.state === 'new').sort(S.settings.newOrder === 'prio' ? ((a,b) => (prio(b) - prio(a)) || ((a.order||0) - (b.order||0))) : ((a,b) => (a.order||0) - (b.order||0)));
-  return {now, learnNow, learnToday, revs: revs.slice(0, revLeft), news: news.slice(0, newLeft), allNew: news.length, pool};
+  return {now, learnNow, learnToday, revs: revs.slice(0, revLeft), news: news.slice(0, newLeft), allNew: news.length, pool, cut};
 }
-let SES_KIND = 'all';  // all：全部一起；new：只學新字；rev：只複習
+let SES_KIND = 'all';  // all：全部一起；new：只學新字；rev：只複習；hard：常忘的字（不影響排程）
+let HARDQ = []; const HARDREP = new Map();
+const hardCards = () => S.cards.filter(c => inDeck(c) && c.tags.includes('常忘') && c.state !== 'new');
 function nextCard(){
+  if (SES_KIND === 'hard') return HARDQ[0] || null;
   const q = queueInfo();
   const okL = c => SES_KIND !== 'new' || c.state === 'learning';
   const learnNow = q.learnNow.filter(okL);
@@ -2487,16 +2529,16 @@ const dirty = {meta: false, chunks: new Set(), del: new Set()};
 const metaRef = () => DB.doc('users/' + UID + '/data/meta');
 const chunkRef = ck => DB.doc('users/' + UID + '/data/' + ck);
 const cacheKey = () => LS_KEY + (UID ? ':' + UID : '');
-const metaBody = () => ({v: 2, settings: S.settings, daily: S.daily, hist: S.hist, chunkIds: S.chunkIds, nextChunk: S.nextChunk, updated: Date.now()});
+const metaBody = () => ({v: 2, settings: S.settings, daily: S.daily, hist: S.hist, rlog: S.rlog || {}, chunkIds: S.chunkIds, nextChunk: S.nextChunk, updated: Date.now()});
 function cacheLocal(){ try { localStorage.setItem(cacheKey(), JSON.stringify({...S, cards: S.cards.map(leanCard)})); } catch(e){} }
 function readCache(key){ try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch(e){ return null; } }
 function loadLocal(){ const d = readCache(cacheKey()); if (d) applyData(d); }
-const freshState = () => ({cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0});
+const freshState = () => ({cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, rlog: {}, chunkIds: [], nextChunk: 0});
 function applyData(d){
   const st = {...structuredClone(DEFAULT_SETTINGS), ...(d.settings || {})};
   st.modes = {...DEFAULT_SETTINGS.modes, ...((d.settings || {}).modes || {})};
   S = {cards: (d.cards || []).map(c => normalizeCard(JSON.parse(JSON.stringify(c)))), settings: st,
-    daily: {day: '', newDone: 0, revDone: 0, ...(d.daily || {})}, hist: {...(d.hist || {})},
+    daily: {day: '', newDone: 0, revDone: 0, ...(d.daily || {})}, hist: {...(d.hist || {})}, rlog: {...(d.rlog || {})},
     chunkIds: [...(d.chunkIds || [])], nextChunk: d.nextChunk || 0};
   if (S.cards.some(c => !c.ck || !S.chunkIds.includes(c.ck))) rebuildChunks();
 }
@@ -2559,7 +2601,7 @@ const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeou
 function finishLoad(m, note){
   loaded = true; mode = m;
   if (note) showNotice(note); else $('#notice').classList.remove('on');
-  let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c), d = fillCollZh(c) | fillSynZh(c); if (a || b || d){ dirty.chunks.add(c.ck); fixed++; } }
+  let fixed = 0; for (const c of S.cards){ if ((c.lapses || 0) >= 3 && !c.tags.includes('常忘')){ c.tags.push('常忘'); dirty.chunks.add(c.ck); fixed++; } const a = applyBuiltin(c), b = fillFormZh(c), d = fillCollZh(c) | fillSynZh(c); if (a || b || d){ dirty.chunks.add(c.ck); fixed++; } }
   if (fixed) markDirty();
   setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
   if (PACK.state === 'ready') hydrateAll(); else loadPack();
@@ -2579,6 +2621,31 @@ async function boot(){
     loadCloud();
   });
 }
+let OFFLINE = false, offSyncing = false;
+// 離線時的進度在恢復連線後與雲端合併（同一張卡以較新的紀錄為準）
+async function syncAfterOffline(){
+  if (!OFFLINE || offSyncing || !ACCOUNT || !DB) return;
+  offSyncing = true;
+  try {
+    const m = await withTimeout(metaRef().get(), 15000);
+    const cloud = []; let d = {};
+    if (m.exists){ d = JSON.parse(JSON.stringify(m.data())); for (const ck of d.chunkIds || []){ const s = await chunkRef(ck).get(); if (s.exists) for (const c of (s.data().cards || [])) cloud.push(c); } }
+    const t = c => Math.max(c.last || 0, c.created || 0);
+    const byId = new Map(); cloud.forEach(c => byId.set(c.id, c));
+    for (const c of S.cards){ const o = byId.get(c.id); if (!o || t(c) >= t(o)) byId.set(c.id, leanCard(c)); }
+    const hist = {...(d.hist || {})}; for (const [k, v] of Object.entries(S.hist)) hist[k] = Math.max(hist[k] || 0, v);
+    const rlog = {...(d.rlog || {})}; for (const [k, v] of Object.entries(S.rlog || {})) if (!rlog[k] || v[1] > rlog[k][1]) rlog[k] = v;
+    S.cards = [...byId.values()].map(c => normalizeCard(JSON.parse(JSON.stringify(c))));
+    S.hist = hist; S.rlog = rlog; S.chunkIds = [...(d.chunkIds || [])]; S.nextChunk = Math.max(d.nextChunk || 0, S.nextChunk || 0);
+    rebuildChunks(); if (PACK.state === 'ready') hydrateAll();
+    OFFLINE = false; mode = 'cloud'; $('#notice').classList.remove('on');
+    if (inSession){ cur = null; showNext(); }
+    refreshAll(); cacheLocal(); await flush(); initSocial();
+    toast('已恢復連線，進度已同步');
+  } catch(e){}
+  offSyncing = false;
+}
+window.addEventListener('online', () => setTimeout(syncAfterOffline, 1500));
 async function loadCloud(){
   mode = 'loading'; loaded = false; setStatus(); renderReview();
   S = freshState(); cur = null; undoStack.length = 0;
@@ -2601,7 +2668,8 @@ async function loadCloud(){
     if (!S.settings.avatar) openProfile(true);
   } catch(e){
     loadLocal();
-    finishLoad('local', '雲端讀取失敗（可能是網路或 Firestore 規則尚未設定），先使用這個瀏覽器裡的資料。');
+    OFFLINE = true;
+    finishLoad('local', navigator.onLine === false ? '目前沒有網路，先使用這台裝置上的資料，可以照常複習；恢復連線後會自動同步。' : '雲端讀取失敗（可能是網路或 Firestore 規則尚未設定），先使用這個瀏覽器裡的資料。');
   }
 }
 function showLogin(){ $('#login').classList.add('on'); $('#loginMsg').textContent = ''; }
@@ -3901,6 +3969,43 @@ const HI = {
   play: HSVG('<path d="M10.4 7.3c5.2 2.5 9.8 5.5 13.5 8.8-3.8 3.1-8.3 6-13.2 8.6-.7-5.8-.8-11.6-.3-17.4z"/>', 'currentColor'),
   pause: HSVG('<path d="M11.4 8.2c-.4 5.3-.3 10.6.3 16M20.4 7.9c.3 5.4.2 10.8-.3 16.2" stroke-width="3.8"/>')
 };
+/* ---------- 易混淆字辨析（用內建同義字與差異說明出題，不需 AI） ---------- */
+const CF = {qs: [], i: 0, ok: 0, wrong: [], pick: -1};
+function cfStart(){
+  const one = w => /^[A-Za-z][A-Za-z'-]*$/.test(w);
+  const cands = S.cards.filter(c => inDeck(c) && c.syn.some(s => one(s.w) && (s.zh || s.note)) && clozeFor(c));
+  const learned = cands.filter(c => c.state !== 'new');
+  const pool = learned.length >= 5 ? learned : cands;
+  CF.qs = shuffle(pool).slice(0, 10).map(c => { const cz = clozeFor(c); const syns = c.syn.filter(s => one(s.w)).slice(0, 3);
+    return {c, cz, opts: shuffle([{w: c.word, ok: true}, ...syns.map(s => ({w: s.w, s}))])}; });
+  CF.i = 0; CF.ok = 0; CF.wrong = []; CF.pick = -1;
+  cfRender();
+}
+function cfRender(){
+  const el = $('#cfArea'); if (!el) return;
+  const head = `<div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><rect x="5" y="9" width="24" height="18" rx="6" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.4"/><rect x="17" y="20" width="24" height="18" rx="6" fill="#FDF2D2" stroke="#3E3A39" stroke-width="2.4"/><path d="M24 29h10" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round"/></g></svg><h2>易混淆字辨析</h2></div>`;
+  if (!CF.qs.length){ el.innerHTML = head + `<div class="box"><p>目前沒有可以出題的單字。</p><p class="tiny muted">需要有同義字與例句的單字，先載入多益單字包，或學幾個字之後再來。</p></div>`; return; }
+  if (CF.i >= CF.qs.length){
+    const back = bringBack(CF.wrong);
+    el.innerHTML = head + `<div class="box" style="text-align:center"><div class="big" style="font-size:1.6rem">${CF.ok} / ${CF.qs.length}</div><p class="muted">${CF.ok === CF.qs.length ? '全對！這些字的差異你都掌握了。' : '答錯的字' + (back ? `已排回今天的複習（${back} 個）` : '可以點進單字卡再看一次差異說明') + '。'}</p><div class="row" style="justify-content:center"><button class="btn pri" id="cfAgain">再來一輪</button><button class="btn" data-goto="train">回練習</button></div></div>`;
+    $('#cfAgain').onclick = cfStart; el.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => switchTab(b.dataset.goto));
+    return;
+  }
+  const q = CF.qs[CF.i], done = CF.pick >= 0, c = q.c;
+  const sent = done ? esc(q.cz.sentence).replace(esc(q.cz.answer), `<b class="cfAns">${esc(q.cz.answer)}</b>`) : esc(q.cz.blanked).replace('_____', '<span class="cfBlank">＿＿＿</span>');
+  el.innerHTML = head + `<div class="box"><div class="row spread"><span class="tiny muted">第 ${CF.i + 1} / ${CF.qs.length} 題・選出最適合放進空格的字（以原形表示）</span><span class="tiny">答對 ${CF.ok}</span></div>
+    <div class="cfSent ${done ? 'say' : ''}" ${done ? `data-say="${esc(q.cz.sentence)}"` : ''}>${sent}</div>${q.cz.zh ? `<div class="tiny muted" style="margin-top:4px">${esc(q.cz.zh)}</div>` : ''}
+    <div class="mcOpts">${q.opts.map((o, i) => `<button class="mcOpt${done ? (o.ok ? ' ok' : i === CF.pick ? ' no' : ' dim') : ''}" data-cf="${i}" ${done ? 'disabled' : ''}><span class="k">${i + 1}</span><span>${esc(o.w)}</span></button>`).join('')}</div>
+    ${done ? `<div class="cfExp"><div class="cfRow"><span class="chip say" data-say="${esc(c.word)}"><span>${esc(c.word)} <span class="zhm">${esc(c.meaning)}</span></span></span><span class="tiny muted">本題答案</span></div>${q.opts.filter(o => !o.ok).map(o => `<div class="cfRow"><span class="chip say" data-say="${esc(o.w)}"><span>${esc(o.w)}${o.s.zh ? ` <span class="zhm">${esc(o.s.zh)}</span>` : ''}</span></span><span class="tiny muted">${esc(o.s.note || '')}</span></div>`).join('')}</div>
+      <button class="btn pri" id="cfNext" style="width:100%;margin-top:12px">${CF.i + 1 < CF.qs.length ? '下一題' : '看結果'}</button>` : ''}</div>`;
+  el.querySelectorAll('[data-cf]').forEach(b => b.onclick = () => {
+    if (CF.pick >= 0) return; CF.pick = +b.dataset.cf; const ok = q.opts[CF.pick].ok;
+    if (ok) CF.ok++; else CF.wrong.push(c);
+    buzz(ok ? 12 : [25, 40, 25]); addXP(ok ? 2 : 1); cfRender(); speak(q.cz.sentence);
+  });
+  if ($('#cfNext')) $('#cfNext').onclick = () => { CF.i++; CF.pick = -1; cfRender(); window.scrollTo(0, 0); };
+}
+
 /* ---------- listening mode ---------- */
 const LSN = {list: [], i: 0, playing: false, token: 0, wake: null, opts: {src: 'today', n: 20, zh: true, ex: true, gap: 2}};
 function speakP(text, lang, rate){
@@ -4300,9 +4405,35 @@ function clozeFor(c){
 /* ---------- review UI ---------- */
 let cur = null, revealed = false, curMode = 'recog', typedVal = '', cz = null, verdict = null, aiFb = null, grading = false;
 const undoStack = [];
-const MODE_NAME = {recog: '看字想意思', recall: '看中文拼英文', cloze: '例句克漏字', produce: '用單字造句'};
+const MODE_NAME = {recog: '看字想意思', recall: '看中文拼英文', cloze: '例句克漏字', produce: '用單字造句', mc: '選出中文意思', listen: '聽發音選意思'};
+let mcOpts = null, mcPick = -1;
+function mcFor(c){
+  const own = norm(c.meaning || ''); if (!own) return null;
+  const pool = S.cards.filter(x => x !== c && x.meaning && norm(x.meaning) !== own && norm(x.word) !== norm(c.word));
+  const p0 = (c.pos || '').slice(0, 2), picked = [];
+  for (const x of [...shuffle(pool.filter(x => (x.pos || '').slice(0, 2) === p0)), ...shuffle(pool)]){
+    if (picked.length >= 3) break;
+    if (!picked.some(y => norm(y.meaning) === norm(x.meaning))) picked.push(x);
+  }
+  if (picked.length < 3) return null;
+  return shuffle([{m: c.meaning, ok: true}, ...picked.map(x => ({m: x.meaning, w: x.word}))]);
+}
+function buzz(pattern){ if (S.settings.haptic === false || !navigator.vibrate) return; try { navigator.vibrate(pattern); } catch(e){} }
+function chooseMc(i){
+  if (!cur || revealed || !mcOpts) return;
+  mcPick = i;
+  const ok = i >= 0 && mcOpts[i] && mcOpts[i].ok;
+  verdict = ok ? {cls: 'ok', text: '答對了 ✓', sug: 3} : {cls: 'no', text: i < 0 ? `答案是「${cur.meaning}」` : `選錯了，答案是「${cur.meaning}」`, sug: 1};
+  revealed = true; buzz(ok ? 12 : [25, 40, 25]);
+  renderReview();
+  if (ok || curMode === 'listen') speak(cur.word);
+}
 function pickMode(c){
   if (c.state === 'new') return 'recog';
+  if (SES_KIND === 'hard') return S.settings.modes.recall && Math.random() < 0.5 ? 'recall' : 'mc';
+  // 新字由易到難：選意思 → 聽音選意思 → 拼字
+  if (c.state === 'learning'){ if ((c.step || 0) === 0) return 'mc'; if (c.step === 1) return 'listen'; return S.settings.modes.recall ? 'recall' : 'recog'; }
+  if (c.state === 'review' && (c.reps || 0) <= 4 && (c.ivl || 0) <= 3 && S.settings.modes.recall) return 'recall';
   const m = S.settings.modes, young = c.state !== 'review' || c.ivl < 7;
   const w = [];
   if (m.recog) w.push(['recog', young ? 3 : 1]);
@@ -4317,6 +4448,7 @@ function pickMode(c){
 function renderCounts(){
   const q = queueInfo();
   if (!$('#counts')) return;
+  if (SES_KIND === 'hard'){ $('#counts').innerHTML = `<span class="c-rev">${HARDQ.length}<small>常忘</small></span>`; return; }
   $('#counts').innerHTML = `<span class="c-new">${q.news.length}<small>新</small></span><span class="c-learn">${q.learnToday.length}<small>學習</small></span><span class="c-rev">${q.revs.length}<small>複習</small></span>`;
 }
 let DECK_OPTS = null;
@@ -4338,9 +4470,11 @@ function renderDeckSelects(){
 function showNext(){
   cur = nextCard(); revealed = false; typedVal = ''; verdict = null; aiFb = null; cz = null; grading = false;
   if (cur && AI && !aiOff && !cur.ai && cur.lazy) lazyEnrich();
-  if (cur){ curMode = pickMode(cur); if (curMode === 'cloze') cz = clozeFor(cur); if (curMode === 'cloze' && !cz) curMode = 'recog'; }
+  mcOpts = null; mcPick = -1; hintOn = false;
+  if (cur){ curMode = pickMode(cur); if (curMode === 'cloze') cz = clozeFor(cur); if (curMode === 'cloze' && !cz) curMode = 'recog';
+    if (curMode === 'mc' || curMode === 'listen'){ mcOpts = mcFor(cur); if (!mcOpts) curMode = 'recog'; } }
   renderReview();
-  if (inSession && cur && curMode === 'recog' && S.settings.autoSpeak) speak(cur.word);
+  if (inSession && cur && ((curMode === 'recog' && S.settings.autoSpeak) || curMode === 'listen')) speak(cur.word);
 }
 const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
 function videoUrl(src){
@@ -4416,18 +4550,24 @@ function openTagPicker(c){
   };
   draw(); $('#modal').classList.add('on');
 }
+let hintOn = false;
+const hintBox = inner => revealed || hintOn ? `<div class="hintWrap">${inner}</div>` : `<button class="hintBtn" id="hintBtn" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"><path d="M12 3.2c-3.4 0-6 2.5-6 5.8 0 2.2 1.1 3.6 2.4 4.7.6.5.9 1.2.9 2V17h5.4v-1.3c0-.8.4-1.5 1-2 1.3-1.1 2.4-2.6 2.3-4.8C17.9 5.7 15.3 3.2 12 3.2z"/><path d="M9.8 20.2c1.5.4 2.9.4 4.4 0"/></svg>提示</button>`;
 function frontHTML(c){
   const tag = `${marksHTML(c)}<div class="modeTag">${MODE_NAME[curMode]}</div>`;
   if (curMode === 'recog') return `<div class="front">${tag}${headHTML(c)}</div>`;
+  if ((curMode === 'mc' || curMode === 'listen') && mcOpts){
+    const top = curMode === 'mc' ? headHTML(c) : `<button class="bigSay" data-say="${esc(c.word)}" aria-label="再聽一次">${ILL.speaker}</button><div class="tiny muted" style="margin-top:6px">點喇叭可以再聽一次</div>`;
+    return `<div class="front">${tag}${top}<div class="mcOpts">${mcOpts.map((o, i) => `<button class="mcOpt${revealed ? (o.ok ? ' ok' : i === mcPick ? ' no' : ' dim') : ''}" data-mc="${i}" ${revealed ? 'disabled' : ''}><span class="k">${i + 1}</span><span>${esc(o.m)}</span></button>`).join('')}</div></div>`;
+  }
   if (curMode === 'recall'){
     const ex = c.ex[0] ? c.ex[0].en.replace(wordRegex(c.word) || /$^/, '_____') : '';
-    return `<div class="front">${tag}<div class="meaning" style="font-size:1.6rem">${esc(c.meaning)}</div>${c.pos ? `<div class="pos">${esc(c.pos)}</div>` : ''}${ex ? `<div class="hint">${esc(ex)}</div>` : ''}
-      <div class="hint">提示：${esc(c.word[0])}${'＿'.repeat(Math.max(0, c.word.length - 1))}（${c.word.length} 個字元）</div>
+    return `<div class="front">${tag}<div class="meaning" style="font-size:1.6rem">${esc(c.meaning)}</div>${c.pos ? `<div class="pos">${esc(c.pos)}</div>` : ''}
+      ${hintBox(`${ex ? `<div class="hint">${esc(ex)}</div>` : ''}<div class="hint">開頭字母：${esc(c.word[0])}${'＿'.repeat(Math.max(0, c.word.length - 1))}（${c.word.length} 個字元）</div>`)}
       <div class="typed"><input type="text" id="typeIn" placeholder="輸入英文後按 Enter" autocapitalize="off" autocorrect="off" spellcheck="false" ${revealed ? 'disabled' : ''} value="${esc(typedVal)}"></div></div>`;
   }
   if (curMode === 'cloze'){
-    return `<div class="front">${tag}<div class="prompt">${esc(cz.blanked)}</div>${cz.zh ? `<div class="hint">${esc(cz.zh)}</div>` : ''}
-      <div class="hint">提示：${esc(c.meaning)}・${esc(cz.answer[0])}… （${cz.answer.length} 個字母）</div>
+    return `<div class="front">${tag}<div class="prompt">${esc(cz.blanked)}</div>
+      ${hintBox(`${cz.zh ? `<div class="hint">${esc(cz.zh)}</div>` : ''}<div class="hint">${esc(c.meaning)}・開頭 ${esc(cz.answer[0])}…（${cz.answer.length} 個字母）</div>`)}
       <div class="typed"><input type="text" id="typeIn" placeholder="填入空格的字後按 Enter" autocapitalize="off" autocorrect="off" spellcheck="false" ${revealed ? 'disabled' : ''} value="${esc(typedVal)}"></div></div>`;
   }
   // produce
@@ -4473,6 +4613,7 @@ function renderToday(){
   const mins = Math.max(1, Math.round((q.revs.length * 10 + q.learnToday.length * 12 + q.news.length * 25) / 60));
   const R = 38, C = 2 * Math.PI * R;
   const learned = S.cards.filter(c => c.state !== 'new').length;
+  const hardN = hardCards().length;
   area.innerHTML = `<div class="hello">${greet()}${S.settings.nick ? '，' + esc(S.settings.nick) : ''}</div>
     <div class="box todayBox">
       <div class="todayTop">
@@ -4485,8 +4626,9 @@ function renderToday(){
         </div>
       </div>
       <div class="deckRow"><span class="tiny muted">範圍</span><select id="deckSel"></select></div>
+      ${q.cut ? `<div class="newCut">今天有 ${q.cut.due} 張要複習，新字先減為 ${q.cut.to} 個，避免複習越堆越多。<span class="tiny">（可在設定關閉）</span></div>` : ''}
       <div class="startRow">
-        ${q.news.length ? `<button class="btn pri startNew" id="newBtn"><b>學新字</b><small>${q.news.length} 個・先認識再小測驗</small></button>` : q.allNew ? `<button class="btn startNew" id="moreNew"><b>＋ 再學 5 個新字</b><small>今天額度已用完・還有 ${q.allNew} 個</small></button>` : `<button class="btn startNew" disabled><b>學新字</b><small>沒有新字・到「單字」新增</small></button>`}
+        ${q.news.length ? `<button class="btn pri startNew" id="newBtn"><b>學新字</b><small>${q.news.length} 個・先認識再小測驗</small></button>` : q.allNew ? `<button class="btn startNew" id="moreNew"><b>＋ 再學 5 個</b><small>今日新字已學完・還有 ${q.allNew} 個</small></button>` : `<button class="btn startNew" disabled><b>學新字</b><small>沒有新字・到「單字」新增</small></button>`}
         ${q.revs.length + q.learnToday.length ? `<button class="btn pri startRev" id="revBtn"><b>複習</b><small>${q.revs.length + q.learnToday.length} 張到期</small></button>` : `<button class="btn startRev" disabled><b>複習</b><small>今天沒有到期的卡</small></button>`}
       </div>
       ${left ? `<button class="linkBtn" id="startBtn">全部一起來・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
@@ -4494,8 +4636,8 @@ function renderToday(){
     </div>
     <div class="quick">
       <button class="qt" data-q="listen">${QI('<path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/>', '聽力模式')}</button>
-      <button class="qt" data-q="practice">${QI('<path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/>', '活用練習')}</button>
-      <button class="qt" data-q="add">${QI('<circle cx="14" cy="14" r="10"/><path d="M14 9v10M9 14h10"/>', '新增單字')}</button>
+      <button class="qt" data-q="confuse">${QI('<path d="M5 9h8M5 14h6M15 9l4 5-4 5M21 9l-2 2.5"/><circle cx="21.5" cy="19" r="1" fill="currentColor"/>', '易混淆字')}</button>
+      ${hardN ? `<button class="qt" data-q="hard">${QI('<path d="M14 5c-4 0-7 3-7 7 0 2.5 1.2 4.3 3 5.6V21h8v-3.4c1.8-1.3 3-3.1 3-5.6 0-4-3-7-7-7z"/><path d="M11 24h6"/><path d="M14 9v4M14 15.5v.5"/>', '常忘的字 ' + hardN)}</button>` : `<button class="qt" data-q="add">${QI('<circle cx="14" cy="14" r="10"/><path d="M14 9v10M9 14h10"/>', '新增單字')}</button>`}
     </div>`;
   if (!DECK_OPTS) renderDeckSelects();
   $('#deckSel').innerHTML = DECK_OPTS ? DECK_OPTS(S.settings.deck) : '';
@@ -4508,6 +4650,7 @@ function renderToday(){
   area.querySelectorAll('[data-q]').forEach(b => b.onclick = () => {
     const k = b.dataset.q;
     if (k === 'games'){ SOC.sub = 'games'; switchTab('friends'); }
+    else if (k === 'hard'){ HARDQ = shuffle(hardCards()).slice(0, 20); HARDREP.clear(); go('hard'); }
     else if (k === 'toeic'){ switchTab('add'); setTimeout(() => { const el = $('#toeicBox'); if (el) el.scrollIntoView({behavior: 'smooth'}); }, 60); }
     else switchTab(k);
   });
@@ -4575,7 +4718,7 @@ function renderReview(){
     let tip = '';
     if (nextL && (SES_KIND !== 'new' || nextL.state === 'learning')) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後再複習。`;
     else if (q.allNew && S.daily.newDone >= S.settings.newPerDay) tip = `今天的新字額度（${S.settings.newPerDay}）已用完，明天繼續。`;
-    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">${SES_KIND === 'new' ? '新字學完了' : SES_KIND === 'rev' ? '複習完成了' : '今日進度已完成'}</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center">${SES_KIND === 'new' && q.revs.length ? `<button class="btn pri" id="doneSwitch" data-k="rev">接著複習 ${q.revs.length} 張</button>` : SES_KIND === 'rev' && q.news.length ? `<button class="btn pri" id="doneSwitch" data-k="new">接著學新字 ${q.news.length} 個</button>` : ''}<button class="btn${(SES_KIND === 'new' && q.revs.length) || (SES_KIND === 'rev' && q.news.length) ? '' : ' pri'}" id="doneBack">回今日</button>${!q.news.length && q.allNew ? '<button class="btn" id="doneMore">再學 5 個新字</button>' : ''}${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
+    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">${SES_KIND === 'new' ? '新字學完了' : SES_KIND === 'rev' ? '複習完成了' : SES_KIND === 'hard' ? '常忘的字練完了' : '今日進度已完成'}</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center">${SES_KIND === 'new' && q.revs.length ? `<button class="btn pri" id="doneSwitch" data-k="rev">接著複習 ${q.revs.length} 張</button>` : SES_KIND === 'rev' && q.news.length ? `<button class="btn pri" id="doneSwitch" data-k="new">接著學新字 ${q.news.length} 個</button>` : ''}<button class="btn${(SES_KIND === 'new' && q.revs.length) || (SES_KIND === 'rev' && q.news.length) ? '' : ' pri'}" id="doneBack">回今日</button>${!q.news.length && q.allNew ? '<button class="btn" id="doneMore">再學 5 個新字</button>' : ''}${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
     bindSessionHead(null);
     $('#doneBack').onclick = () => { inSession = false; renderReview(); };
     if ($('#doneSwitch')) $('#doneSwitch').onclick = () => { SES_KIND = $('#doneSwitch').dataset.k; cur = null; showNext(); };
@@ -4604,8 +4747,11 @@ function renderReview(){
   const back = revealed ? `<hr class="divider">${curMode !== 'recog' ? `<div style="text-align:center">${headHTML(c)}</div>` : ''}${detailHTML(c, true)}${c.lapses >= 4 ? `<div class="leech">這個字已忘記 ${c.lapses} 次，試著加一則自己的筆記或例句來幫助記憶</div>` : ''}` : '';
   const sug = verdict ? verdict.sug : 0;
   let controls;
-  if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div>`;
+  if (revealed && SES_KIND === 'hard') controls = `<div class="answers two"><button class="ans a1${sug === 1 ? ' sug' : ''}" data-r="1">不記得<small>等一下再考</small></button><button class="ans a3${sug >= 3 ? ' sug' : ''}" data-r="3">記得<small>這輪過關</small></button></div>`;
+  else if (revealed && S.settings.twoBtn){ const good = sug >= 3 ? sug : 3; controls = `<div class="answers two"><button class="ans a1${sug === 1 ? ' sug' : ''}" data-r="1">不記得<small>${previewLabel(c, 1)}</small></button><button class="ans a3${sug >= 2 ? ' sug' : ''}" data-r="${good}">記得<small>${previewLabel(c, good)}</small></button></div>`; }
+  else if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div>`;
   else if (curMode === 'produce') controls = `<div class="row" style="margin-top:14px"><button class="btn ai" id="gradeBtn" style="flex:2" ${grading ? 'disabled' : ''}>✨ 請 AI 批改</button><button class="btn" id="revealBtn" style="flex:1">直接看答案</button></div>`;
+  else if (curMode === 'mc' || curMode === 'listen') controls = `<button class="btn reveal" id="mcSkip">不知道，看答案</button>`;
   else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>`;
   area.innerHTML = sessionHead() + `<div class="card swipeable">${frontHTML(c)}${verdictHTML}${fbHTML}${back}</div><div class="sesControls">${controls}</div>`;
   bindSessionHead(c);
@@ -4614,6 +4760,9 @@ function renderReview(){
   area.querySelectorAll('[data-r]').forEach(b => b.onclick = () => rate(+b.dataset.r));
   area.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => queueEnrich([b.dataset.enrich]));
   if ($('#revealBtn')) $('#revealBtn').onclick = reveal;
+  if ($('#mcSkip')) $('#mcSkip').onclick = () => chooseMc(-1);
+  if ($('#hintBtn')) $('#hintBtn').onclick = () => { hintOn = true; const v = $('#typeIn') ? $('#typeIn').value : ''; typedVal = v; renderReview(); };
+  area.querySelectorAll('[data-mc]').forEach(b => b.onclick = () => chooseMc(+b.dataset.mc));
   if ($('#gradeBtn')) $('#gradeBtn').onclick = grade;
   if (revealed) ensureZh(c);
   ensureIpa(c);
@@ -4625,6 +4774,7 @@ function renderReview(){
 }
 function reveal(){
   if (!cur || revealed) return;
+  if (curMode === 'mc' || curMode === 'listen'){ chooseMc(-1); return; }
   const ti = $('#typeIn'); if (ti) typedVal = ti.value;
   if (curMode === 'recall' || curMode === 'cloze'){
     const a = norm(typedVal), ok1 = curMode === 'cloze' ? norm(cz.answer) : norm(cur.word), ok2 = norm(cur.word);
@@ -4663,6 +4813,13 @@ async function grade(){
 }
 function rate(r){
   if (!cur || (!revealed && cur.state !== 'new')) return;
+  if (SES_KIND === 'hard'){
+    const c = HARDQ.shift(); buzz(r === 1 ? [25, 40, 25] : 12);
+    if (r === 1){ const n = (HARDREP.get(c.id) || 0) + 1; HARDREP.set(c.id, n); if (n <= 2) HARDQ.splice(Math.min(HARDQ.length, 3), 0, c); }
+    S.hist[S.daily.day] = (S.hist[S.daily.day] || 0) + 1; addXP(1); markDirty();
+    showNext(); return;
+  }
+  buzz(r === 1 ? [25, 40, 25] : 12);
   const now = Date.now(); ensureDaily();
   undoStack.push({id: cur.id, card: JSON.parse(JSON.stringify(cur)), daily: {...S.daily}, day: S.daily.day});
   if (undoStack.length > 30) undoStack.shift();
@@ -4670,7 +4827,9 @@ function rate(r){
   Object.assign(cur, schedule(cur, r, now, true));
   cur.reps = (cur.reps || 0) + 1; cur.last = now;
   if (wasNew) S.daily.newDone++;
-  if (wasRev) S.daily.revDone++;
+  if (wasRev){ S.daily.revDone++; if (!S.rlog) S.rlog = {}; const e = S.rlog[S.daily.day] || [0, 0]; e[1]++; if (r > 1) e[0]++; S.rlog[S.daily.day] = e; const rk = Object.keys(S.rlog).sort(); while (rk.length > 120) delete S.rlog[rk.shift()]; }
+  if ((cur.lapses || 0) >= 3 && !cur.tags.includes('常忘')) cur.tags.push('常忘');
+  else if (cur.tags.includes('常忘') && cur.state === 'review' && cur.ivl >= 30) cur.tags = cur.tags.filter(t => t !== '常忘');
   S.hist[S.daily.day] = (S.hist[S.daily.day] || 0) + 1;
   addXP(r >= 3 ? 2 : 1);
   const keys = Object.keys(S.hist).sort(); while (keys.length > 400) delete S.hist[keys.shift()];
@@ -4693,6 +4852,7 @@ document.addEventListener('keydown', e => {
   if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (cur && cur.state === 'new' && (e.key === ' ' || e.key === 'Enter')){ e.preventDefault(); rate(1); return; }
+  if (cur && !revealed && (curMode === 'mc' || curMode === 'listen')){ if (['1','2','3','4'].includes(e.key)) chooseMc(+e.key - 1); else if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); chooseMc(-1); } return; }
   if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); if (revealed) rate(verdict && verdict.sug ? verdict.sug : 3); else if (curMode !== 'produce') reveal(); }
   else if (['1','2','3','4'].includes(e.key) && revealed) rate(+e.key);
   else if (e.key === 'r' || e.key === 'R'){ if (cur) speak(cur.word); }
@@ -5132,15 +5292,31 @@ function renderStats(){
   $('#statsArea').innerHTML = `<div class="tiny muted" style="margin-bottom:8px">${S.settings.deck ? '牌組：' + esc(S.settings.deck) : '全部牌組'}（可在「今日」頁的「範圍」切換）</div>
     <div class="grid4"><div class="stat"><b class="c-new">${n}</b><span>新卡</span></div><div class="stat"><b class="c-learn">${l}</b><span>學習中</span></div><div class="stat"><b>${young}</b><span>熟悉中（&lt;21 天）</span></div><div class="stat"><b class="c-rev">${mature}</b><span>已熟記（≥21 天）</span></div></div>
     <div class="grid4" style="margin-top:8px"><div class="stat"><b>${S.hist[dayKey(now)] || 0}</b><span>今天複習次數</span></div><div class="stat"><b>${streak}</b><span>連續天數</span></div><div class="stat"><b>${Array.from({length: 30}, (_, i) => S.hist[dayKey(now - i * DAY)] || 0).reduce((a,b) => a + b, 0)}</b><span>近 30 天複習</span></div><div class="stat"><b>${pool.length}</b><span>單字總數</span></div></div>
+    ${(() => { let ok = 0, n = 0; for (let i = 0; i < 30; i++){ const e = (S.rlog || {})[dayKey(now - i * DAY)]; if (e){ ok += e[0]; n += e[1]; } }
+      const pct = n ? Math.round(ok / n * 100) : null;
+      const tip = pct == null ? '複習過幾天後就會出現' : n < 20 ? '資料還不多，先參考就好' : pct < 80 ? '偏低：新字可以少一點，先把舊字複習穩' : pct > 95 ? '很穩：可以多學一點新字' : '剛剛好：維持現在的步調';
+      const toeic = S.cards.filter(c => /^多益/.test(c.deck || ''));
+      const tm = toeic.filter(c => c.state === 'review' && c.ivl >= 21).length, tl = toeic.filter(c => c.state !== 'new').length;
+      return `<div class="grid2" style="margin-top:8px"><div class="stat"><b>${pct == null ? '—' : pct + '%'}</b><span>記憶保持率（近 30 天複習答對比例）</span><div class="tiny muted" style="margin-top:4px">${tip}</div></div><div class="stat"><b>${tm}<small style="font-size:.9rem"> / ${toeic.length}</small></b><span>多益單字已熟記（≥21 天）</span><div class="tiny muted" style="margin-top:4px">已學過 ${tl} 字・常忘 ${hardCards().length} 字</div></div></div>`; })()}
     <h3>未來 7 天到期</h3><div class="box">${bars(fc)}</div>
     <h3>近 14 天複習量</h3><div class="box">${bars(hs, 'alt dense')}</div>
     <div class="row" style="align-items:flex-start;gap:14px"><div style="flex:1;min-width:250px"><h3>依主題分類</h3><div class="box">${hbars(count('cat'))}</div></div><div style="flex:1;min-width:250px"><h3>依程度與類型</h3><div class="box">${hbars(count('level'))}<hr class="divider" style="margin:10px 0">${hbars(count('type'))}</div></div></div>`;
 }
 
 /* ---------- settings ---------- */
+const darkMQ = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+function applyLook(){
+  const s = S.settings, fs = (s.font || 16) + 'px';
+  document.documentElement.style.fontSize = fs; document.body.style.fontSize = fs;
+  const dark = s.theme === 'dark' || (s.theme !== 'light' && darkMQ && darkMQ.matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  const mt = document.querySelector('meta[name="theme-color"]'); if (mt) mt.content = dark ? '#1d1b1a' : '#FFFCF6';
+}
+if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener('change', () => applyLook());
+['#sFont', '#sTheme'].forEach(id => $(id).addEventListener('change', () => { S.settings.font = +$('#sFont').value || 16; S.settings.theme = $('#sTheme').value; applyLook(); markDirty(); }));
 function fillSettings(){
   const s = S.settings;
-  $('#sNew').value = s.newPerDay; $('#sRev').value = s.maxRev; $('#sOrder').value = s.newOrder; $('#sWeight').checked = !!s.weight;
+  $('#sNew').value = s.newPerDay; $('#sRev').value = s.maxRev; $('#sAutoNew').checked = s.autoNew !== false; $('#sFont').value = String(s.font || 16); $('#sTheme').value = s.theme || 'auto'; $('#sTwoBtn').value = s.twoBtn ? '1' : '0'; $('#sHaptic').checked = s.haptic !== false; applyLook(); $('#sOrder').value = s.newOrder; $('#sWeight').checked = !!s.weight;
   $('#mRecog').checked = s.modes.recog; $('#mRecall').checked = s.modes.recall; $('#mCloze').checked = s.modes.cloze; $('#mProduce').checked = s.modes.produce;
   $('#sSpeak').checked = !!s.autoSpeak; $('#sAccent').value = s.accent; $('#sRate').value = ['0.7','0.85','0.95','1.05'].includes(String(s.rate)) ? String(s.rate) : '0.95';
   $('#sTtsMode').value = s.ttsMode || 'device'; $('#sAiVoice').value = s.aiVoice || 'Kore'; $('#sDict').checked = s.dictVoice !== false; $('#sPhon').value = s.phon === 'ipa' ? 'ipa' : 'kk'; $('#sAzVoice').value = s.azVoice || 'en-US-AvaNeural'; $('#sAzKey').value = lsGet(AZ_KEY_LS); $('#sAzReg').value = lsGet(AZ_REG_LS); fillVoiceSelect(); syncTtsBoxes();
@@ -5171,7 +5347,7 @@ $('#sAiVoiceTest').onclick = async () => {
 $('#saveSettings').onclick = () => {
   const s = S.settings;
   s.newPerDay = clamp(parseInt($('#sNew').value) || 0, 0, 999); s.maxRev = clamp(parseInt($('#sRev').value) || 0, 0, 9999);
-  s.newOrder = $('#sOrder').value; s.weight = $('#sWeight').checked;
+  s.newOrder = $('#sOrder').value; s.weight = $('#sWeight').checked; s.autoNew = $('#sAutoNew').checked; s.font = +$('#sFont').value || 16; s.theme = $('#sTheme').value; s.twoBtn = $('#sTwoBtn').value === '1'; s.haptic = $('#sHaptic').checked;
   s.modes = {recog: $('#mRecog').checked, recall: $('#mRecall').checked, cloze: $('#mCloze').checked, produce: $('#mProduce').checked};
   s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value; s.ttsMode = $('#sTtsMode').value; s.aiVoice = $('#sAiVoice').value; s.dictVoice = $('#sDict').checked; s.phon = $('#sPhon').value; s.azVoice = $('#sAzVoice').value; saveAzKeys(); ttsWarned = false;
   try { if ($('#sVoice').value) localStorage.setItem('vocab-voice-' + s.accent, $('#sVoice').value); } catch(e){}
@@ -5225,7 +5401,7 @@ $('#resetProg').onclick = e => {
 
 /* ---------- shell ---------- */
 
-const TAB_OF = {add: 'browse', video: 'train', practice: 'train', listen: 'train', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
+const TAB_OF = {add: 'browse', video: 'train', practice: 'train', listen: 'train', confuse: 'train', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
 function switchTab(t){
   let sub = null;
   if (t === 'stats' || t === 'settings' || t === 'guide' || t === 'account'){ sub = t; t = 'me'; }
@@ -5238,6 +5414,7 @@ function switchTab(t){
   if (t === 'browse') renderBrowse();
   if (t === 'friends') renderClass();
   if (t === 'listen') renderListen();
+  if (t === 'confuse') cfStart();
   if (t !== 'listen' && LSN.playing) lsStop();
   if (t === 'me' && statsVisible()) renderStats();
 }
@@ -5277,5 +5454,6 @@ renderReview();
 boot();
 })();
 </script>
+<script>if ('serviceWorker' in navigator && location.protocol === 'https:') addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));</script>
 </body>
 </html>
