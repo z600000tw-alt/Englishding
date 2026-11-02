@@ -65,7 +65,7 @@ nav#nav button:not(.center).on::after{content:'';position:absolute;bottom:1px;le
 label{font-size:.85rem;color:var(--muted);display:block;margin:10px 0 4px}
 label.inline{display:inline-flex;align-items:center;gap:7px;margin:7px 14px 0 0;color:var(--ink);font-size:.93rem}
 input[type=checkbox]{accent-color:#e07f6f;width:17px;height:17px}
-input[type=text],input[type=search],input[type=number],input[type=url],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff}
+input[type=text],input[type=search],input[type=number],input[type=url],input[type=password],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff}
 input[type=file]{font-size:.85rem}
 textarea{min-height:110px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:3px solid var(--yama);outline-offset:1px}
@@ -119,6 +119,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .sec > b{font-weight:400;font-size:.8rem;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:1px;border-bottom:1.5px solid #ece6dc;padding-bottom:2px}
 .exl{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
 .exl .en{font-size:1rem}
+.exSay{flex:0 0 auto;width:26px;height:26px;margin-top:1px;padding:3px;border:0;border-radius:50%;background:#E3F1F7;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.exSay svg{width:18px;height:18px}.exSay:active,.exSay.speaking{background:var(--coral);color:#fff}
 .exl .zh{font-size:.88rem;color:var(--muted)}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{background:var(--mizu-s);border:0;border-radius:8px;padding:2px 10px;font-size:.9rem}
@@ -162,12 +163,13 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .stat{background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:10px;text-align:center}
 .stat b{display:block;font-weight:400;font-size:1.55rem;font-variant-numeric:tabular-nums}
 .stat span{font-size:.76rem;color:var(--muted)}
-.bars{display:flex;align-items:flex-end;gap:6px;height:130px;padding-top:16px}
+.bars{display:flex;align-items:stretch;gap:6px;height:150px;padding-top:4px}
 .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
 .bar i{display:block;width:100%;max-width:28px;background:var(--mizu);border-radius:6px 6px 2px 2px;min-height:3px}
 .bars.alt .bar i{background:var(--waka)}
-.bar em{font-style:normal;font-size:.7rem;color:var(--muted);margin-top:4px;white-space:nowrap}
-.bar s{text-decoration:none;font-size:.72rem;margin-bottom:3px}
+.bar em{font-style:normal;font-size:.7rem;color:var(--muted);margin-top:6px;white-space:nowrap;height:16px;line-height:16px;display:block}
+.bar .tr{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.bar s{text-decoration:none;font-size:.72rem;line-height:16px;height:16px;margin-bottom:2px}
 .hbar{display:grid;grid-template-columns:100px 1fr 34px;gap:8px;align-items:center;font-size:.85rem;margin:6px 0}
 .hbar i{display:block;height:10px;background:var(--coral);border-radius:5px;min-width:3px}
 
@@ -268,6 +270,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startBtn{width:100%;margin-top:14px;padding:13px;font-size:1.08rem}
 .allDone{text-align:center;margin-top:14px;padding:12px;background:var(--waka-s);border-radius:12px}
 .todayFoot{text-align:center;margin-top:12px}
+.bigBar{height:10px;border-radius:6px;background:#EFE9DF;margin-top:12px;overflow:hidden}.bigBar i{display:block;height:100%;width:0;background:var(--coral);border-radius:6px;transition:width .4s}
 .moreNew{width:100%;margin-top:10px}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
@@ -508,7 +511,7 @@ nav#nav button.center.on{color:var(--ink)}
   <section class="panel" id="p-add">
     <div class="row spread" style="margin-bottom:10px"><button class="btn small" data-goto="browse"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>回單字庫</button></div>
     <div class="addMenu">
-      <a href="#" class="addTile" data-jump="toeicBox"><b>多益單字包</b><span>250 個高頻字・AI 擴充</span></a>
+      <a href="#" class="addTile" data-jump="toeicBox"><b>多益單字包</b><span>基礎 250 字・多益 7000 字</span></a>
       <a href="#" class="addTile" data-goto="video"><b>從影片找單字</b><span>貼上字幕自動挑字</span></a>
       <a href="#" class="addTile" data-jump="addForm"><b>手動新增</b><span>輸入一個單字</span></a>
       <a href="#" class="addTile" data-jump="bulkBox"><b>匯入單字表</b><span>Excel／CSV／貼上</span></a>
@@ -518,6 +521,13 @@ nav#nav button.center.on{color:var(--ink)}
       <p class="tiny muted" style="margin:4px 0 0">基礎包：10 個職場主題、共 250 個多益高頻字。載入後依「每日新卡上限」逐步學習；例句、音標、同反義字等細節會在學到該字時由 AI 自動補齊，不會一次耗用大量額度。</p>
       <div class="chips" id="packList" style="margin-top:12px"></div>
       <div class="row" style="margin-top:12px"><button class="btn pri" id="packLoad">載入選取的主題</button><button class="btn small" id="packAll">全選</button><span class="tiny muted" id="packMsg"></span></div>
+      <div id="p7Box">
+        <hr class="divider">
+        <h2>多益 7000 字（內建資料）</h2>
+        <p class="tiny muted" style="margin:4px 0 0">每個字都已內建 KK 音標、例句與中文、一字多義、詞性變化、同反義字、常用搭配與用法，載入與學習都不需要 AI 額度。從基礎程度開始，依程度選擇要載入的範圍：</p>
+        <div id="p7Levels" style="margin-top:10px"><span class="tiny muted"><span class="spin"></span> 讀取資料包…</span></div>
+        <div class="row" style="margin-top:12px"><button class="btn pri" id="p7Load" disabled>載入選取的程度</button><span class="tiny muted" id="p7Msg"></span></div>
+      </div>
       <div class="aiOnly">
         <hr class="divider">
         <h2>用 AI 擴充更多多益單字</h2>
@@ -528,6 +538,7 @@ nav#nav button.center.on{color:var(--ink)}
           <div style="flex:0 0 100px"><label>數量</label><select id="genN"><option>30</option><option selected>50</option><option>80</option></select></div>
         </div>
         <div class="row" style="margin-top:12px"><button class="btn ai" id="genGo">✨ 產生單字組</button><span class="tiny muted" id="genMsg"></span></div>
+
       </div>
     </div>
     <div class="box">
@@ -591,7 +602,7 @@ nav#nav button.center.on{color:var(--ink)}
     <div class="subtabs"><button class="on" data-sub="stats">學習統計</button><button data-sub="account">帳號</button><button data-sub="settings">設定與備份</button><button data-sub="guide">使用說明</button><button data-sub="admin" id="adminTabBtn" style="display:none">網站管理</button></div>
     <div class="sub" id="p-stats"><div id="statsArea"></div></div>
     <div class="sub" id="p-account" style="display:none"><div id="accArea"></div></div>
-    <div class="sub" id="p-admin" style="display:none"><div id="adminArea"></div></div>
+    <div class="sub" id="p-admin" style="display:none"><div id="builderArea"></div><div id="adminArea"></div></div>
   <div class="sub" id="p-guide" style="display:none"><div class="box guide">
     <h2>使用說明</h2>
     <h3>1. 快速開始</h3>
@@ -687,10 +698,20 @@ nav#nav button.center.on{color:var(--ink)}
       <label class="inline"><input type="checkbox" id="sSpeak"> 自動朗讀</label>
       <div class="row">
         <div style="flex:1;min-width:140px"><label>口音</label><select id="sAccent"><option value="en-US">美式</option><option value="en-GB">英式</option></select></div>
+        <div style="flex:1;min-width:140px"><label>音標</label><select id="sPhon"><option value="kk">KK 音標</option><option value="ipa">國際音標 IPA</option></select></div>
         <div style="flex:1;min-width:140px"><label>語速</label><select id="sRate"><option value="0.7">慢</option><option value="0.85">稍慢</option><option value="0.95">自然</option><option value="1.05">稍快</option></select></div>
       </div>
-      <label>語音來源</label>
-      <select id="sTtsMode"><option value="device">裝置內建語音（免費、即時）</option><option value="ai">AI 真人語音（較自然，需 Gemini 金鑰）</option></select>
+      <label class="inline" style="margin-top:10px"><input type="checkbox" id="sDict"> 單字優先播放真人錄音（免費字典，查不到的字才用下面的語音）</label>
+      <label>例句與其他文字的語音來源</label>
+      <select id="sTtsMode"><option value="device">裝置內建語音（免費、即時）</option><option value="azure">微軟語音（自然，每月 50 萬字元免費，需 Azure 金鑰）</option><option value="ai">Gemini AI 語音（需 Gemini 金鑰，額度較少）</option></select>
+      <div id="ttsAzBox" style="display:none">
+        <ol class="tiny" style="margin:8px 0 0;padding-left:20px"><li>到 <a href="https://portal.azure.com" target="_blank" rel="noopener">Azure 入口網站</a> 註冊並登入。</li><li>上方搜尋「語音服務」（Speech services）→ 建立；定價層選 <b>Free F0</b>，區域選 <b>East Asia</b> 或 <b>Southeast Asia</b>。</li><li>建立完成後進入該資源 →「金鑰與端點」，複製「金鑰 1」和「位置/區域」。</li><li>貼到下面，按「試聽」確認有聲音，再按「儲存設定」。</li></ol>
+        <label>Azure 金鑰</label><input type="password" id="sAzKey" autocomplete="off" placeholder="32 碼英數字">
+        <label>區域（例如 eastasia、southeastasia、japaneast）</label><input type="text" id="sAzReg" autocomplete="off" placeholder="eastasia" autocapitalize="off">
+        <label>微軟聲音</label>
+        <div class="row" style="flex-wrap:nowrap"><select id="sAzVoice" style="flex:1;min-width:0"><option value="en-US-AvaNeural">Ava・美式女聲（推薦）</option><option value="en-US-AndrewNeural">Andrew・美式男聲（推薦）</option><option value="en-US-EmmaNeural">Emma・美式女聲</option><option value="en-US-BrianNeural">Brian・美式男聲</option><option value="en-US-JennyNeural">Jenny・美式女聲</option><option value="en-US-GuyNeural">Guy・美式男聲</option><option value="en-GB-SoniaNeural">Sonia・英式女聲</option><option value="en-GB-RyanNeural">Ryan・英式男聲</option></select><button class="btn small" id="sAzTest" type="button">試聽</button></div>
+        <p class="tiny muted" style="margin:6px 0 0">金鑰只存在這個瀏覽器。每句只產生一次並存在裝置上，重複播放不扣額度；額度用完或出錯會自動改用裝置語音。中文會用台灣華語女聲。</p>
+      </div>
       <div id="ttsDevBox">
         <label>裝置語音（已自動挑選最自然的，可自行更換）</label>
         <div class="row" style="flex-wrap:nowrap"><select id="sVoice" style="flex:1;min-width:0"></select><button class="btn small" id="sVoiceTest" type="button">試聽</button></div>
@@ -846,7 +867,7 @@ const ILL = {
 const PACKS = [{"name":"辦公室日常","cat":"職場商務","words":[["agenda","n.","議程"],["assign","v.","分派；指派"],["attach","v.","附上；附加"],["colleague","n.","同事"],["deadline","n.","截止期限"],["department","n.","部門"],["document","n.","文件"],["extension","n.","分機；延期"],["file","v.","歸檔；提出（申請）"],["memo","n.","備忘錄"],["postpone","v.","延期"],["priority","n.","優先事項"],["reception","n.","接待處；歡迎會"],["remind","v.","提醒"],["schedule","n./v.","行程表；安排"],["supervisor","n.","主管；監督者"],["supply","n.","用品；供應"],["workload","n.","工作量"],["coordinate","v.","協調"],["delegate","v.","委派"],["efficient","adj.","有效率的"],["in charge of","phr.","負責"],["notify","v.","通知"],["operate","v.","操作；營運"],["facility","n.","設施"]]},{"name":"人事招聘","cat":"職場商務","words":[["applicant","n.","應徵者"],["candidate","n.","候選人"],["qualification","n.","資格；條件"],["resume","n.","履歷"],["interview","n./v.","面試"],["hire","v.","雇用"],["recruit","v.","招募"],["position","n.","職位"],["experience","n.","經驗"],["reference","n.","推薦人；參考"],["promote","v.","升職；推廣"],["promotion","n.","升遷；促銷"],["salary","n.","薪水"],["benefit","n.","福利；好處"],["employee","n.","員工"],["employer","n.","雇主"],["retire","v.","退休"],["resign","v.","辭職"],["evaluation","n.","評估；考核"],["performance","n.","表現；績效"],["training","n.","訓練"],["orientation","n.","新人說明會"],["personnel","n.","人事部門；全體員工"],["probation","n.","試用期"],["transfer","v.","調職；轉移"]]},{"name":"會議簡報","cat":"職場商務","words":[["conference","n.","會議；研討會"],["presentation","n.","簡報"],["attend","v.","出席"],["participant","n.","參加者"],["proposal","n.","提案"],["summarize","v.","摘要；總結"],["discuss","v.","討論"],["consensus","n.","共識"],["minutes","n.","會議記錄"],["handout","n.","講義"],["brainstorm","v.","腦力激盪"],["objective","n.","目標"],["input","n.","意見；投入"],["reschedule","v.","重新安排時間"],["venue","n.","會場"],["keynote","n.","主題演講"],["outline","n./v.","大綱；概述"],["clarify","v.","釐清"],["address","v.","處理；發表演說"],["agree on","phr.","對…達成共識"],["follow up","phr.","後續追蹤"],["point out","phr.","指出"],["highlight","v.","強調"],["refreshments","n.","茶點"],["register","v.","報名；登記"]]},{"name":"行銷銷售","cat":"職場商務","words":[["advertise","v.","做廣告"],["campaign","n.","活動；宣傳"],["competitor","n.","競爭對手"],["consumer","n.","消費者"],["demand","n.","需求"],["launch","v.","推出"],["market share","n.","市占率"],["survey","n.","問卷調查"],["target","n./v.","目標；鎖定"],["brand","n.","品牌"],["discount","n.","折扣"],["estimate","n./v.","估計；估價"],["revenue","n.","營收"],["strategy","n.","策略"],["trend","n.","趨勢"],["feature","n./v.","特色；以…為特色"],["promotional","adj.","促銷的"],["retail","n.","零售"],["wholesale","n.","批發"],["client","n.","客戶"],["quote","n.","報價"],["affordable","adj.","負擔得起的"],["exclusive","adj.","獨家的"],["expand","v.","擴展"],["potential","adj./n.","潛在的；潛力"]]},{"name":"財務會計","cat":"職場商務","words":[["budget","n.","預算"],["expense","n.","費用；支出"],["invoice","n.","發票；請款單"],["account","n.","帳戶；帳目"],["audit","n./v.","稽核；審計"],["balance","n.","餘額；平衡"],["deposit","n./v.","存款；訂金"],["profit","n.","利潤"],["loss","n.","虧損"],["reimburse","v.","核銷；償還"],["receipt","n.","收據"],["tax","n.","稅"],["fiscal","adj.","財政的；會計年度的"],["forecast","n./v.","預測"],["investment","n.","投資"],["loan","n.","貸款"],["interest rate","n.","利率"],["payroll","n.","薪資名冊"],["quarterly","adj.","每季的"],["statement","n.","報表；聲明"],["transaction","n.","交易"],["cost-effective","adj.","划算的"],["overdue","adj.","逾期的"],["refund","n./v.","退款"],["outstanding","adj.","未付的；傑出的"]]},{"name":"採購物流","cat":"職場商務","words":[["order","n./v.","訂單；訂購"],["purchase","n./v.","購買"],["supplier","n.","供應商"],["vendor","n.","廠商；小販"],["inventory","n.","庫存"],["shipment","n.","貨運；一批貨"],["deliver","v.","運送；遞送"],["warehouse","n.","倉庫"],["in stock","phr.","有庫存"],["out of stock","phr.","缺貨"],["backorder","n.","延期交貨的訂單"],["dispatch","v.","派送；發送"],["track","v.","追蹤"],["package","n.","包裹"],["fragile","adj.","易碎的"],["bulk","n.","大量"],["procurement","n.","採購"],["contract","n.","合約"],["negotiate","v.","談判；協商"],["specification","n.","規格"],["expedite","v.","加速處理"],["freight","n.","貨物；運費"],["courier","n.","快遞員；快遞公司"],["confirm","v.","確認"],["cancel","v.","取消"]]},{"name":"旅遊出差","cat":"旅遊交通","words":[["itinerary","n.","行程表"],["reservation","n.","預約；訂位"],["accommodation","n.","住宿"],["depart","v.","出發"],["departure","n.","出發；離境"],["arrival","n.","抵達"],["boarding pass","n.","登機證"],["luggage","n.","行李"],["destination","n.","目的地"],["delay","n./v.","延誤"],["fare","n.","票價；車資"],["round-trip","adj.","來回的"],["check in","phr.","報到；登記入住"],["connecting flight","n.","轉機航班"],["aisle","n.","走道"],["customs","n.","海關"],["passport","n.","護照"],["book","v.","預訂"],["rental","n.","租賃"],["commute","v./n.","通勤"],["transportation","n.","交通運輸"],["excursion","n.","短途旅行"],["brochure","n.","宣傳冊"],["complimentary","adj.","免費贈送的"],["amenities","n.","便利設施"]]},{"name":"製造品管","cat":"科學技術","words":[["assemble","v.","組裝"],["equipment","n.","設備"],["machinery","n.","機械"],["manufacture","v.","製造"],["production","n.","生產"],["capacity","n.","產能；容量"],["defect","n.","瑕疵"],["inspect","v.","檢查"],["inspection","n.","檢查"],["quality control","n.","品質管制"],["maintenance","n.","維修保養"],["malfunction","n./v.","故障"],["procedure","n.","程序"],["safety","n.","安全"],["regulation","n.","法規；規定"],["comply with","phr.","遵守"],["standard","n.","標準"],["output","n.","產量"],["material","n.","材料"],["plant","n.","工廠"],["automate","v.","自動化"],["efficiency","n.","效率"],["prototype","n.","原型"],["upgrade","v./n.","升級"],["install","v.","安裝"]]},{"name":"合約法務","cat":"職場商務","words":[["agreement","n.","協議"],["terms","n.","條款；條件"],["clause","n.","條款"],["sign","v.","簽署"],["signature","n.","簽名"],["renew","v.","續約；更新"],["expire","v.","到期"],["valid","adj.","有效的"],["obligation","n.","義務"],["liability","n.","責任；負債"],["breach","n.","違反"],["draft","n./v.","草稿；起草"],["amend","v.","修改"],["binding","adj.","有約束力的"],["confidential","adj.","機密的"],["authorize","v.","授權"],["permit","n./v.","許可證；允許"],["policy","n.","政策；保單"],["warranty","n.","保固"],["guarantee","n./v.","保證"],["dispute","n.","爭議"],["legal","adj.","法律的；合法的"],["party","n.","（合約）一方"],["effective","adj.","生效的；有效的"],["terminate","v.","終止"]]},{"name":"客服溝通","cat":"職場商務","words":[["complaint","n.","抱怨；客訴"],["inquiry","n.","詢問"],["respond","v.","回應"],["resolve","v.","解決"],["satisfaction","n.","滿意"],["apologize","v.","道歉"],["inconvenience","n.","不便"],["assistance","n.","協助"],["feedback","n.","回饋意見"],["replace","v.","更換"],["exchange","v./n.","交換；退換"],["representative","n.","代表；專員"],["available","adj.","有空的；可取得的"],["appreciate","v.","感激"],["courteous","adj.","有禮貌的"],["prompt","adj.","迅速的"],["via","prep.","經由"],["regarding","prep.","關於"],["further","adj.","進一步的"],["attention","n.","注意；（信件）收件人"],["accommodate","v.","容納；配合"],["convenient","adj.","方便的"],["on behalf of","phr.","代表"],["get back to","phr.","回覆（某人）"],["look into","phr.","調查；研究"]]}];
 const DEFAULT_SETTINGS = {newPerDay: 15, maxRev: 200, newOrder: 'prio', weight: true,
   modes: {recog: true, recall: true, cloze: true, produce: true},
-  autoSpeak: true, accent: 'en-US', rate: '0.95', ttsMode: 'device', aiVoice: 'Kore', deck: '', lastDeck: '',
+  autoSpeak: true, accent: 'en-US', rate: '0.95', ttsMode: 'device', aiVoice: 'Kore', phon: 'kk', dictVoice: true, azVoice: 'en-US-AvaNeural', deck: '', lastDeck: '',
   gameSound: true, nick: '', avatar: '', board: true, classes: [], curClass: '', subs: [], xp: {week: '', pts: 0}};
 let S = {cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0};
 
@@ -1862,13 +1883,44 @@ function builtinFor(word){
   }
   return BUILTIN[String(word || '').trim().toLowerCase()];
 }
+const ANT_ZH = {"advance": "提前；進展", "agreement": "同意；協議", "arrival": "抵達", "arrive": "抵達", "ban": "禁止", "begin": "開始", "bring forward": "提前", "busy": "忙碌的", "buyer": "買方", "cancel": "取消", "cancellation": "取消", "charge": "收費", "check out": "退房；結帳", "compliance": "遵守", "confirm": "確認", "confuse": "使困惑", "consumption": "消耗；消費", "convenience": "方便", "costly": "昂貴的", "customer": "顧客", "danger": "危險", "delay": "延誤", "delayed": "延誤的", "demand": "需求", "demote": "降職", "demotion": "降職", "deny": "否認；拒絕", "departure": "出發", "detach": "拆下；分開", "direct flight": "直飛航班", "disagree on": "對…意見不合", "disagreement": "意見不合", "disassemble": "拆解", "dismiss": "解雇；不予考慮", "dissatisfaction": "不滿", "downgrade": "降級", "downplay": "淡化", "drawback": "缺點", "early": "提早的", "employee": "員工", "employer": "雇主", "expand": "擴展", "expenditure": "支出", "expensive": "昂貴的", "final version": "定稿", "fire": "開除", "forbid": "禁止", "gain": "獲得；增加", "ignore": "忽視", "illegal": "違法的", "imbalance": "不平衡", "in stock": "有庫存", "income": "收入", "inconvenient": "不方便的", "inefficiency": "效率低", "inefficient": "沒效率的", "inexperience": "缺乏經驗", "input": "投入", "invalid": "無效的", "loss": "虧損", "markup": "加價", "miss": "錯過", "non-binding": "無約束力的", "one-way": "單程的", "origin": "起點；來源", "out of stock": "缺貨", "output": "產出", "paid": "已付款的", "partner": "夥伴", "praise": "稱讚", "producer": "生產者", "profit": "利潤", "public": "公開的", "receive": "收到", "reduce": "減少", "remove": "移除", "renew": "續約", "reply": "回覆", "retail": "零售", "rude": "無禮的", "sell": "賣", "shared": "共用的", "slow": "緩慢的", "sturdy": "堅固的", "subordinate": "部屬", "supply": "供應", "unavailable": "無法取得的；沒空的", "uninstall": "解除安裝", "violate": "違反", "wholesale": "批發", "withdraw": "提款；撤回", "withdrawal": "提款；撤回", "work properly": "正常運作"};
+const antZhBuiltin = w => ANT_ZH[String(w || '').trim().toLowerCase()] || '';
+function antParse(v){ const ps = String(v).split(/[,，、]/).map(s => s.trim()).filter(Boolean).map(s => { const m = s.match(/^([A-Za-z][A-Za-z' -]*[A-Za-z])\s*(.*)$/); return m ? [m[1].trim(), m[2].trim()] : [s, '']; }); return {ant: ps.map(p => p[0]), antZh: ps.map(p => p[1] || antZhBuiltin(p[0]))}; }
+function ipaToKK(ipa){
+  let s = String(ipa || '').trim().replace(/^[\/\[]+|[\/\]]+$/g, '').trim();
+  if (!s) return '';
+  s = s.replace(/ɡ/g, 'g').replace(/ɹ/g, 'r').replace(/ɫ/g, 'l').replace(/ʧ/g, 'tʃ').replace(/ʤ/g, 'dʒ').replace(/ɾ/g, 't').replace(/ᵻ/g, 'ɪ').replace(/ɐ/g, 'ə').replace(/ɒ/g, 'ɑ').replace(/[()]/g, '');
+  const V = /[aeiouæɑɔəɛɪʊʌɜɝɚ]/;
+  s = s.split(/(\s+)/).map(w => {
+    // 字尾非重音的 i → ɪ（happy [ˋhæpɪ]）；重音或單音節的保留（agree、see）
+    if (/i$/.test(w) && !/iː$/.test(w)){ const body = w.slice(0, -1), last = body.lastIndexOf('ˈ'); if (last >= 0 ? V.test(body.slice(last + 1)) : false) w = body + 'ɪ'; }
+    return w;
+  }).join('');
+  s = s.replace(/e(?![ɪə])/g, 'ɛ').replace(/([^aeiouæɑɔəɛɪʊʌɜː])əl(?=$|\s)/g, '$1ḷ').replace(/([tdsz])ən(?=$|\s)/g, '$1ṇ');
+  s = s.replace(/ɜːr|ɝː|ɜr|ɜː|ɜ/g, 'ɝ').replace(/ər(?![aeiouæɑɔəɛɪʊʌ])/g, 'ɚ')
+    .replace(/[eɛ]ə(r)?/g, 'ɛr').replace(/ɪə(r)?/g, 'ɪr').replace(/ʊə(r)?/g, 'ʊr')
+    .replace(/əʊ|oʊ/g, 'o').replace(/eɪ/g, 'e')
+    .replace(/iː/g, 'i').replace(/uː/g, 'u').replace(/ɑː/g, 'ɑ').replace(/ɔː/g, 'ɔ').replace(/ː/g, '')
+    .replace(/l̩/g, 'ḷ').replace(/n̩/g, 'ṇ')
+    .replace(/ˈ/g, 'ˋ').replace(/ˌ/g, 'ˏ').replace(/\./g, '');
+  return '[' + s + ']';
+}
+const phon = c => { const v = c && c.ipa; if (!v) return ''; return S.settings.phon === 'ipa' ? v : ipaToKK(v); };
+const ipaTried = new Set();
+async function ensureIpa(c){
+  if (!c || c.ipa || !isSingleWord(c.word) || ipaTried.has(c.id) || PACK.state === 'loading' || packFor(c.word)) return;
+  ipaTried.add(c.id);
+  await dictAudio(c.word, 'en-US').catch(() => null);
+  const ent = dictCache()[String(c.word).trim().toLowerCase()];
+  if (ent && ent.t && !c.ipa){ c.ipa = ent.t; markDirty(c.ck); if (cur === c && revealed) renderReview(); if ($('#modal').classList.contains('on') && $('#modalBox').dataset.card === c.id && !$('#eWord')) openEditor(c); }
+}
 function applyBuiltin(c){
   if (c.ai || c.builtin) return false;
   const d = builtinFor(c.word); if (!d) return false;
   const b = JSON.parse(JSON.stringify(d));
   if (!c.ex.length) c.ex = b.ex;
   if (!c.syn.length) c.syn = b.syn;
-  if (!c.ant.length) c.ant = b.ant;
+  if (!c.ant.length){ c.ant = b.ant.filter(a => a && a !== '—'); c.antZh = c.ant.map(antZhBuiltin); }
   if (!c.senses.length) c.senses = b.senses;
   if (!c.coll.length){ c.coll = b.coll; c.collZh = b.coll.map(collZhBuiltin); }
   if (!c.forms.length) c.forms = b.forms;
@@ -1887,8 +1939,8 @@ function fmtTime(sec){ sec = Math.max(0, Math.floor(sec)); const h = Math.floor(
 function normalizeCard(c){
   if (typeof c.ex === 'string') c.ex = c.ex ? [{en: c.ex, zh: ''}] : [];
   c.ex = arr(c.ex).filter(e => e && e.en); c.senses = arr(c.senses); c.forms = arr(c.forms);
-  c.syn = arr(c.syn).map(s => typeof s === 'string' ? {w: s, note: ''} : s).filter(s => s && s.w);
-  c.ant = arr(c.ant).map(String);
+  c.syn = arr(c.syn).map(s => typeof s === 'string' ? {w: s, zh: '', note: ''} : s && {w: String(s.w || ''), zh: String(s.zh || ''), note: String(s.note || '')}).filter(s => s && s.w);
+  { const raw = arr(c.ant), zl = arr(c.antZh); c.ant = []; c.antZh = []; raw.forEach((x, i) => { if (x && typeof x === 'object'){ const w = String(x.w || x.en || x.word || ''); if (w){ c.ant.push(w); c.antZh.push(String(x.zh || x.meaning || '')); } } else if (x && x !== '—'){ c.ant.push(String(x)); c.antZh.push(String(zl[i] || antZhBuiltin(x))); } }); }
   { const raw = arr(c.coll), zl = arr(c.collZh); c.coll = []; c.collZh = []; raw.forEach((x, i) => { if (x && typeof x === 'object'){ if (x.en){ c.coll.push(String(x.en)); c.collZh.push(String(x.zh || '')); } } else if (x){ c.coll.push(String(x)); c.collZh.push(String(zl[i] || '')); } }); }
   c.tags = arr(c.tags).map(String).filter(Boolean); c.star = !!c.star;
   c.imp = int15(c.imp); c.prac = int15(c.prac); c.diff = int15(c.diff);
@@ -1963,7 +2015,7 @@ const metaRef = () => DB.doc('users/' + UID + '/data/meta');
 const chunkRef = ck => DB.doc('users/' + UID + '/data/' + ck);
 const cacheKey = () => LS_KEY + (UID ? ':' + UID : '');
 const metaBody = () => ({v: 2, settings: S.settings, daily: S.daily, hist: S.hist, chunkIds: S.chunkIds, nextChunk: S.nextChunk, updated: Date.now()});
-function cacheLocal(){ try { localStorage.setItem(cacheKey(), JSON.stringify(S)); } catch(e){} }
+function cacheLocal(){ try { localStorage.setItem(cacheKey(), JSON.stringify({...S, cards: S.cards.map(leanCard)})); } catch(e){} }
 function readCache(key){ try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch(e){ return null; } }
 function loadLocal(){ const d = readCache(cacheKey()); if (d) applyData(d); }
 const freshState = () => ({cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0});
@@ -2001,7 +2053,7 @@ async function flush(){
   try {
     for (const ck of ch){
       const cs = S.cards.filter(c => c.ck === ck);
-      if (cs.length) await chunkRef(ck).set({cards: cs});
+      if (cs.length) await chunkRef(ck).set({cards: cs.map(leanCard)});
       else { await chunkRef(ck).delete(); S.chunkIds = S.chunkIds.filter(x => x !== ck); }
     }
     for (const ck of dl) await chunkRef(ck).delete();
@@ -2037,6 +2089,8 @@ function finishLoad(m, note){
   let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c), d = fillCollZh(c); if (a || b || d){ dirty.chunks.add(c.ck); fixed++; } }
   if (fixed) markDirty();
   setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
+  if (PACK.state === 'ready') hydrateAll(); else loadPack();
+  if (location.hash === '#builder') $('#adminTabBtn').style.display = '';
 }
 async function boot(){
   setAI(makeAI());
@@ -2229,8 +2283,8 @@ const ENRICH_SPEC = `For each item return an object with these fields:
 - "ex": 2 natural, modern example sentences, [{"en": "...", "zh": "Traditional Chinese translation"}]
 - "senses": 0–3 OTHER common meanings (polysemy) not covered by "meaning", [{"pos": "...", "meaning": "中文", "en": "short example"}]
 - "forms": 0–4 word-family / part-of-speech variants, [{"word": "...", "pos": "...", "meaning": "中文"}]
-- "syn": 2–4 synonyms with the nuance difference, [{"w": "...", "note": "short Traditional Chinese note on how it differs"}]
-- "ant": 0–3 antonyms, ["..."]
+- "syn": 2–4 synonyms, each with its Traditional Chinese meaning and how its usage differs from the headword, [{"w": "...", "zh": "中文意思", "note": "short Traditional Chinese note on how it differs from the headword in nuance, formality or typical context"}]
+- "ant": 0–3 antonyms with Traditional Chinese meaning, [{"w": "...", "zh": "中文"}]
 - "coll": 2–4 common collocations or set phrases with their Traditional Chinese meaning, e.g. [{"en": "mitigate the risk", "zh": "降低風險"}, {"en": "mitigate the impact of", "zh": "減輕…的影響"}]
 - "usage": 1–2 Traditional Chinese sentences on register (formal/informal), typical contexts, and common mistakes Taiwanese learners make`;
 
@@ -2254,8 +2308,8 @@ function applyEnrich(c, r){
   if (ex.length) c.ex = [...c.ex.filter(e => e.mine), ...ex];
   c.senses = arr(r.senses).filter(x => x && s(x.meaning)).map(x => ({pos: s(x.pos), meaning: s(x.meaning), en: s(x.en)}));
   c.forms = arr(r.forms).filter(x => x && s(x.word)).map(x => ({word: s(x.word), pos: s(x.pos), meaning: s(x.meaning)}));
-  c.syn = arr(r.syn).map(x => typeof x === 'string' ? {w: x, note: ''} : {w: s(x && x.w), note: s(x && x.note)}).filter(x => x.w);
-  c.ant = arr(r.ant).map(x => s(String(x))).filter(Boolean);
+  c.syn = arr(r.syn).map(x => typeof x === 'string' ? {w: x, zh: '', note: ''} : {w: s(x && x.w), zh: s(x && (x.zh || x.meaning)), note: s(x && x.note)}).filter(x => x.w);
+  { const al = arr(r.ant).map(x => x && typeof x === 'object' ? {w: s(x.w || x.en || x.word), zh: s(x.zh || x.meaning)} : {w: s(String(x)), zh: ''}).filter(x => x.w); c.ant = al.map(x => x.w); c.antZh = al.map(x => x.zh || antZhBuiltin(x.w)); }
   { const cl = arr(r.coll).map(x => x && typeof x === 'object' ? {en: s(x.en), zh: s(x.zh)} : {en: s(String(x)), zh: ''}).filter(x => x.en); c.coll = cl.map(x => x.en); c.collZh = cl.map(x => x.zh || collZhBuiltin(x.en)); }
   if (s(r.usage)) c.usage = s(r.usage);
   c.ai = true;
@@ -2296,6 +2350,7 @@ async function runEnrich(){
 
 const lazySent = new Set();
 function lazyEnrich(){
+  if (PACK.state === 'loading' || PACK.state === 'idle') return;
   const q = queueInfo();
   const ids = [...new Set([cur, ...q.learnNow, ...q.revs, ...q.news])].filter(c => c && !c.ai && c.lazy && !lazySent.has(c.id)).slice(0, 5).map(c => c.id);
   if (!ids.length) return;
@@ -2310,6 +2365,7 @@ function renderPacks(){
     const n = p.words.filter(w => have.has(norm(w[0]))).length, full = n === p.words.length;
     return `<label class="chip" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;padding:5px 10px"><input type="checkbox" data-p="${i}" ${full ? 'disabled' : ''}>${esc(p.name)} <small>${full ? '已載入' : n ? n + '/' + p.words.length : p.words.length + ' 字'}</small></label>`;
   }).join('');
+  if ($('#p7Box')) renderPack7();
   $('#genTopics').innerHTML = [...PACKS.map(p => p.name), '餐飲聚會', '房地產', '健康保險', '科技與網路', '環境與能源', '銀行服務', '人際溝通'].map(x => `<option value="${esc(x)}">`).join('');
 }
 $('#packAll').onclick = () => $('#packList').querySelectorAll('input:not(:disabled)').forEach(cb => cb.checked = true);
@@ -2341,6 +2397,221 @@ Reply with only a JSON array: [{"word": "dictionary form", "pos": "n./v./adj./ad
   } catch(e){ $('#genMsg').textContent = aiErr(e); }
   aiCtl = null; aibar(null); $('#genGo').disabled = false;
 };
+
+/* ---------- 多益 7000 內建資料包（data/ 資料夾，所有人共用，不耗 AI 額度） ---------- */
+const PACK = {state: 'idle', manifest: undefined, map: null, list: [], promise: null};
+const PACK_FIELDS = ['ipa', 'ex', 'senses', 'forms', 'syn', 'ant', 'antZh', 'coll', 'collZh', 'usage'];
+const PACK_LV = ['', '基礎', '600 分', '750 分', '860 分以上'];
+async function packManifest(){
+  if (PACK.manifest !== undefined) return PACK.manifest;
+  try { const r = await fetch('./data/toeic-manifest.json', {cache: 'no-cache'}); PACK.manifest = r.ok ? await r.json() : null; } catch(e){ PACK.manifest = null; }
+  return PACK.manifest;
+}
+function loadPack(){
+  if (PACK.promise) return PACK.promise;
+  PACK.state = 'loading';
+  PACK.promise = (async () => {
+    const m = await packManifest();
+    if (!m || !arr(m.parts).length){ PACK.state = 'none'; return null; }
+    const parts = await Promise.all(m.parts.map(f => fetch('./data/' + f + '?v=' + (m.version || 1)).then(r => r.ok ? r.json() : []).catch(() => [])));
+    const map = new Map(), list = [];
+    parts.forEach(pt => arr(pt).forEach(d => { if (d && d.w && !map.has(norm(d.w))){ map.set(norm(d.w), d); list.push(d); } }));
+    PACK.map = map; PACK.list = list; PACK.state = list.length ? 'ready' : 'none';
+    if (list.length) hydrateAll();
+    return map;
+  })();
+  return PACK.promise;
+}
+const packFor = w => PACK.map ? PACK.map.get(norm(w)) : null;
+function hydrate(c){
+  if (!c || c.edited) return false;
+  const d = packFor(c.word); if (!d) return false;
+  if (!c.pk && c.ai && c.userEdited) return false;
+  const was = !!c.pk;
+  c.ipa = d.ipa || c.ipa || '';
+  const mine = c.ex.filter(e => e.mine);
+  c.ex = [...mine, ...arr(d.ex).map(e => ({en: e.en, zh: e.zh || ''}))];
+  c.senses = arr(d.senses).map(x => ({pos: x.pos || '', meaning: x.meaning || '', en: x.en || ''}));
+  c.forms = arr(d.forms).map(x => ({word: x.word, pos: x.pos || '', meaning: x.meaning || ''}));
+  c.syn = arr(d.syn).map(x => ({w: x.w, zh: x.zh || '', note: x.note || ''}));
+  c.ant = arr(d.ant).map(x => x.w); c.antZh = arr(d.ant).map(x => x.zh || '');
+  c.coll = arr(d.coll).map(x => x.en); c.collZh = arr(d.coll).map(x => x.zh || '');
+  c.usage = d.usage || '';
+  if (!c.userMeaning && d.m) c.meaning = d.m;
+  if (!c.pos && d.p) c.pos = d.p;
+  if (!c.cat && d.c) c.cat = d.c;
+  if (!c.level && d.cefr) c.level = d.cefr;
+  c.pk = 1; c.ai = true; c.lazy = false; c.builtin = true;
+  return !was;
+}
+function hydrateAll(){
+  let changed = 0;
+  for (const c of S.cards){ if (hydrate(c)){ dirty.chunks.add(c.ck); changed++; } }
+  if (changed) markDirty();
+  if (loaded){ if (cur && revealed) renderReview(); if (typeof renderPack7 === 'function' && $('#p7Box')) renderPack7(); }
+}
+// 存檔時，內建資料包的細節不重複存進個人資料（只存學習進度），開啟時再從資料包補回
+function leanCard(c){ if (!c.pk || c.edited) return c; const o = {...c}; PACK_FIELDS.forEach(k => delete o[k]); return o; }
+
+let p7Sel = null;
+async function renderPack7(){
+  const box = $('#p7Levels'); if (!box) return;
+  await loadPack();
+  if (PACK.state !== 'ready'){
+    $('#p7Box').style.display = 'none'; return;
+  }
+  $('#p7Box').style.display = '';
+  const have = new Set(S.cards.map(c => norm(c.word)));
+  const by = [0, 0, 0, 0, 0], got = [0, 0, 0, 0, 0];
+  PACK.list.forEach(d => { const lv = clamp(+d.lv || 1, 1, 4); by[lv]++; if (have.has(norm(d.w))) got[lv]++; });
+  if (!p7Sel){ p7Sel = new Set(); const first = [1, 2, 3, 4].find(lv => got[lv] < by[lv]); if (first) p7Sel.add(first); }
+  box.innerHTML = [1, 2, 3, 4].filter(lv => by[lv]).map(lv => { const full = got[lv] >= by[lv];
+    return `<label class="chip" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;padding:5px 10px;margin:0 6px 6px 0"><input type="checkbox" data-lv="${lv}" ${full ? 'disabled' : p7Sel.has(lv) ? 'checked' : ''}>${PACK_LV[lv]} <small>${full ? '已載入' : got[lv] ? got[lv] + '/' + by[lv] : by[lv] + ' 字'}</small></label>`; }).join('');
+  box.querySelectorAll('input').forEach(cb => cb.onchange = () => { const lv = +cb.dataset.lv; cb.checked ? p7Sel.add(lv) : p7Sel.delete(lv); });
+  $('#p7Load').disabled = false;
+}
+$('#p7Load').onclick = () => {
+  if (PACK.state !== 'ready') return;
+  const lvs = [...box7()].map(cb => +cb.dataset.lv);
+  if (!lvs.length){ $('#p7Msg').textContent = '請先勾選程度'; return; }
+  const have = new Set(S.cards.map(c => norm(c.word)));
+  const rows = PACK.list.filter(d => lvs.includes(clamp(+d.lv || 1, 1, 4)) && !have.has(norm(d.w)))
+    .sort((a, b) => ((+a.lv || 1) - (+b.lv || 1)) || ((a.i || 0) - (b.i || 0)))
+    .map(d => ({word: d.w, pos: d.p || '', meaning: d.m || '', deck: '多益7000', topic: d.t || '', cat: d.c || '', level: d.cefr || '', imp: d.imp, prac: d.prac, diff: d.diff, pack: true}));
+  const r = addCards(rows);
+  p7Sel = null;
+  $('#p7Msg').textContent = `已載入 ${r.added.length} 個字到「多益7000」牌組。每天會出現 ${S.settings.newPerDay} 個新字，可到「我的 → 設定」調整。`;
+  renderPack7();
+};
+const box7 = () => $('#p7Levels').querySelectorAll('input:checked');
+
+/* ---------- 資料包製作工具（管理員用一次，之後大家共用） ---------- */
+const BIG_TARGET = 7000;
+const BIG_TOPICS = ['辦公室日常', '人事招聘', '會議簡報', '行銷銷售', '財務會計', '採購物流', '旅遊出差', '製造品管', '合約法務', '客服溝通', '餐飲聚會', '房地產與租屋', '健康保險', '科技與網路', '環境與能源', '銀行服務', '人際溝通', '辦公設備與維修', '網路購物與零售', '媒體出版與廣告', '活動籌辦', '建築與工程', '醫療診所', '教育訓練', '政府公告與公共服務', '天氣與戶外活動', '運動休閒', '藝文娛樂', '交通與通勤', '客戶關係', '研究開發', '公司經營與併購'];
+const BIG_LEVELS = ['TOEIC 400–600 (A2–B1): basic, very common everyday and office words', 'TOEIC 600–750 (B1)', 'TOEIC 750–860 (B1–B2)', 'TOEIC 860+ (B2–C1): advanced but still TOEIC-relevant'];
+let BDB = null;
+function bdb(){ if (BDB) return BDB; BDB = new Promise(res => { try { const r = indexedDB.open('vocab-builder', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => res(null); } catch(e){ res(null); } }); return BDB; }
+async function bGet(k){ const db = await bdb(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch(e){ res(null); } }); }
+async function bPut(k, v){ const db = await bdb(); if (!db) return; return new Promise(res => { try { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = () => res(); t.onerror = () => res(); } catch(e){ res(); } }); }
+const BLD = {st: null, run: false, msg: ''};
+async function bState(){
+  if (BLD.st) return BLD.st;
+  let st = await bGet('state');
+  if (!st){
+    st = {words: [], det: {}, li: 0};
+    const seen = new Set();
+    const push = (w, p, m, lv, t, c, imp, prac) => { const k = norm(w); if (!w || seen.has(k)) return; seen.add(k); st.words.push({w: String(w).trim(), p: p || '', m: m || '', lv, t: t || '', c: c || '', imp: imp || 4, prac: prac || 4, i: st.words.length}); };
+    PACKS.forEach(pk => pk.words.forEach(([w, p, m]) => push(w, p, m, 1, pk.name, pk.cat)));
+    // 已存在的線上資料包也一起帶入（方便之後增修）
+    await loadPack(); PACK.list.forEach(d => { push(d.w, d.p, d.m, +d.lv || 1, d.t, d.c, d.imp, d.prac); st.det[norm(d.w)] = d; });
+    S.cards.filter(c => /^多益/.test(c.deck || '') && !builtinFor(c.word)).forEach(c => push(c.word, c.pos, c.meaning, clamp((c.diff || 2) - 1, 1, 4), c.topic, c.cat, c.imp, c.prac));
+    await bPut('state', st);
+  }
+  BLD.st = st; return st;
+}
+function bCounts(st){ const n = st.words.length, d = st.words.filter(x => st.det[norm(x.w)]).length; return {n, d}; }
+async function renderBuilder(){
+  const el = $('#builderArea'); if (!el) return;
+  const st = await bState(), {n, d} = bCounts(st);
+  const listDone = n >= BIG_TARGET || st.li >= BIG_TOPICS.length * BIG_LEVELS.length * 2;
+  el.innerHTML = `<div class="box"><h2>製作多益 7000 字資料包</h2>
+    <p class="tiny muted" style="margin:6px 0 0">用你的 Gemini 金鑰<b>只做一次</b>：先產生 7000 字清單，再逐字補齊 KK 音標、例句、同反義字、搭配詞等細節。完成後下載資料包、上傳到 GitHub，所有同學就能直接載入，不再用到任何 AI 額度。進度存在這個瀏覽器，可以隨時暫停；免費額度用完會自動暫停，隔天再按「繼續」。建議用電腦操作。</p>
+    <div style="margin-top:12px" class="tiny">① 單字清單：${n} / ${BIG_TARGET}${listDone ? ' ✓' : ''}</div><div class="bigBar"><i style="width:${Math.min(100, n / BIG_TARGET * 100)}%"></i></div>
+    <div style="margin-top:10px" class="tiny">② 補齊細節：${d} / ${n}${n && d >= n ? ' ✓' : ''}</div><div class="bigBar"><i style="width:${n ? d / n * 100 : 0}%"></i></div>
+    <div class="row" style="margin-top:12px">${BLD.run ? '<button class="btn" id="bStop">暫停</button>' : `<button class="btn ai" id="bGo" ${!AI ? 'disabled' : ''}>${n > 250 || d ? '✨ 繼續製作' : '✨ 開始製作'}</button>`}<button class="btn pri" id="bExport" ${d ? '' : 'disabled'}>③ 下載資料包</button></div>
+    <div class="tiny muted" id="bMsg" style="margin-top:8px">${BLD.run ? '<span class="spin"></span> ' : ''}${esc(BLD.msg || (!AI ? '請先在「設定與備份」填入 Gemini 金鑰' : ''))}</div>
+    <details style="margin-top:12px"><summary class="tiny">上傳到 GitHub 的方法</summary><ol class="tiny" style="padding-left:20px;margin:8px 0 0"><li>按「下載資料包」，得到 <code>toeic7000-data.zip</code>，在電腦上解壓縮，會有一個 <code>data</code> 資料夾。</li><li>打開你的 GitHub 網站專案 →「Add file」→「Upload files」。</li><li>把整個 <code>data</code> 資料夾拖進去（和 index.html 放在同一層），按「Commit changes」。</li><li>約 1 分鐘後，所有人重新整理網站，到「單字 → ＋新增 → 多益單字包」就會看到「多益 7000 字」。之後要更新內容，重新下載並覆蓋 <code>data</code> 資料夾即可。</li></ol></details>
+    <div class="row" style="margin-top:10px"><button class="btn small" id="bReset">清除製作進度</button></div></div>`;
+  if ($('#bGo')) $('#bGo').onclick = builderRun;
+  if ($('#bStop')) $('#bStop').onclick = () => { BLD.run = false; if (aiCtl) aiCtl.abort(); BLD.msg = '已暫停，進度已保存'; renderBuilder(); };
+  $('#bExport').onclick = builderExport;
+  $('#bReset').onclick = async () => { if (!confirm('確定清除製作進度？已下載的資料包不受影響。')) return; BLD.st = null; await bPut('state', null); BLD.msg = ''; renderBuilder(); };
+}
+const bSleep = ms => new Promise(r => setTimeout(r, ms));
+async function builderRun(){
+  if (!AI || BLD.run) return;
+  BLD.run = true; BLD.msg = '準備中…'; renderBuilder();
+  const st = await bState(); const total = BIG_TOPICS.length * BIG_LEVELS.length; let fails = 0;
+  const stopFor = e => { BLD.run = false; BLD.msg = e && e.code === 'rate_limited' ? '今天的 AI 額度用完了，進度已保存，明天再按「繼續製作」' : aiErr(e) + '，稍後再按「繼續製作」'; };
+  // ① 清單
+  while (BLD.run && st.words.length < BIG_TARGET && st.li < total * 2){
+    const k = st.li % total, lvI = Math.floor(k / BIG_TOPICS.length), topic = BIG_TOPICS[k % BIG_TOPICS.length];
+    BLD.msg = `① 產生清單：${PACK_LV[lvI + 1]}・${topic}`; renderBuilder();
+    const seen = new Set(st.words.map(x => norm(x.w)));
+    const known = [...new Set([...st.words.filter(x => x.t === topic).map(x => x.w), ...st.words.slice(-400).map(x => x.w)])];
+    aiCtl = new AbortController();
+    try {
+      const res = await AI.json(`You are a TOEIC vocabulary expert building a study list for a Taiwanese learner. Level: ${BIG_LEVELS[lvI]}.
+List 60 English words or expressions (single words, phrasal verbs or fixed business phrases) that frequently appear in TOEIC Listening & Reading in situations about "${topic}" and match this level. Prefer high-frequency, practical items; vary parts of speech.${st.li >= total ? ' Dig deeper than the most obvious words.' : ''}
+Do NOT include any of these: ${known.join(', ') || '(none)'}
+Reply with only a JSON array: [{"word": "dictionary form", "pos": "n./v./adj./adv./phr.", "meaning": "concise Traditional Chinese (Taiwan) meaning as used in TOEIC contexts", "imp": 1-5 how often it appears on TOEIC, "prac": 1-5 usefulness in real work}]`, {signal: aiCtl.signal, cache: false});
+      arr(res).forEach(x => { if (!x || !x.word || !x.meaning) return; const w = String(x.word).trim(), kk = norm(w); if (!w || seen.has(kk) || w.length > 40) return; seen.add(kk); st.words.push({w, p: String(x.pos || ''), m: String(x.meaning), lv: lvI + 1, t: topic, c: '', imp: int15(x.imp, 3), prac: int15(x.prac, 3), i: st.words.length}); });
+      st.li++; await bPut('state', st); fails = 0;
+      await bSleep(2500);
+    } catch(e){ if (!BLD.run) break; if (e && e.code === 'rate_limited' || ++fails >= 3){ stopFor(e); break; } await bSleep(6000); }
+  }
+  // ② 細節
+  while (BLD.run){
+    const todo = st.words.filter(x => !st.det[norm(x.w)]).slice(0, 12);
+    if (!todo.length) break;
+    const {n, d} = bCounts(st);
+    BLD.msg = `② 補齊細節：${d} / ${n}`; renderBuilder();
+    aiCtl = new AbortController();
+    try {
+      const items = todo.map((x, i) => `${i + 1}. ${x.w}  (${x.p} ${x.m})`).join('\n');
+      const res = arr(await AI.json(`You are an expert English vocabulary coach writing a TOEIC word book for Traditional Chinese (Taiwan) speakers.\n${ENRICH_SPEC}\n\nGive exactly 2 examples, natural and TOEIC-style (office, business, travel, daily life). Keep the given Chinese meaning's sense.\nReply with only a JSON array with exactly ${todo.length} objects, in the same order as the items.\n\nItems:\n${items}`, {signal: aiCtl.signal, cache: false}));
+      todo.forEach((x, i) => {
+        const r = res[i]; if (!r || typeof r !== 'object') return;
+        if (r.word && norm(r.word) !== norm(x.w) && res.some(o => o && norm(o.word || '') === norm(x.w))) return;
+        const t = normalizeCard({word: x.w, meaning: '', ex: [], ai: false}); applyEnrich(t, r);
+        if (!t.ex.length) return;
+        st.det[norm(x.w)] = {w: x.w, p: t.pos || x.p, m: t.meaning || x.m, ipa: t.ipa || '', lv: x.lv, t: x.t, c: t.cat || '', cefr: t.level || '', imp: x.imp || t.imp, prac: x.prac || t.prac, diff: t.diff, i: x.i,
+          ex: t.ex.slice(0, 3).map(e => ({en: e.en, zh: e.zh})), senses: t.senses, forms: t.forms, syn: t.syn, ant: t.ant.map((w, j) => ({w, zh: (t.antZh || [])[j] || ''})), coll: t.coll.map((en, j) => ({en, zh: t.collZh[j] || ''})), usage: t.usage || ''};
+      });
+      await bPut('state', st); fails = 0;
+      await bSleep(2500);
+    } catch(e){ if (!BLD.run) break; if (e && e.code === 'rate_limited' || ++fails >= 3){ stopFor(e); break; } await bSleep(6000); }
+  }
+  aiCtl = null;
+  if (BLD.run){ BLD.run = false; const {n, d} = bCounts(st); BLD.msg = d >= n ? `完成！共 ${d} 字，按「下載資料包」並上傳到 GitHub。` : ''; }
+  renderBuilder();
+}
+const CRC_T = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(b){ let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_T[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function makeZip(files){
+  const enc = new TextEncoder(), chunks = [], cent = []; let off = 0;
+  for (const f of files){
+    const name = enc.encode(f.name), data = typeof f.data === 'string' ? enc.encode(f.data) : f.data, crc = crc32(data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true); lh.setUint16(10, 0, true); lh.setUint16(12, 0x21, true);
+    lh.setUint32(14, crc, true); lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true); lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+    chunks.push(lh.buffer, name, data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true); ch.setUint16(12, 0, true); ch.setUint16(14, 0x21, true);
+    ch.setUint32(16, crc, true); ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true); ch.setUint16(28, name.length, true); ch.setUint32(42, off, true);
+    cent.push(ch.buffer, name);
+    off += 30 + name.length + data.length;
+  }
+  const cdSize = cent.reduce((s, b) => s + (b.byteLength || b.length), 0);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, off, true);
+  return new Blob([...chunks, ...cent, end.buffer], {type: 'application/zip'});
+}
+async function builderExport(){
+  const st = await bState();
+  const list = st.words.map(x => st.det[norm(x.w)]).filter(Boolean).sort((a, b) => ((a.lv || 1) - (b.lv || 1)) || ((a.i || 0) - (b.i || 0)));
+  if (!list.length) return;
+  list.forEach((d, i) => d.i = i);
+  const parts = [], files = [];
+  for (let i = 0; i < list.length; i += 500) parts.push(list.slice(i, i + 500));
+  parts.forEach((pt, i) => { const name = 'toeic-' + String(i + 1).padStart(2, '0') + '.json'; files.push({name: 'data/' + name, data: JSON.stringify(pt)}); });
+  const lv = [1, 2, 3, 4].map(l => list.filter(d => (d.lv || 1) === l).length);
+  files.unshift({name: 'data/toeic-manifest.json', data: JSON.stringify({version: Date.now(), count: list.length, levels: lv, parts: files.map(f => f.name.slice(5))})});
+  const blob = makeZip(files), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'toeic7000-data.zip'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 20000);
+  BLD.msg = `已下載資料包（${list.length} 字，${parts.length + 1} 個檔案）。解壓縮後把 data 資料夾上傳到 GitHub。`; renderBuilder();
+}
 
 /* ---------- file import ---------- */
 function csvToTsv(text){
@@ -2416,7 +2687,7 @@ async function initSocial(){
   SOC.me = UID;
   SOC.siteAdmin = false;
   try { const s = await DB.doc('admins/' + UID).get(); SOC.siteAdmin = !!s.exists; } catch(e){}
-  $('#adminTabBtn').style.display = SOC.siteAdmin ? '' : 'none';
+  $('#adminTabBtn').style.display = SOC.siteAdmin || location.hash === '#builder' ? '' : 'none';
   SOC.ready = true;
   if (!S.settings.classes) S.settings.classes = [];
   const cur = S.settings.curClass && S.settings.classes.find(c => c.code === S.settings.curClass) ? S.settings.curClass : (S.settings.classes[0] || {}).code;
@@ -2496,8 +2767,8 @@ async function namesFor(ids){
 const avatarHTML = p => `<span class="av">${avatarSVG(p.avatar, p.name)}</span>`;
 
 /* ----- shared sets ----- */
-const SHARE_KEYS = ['word','ipa','pos','meaning','ex','senses','forms','syn','ant','coll','collZh','usage','cat','level','type','topic','imp','prac','diff','src','ai'];
-const shareFields = c => { const o = {}; SHARE_KEYS.forEach(k => { if (c[k] !== undefined && c[k] !== null && c[k] !== '') o[k] = c[k]; }); if (o.ex) o.ex = o.ex.filter(e => !e.mine || true); return o; };
+const SHARE_KEYS = ['pk', 'word','ipa','pos','meaning','ex','senses','forms','syn','ant','coll','collZh','usage','cat','level','type','topic','imp','prac','diff','src','ai'];
+const shareFields = c => { const o = {}; SHARE_KEYS.forEach(k => { if (c[k] !== undefined && c[k] !== null && c[k] !== '') o[k] = c[k]; }); if (c.pk && !c.edited) PACK_FIELDS.forEach(k => delete o[k]); if (o.ex) o.ex = o.ex.filter(e => !e.mine || true); return o; };
 async function shareDeck(){
   const deck = $('#shDeck').value; if (!deck){ toast('請選擇要分享的牌組'); return; }
   const cards = S.cards.filter(c => c.deck === deck);
@@ -3038,7 +3309,7 @@ async function renderManage(code, el, opts = {}){
 }
 async function renderSiteAdmin(){
   const el = $('#adminArea'); if (!el) return;
-  if (!SOC.siteAdmin){ el.innerHTML = '<div class="box">只有網站管理員可以使用。</div>'; return; }
+  if (!SOC.siteAdmin){ el.innerHTML = ''; return; }
   el.innerHTML = '<div class="box loading">讀取所有班級…</div>';
   let list;
   try {
@@ -3213,7 +3484,7 @@ function renderListen(){
       <div class="pbar" style="margin:8px 0 18px"><i style="width:${(Math.min(LSN.i + (LSN.finished ? 1 : 0), LSN.list.length) / LSN.list.length * 100).toFixed(1)}%"></i></div>
       ${LSN.finished ? `<div class="gbig">聽完了！</div><p class="muted">共 ${LSN.list.length} 個字。</p><div class="row" style="justify-content:center"><button class="btn pri" id="lsAgain">再聽一次</button><button class="btn" id="lsNew">換一組</button></div>` : `
       <div class="lsWord say" data-say="${esc(c.word)}">${esc(c.word)}</div>
-      <div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>
+      <div class="ipa">${esc(phon(c))} <span class="pos">${esc(c.pos || '')}</span></div>
       <div class="meaning" style="text-align:center">${esc(c.meaning)}</div>
       ${ex ? `<div class="lsEx say" data-say="${esc(ex.en)}">${highlight(ex.en, c.word)}${ex.zh ? `<div class="zh">${esc(ex.zh)}</div>` : ''}</div>` : ''}
       <div class="lsCtrl"><button class="btn" id="lsPrev" aria-label="上一個">${HI.prev}</button><button class="btn pri lsMain" id="lsToggle">${LSN.playing ? HI.pause + ' 暫停' : HI.play + ' 繼續'}</button><button class="btn" id="lsNext" aria-label="下一個">${HI.next}</button></div>
@@ -3349,7 +3620,7 @@ function fillVoiceSelect(){
   const vs = voicesFor(lang), cur = pickVoice(lang);
   sel.innerHTML = vs.length ? vs.map(v => `<option value="${esc(v.name)}"${cur && v.name === cur.name ? ' selected' : ''}>${esc(v.name)}${voiceScore(v) >= 30 ? '・推薦' : ''}</option>`).join('') : '<option value="">（這個裝置沒有英文語音）</option>';
 }
-function syncTtsBoxes(){ const ai = $('#sTtsMode') && $('#sTtsMode').value === 'ai'; if ($('#ttsDevBox')){ $('#ttsDevBox').style.display = ai ? 'none' : ''; $('#ttsAiBox').style.display = ai ? '' : 'none'; } }
+function syncTtsBoxes(){ const m = $('#sTtsMode') ? $('#sTtsMode').value : 'device'; if ($('#ttsDevBox')){ $('#ttsDevBox').style.display = m === 'device' ? '' : 'none'; $('#ttsAiBox').style.display = m === 'ai' ? '' : 'none'; $('#ttsAzBox').style.display = m === 'azure' ? '' : 'none'; } }
 try { if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => fillVoiceSelect(); } catch(e){}
 function deviceSay(text, lang, rate){
   return new Promise(res => {
@@ -3425,13 +3696,52 @@ document.addEventListener('pointerdown', () => {
 let audFin = null;
 function playUrl(url, rate){
   return new Promise(res => {
-    let done = false; const fin = () => { if (!done){ done = true; if (audFin === fin) audFin = null; res(); } };
+    let done = false; const fin = ok => { if (!done){ done = true; if (audFin === fin) audFin = null; res(ok !== false); } };
     audFin = fin;
-    AUD.onended = fin; AUD.onerror = fin;
+    AUD.onended = () => fin(true); AUD.onerror = () => fin(false);
     AUD.src = url; AUD.playbackRate = rate || 1;
     try { AUD.preservesPitch = true; } catch(e){}
-    const p = AUD.play(); if (p && p.catch) p.catch(() => fin());
+    const p = AUD.play(); if (p && p.catch) p.catch(() => fin(false));
   });
+}
+/* 真人錄音字典（免費、免金鑰，只有單字） */
+const isSingleWord = t => /^[A-Za-z][A-Za-z'-]{0,30}$/.test(String(t).trim());
+const dictOn = () => S.settings.dictVoice !== false;
+function dictCache(){ try { return JSON.parse(localStorage.getItem('vocab-dict-audio') || '{}'); } catch(e){ return {}; } }
+async function dictAudio(word, lang){
+  const w = String(word).trim().toLowerCase(), c = dictCache(); let ent = c[w];
+  if (ent === undefined){
+    const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 3500);
+    try {
+      const r = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(w), {signal: ctl.signal});
+      if (r.status === 404) ent = {};
+      else if (!r.ok) throw 0;
+      else { const d = await r.json(); ent = {}; (Array.isArray(d) ? d : []).forEach(e => { if (e.phonetic && !ent.t) ent.t = e.phonetic; (e.phonetics || []).forEach(ph => { const a = ph.audio; if (ph.text && (!ent.t || /-us\.mp3$/i.test(a || ''))) ent.t = ph.text; if (!a) return; const u = a.startsWith('//') ? 'https:' + a : a; if (/-uk\.mp3$/i.test(u)) ent.uk = ent.uk || u; else if (/-us\.mp3$/i.test(u)) ent.us = ent.us || u; else ent.x = ent.x || u; }); }); }
+    } catch(e){ clearTimeout(tm); return null; }
+    clearTimeout(tm);
+    c[w] = ent; try { localStorage.setItem('vocab-dict-audio', JSON.stringify(c)); } catch(e){}
+  }
+  return (lang === 'en-GB' ? (ent.uk || ent.us) : (ent.us || ent.uk)) || ent.x || null;
+}
+/* 微軟 Azure 語音 */
+const AZ_KEY_LS = 'vocab-azure-key', AZ_REG_LS = 'vocab-azure-region';
+const useAzure = () => S.settings.ttsMode === 'azure' && !!lsGet(AZ_KEY_LS) && !!lsGet(AZ_REG_LS);
+const AZ_ZH = 'zh-TW-HsiaoChenNeural';
+function azVoiceFor(lang){ if (lang.startsWith('zh')) return AZ_ZH; const v = S.settings.azVoice || 'en-US-AvaNeural'; if (lang === 'en-GB' && !v.startsWith('en-GB')) return 'en-GB-SoniaNeural'; if (lang !== 'en-GB' && v.startsWith('en-GB')) return 'en-US-AvaNeural'; return v; }
+async function azureTTS(text, lang, voiceOverride){
+  const key = lsGet(AZ_KEY_LS), region = lsGet(AZ_REG_LS); if (!key || !region) throw {code: 'bad_key'};
+  const voice = voiceOverride || azVoiceFor(lang), ck = 'az|' + voice + '|' + text;
+  if (ttsMem.has(ck)) return ttsMem.get(ck);
+  const cached = await idbGet(ck); if (cached){ const u = URL.createObjectURL(cached); ttsMem.set(ck, u); return u; }
+  const xml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const vl = voice.split('-').slice(0, 2).join('-');
+  const ssml = `<speak version="1.0" xml:lang="${vl}"><voice name="${voice}">${xml(text)}</voice></speak>`;
+  let res;
+  try { res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {method: 'POST', headers: {'Ocp-Apim-Subscription-Key': key, 'Content-Type': 'application/ssml+xml', 'X-Microsoft-OutputFormat': 'audio-24khz-48kbitrate-mono-mp3'}, body: ssml}); }
+  catch(e){ throw {code: 'upstream_error'}; }
+  if (!res.ok) throw {code: res.status === 429 ? 'rate_limited' : (res.status === 401 || res.status === 403) ? 'bad_key' : 'upstream_error'};
+  const blob = await res.blob(); if (!blob.size) throw {code: 'empty_completion'};
+  idbPut(ck, blob); const u = URL.createObjectURL(blob); ttsMem.set(ck, u); return u;
 }
 const useAiVoice = () => S.settings.ttsMode === 'ai' && !!lsGet(AI_KEY_LS) && !(Date.now() < +(lsGet('vocab-tts-cool') || 0));
 let sayTok = 0, ttsWarned = false;
@@ -3440,6 +3750,24 @@ async function say(text, lang, rate){
   if (!text) return;
   lang = lang || S.settings.accent; rate = rate || Number(S.settings.rate) || 0.95;
   stopSpeech(); const tok = sayTok;
+  const pr = lang.startsWith('zh') ? 1 : Math.min(1.1, rate / 0.95);
+  if (dictOn() && !lang.startsWith('zh') && isSingleWord(text)){
+    const u = await dictAudio(text, lang);
+    if (tok !== sayTok) return;
+    if (u && await playUrl(u, pr)) return;
+    if (tok !== sayTok) return;
+  }
+  if (useAzure()){
+    try {
+      const u = await azureTTS(text, lang);
+      if (tok !== sayTok) return;
+      return await playUrl(u, pr);
+    } catch(e){
+      if (tok !== sayTok) return;
+      if (!ttsWarned){ ttsWarned = true; toast(e && e.code === 'bad_key' ? 'Azure 金鑰或區域不正確，先改用裝置語音' : e && e.code === 'rate_limited' ? 'Azure 語音額度或速度上限到了，先改用裝置語音' : '微軟語音暫時無法使用，先改用裝置語音'); }
+      return deviceSay(text, lang, rate);
+    }
+  }
   if (useAiVoice()){
     try {
       const u = await aiTTS(text, lang);
@@ -3454,7 +3782,7 @@ async function say(text, lang, rate){
   return deviceSay(text, lang, rate);
 }
 function speak(text){ say(text); }
-function prefetchTTS(texts){ if (!useAiVoice()) return; texts.filter(Boolean).slice(0, 1).forEach(t => aiTTS(t, S.settings.accent).catch(() => {})); }
+function prefetchTTS(texts){ const t = texts.filter(Boolean)[0]; if (!t) return; if (dictOn() && isSingleWord(t)){ dictAudio(t, S.settings.accent).catch(() => {}); return; } if (useAzure()) azureTTS(t, S.settings.accent).catch(() => {}); else if (useAiVoice()) aiTTS(t, S.settings.accent).catch(() => {}); }
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('more') && e.target.closest('#reviewArea')) UI.moreOpen = e.target.open; }, true);
 document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
 const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
@@ -3550,7 +3878,7 @@ function videoUrl(src){
 }
 function headHTML(c){
   return `<div class="row" style="justify-content:center;gap:10px"><div class="word say" data-say="${esc(c.word)}" title="點一下發音">${esc(c.word)}</div></div>
-    ${c.ipa || c.pos ? `<div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>` : ''}`;
+    ${c.ipa || c.pos ? `<div class="ipa">${esc(phon(c))} <span class="pos">${esc(c.pos || '')}</span></div>` : ''}`;
 }
 const scoresHTML = c => `<div class="scores"><span>重要度 <span class="stars">${stars(c.imp)}</span></span><span>實用度 <span class="stars">${stars(c.prac)}</span></span><span>難度 <span class="stars">${stars(c.diff)}</span></span></div>`;
 function tagsHTML(c, compact){
@@ -3567,17 +3895,17 @@ function detailHTML(c, compact){
   const out = [], more = [];
   const P = (s, isMore) => (compact && isMore ? more : out).push(s);
   out.push(`<div style="text-align:center"><div class="meaning">${esc(c.meaning || '（尚未有中文意思）')}</div>${tagsHTML(c, compact)}</div>`);
-  const exHTML = e => `<div class="exl say" data-say="${esc(e.en)}"><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`;
+  const exHTML = e => `<div class="exl say" data-say="${esc(e.en)}"><button class="exSay" data-say="${esc(e.en)}" aria-label="念整句" title="念整句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.2 9.6c1.2-.1 2.3 0 3.4-.1l4.3-3.6c.2 3.9.3 8.1.1 12.2l-4.4-3.4c-1.1 0-2.2.1-3.3 0-.2-1.7-.2-3.4-.1-5.1z"/><path d="M15.4 9.3c1.1 1.5 1.2 3.7 0 5.3"/><path d="M18 7c2.3 2.9 2.3 7.1-.1 10"/></svg></button><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`;
   if (c.ex.length && compact){ P(`<div class="sec"><b>例句</b>${exHTML(c.ex[0])}</div>`); if (c.ex.length > 1) P(`<div class="sec"><b>更多例句</b>${c.ex.slice(1).map(exHTML).join('')}</div>`, 1); }
-  else if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl say" data-say="${esc(e.en)}"><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
+  else if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl say" data-say="${esc(e.en)}"><button class="exSay" data-say="${esc(e.en)}" aria-label="念整句" title="念整句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.2 9.6c1.2-.1 2.3 0 3.4-.1l4.3-3.6c.2 3.9.3 8.1.1 12.2l-4.4-3.4c-1.1 0-2.2.1-3.3 0-.2-1.7-.2-3.4-.1-5.1z"/><path d="M15.4 9.3c1.1 1.5 1.2 3.7 0 5.3"/><path d="M18 7c2.3 2.9 2.3 7.1-.1 10"/></svg></button><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
   if (c.src && c.src.line){
     const u = videoUrl(c.src);
     out.push(`<div class="sec"><b>${c.src.kind === 'ex' ? '來源例句' : '影片中的原句'}</b><div class="video"><div class="exl say" style="margin:0" data-say="${esc(c.src.line)}"><div><div class="en addable" data-from="${c.id}">${clickable(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">${c.src.kind === 'ex' ? '📖 ' + esc(c.src.title || '') : '🎬 ' + esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
   }
   if (c.senses.length) P(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh addable" data-from="${c.id}">${clickable(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`, 1);
   if (c.forms.length) P(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip say" data-say="${esc(f.word)}"><span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`, 1);
-  if (c.syn.length) P(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl"><span class="chip say" data-say="${esc(s.w)}">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`, 1);
-  if (c.ant.length) P(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant say" data-say="${esc(a)}">${esc(a)}</span>`).join('')}</div></div>`, 1);
+  if (c.syn.length) P(`<div class="sec"><b>同義字・使用差異</b>${c.syn.map(s => `<div class="exl synl"><span class="chip say" data-say="${esc(s.w)}"><span>${esc(s.w)}${s.zh ? ` <span class="zhm">${esc(s.zh)}</span>` : ''}</span></span>${s.note ? `<span class="tiny muted" style="margin-top:5px">${esc(s.note)}</span>` : ''}</div>`).join('')}</div>`, 1);
+  if (c.ant.length) P(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map((a, i) => `<span class="chip ant say" data-say="${esc(a)}"><span>${esc(a)}${c.antZh && c.antZh[i] ? ` <span class="zhm">${esc(c.antZh[i])}</span>` : ''}</span></span>`).join('')}</div></div>`, 1);
   const collChip = (a, i) => `<span class="chip say" data-say="${esc(a)}"><span>${highlight(a, c.word)}${c.collZh[i] ? ` <span class="zhm">${esc(c.collZh[i])}</span>` : ''}</span></span>`;
   if (c.coll.length){ const n = compact ? 2 : c.coll.length; P(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.slice(0, n).map(collChip).join('')}</div></div>`); if (c.coll.length > n) P(`<div class="sec"><b>更多搭配</b><div class="chips">${c.coll.slice(n).map((a, k) => collChip(a, k + n)).join('')}</div></div>`, 1); }
   if (c.usage) P(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`, 1);
@@ -3636,12 +3964,15 @@ function frontHTML(c){
 }
 const zhTried = new Set();
 async function ensureZh(c){
-  if (!AI || !c || zhTried.has(c.id)) return;
+  if (!AI || !c || c.pk || zhTried.has(c.id) || PACK.state === 'loading') return;
   const collIdx = c.coll.map((x, i) => i).filter(i => !c.collZh[i]);
   const formIdx = c.forms.map((x, i) => i).filter(i => c.forms[i] && c.forms[i].word && !c.forms[i].meaning);
-  if (!collIdx.length && !formIdx.length) return;
+  if (!c.antZh) c.antZh = [];
+  const antIdx = c.ant.map((x, i) => i).filter(i => !c.antZh[i]);
+  const synIdx = c.syn.map((x, i) => i).filter(i => !c.syn[i].zh);
+  if (!collIdx.length && !formIdx.length && !antIdx.length && !synIdx.length) return;
   zhTried.add(c.id);
-  const items = [...collIdx.map(i => c.coll[i]), ...formIdx.map(i => c.forms[i].word + (c.forms[i].pos ? ' (' + c.forms[i].pos + ')' : ''))];
+  const items = [...collIdx.map(i => c.coll[i]), ...formIdx.map(i => c.forms[i].word + (c.forms[i].pos ? ' (' + c.forms[i].pos + ')' : '')), ...antIdx.map(i => c.ant[i] + ' (antonym)'), ...synIdx.map(i => c.syn[i].w + ' (synonym)')];
   try {
     const r = await AI.json(`Translate each English item into a concise Traditional Chinese (Taiwan) meaning, as used in connection with the word "${c.word}" (${c.meaning || ''}). Keep each translation short (a few characters to one short phrase).
 Reply with only a JSON array of ${items.length} strings, in the same order.
@@ -3650,6 +3981,8 @@ ${items.map((x, i) => (i + 1) + '. ' + x).join('\n')}`);
     const out = arr(r).map(x => typeof x === 'string' ? x.trim() : (x && (x.zh || x.meaning || x.translation)) ? String(x.zh || x.meaning || x.translation).trim() : '');
     collIdx.forEach((ci, k) => { if (out[k]) c.collZh[ci] = out[k]; });
     formIdx.forEach((fi, k) => { const v = out[collIdx.length + k]; if (v) c.forms[fi].meaning = v; });
+    antIdx.forEach((ai, k) => { const v = out[collIdx.length + formIdx.length + k]; if (v) c.antZh[ai] = v; });
+    synIdx.forEach((si, k) => { const v = out[collIdx.length + formIdx.length + antIdx.length + k]; if (v) c.syn[si].zh = v; });
     markDirty(c.ck);
     if (cur === c && revealed) renderReview();
     if ($('#modal').classList.contains('on') && $('#modalBox').dataset.card === c.id && !$('#eWord')) openEditor(c);
@@ -3791,6 +4124,7 @@ function renderReview(){
   if ($('#revealBtn')) $('#revealBtn').onclick = reveal;
   if ($('#gradeBtn')) $('#gradeBtn').onclick = grade;
   if (revealed) ensureZh(c);
+  ensureIpa(c);
   const ti = $('#typeIn');
   if (ti && !revealed && !grading){
     ti.focus(); ti.oninput = () => { typedVal = ti.value; };
@@ -3880,7 +4214,7 @@ function newCard(f, counts, order){
     deck: (f.deck || '').trim(), level: f.level || '', topic: f.topic || '', cat: f.cat || '', lazy: !!f.lazy, imp: f.imp, prac: f.prac, diff: f.diff, src: f.src || null, ai: false,
     state: 'new', step: 0, due: 0, ivl: 0, ease: 2.5, lapses: 0, reps: 0, created: Date.now(), order, ck: assignChunk(counts)};
   if (f.rich){ for (const k of SHARE_KEYS) if (f.rich[k] != null && f.rich[k] !== '') base[k] = f.rich[k]; base.userMeaning = false; }
-  const nc = normalizeCard(base); applyBuiltin(nc); return nc;
+  const nc = normalizeCard(base); if (f.pack || (f.rich && f.rich.pk) || packFor(nc.word)) hydrate(nc); applyBuiltin(nc); return nc;
 }
 function addCards(list){
   const counts = chunkCounts();
@@ -4230,7 +4564,7 @@ function openEditor(c, editing){
     $('#modal').classList.add('on');
     $('#mClose').onclick = closeModal; $('#mEdit').onclick = () => openEditor(c, true);
     $('#mStar').onclick = () => { toggleStar(c); openEditor(c); };
-    box.dataset.card = c.id; ensureZh(c);
+    box.dataset.card = c.id; ensureZh(c); ensureIpa(c);
     $('#mTag').onclick = () => openTagPicker(c);
     box.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => { closeModal(); queueEnrich([c.id]); });
     return;
@@ -4238,11 +4572,11 @@ function openEditor(c, editing){
   const sel = (id, val, opts) => `<select id="${id}">${opts.map(o => `<option value="${esc(o[0])}"${String(o[0]) === String(val) ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select>`;
   const n15 = [1,2,3,4,5].map(n => [n, stars(n)]);
   box.innerHTML = `<div class="row spread"><h2>編輯單字</h2><button class="btn small" id="mClose">關閉</button></div>
-    <div class="row"><div style="flex:2;min-width:160px"><label>單字</label><input type="text" id="eWord" value="${esc(c.word)}"></div><div style="flex:1;min-width:100px"><label>詞性</label><input type="text" id="ePos" value="${esc(c.pos)}"></div><div style="flex:1;min-width:120px"><label>音標</label><input type="text" id="eIpa" value="${esc(c.ipa)}"></div></div>
+    <div class="row"><div style="flex:2;min-width:160px"><label>單字</label><input type="text" id="eWord" value="${esc(c.word)}"></div><div style="flex:1;min-width:100px"><label>詞性</label><input type="text" id="ePos" value="${esc(c.pos)}"></div><div style="flex:1;min-width:120px"><label>音標（IPA，顯示時自動轉 KK）</label><input type="text" id="eIpa" value="${esc(c.ipa)}"></div></div>
     <label>中文意思</label><input type="text" id="eMeaning" value="${esc(c.meaning)}">
     <label>例句（一行一句：英文 | 中文）</label><textarea id="eEx" style="min-height:70px">${esc(c.ex.map(e => e.en + (e.zh ? ' | ' + e.zh : '')).join('\n'))}</textarea>
-    <label>同義字（一行一個：字 | 差異說明）</label><textarea id="eSyn" style="min-height:60px">${esc(c.syn.map(s => s.w + (s.note ? ' | ' + s.note : '')).join('\n'))}</textarea>
-    <div class="row"><div style="flex:1;min-width:160px"><label>反義字（逗號分隔）</label><input type="text" id="eAnt" value="${esc(c.ant.join(', '))}"></div></div>
+    <label>同義字（一行一個：字 | 中文 | 使用差異）</label><textarea id="eSyn" style="min-height:60px">${esc(c.syn.map(s => [s.w, s.zh || '', s.note || ''].join(' | ').replace(/( \| )+$/, '')).join('\n'))}</textarea>
+    <div class="row"><div style="flex:1;min-width:160px"><label>反義字（逗號分隔，可加中文：cancel 取消）</label><input type="text" id="eAnt" value="${esc(c.ant.map((a, i) => a + (c.antZh && c.antZh[i] ? ' ' + c.antZh[i] : '')).join(', '))}"></div></div>
     <label>常用搭配・片語（一行一個：英文 | 中文）</label><textarea id="eColl" style="min-height:60px">${esc(c.coll.map((x, i) => x + (c.collZh[i] ? ' | ' + c.collZh[i] : '')).join('\n'))}</textarea>
     <label>用法說明</label><input type="text" id="eUsage" value="${esc(c.usage)}">
     <div class="row">
@@ -4268,9 +4602,10 @@ function openEditor(c, editing){
     const w = $('#eWord').value.trim(); if (!w){ toast('單字不能空白'); return; }
     const m = $('#eMeaning').value.trim();
     if (m !== c.meaning) c.userMeaning = true;
+    if (c.pk) c.edited = true;
     Object.assign(c, {word: w, meaning: m, pos: $('#ePos').value.trim(), ipa: $('#eIpa').value.trim(), usage: $('#eUsage').value.trim(),
-      ex: lines('#eEx').map(p => ({en: p[0], zh: p[1] || ''})), syn: lines('#eSyn').map(p => ({w: p[0], note: p[1] || ''})),
-      ant: $('#eAnt').value.split(/[,，]/).map(s => s.trim()).filter(Boolean), coll: lines('#eColl').map(p => p[0]), collZh: lines('#eColl').map(p => p[1] || collZhBuiltin(p[0])),
+      ex: lines('#eEx').map(p => ({en: p[0], zh: p[1] || ''})), syn: lines('#eSyn').map(p => p.length >= 3 ? {w: p[0], zh: p[1] || '', note: p[2] || ''} : {w: p[0], zh: '', note: p[1] || ''}),
+      ...antParse($('#eAnt').value), coll: lines('#eColl').map(p => p[0]), collZh: lines('#eColl').map(p => p[1] || collZhBuiltin(p[0])),
       cat: $('#eCat').value, level: $('#eLevel').value, type: $('#eType').value, imp: +$('#eImp').value, prac: +$('#ePrac').value, diff: +$('#eDiff').value,
       deck: $('#eDeck').value.trim(), note: $('#eNote').value.trim(), tags: [...new Set($('#eTags').value.split(/[,，]/).map(s => s.trim().replace(/^#/, '')).filter(Boolean))]});
     markDirty(c.ck); closeModal(); refreshAll(true); toast('已儲存');
@@ -4289,7 +4624,7 @@ function closeModal(){ $('#modal').classList.remove('on'); }
 $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
 
 /* ---------- stats ---------- */
-function bars(data, cls){ const max = Math.max(1, ...data.map(d => d.v)); return `<div class="bars${cls ? ' ' + cls : ''}">${data.map(d => `<div class="bar"><s>${d.v || ''}</s><i style="height:${(d.v / max) * 100}%"></i><em>${d.l}</em></div>`).join('')}</div>`; }
+function bars(data, cls){ const max = Math.max(1, ...data.map(d => d.v)); return `<div class="bars${cls ? ' ' + cls : ''}">${data.map(d => `<div class="bar"><span class="tr"><s>${d.v || ''}</s><i style="height:calc((100% - 18px) * ${(d.v / max).toFixed(3)})"></i></span><em>${d.l || '&nbsp;'}</em></div>`).join('')}</div>`; }
 function hbars(entries){ const max = Math.max(1, ...entries.map(e => e[1])); return entries.map(([k, v]) => `<div class="hbar"><span>${esc(k)}</span><i style="width:${v / max * 100}%"></i><span class="tiny muted">${v}</span></div>`).join(''); }
 function renderStats(){
   const now = Date.now(), today = dayStartOf(now);
@@ -4315,13 +4650,22 @@ function fillSettings(){
   $('#sNew').value = s.newPerDay; $('#sRev').value = s.maxRev; $('#sOrder').value = s.newOrder; $('#sWeight').checked = !!s.weight;
   $('#mRecog').checked = s.modes.recog; $('#mRecall').checked = s.modes.recall; $('#mCloze').checked = s.modes.cloze; $('#mProduce').checked = s.modes.produce;
   $('#sSpeak').checked = !!s.autoSpeak; $('#sAccent').value = s.accent; $('#sRate').value = ['0.7','0.85','0.95','1.05'].includes(String(s.rate)) ? String(s.rate) : '0.95';
-  $('#sTtsMode').value = s.ttsMode || 'device'; $('#sAiVoice').value = s.aiVoice || 'Kore'; fillVoiceSelect(); syncTtsBoxes();
+  $('#sTtsMode').value = s.ttsMode || 'device'; $('#sAiVoice').value = s.aiVoice || 'Kore'; $('#sDict').checked = s.dictVoice !== false; $('#sPhon').value = s.phon === 'ipa' ? 'ipa' : 'kk'; $('#sAzVoice').value = s.azVoice || 'en-US-AvaNeural'; $('#sAzKey').value = lsGet(AZ_KEY_LS); $('#sAzReg').value = lsGet(AZ_REG_LS); fillVoiceSelect(); syncTtsBoxes();
   $('#fDeck').value = s.lastDeck || '';
   $('#aiKey').value = lsGet(AI_KEY_LS); $('#aiModel').value = lsGet(AI_MODEL_LS);
 }
 $('#sTtsMode').onchange = () => { syncTtsBoxes(); if ($('#sTtsMode').value === 'ai' && !lsGet(AI_KEY_LS)) $('#ttsMsg').textContent = '請先在下方「AI 功能設定」填入 Gemini 金鑰'; else $('#ttsMsg').textContent = ''; };
+$('#sAccent').addEventListener('change', () => { const v = $('#sAzVoice').value, gb = $('#sAccent').value === 'en-GB'; if (gb && !v.startsWith('en-GB')) $('#sAzVoice').value = 'en-GB-SoniaNeural'; if (!gb && v.startsWith('en-GB')) $('#sAzVoice').value = 'en-US-AvaNeural'; });
 $('#sAccent').addEventListener('change', fillVoiceSelect);
 $('#sVoiceTest').onclick = () => { try { localStorage.setItem('vocab-voice-' + $('#sAccent').value, $('#sVoice').value); } catch(e){} stopSpeech(); deviceSay('Thank you for your prompt reply. I will get back to you tomorrow.', $('#sAccent').value, Number($('#sRate').value)); };
+function saveAzKeys(){ try { localStorage.setItem(AZ_KEY_LS, $('#sAzKey').value.trim()); localStorage.setItem(AZ_REG_LS, $('#sAzReg').value.trim().toLowerCase().replace(/\s+/g, '')); } catch(e){} }
+$('#sAzTest').onclick = async () => {
+  saveAzKeys();
+  if (!lsGet(AZ_KEY_LS) || !lsGet(AZ_REG_LS)){ $('#ttsMsg').textContent = '請先填入 Azure 金鑰和區域'; return; }
+  $('#ttsMsg').innerHTML = '<span class="spin"></span> 產生語音中…';
+  try { const u = await azureTTS('Thank you for your prompt reply. I will get back to you tomorrow.', $('#sAccent').value, $('#sAzVoice').value); $('#ttsMsg').textContent = '✓ 可以使用'; stopSpeech(); await playUrl(u, 1); }
+  catch(e){ $('#ttsMsg').textContent = e && e.code === 'bad_key' ? '✗ 金鑰或區域不正確（區域要和建立資源時選的一樣）' : e && e.code === 'rate_limited' ? '✗ 額度或速度上限，稍後再試' : '✗ 連不上微軟語音服務，請檢查區域名稱'; }
+};
 $('#sAiVoiceTest').onclick = async () => {
   if (!lsGet(AI_KEY_LS)){ $('#ttsMsg').textContent = '請先在下方「AI 功能設定」填入 Gemini 金鑰'; return; }
   const prev = [S.settings.ttsMode, S.settings.aiVoice, S.settings.accent];
@@ -4336,7 +4680,7 @@ $('#saveSettings').onclick = () => {
   s.newPerDay = clamp(parseInt($('#sNew').value) || 0, 0, 999); s.maxRev = clamp(parseInt($('#sRev').value) || 0, 0, 9999);
   s.newOrder = $('#sOrder').value; s.weight = $('#sWeight').checked;
   s.modes = {recog: $('#mRecog').checked, recall: $('#mRecall').checked, cloze: $('#mCloze').checked, produce: $('#mProduce').checked};
-  s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value; s.ttsMode = $('#sTtsMode').value; s.aiVoice = $('#sAiVoice').value;
+  s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value; s.ttsMode = $('#sTtsMode').value; s.aiVoice = $('#sAiVoice').value; s.dictVoice = $('#sDict').checked; s.phon = $('#sPhon').value; s.azVoice = $('#sAzVoice').value; saveAzKeys(); ttsWarned = false;
   try { if ($('#sVoice').value) localStorage.setItem('vocab-voice-' + s.accent, $('#sVoice').value); } catch(e){}
   markDirty(); fillSettings(); refreshAll();
   $('#setMsg').textContent = '已儲存'; setTimeout(() => $('#setMsg').textContent = '', 2000);
@@ -4412,7 +4756,7 @@ function switchSub(s){
   $('#p-guide').style.display = s === 'guide' ? '' : 'none';
   $('#p-account').style.display = s === 'account' ? '' : 'none';
   $('#p-admin').style.display = s === 'admin' ? '' : 'none';
-  if (s === 'admin') renderSiteAdmin();
+  if (s === 'admin'){ renderBuilder(); renderSiteAdmin(); }
   if (s === 'account') renderAccount();
   if (s === 'stats') renderStats();
 }
