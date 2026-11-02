@@ -1,0 +1,2491 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocab Studio｜英文單字學習</title>
+<meta name="description" content="英文單字間隔複習、影片學單字、活用練習與班級對戰">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFCF6; --paper:#FFFFFF; --ink:#3E3A39; --muted:#837b77;
+  --coral:#F2A497; --yama:#F6D27A; --mizu:#A8D3E6; --waka:#B9DAA5;
+  --coral-s:#FCE5E0; --yama-s:#FDF2D2; --mizu-s:#E4F2F8; --waka-s:#E8F3E1;
+  --line:2px solid var(--ink); --r:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Huninn","Noto Sans TC",system-ui,sans-serif;font-size:16px;line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:#2f7fa3;text-decoration-thickness:2px;text-underline-offset:3px}
+.wrap{max-width:800px;margin:0 auto;padding:14px 16px calc(110px + env(safe-area-inset-bottom))}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:4px 0 10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:38px;height:38px;flex:none}
+h1{font-weight:400;font-size:1.3rem;margin:0;line-height:1.2;letter-spacing:.5px}
+h1 small{display:block;font-size:.78rem;color:var(--muted)}
+.status{font-size:.8rem;display:flex;align-items:center;gap:6px;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 11px}
+.dot{width:9px;height:9px;border-radius:50%;background:#ccc;border:1.5px solid var(--ink)}
+.dot.ok{background:var(--waka)} .dot.busy{background:var(--yama)} .dot.err{background:var(--coral)}
+
+/* bottom app tabs */
+nav#nav{position:fixed;left:0;right:0;bottom:0;z-index:12;background:var(--bg);border-top:var(--line);display:flex;justify-content:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+nav#nav .inner{display:flex;width:100%;max-width:560px}
+nav#nav button{flex:1;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 2px;font-size:.74rem;color:var(--muted)}
+nav#nav button .ic{width:52px;height:32px;border-radius:999px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+nav#nav button svg{width:26px;height:26px}
+nav#nav button.on{color:var(--ink)}
+nav#nav button.on .ic{background:var(--tabc,var(--yama));border:2px solid var(--ink)}
+nav#nav button:not(.on) .ic{border:2px solid transparent}
+.subtabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.subtabs button{border:2px solid var(--ink);background:var(--paper);border-radius:999px;padding:5px 14px;cursor:pointer;white-space:nowrap;flex:none}
+.subtabs button.on{background:var(--mizu)}
+.panel{display:none;animation:pop .28s ease-out} .panel.on{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pagehead{display:flex;align-items:center;gap:10px;margin:2px 0 12px}
+.pagehead h2{font-size:1.25rem;margin:0}
+.pagehead svg{width:32px;height:32px;flex:none}
+
+.box{background:var(--paper);border:var(--line);border-radius:var(--r);padding:18px}
+.box + .box{margin-top:14px}
+#vResult .box,#prArea .box{margin-top:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spread{justify-content:space-between}
+label{font-size:.85rem;color:var(--muted);display:block;margin:10px 0 4px}
+label.inline{display:inline-flex;align-items:center;gap:7px;margin:7px 14px 0 0;color:var(--ink);font-size:.93rem}
+input[type=checkbox]{accent-color:#e07f6f;width:17px;height:17px}
+input[type=text],input[type=number],input[type=url],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff}
+input[type=file]{font-size:.85rem}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--yama);outline-offset:1px}
+.btn{border:2px solid var(--ink);background:#fff;padding:8px 18px;border-radius:12px;cursor:pointer;box-shadow:0 2px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.pri{background:var(--coral)}
+.btn.ai{background:var(--yama)}
+.btn.danger{background:var(--coral-s)}
+.btn.small{padding:4px 12px;font-size:.85rem;box-shadow:none}
+.muted{color:var(--muted)} .tiny{font-size:.8rem}
+h2{font-size:1.1rem;margin:0 0 4px;font-weight:400}
+h3{margin:22px 0 8px;font-size:1rem;font-weight:400}
+details summary{cursor:pointer;font-size:.9rem;text-decoration:underline;text-decoration-color:var(--mizu);text-decoration-thickness:3px}
+code{background:var(--yama-s);padding:0 4px;border-radius:5px}
+.counts{display:flex;gap:6px;font-variant-numeric:tabular-nums}
+.counts span{border:1.5px solid var(--ink);border-radius:8px;padding:0 9px;font-size:.95rem}
+.counts span small{font-size:.72rem;margin-left:3px}
+.c-new{background:var(--mizu)} .c-learn{background:var(--coral)} .c-rev{background:var(--waka)}
+.stat .c-new,.stat .c-learn,.stat .c-rev{background:none}
+
+/* card */
+.card{position:relative;background:var(--paper);border:var(--line);border-radius:18px;min-height:280px;padding:26px 22px 22px;margin-top:14px;box-shadow:0 3px 0 var(--ink)}
+.card .deco{position:absolute;right:14px;top:-26px;width:74px;height:56px;pointer-events:none}
+.front{display:flex;flex-direction:column;align-items:center;text-align:center}
+.modeTag{font-size:.78rem;color:var(--muted);letter-spacing:1px;margin-bottom:10px}
+.word{font-size:2.5rem;line-height:1.15;word-break:break-word}
+.ipa{color:var(--muted);font-size:1rem;margin-top:2px}
+.pos{color:var(--muted);font-size:.92rem}
+.meaning{font-size:1.35rem;margin-top:6px}
+.prompt{font-size:1.18rem;max-width:600px;margin-top:4px}
+.hint{color:var(--muted);font-size:.9rem;margin-top:8px}
+mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;padding:0 1px}
+.speak{border:2px solid var(--ink);background:var(--mizu);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:.9rem;flex:none;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.speak.sm{width:27px;height:27px;font-size:.7rem;border-width:1.5px}
+.speak svg{width:60%;height:60%}
+.tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.tag{font-size:.76rem;border-radius:6px;padding:1px 8px;background:var(--waka-s)}
+.tag.lv{background:var(--mizu-s)}
+.scores{display:flex;gap:14px;justify-content:center;font-size:.8rem;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.stars{color:#e0a92a;letter-spacing:1px}
+.typed{margin-top:16px;width:100%;max-width:380px}
+.typed input{text-align:center;font-size:1.15rem}
+.typed textarea{min-height:80px;text-align:left}
+.verdict{margin:8px 0 4px;text-align:center;font-size:1.05rem}
+.verdict span{border:2px solid var(--ink);border-radius:999px;padding:2px 14px;display:inline-block}
+.verdict.ok span{background:var(--waka)} .verdict.no span{background:var(--coral)} .verdict.mid span{background:var(--yama)}
+.divider{width:100%;border:0;border-top:2.5px dashed var(--ink);opacity:.35;margin:20px 0 14px}
+.detail{text-align:left}
+.sec{margin-top:16px}
+.sec > b{font-weight:400;font-size:.8rem;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:1px;border-bottom:1.5px solid #ece6dc;padding-bottom:2px}
+.exl{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
+.exl .en{font-size:1rem}
+.exl .zh{font-size:.88rem;color:var(--muted)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--mizu-s);border:0;border-radius:8px;padding:2px 10px;font-size:.9rem}
+.chip small{color:var(--muted);margin-left:4px}
+.chip.ant{background:var(--coral-s)}
+.video{background:var(--waka-s);border-left:4px solid var(--waka);border-radius:8px;padding:10px 12px;font-size:.92rem}
+.aiFb{background:var(--yama-s);border-left:4px solid var(--yama);border-radius:8px;padding:12px 14px;margin-top:14px;text-align:left;font-size:.93rem}
+.answers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.ans{border:2px solid var(--ink);border-radius:12px;padding:9px 4px 7px;cursor:pointer;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 0 var(--ink);transition:transform .08s,box-shadow .08s;font-size:1rem}
+.ans:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.ans small{font-size:.76rem;opacity:.8}
+.ans.a1{background:var(--coral)} .ans.a2{background:var(--yama)} .ans.a3{background:var(--waka)} .ans.a4{background:var(--mizu)}
+.ans.sug{outline:3px dashed var(--ink);outline-offset:3px}
+.reveal{width:100%;margin-top:18px;padding:12px;font-size:1.05rem}
+.done{text-align:center;padding:24px 20px 30px}
+.done svg{width:120px;height:92px}
+.done .big{font-size:1.35rem;margin-bottom:4px}
+.leech{font-size:.82rem;margin-top:12px;text-align:center;background:var(--coral-s);border-radius:12px;padding:4px 10px}
+
+/* marks */
+.marks{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+.starMark{color:#e0a92a;font-size:1rem}
+.tagMark{font-size:.75rem;color:#5a7f93;background:var(--mizu-s);border-radius:6px;padding:0 6px}
+.tagPick{border:1.5px solid var(--ink);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+.tagPick.on{background:var(--mizu)}
+.btn.on{background:var(--yama-s)}
+/* list */
+.list{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.item{display:grid;grid-template-columns:1fr auto;gap:8px;background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:10px 14px;cursor:pointer;transition:transform .12s}
+.item:hover{background:var(--yama-s)}
+.item b{font-weight:400;font-size:1.12rem}
+.item .m{font-size:.92rem}
+.badge{font-size:.72rem;border-radius:999px;padding:1px 9px;white-space:nowrap;align-self:start;border:1.5px solid var(--ink)}
+.b-new{background:var(--mizu-s)} .b-learning,.b-relearning{background:var(--coral-s)} .b-review{background:var(--waka-s)}
+.cand{display:grid;grid-template-columns:auto 1fr;gap:10px;background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:10px 14px;cursor:pointer}
+.cand input{margin-top:6px}
+.cand .ctx{font-size:.85rem;color:#5d5654;margin-top:3px}
+
+/* stats */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-weight:400;font-size:1.55rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.76rem;color:var(--muted)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:130px;padding-top:16px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar i{display:block;width:100%;max-width:28px;background:var(--mizu);border-radius:6px 6px 2px 2px;min-height:3px}
+.bars.alt .bar i{background:var(--waka)}
+.bar em{font-style:normal;font-size:.7rem;color:var(--muted);margin-top:4px;white-space:nowrap}
+.bar s{text-decoration:none;font-size:.72rem;margin-bottom:3px}
+.hbar{display:grid;grid-template-columns:100px 1fr 34px;gap:8px;align-items:center;font-size:.85rem;margin:6px 0}
+.hbar i{display:block;height:10px;background:var(--coral);border-radius:5px;min-width:3px}
+
+/* practice */
+.story{font-size:1.05rem;line-height:2.2}
+.story input{width:120px;padding:1px 6px;border:0;border-bottom:2.5px solid var(--ink);border-radius:6px 6px 0 0;background:var(--yama-s);text-align:center}
+.story input.ok{background:var(--waka)} .story input.no{background:var(--coral)}
+.bank{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.q{background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;margin-top:10px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.opt{border:2px solid var(--ink);background:var(--bg);border-radius:14px;padding:8px 10px;cursor:pointer;text-align:left}
+.opt.ok{background:var(--waka)} .opt.no{background:var(--coral)}
+
+/* class & games */
+.code{font-family:ui-monospace,Menlo,monospace;letter-spacing:2px;background:var(--yama-s);border-radius:6px;padding:1px 8px;font-weight:400}
+.board{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.brow{display:flex;align-items:center;gap:10px;border:1.5px solid var(--ink);border-radius:12px;padding:8px 12px;background:#fff}
+.brow.me{background:var(--yama-s)}
+.rank{width:20px;text-align:center;color:var(--muted)}
+.av{width:30px;height:30px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);font-size:.85rem;object-fit:cover;color:var(--ink)}
+.bname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bstat{display:flex;flex-direction:column;align-items:center;min-width:52px}
+.bstat b{font-weight:400;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.bstat small{font-size:.68rem;color:var(--muted)}
+.gwrap{display:grid;grid-template-columns:1fr 200px;gap:16px;margin-top:12px}
+.gmain{text-align:center;min-height:260px}
+.gside{border-left:1.5px dashed #d9d1c4;padding-left:14px}
+.gp{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.gp.me .bname{font-weight:700}
+.pbar{height:8px;background:#efe9df;border-radius:5px;overflow:hidden;margin-top:3px}
+.pbar i{display:block;height:100%;background:var(--waka);border-radius:5px;transition:width .3s}
+.gbig{font-size:1.6rem;margin:20px 0 6px}
+.countdown{font-size:4.5rem;line-height:1;margin:40px 0 10px;animation:pop .5s ease-out infinite}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.tile{min-height:64px;border:2px solid var(--ink);border-radius:12px;background:#fff;cursor:pointer;padding:6px;font-size:.95rem;line-height:1.3;box-shadow:0 2px 0 var(--ink);transition:opacity .25s,transform .25s}
+.tile.w{background:var(--mizu-s)}
+.tile.sel{background:var(--yama);transform:translateY(-2px)}
+.tile.gone{opacity:0;transform:scale(.85);pointer-events:none}
+.tile.bad{background:var(--coral);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.gain{margin-top:10px;color:#3f7d3a;animation:pop .4s ease-out}
+@media (max-width:640px){ .gwrap{grid-template-columns:1fr} .gside{border-left:0;border-top:1.5px dashed #d9d1c4;padding:10px 0 0} .mgrid{grid-template-columns:repeat(3,1fr)} .hide-sm{display:none} .bstat{min-width:44px} }
+.hres{display:inline-block;margin:2px 10px 2px 0}
+.hres.me{background:var(--yama-s);border-radius:6px;padding:0 6px}
+.guide h3{margin:18px 0 6px;font-size:1.02rem}
+.guide p,.guide li{font-size:.93rem}
+.guide ol,.guide ul{padding-left:20px;margin:6px 0}
+.guide .key{display:inline-block;border:1.5px solid var(--ink);border-radius:6px;padding:0 6px;font-size:.8rem;margin:0 2px}
+.login{position:fixed;inset:0;background:var(--bg);z-index:40;display:none;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.login.on{display:flex}
+.loginBox{width:100%;max-width:400px;text-align:center}
+.avrow{display:flex;justify-content:center;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.avrow svg{width:38px;height:38px}
+.avgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.avpick{border:2px solid transparent;background:#fff;border-radius:14px;padding:6px 2px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font-size:.72rem;color:var(--muted)}
+.avpick svg{width:48px;height:48px}
+.avpick.on{border-color:var(--ink);background:var(--yama-s);color:var(--ink)}
+.av svg{width:100%;height:100%;display:block}
+.av{background:none!important;overflow:hidden}
+.av.big{width:64px;height:64px}
+.mechip{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:#fff;border-radius:999px;padding:2px 12px 2px 3px;cursor:pointer;font-size:.85rem}
+.mechip .av{width:26px;height:26px;border-width:1px}
+.aiHint{display:none}
+.aiHint.on{display:block}
+@media (max-width:560px){ .avgrid{grid-template-columns:repeat(4,1fr)} .mechip span:last-child{display:none} .mechip{padding:2px} }
+/* modal etc */
+.modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
+.modal.on{display:flex}
+.modal .box{width:100%;max-width:600px;max-height:88vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:.9rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:30;max-width:90vw}
+.toast.on{opacity:1}
+.notice{background:var(--yama-s);border:2px solid var(--ink);border-radius:16px;padding:9px 12px;font-size:.88rem;margin-bottom:12px;display:none}
+.notice.on{display:block}
+.aibar{position:fixed;left:50%;top:10px;transform:translateX(-50%);background:var(--yama);border:2px solid var(--ink);border-radius:999px;padding:7px 10px 7px 16px;display:none;align-items:center;gap:10px;font-size:.88rem;z-index:25;max-width:94vw;box-shadow:0 3px 0 var(--ink)}
+.aibar.on{display:flex}
+.aibar #aibarText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aibar button{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;cursor:pointer;flex:none}
+.spin{display:inline-block;width:14px;height:14px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading{text-align:center;padding:60px 0;color:var(--muted)}
+.aiOnly.hide{display:none!important}
+
+/* gentle illustration motion */
+.float{animation:float 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.sway{animation:sway 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.blink{animation:blink 5s infinite;transform-box:fill-box;transform-origin:center}
+.twinkle{animation:twinkle 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.drift{animation:drift 9s ease-in-out infinite}
+.d2{animation-delay:-1.3s} .d3{animation-delay:-2.4s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes twinkle{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.6}}
+@keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+@media (max-width:560px){
+  .word{font-size:2.05rem} .grid4{grid-template-columns:repeat(2,1fr)} .opts{grid-template-columns:1fr}
+  .keys{display:none} .hbar{grid-template-columns:76px 1fr 30px}
+  .answers{gap:6px} .ans{font-size:.92rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><svg viewBox="0 0 38 38" aria-hidden="true"><rect x="1.5" y="1.5" width="35" height="35" rx="10" fill="#F2A497" stroke="#3E3A39" stroke-width="2"/><path d="M19 12c-3-2-7-2.2-10-1.2v15c3-1 7-.8 10 1.2 3-2 7-2.2 10-1.2v-15c-3-1-7-.8-10 1.2z" fill="#FFFCF6" stroke="#3E3A39" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 12v15" stroke="#3E3A39" stroke-width="1.6"/></svg><h1>Vocab Studio<small>英文單字學習・影片／間隔複習／活用</small></h1></div>
+    <div class="row" style="gap:8px"><button class="mechip" id="meChip" style="display:none"></button><div class="status"><span class="dot" id="dot"></span><span id="statusText">載入中…</span></div></div>
+  </header>
+
+
+  <div class="notice" id="notice"></div>
+
+  <!-- REVIEW -->
+  <section class="panel on" id="p-review">
+    <div class="row spread">
+      <select id="deckSel" style="width:auto;min-width:150px"></select>
+      <div class="counts" id="counts"></div>
+    </div>
+    <div id="reviewArea"><div class="loading">讀取單字中…</div></div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="panel" id="p-video">
+    <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><rect x="5" y="10" width="36" height="26" rx="8" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5"/><path d="M19 17v12l10-6z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M17 4l6 6 6-6" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g></svg><h2>影片學單字</h2></div>
+    <div class="notice aiHint">從字幕找單字需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
+    <div class="box">
+      <h2>從影片字幕找出值得學的單字</h2>
+      <p class="tiny muted" style="margin:4px 0 0">貼上影片連結和字幕（或上傳 .srt / .vtt 字幕檔），AI 會依你的程度挑出單字、片語，標出重要度與實用度，並自動補齊意思、例句、同反義字等。每張卡片都會連回影片中出現的那一秒。</p>
+      <label>影片連結（YouTube 或其他）</label><input type="url" id="vUrl" placeholder="https://www.youtube.com/watch?v=...">
+      <label>影片標題（會當作牌組名稱）</label><input type="text" id="vTitle" placeholder="例如：TED - How to speak so that people want to listen">
+      <label>字幕 / 逐字稿</label>
+      <textarea id="vSubs" style="min-height:160px" placeholder="0:05&#10;Today I want to talk about...&#10;0:09&#10;..."></textarea>
+      <div class="row" style="margin-top:8px">
+        <label class="inline" style="margin:0"><input type="file" id="vFile" accept=".srt,.vtt,.txt,.sbv"> </label>
+      </div>
+      <details style="margin-top:10px"><summary>怎麼取得 YouTube 字幕？</summary>
+        <ol class="tiny" style="margin:8px 0 0;padding-left:20px">
+          <li>在電腦版 YouTube 影片下方點「…更多」→「顯示轉錄稿」。</li>
+          <li>右側出現轉錄稿後，從第一行拖曳選取到最後一行，複製後貼到上面（含時間戳記最好，卡片就能跳到影片對應秒數）。</li>
+          <li>也可以用字幕下載網站取得 .srt 檔再上傳。</li>
+          <li>網頁本身無法直接讀取影片內容，所以需要字幕文字。</li>
+        </ol>
+      </details>
+      <div class="row">
+        <div style="flex:1;min-width:130px"><label>我的程度</label>
+          <select id="vLevel"><option value="A2">A2 初級</option><option value="B1" selected>B1 中級</option><option value="B2">B2 中高級</option><option value="C1">C1 高級</option></select></div>
+        <div style="flex:1;min-width:130px"><label>最多挑幾個</label>
+          <select id="vMax"><option>10</option><option selected>20</option><option>30</option><option>40</option></select></div>
+        <div style="flex:2;min-width:180px"><label>想加強的方向（選填）</label><input type="text" id="vFocus" placeholder="例如：職場、學術寫作、口語片語"></div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn ai aiOnly" id="vGo">✨ 分析字幕找單字</button>
+        <span class="tiny muted" id="vMsg"></span>
+      </div>
+    </div>
+    <div id="vResult"></div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="panel" id="p-practice">
+    <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><rect x="7" y="8" width="26" height="32" rx="6" fill="#fff" stroke="#3E3A39" stroke-width="2.5"/><path d="M13 18h14M13 25h10" stroke="#A8D3E6" stroke-width="3" stroke-linecap="round"/><g class="sway"><path d="M28 36l2-7 10-10 5 5-10 10z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g></svg><h2>活用練習</h2></div>
+    <div class="notice aiHint">活用練習需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
+    <div class="box">
+      <h2>把單字用出來</h2>
+      <p class="tiny muted" style="margin:4px 0 0">用你學過的單字，請 AI 出題：放進情境短文裡填空，或從容易混淆的近義字中選出最適合的。答錯的字會自動排回今天的複習。</p>
+      <div class="row">
+        <div style="flex:1;min-width:150px"><label>題型</label>
+          <select id="prType"><option value="story">情境短文填空</option><option value="dialog">對話填空</option><option value="choice">近義字辨析選擇題</option><option value="translate">中翻英造句（AI 批改）</option></select></div>
+        <div style="flex:1;min-width:150px"><label>單字範圍</label>
+          <select id="prScope"><option value="recent">最近學過（7 天內）</option><option value="weak">常忘記的字</option><option value="learned">所有已學過的字</option><option value="star">★ 已標記的字</option><option value="all">全部（含新卡）</option></select></div>
+        <div style="flex:0 0 100px"><label>字數</label><select id="prN"><option>4</option><option selected>6</option><option>8</option><option>10</option></select></div>
+      </div>
+      <label>情境主題（選填）</label><input type="text" id="prTopic" placeholder="例如：實驗室日常、出國旅遊、和主管開會">
+      <div class="row" style="margin-top:14px"><button class="btn ai aiOnly" id="prGo">✨ 產生練習</button><span class="tiny muted" id="prMsg"></span></div>
+    </div>
+    <div id="prArea"></div>
+  </section>
+
+  <!-- ADD -->
+  <section class="panel" id="p-add">
+    <div class="row spread" style="margin-bottom:10px"><button class="btn small" data-goto="browse">← 回單字庫</button></div>
+    <div class="box" id="toeicBox">
+      <h2>多益單字</h2>
+      <p class="tiny muted" style="margin:4px 0 0">基礎包：10 個職場主題、共 250 個多益高頻字。載入後依「每日新卡上限」逐步學習；例句、音標、同反義字等細節會在學到該字時由 AI 自動補齊，不會一次耗用大量額度。</p>
+      <div class="chips" id="packList" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:12px"><button class="btn pri" id="packLoad">載入選取的主題</button><button class="btn small" id="packAll">全選</button><span class="tiny muted" id="packMsg"></span></div>
+      <div class="aiOnly">
+        <hr class="divider">
+        <h2>用 AI 擴充更多多益單字</h2>
+        <p class="tiny muted" style="margin:4px 0 0">依主題與目標分數產生新的單字組（自動略過已有的字），分批累積到 4000 字。</p>
+        <div class="row">
+          <div style="flex:2;min-width:160px"><label>主題</label><input type="text" id="genTopic" list="genTopics" value="辦公室日常"><datalist id="genTopics"></datalist></div>
+          <div style="flex:1;min-width:120px"><label>目標分數</label><select id="genLevel"><option value="TOEIC 600 (B1)">600 分</option><option value="TOEIC 750 (B1–B2)" selected>750 分</option><option value="TOEIC 860+ (B2–C1)">860 分以上</option></select></div>
+          <div style="flex:0 0 100px"><label>數量</label><select id="genN"><option>30</option><option selected>50</option><option>80</option></select></div>
+        </div>
+        <div class="row" style="margin-top:12px"><button class="btn ai" id="genGo">✨ 產生單字組</button><span class="tiny muted" id="genMsg"></span></div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="row spread"><h2>新增單字</h2><span class="tiny muted">開啟 AI 補齊時只需要填單字</span></div>
+      <form id="addForm" autocomplete="off">
+        <label>單字 / 片語 *</label><input type="text" id="fWord" required>
+        <label>中文意思</label><input type="text" id="fMeaning" placeholder="留空就由 AI 補上">
+        <label>例句（選填）</label><input type="text" id="fEx">
+        <div class="row">
+          <div style="flex:1;min-width:160px"><label>牌組</label><input type="text" id="fDeck" list="deckList" placeholder="例如：多益、工作用語"></div>
+          <div style="flex:1;min-width:160px"><label>筆記</label><input type="text" id="fNote"></div>
+        </div>
+        <label class="inline aiOnly"><input type="checkbox" id="fAI" checked> 用 AI 自動補齊音標、例句、同反義字、一字多義、詞性變化、用法與分類</label>
+        <div class="row" style="margin-top:14px"><button class="btn pri" type="submit">加入</button><span class="tiny muted" id="addMsg"></span></div>
+      </form>
+    </div>
+    <div class="box">
+      <h2>批次匯入</h2>
+      <p class="tiny muted" style="margin:6px 0 0">已經有單字書或單字表？一行一個，可以只有單字，也可以用 <code>|</code> 或 Tab 分隔：<code>單字 | 中文意思 | 例句</code>。也可以直接上傳 Excel（.xlsx）、CSV 或 TXT 檔，第一欄是單字、第二欄中文。同一牌組裡重複的字會略過。</p>
+      <label class="inline" style="margin-top:10px"><input type="file" id="bulkFile" accept=".txt,.csv,.tsv,.xlsx,.xls"></label>
+      <textarea id="bulk" placeholder="mitigate&#10;abundant | 豐富的&#10;reluctant | 不情願的 | She was reluctant to leave."></textarea>
+      <div class="row">
+        <div style="flex:1;min-width:180px"><label>匯入到牌組</label><input type="text" id="bulkDeck" list="deckList"></div>
+      </div>
+      <div class="aiOnly"><label>AI 補齊細節</label><select id="bulkMode"><option value="lazy" selected>學到該字時才補齊（建議，適合大量單字）</option><option value="now">匯入後立即全部補齊</option><option value="none">不補齊</option></select></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn pri" id="bulkBtn">匯入</button>
+        <span class="tiny muted" id="bulkMsg"></span>
+      </div>
+    </div>
+    <datalist id="deckList"></datalist>
+  </section>
+
+  <!-- BROWSE -->
+  <section class="panel" id="p-browse">
+    <div class="row spread" style="align-items:center"><div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M23 13c-5-4-12-4-17-2v24c5-2 12-2 17 2 5-4 12-4 17-2V11c-5-2-12-2-17 2z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/><path d="M23 13v24" stroke="#3E3A39" stroke-width="2.2"/></g><path class="twinkle" d="M38 3l1.5 3.5 3.5 1.5-3.5 1.5L38 13l-1.5-3.5L33 8l3.5-1.5z" fill="#F6D27A" stroke="#3E3A39" stroke-width="1.6"/></svg><h2>我的單字</h2></div><button class="btn pri" data-goto="add">＋ 新增單字</button></div>
+    <div class="row">
+      <input type="text" id="search" placeholder="搜尋單字、中文、例句…" style="flex:2;min-width:180px">
+      <select id="browseDeck" style="flex:1;min-width:130px"></select>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <select id="browseState" style="flex:1;min-width:110px">
+        <option value="">全部狀態</option><option value="new">新卡</option><option value="learning">學習中</option><option value="review">複習中</option><option value="leech">常忘記（≥4 次）</option><option value="noai">尚未補齊細節</option>
+      </select>
+      <select id="browseCat" style="flex:1;min-width:110px"></select>
+      <select id="browseLevel" style="flex:1;min-width:100px"></select>
+      <select id="browseType" style="flex:1;min-width:100px"></select>
+      <select id="browseSort" style="flex:1;min-width:110px"><option value="az">依字母</option><option value="prio">依重要度</option><option value="due">依到期日</option><option value="new">最新加入</option></select>
+    </div>
+    <div class="row spread" style="margin-top:8px"><span class="tiny muted" id="browseInfo"></span><button class="btn small aiOnly" id="fillAll">✨ 補齊所有未補齊的單字</button></div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <!-- STATS -->
+  <section class="panel" id="p-friends">
+    <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><circle cx="17" cy="17" r="7" fill="#F2A497" stroke="#3E3A39" stroke-width="2.3"/><path d="M5 38c1-7 6-10 12-10s11 3 12 10z" fill="#F2A497" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g><g class="float d2"><circle cx="31" cy="15" r="6" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/><path d="M24 26c2-1.5 4.5-2 7-2 5.5 0 9.5 3 10.5 9H30" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g></svg><h2>班級與同伴</h2></div>
+    <div id="clsArea"><div class="box loading">連線中…</div></div>
+  </section>
+
+  <section class="panel" id="p-me">
+    <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M6 40q17-8 34 0" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><g class="sway"><path d="M23 38V22" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><path d="M23 28q-10 0-11-9 9 0 11 9z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 24q9-2 11-11-9 1-11 11z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.2" stroke-linejoin="round"/></g><circle class="twinkle" cx="38" cy="10" r="4" fill="#F2A497" stroke="#3E3A39" stroke-width="2"/></svg><h2>我的學習</h2></div>
+    <div class="subtabs"><button class="on" data-sub="stats">學習統計</button><button data-sub="account">帳號</button><button data-sub="settings">設定與備份</button><button data-sub="guide">使用說明</button></div>
+    <div class="sub" id="p-stats"><div id="statsArea"></div></div>
+    <div class="sub" id="p-account" style="display:none"><div id="accArea"></div></div>
+  <div class="sub" id="p-guide" style="display:none"><div class="box guide">
+    <h2>使用說明</h2>
+    <h3>1. 快速開始</h3>
+    <ol>
+      <li>到「單字」→「＋ 新增單字」，勾選多益基礎單字包的主題後按「載入」。</li>
+      <li>回到「複習」，每天把畫面上的新卡、學習、複習數量清空即可。</li>
+      <li>每天新卡數量可在「我的 → 設定與備份」調整（預設 15 個）。</li>
+    </ol>
+    <h3>2. 複習時怎麼評分</h3>
+    <ul>
+      <li><b>忘記</b>：想不起來或答錯，幾分鐘後會再出現。</li>
+      <li><b>困難</b>：想很久才想到，間隔會拉得比較短。</li>
+      <li><b>良好</b>：正常想起來，最常用的按鈕。</li>
+      <li><b>簡單</b>：完全不用想，間隔會拉很長。</li>
+    </ul>
+    <p>不確定時請誠實按「忘記」，系統才能幫你安排正確的複習時間。重要度、實用度高的字會更常出現；難度高的字一開始間隔較短。</p>
+    <p>鍵盤快捷鍵：<span class="key">空白鍵</span>翻面／良好、<span class="key">1</span>–<span class="key">4</span>評分、<span class="key">S</span>標記、<span class="key">R</span>發音、<span class="key">U</span>復原。</p>
+    <h3>3. 複習會輪流出現的題型</h3>
+    <ul>
+      <li>看字想意思、看中文拼英文、例句克漏字。</li>
+      <li>已經熟悉的字會出現「用單字造句」，寫完由 AI 批改並給修正建議。</li>
+      <li>可在設定中開關各種題型。</li>
+    </ul>
+    <h3>4. 從影片學單字</h3>
+    <ol>
+      <li>到「影片」貼上影片連結與字幕（YouTube 可點影片下方「…更多 → 顯示轉錄稿」後複製），或上傳 .srt / .vtt 字幕檔。</li>
+      <li>選擇你的程度後按「分析字幕找單字」，勾選想學的字加入。</li>
+      <li>每張卡片都會附上影片原句，並可從該秒數開始播放。</li>
+    </ol>
+    <h3>5. 標記與標籤</h3>
+    <p>複習或查看單字時可按「☆ 標記」或「# 標籤」（例如 #易混淆、#發音難）。在複習頁上方的牌組選單、單字庫、活用練習中，都可以只挑選已標記或某個標籤的字。</p>
+    <h3>6. 活用練習</h3>
+    <p>「練習」頁可用學過的字產生情境短文填空、對話填空、近義字辨析選擇題、中翻英造句。答錯的字會自動排入今天的複習。</p>
+    <h3>7. 和朋友一起學（班級）</h3>
+    <ol>
+      <li><b>把網址傳給朋友</b>：朋友打開網站後，選「匿名開始」或「用 Google 帳號登入」，再設定暱稱與頭像。</li>
+      <li><b>建立班級</b>：到「班級」輸入班級名稱按「建立」，把畫面上的<b>邀請碼</b>傳給朋友。</li>
+      <li><b>朋友加入</b>：朋友在「班級」輸入邀請碼按「加入」。</li>
+      <li><b>共享單字</b>：在「學習集」選擇你的牌組按「分享／更新」。朋友按「加入學習」後，單字會複製到他自己的單字庫；你之後新增單字再按一次「分享／更新」，朋友下次開啟時會自動收到新字。</li>
+    </ol>
+    <p><b>學習進度互不影響</b>：每個人的單字、複習進度、評分紀錄、標記、筆記都存在自己帳號的私人空間，資料庫規則限定只有本人能讀寫，其他人（包括班級建立者）都看不到也改不到。班級裡共享的只有「學習集的單字內容」、你的暱稱與頭像，以及排行榜上的統計數字（本週 XP、今日複習數、連續天數、已學字數）；不想公開數字可在班級頁取消勾選「在排行榜顯示我的進度」。</p>
+    <h3>8. 對戰遊戲與紀錄</h3>
+    <ul>
+      <li><b>連連看</b>：配對英文與中文，配錯加罰 1 秒，最快完成者獲勝。</li>
+      <li><b>快問快答</b>：每題 10 秒，含聽音選意思，答得越快分數越高。</li>
+      <li>房主建立遊戲後把<b>遊戲碼</b>傳給朋友，大家進房後由房主按「開始」，所有人同時倒數開賽，即時看到彼此進度。沒趕上的人之後也能挑戰同一組題目。</li>
+      <li>「對戰紀錄」會保存每場比賽的名次與成績，並統計你和每位同學的勝負與勝率、你的最佳成績。</li>
+      <li>遊戲中答錯的字只會排入<b>你自己</b>的複習，不影響別人。</li>
+    </ul>
+    <h3>9. 備份</h3>
+    <p>建議每月到「設定與備份」按「產生備份」並複製保存一份，需要時可貼回還原。</p>
+    <h3>10. 帳號與登入</h3>
+    <ul>
+      <li><b>匿名開始</b>：免註冊，資料綁定在目前這個瀏覽器。清除瀏覽資料、換手機或登出後就無法找回。</li>
+      <li><b>綁定 Google</b>：在「我的 → 帳號」按「綁定 Google 帳號」，目前的資料會完整保留，之後在任何裝置用同一個 Google 帳號登入即可。</li>
+      <li>右上角的頭像可以快速進入帳號頁，更換暱稱與頭像。</li>
+    </ul>
+    <h3>11. 關於 AI 功能</h3>
+    <p>字幕找單字、自動補齊單字細節、造句批改、AI 出題等功能使用 Google Gemini。請到「我的 → 設定與備份」依步驟申請免費的 API 金鑰並貼上（金鑰只存在你的瀏覽器）。沒有金鑰時，複習、多益單字包、班級與對戰遊戲都能正常使用。大量匯入單字時建議選「學到該字時才補齊」，避免一次用掉免費額度。</p>
+  </div></div>
+  <div class="sub" id="p-settings" style="display:none">
+    <div class="box">
+      <h2>複習設定</h2>
+      <div class="row">
+        <div style="flex:1;min-width:140px"><label>每日新卡上限</label><input type="number" id="sNew" min="0" max="999"></div>
+        <div style="flex:1;min-width:140px"><label>每日複習上限</label><input type="number" id="sRev" min="0" max="9999"></div>
+      </div>
+      <label>新卡出現順序</label>
+      <select id="sOrder"><option value="prio">重要度、實用度高的先學</option><option value="added">依加入順序</option></select>
+      <label class="inline"><input type="checkbox" id="sWeight"> 依「重要度 × 實用度 × 難度」調整複習頻率（重要、實用的字更常出現；難的字起始間隔較短）</label>
+      <h3>練習方式（複習時輪流出現）</h3>
+      <label class="inline"><input type="checkbox" id="mRecog"> 看字想意思</label>
+      <label class="inline"><input type="checkbox" id="mRecall"> 看中文拼英文</label>
+      <label class="inline"><input type="checkbox" id="mCloze"> 例句克漏字</label>
+      <label class="inline aiOnly"><input type="checkbox" id="mProduce"> 用單字造句（AI 批改，熟悉的字才會出現）</label>
+      <h3>發音</h3>
+      <label class="inline"><input type="checkbox" id="sSpeak"> 自動朗讀</label>
+      <div class="row">
+        <div style="flex:1;min-width:140px"><label>口音</label><select id="sAccent"><option value="en-US">美式</option><option value="en-GB">英式</option></select></div>
+        <div style="flex:1;min-width:140px"><label>語速</label><select id="sRate"><option value="0.7">慢</option><option value="0.9">稍慢</option><option value="1">正常</option></select></div>
+      </div>
+      <div class="row" style="margin-top:14px"><button class="btn pri" id="saveSettings">儲存設定</button><span class="tiny muted" id="setMsg"></span></div>
+    </div>
+    <div class="box">
+      <h2>AI 功能設定（Google Gemini）</h2>
+      <p class="tiny muted" style="margin:6px 0 0">字幕找單字、自動補齊例句與同反義字、造句批改、AI 出題都需要 Gemini API 金鑰（Google 提供免費額度）。金鑰只存在這個瀏覽器，不會上傳到資料庫；每位同學請使用自己的金鑰。</p>
+      <ol class="tiny" style="margin:8px 0 0;padding-left:20px"><li>打開 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio 的 API 金鑰頁面</a>，用 Google 帳號登入。</li><li>按「Create API key」建立金鑰，按複製。</li><li>貼到下面，按「儲存並測試」。</li></ol>
+      <label>API 金鑰</label><input type="password" id="aiKey" placeholder="AIza…" autocomplete="off">
+      <label>模型（一般不用改；若出現「模型名稱無效」可改成 gemini-3.5-flash-lite 等）</label><input type="text" id="aiModel" placeholder="gemini-3.6-flash">
+      <div class="row" style="margin-top:12px"><button class="btn pri" id="aiSave">儲存並測試</button><button class="btn small danger" id="aiClear">清除金鑰</button><span class="tiny muted" id="aiMsg"></span></div>
+    </div>
+    <div class="box">
+      <h2>備份與還原</h2>
+      <p class="tiny muted" style="margin:6px 0 10px">備份包含所有單字與複習進度。按「產生備份」後複製文字存起來；還原時貼回下方再按「還原」。</p>
+      <div class="row"><button class="btn pri" id="dlBtn">下載備份檔</button><label class="btn" style="display:inline-block;margin:0">從備份檔還原<input type="file" id="ulBackup" accept=".json" style="display:none"></label><button class="btn" id="exportBtn">產生備份文字</button><button class="btn" id="copyBtn">複製</button></div>
+      <textarea id="backup" style="margin-top:10px;font-family:ui-monospace,monospace;font-size:.78rem" placeholder="備份文字會出現在這裡；也可以把舊的備份貼在這裡還原"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn danger" id="restoreBtn">還原（會取代目前全部資料）</button></div>
+    </div>
+    <div class="box">
+      <h2>其他</h2>
+      <div class="row" style="margin-top:10px"><button class="btn danger" id="resetProg">把所有卡片重設為新卡</button></div>
+      <p class="tiny muted" style="margin-bottom:0">複習機制：新卡學習步驟 1 分 → 10 分（難度 4–5 的字多一步 1 小時），畢業間隔 1 天；之後依 SM-2 難易係數拉長間隔，忘記時降 20% 並進入 10 分鐘重學，凌晨 4 點換日。開啟加權時，重要度與實用度 5 顆星的字複習間隔約為一般字的一半，1 顆星的字約 1.5 倍；難度高的字起始難易係數較低。</p>
+    </div>
+  </div>
+  </section>
+</div>
+
+  <nav id="nav"><div class="inner">
+    <button data-tab="review" style="--tabc:#F2A497" class="on"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="8.5" width="15" height="15" rx="3.5"/><path d="M9 5h11a3.5 3.5 0 0 1 3.5 3.5V19"/><path d="M9.5 16l2.5 2.5 4.5-5"/></svg></span><span>複習</span></button>
+    <button data-tab="video" style="--tabc:#A8D3E6"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="21" height="15" rx="4.5"/><path d="M12 10.5v6l5-3z" fill="currentColor"/><path d="M10 24.5h8"/></svg></span><span>影片</span></button>
+    <button data-tab="practice" style="--tabc:#F6D27A"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/><path d="M6 22l4-1"/></svg></span><span>練習</span></button>
+    <button data-tab="browse" style="--tabc:#B9DAA5"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8c-3-2-7-2.2-9.5-1v15c2.5-1.2 6.5-1 9.5 1 3-2 7-2.2 9.5-1V7c-2.5-1.2-6.5-1-9.5 1z"/><path d="M14 8v15"/></svg></span><span>單字</span></button>
+    <button data-tab="friends" style="--tabc:#A8D3E6"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10" r="4"/><path d="M3.5 22c.8-4 3.6-6 7-6s6.2 2 7 6"/><circle cx="19" cy="9" r="3.2"/><path d="M18 14.6c3.3-.3 5.8 1.6 6.5 5.4"/></svg></span><span>班級</span></button>
+    <button data-tab="me" style="--tabc:#F2A497"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="14" r="10"/><path d="M10 16.5c1.6 2.2 6.4 2.2 8 0"/><circle cx="10.5" cy="11.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="11.5" r=".9" fill="currentColor"/></svg></span><span>我的</span></button>
+  </div></nav>
+<div class="login" id="login"><div class="loginBox">
+  <svg viewBox="0 0 38 38" style="width:60px;height:60px" aria-hidden="true"><rect x="1.5" y="1.5" width="35" height="35" rx="10" fill="#F2A497" stroke="#3E3A39" stroke-width="2"/><path d="M19 12c-3-2-7-2.2-10-1.2v15c3-1 7-.8 10 1.2 3-2 7-2.2 10-1.2v-15c-3-1-7-.8-10 1.2z" fill="#FFFCF6" stroke="#3E3A39" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 12v15" stroke="#3E3A39" stroke-width="1.6"/></svg>
+  <h1 style="margin-top:10px">Vocab Studio</h1>
+  <p class="muted" style="margin:4px 0 18px">英文單字學習・影片／間隔複習／活用／班級對戰</p>
+  <div class="avrow" id="avrow"></div>
+  <button class="btn pri" id="btnAnon" style="width:100%;padding:12px">匿名開始（免註冊）</button>
+  <button class="btn" id="btnGoogle" style="width:100%;padding:12px;margin-top:10px">用 Google 帳號登入</button>
+  <p class="tiny muted" style="margin-top:14px;text-align:left">・匿名開始：不需要帳號，資料綁定在這個瀏覽器。之後可在「我的 → 帳號」綁定 Google 以跨裝置使用。<br>・Google 登入：換手機或電腦都能用同一份資料。<br>・每個人的複習進度都是私人的，不會互相影響。</p>
+  <div class="tiny" id="loginMsg" style="margin-top:8px;color:#b4513f"></div>
+</div></div>
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="aibar" id="aibar"><span class="spin"></span><span id="aibarText"></span><button id="aibarStop">停止</button></div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+/* =====================================================================
+   ★ Firebase 設定：請把 Firebase 主控台「專案設定 → 一般 → 你的應用程式」
+     中的 firebaseConfig 內容貼到下面（取代整個 { ... }）。
+   ===================================================================== */
+const FIREBASE_CONFIG = {
+ apiKey: "AIzaSyBuLWQl-YFQPjvfCWZ1pNqFmuNTNq5bm4Q",
+  authDomain: "english-ding.firebaseapp.com",
+  projectId: "english-ding",
+  storageBucket: "english-ding.firebasestorage.app",
+  messagingSenderId: "133286484140",
+  appId: "1:133286484140:web:05a3b78cd292084c9ee709"
+};
+/* ===================================================================== */
+
+const FB_CONFIGURED = !!FIREBASE_CONFIG.apiKey && !/貼上|你的/.test(FIREBASE_CONFIG.apiKey + FIREBASE_CONFIG.projectId);
+async function loadFirebase(cfg){
+  const base = 'https://www.gstatic.com/firebasejs/12.11.0/';
+  const [A, AU, FS] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-auth.js'), import(base + 'firebase-firestore.js')]);
+  const app = A.initializeApp(cfg);
+  const auth = AU.getAuth(app);
+  const fs = FS.getFirestore(app);
+  const ERR = {'permission-denied': 'invalid_argument', 'resource-exhausted': 'quota_exceeded', 'not-found': 'invalid_argument', 'invalid-argument': 'invalid_argument', 'unavailable': 'unavailable'};
+  const mapErr = e => ({code: ERR[e && e.code] || 'unavailable', message: (e && e.message) || '', raw: e && e.code});
+  const wrapDoc = s => ({id: s.id, exists: s.exists(), data: () => s.data(), metadata: s.metadata});
+  const wrapQ = s => ({docs: s.docs.map(wrapDoc), size: s.size, empty: s.empty});
+  const clean = d => JSON.parse(JSON.stringify(d));
+  const docRef = path => { const r = FS.doc(fs, path); return {
+    id: r.id, path,
+    get: () => FS.getDoc(r).then(wrapDoc, e => { throw mapErr(e); }),
+    set: d => FS.setDoc(r, clean(d)).catch(e => { throw mapErr(e); }),
+    update: d => FS.updateDoc(r, clean(d)).catch(e => { throw mapErr(e); }),
+    delete: () => FS.deleteDoc(r).catch(e => { throw mapErr(e); }),
+    onSnapshot: (next, err) => FS.onSnapshot(r, s => next(wrapDoc(s)), e => err && err(mapErr(e))),
+    collection: sub => collRef(path + '/' + sub)}; };
+  const collRef = (path, cons = []) => ({
+    path,
+    doc: id => docRef(path + '/' + (id || FS.doc(FS.collection(fs, path)).id)),
+    where: (f, o, v) => collRef(path, [...cons, FS.where(f, o, v)]),
+    orderBy: (f, d) => collRef(path, [...cons, FS.orderBy(f, d || 'asc')]),
+    limit: n => collRef(path, [...cons, FS.limit(n)]),
+    get: () => FS.getDocs(FS.query(FS.collection(fs, path), ...cons)).then(wrapQ, e => { throw mapErr(e); }),
+    onSnapshot: (next, err) => FS.onSnapshot(FS.query(FS.collection(fs, path), ...cons), s => next(wrapQ(s)), e => err && err(mapErr(e)))});
+  const gp = () => new AU.GoogleAuthProvider();
+  return {
+    db: {doc: docRef, collection: p => collRef(p)},
+    onAuth: cb => AU.onAuthStateChanged(auth, cb),
+    signInAnon: () => AU.signInAnonymously(auth),
+    signInGoogle: () => AU.signInWithPopup(auth, gp()),
+    linkGoogle: async () => {
+      try { return await AU.linkWithPopup(auth.currentUser, gp()); }
+      catch(e){
+        if (e.code === 'auth/credential-already-in-use'){
+          const cred = AU.GoogleAuthProvider.credentialFromError(e);
+          const err = new Error('in-use'); err.code = 'in-use'; err.useExisting = () => AU.signInWithCredential(auth, cred); throw err;
+        }
+        throw e;
+      }
+    },
+    signOut: () => AU.signOut(auth),
+    user: () => auth.currentUser
+  };
+}
+let FBX = null, FB_FAIL = false;
+if (window.__FB_MOCK) FBX = window.__FB_MOCK;
+else if (FB_CONFIGURED){ try { FBX = await loadFirebase(FIREBASE_CONFIG); } catch(e){ FB_FAIL = true; console.error(e); } }
+
+(() => {
+'use strict';
+const DAY = 86400000, ROLL = 4 * 3600000, MIN = 60000;
+const RELEARN = [10], LEARN_AHEAD = 20 * MIN, CHUNK = 80;
+const LS_KEY = 'vocab-srs-v2';
+const CATS = ['日常生活','職場商務','學術研究','科學技術','健康醫療','情緒個性','社會時事','旅遊交通','飲食','科技網路','其他'];
+const TYPES = ['單字','片語動詞','慣用語','搭配詞'];
+const LEVELS = ['A1','A2','B1','B2','C1','C2'];
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const int15 = (v, d = 3) => { const n = Math.round(Number(v)); return n >= 1 && n <= 5 ? n : d; };
+const arr = v => Array.isArray(v) ? v : [];
+const norm = s => String(s || '').toLowerCase().replace(/[’']/g, "'").replace(/^[\s"“.,!?;:]+|[\s"”.,!?;:]+$/g, '').replace(/\s+/g, ' ');
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+const INK = '#3E3A39';
+const ILL = {
+  done: `<svg viewBox="0 0 170 130" aria-hidden="true"><g class="drift"><path d="M22 44q-9 0-7-8 2-7 10-5 2-11 15-10 9 0 12 8 11-2 13 7 1 8-8 8z" fill="#E4F2F8" stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"/></g><g class="twinkle"><circle cx="130" cy="32" r="14" fill="#F6D27A" stroke="${INK}" stroke-width="2.5"/></g><path d="M130 10v-5M150 32h5M145 17l4-4M115 17l-4-4" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/><path d="M8 114q77-28 154 0v10H8z" fill="#B9DAA5" stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"/><g class="sway"><path d="M85 106V74" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><path d="M85 88q-16-1-19-15 15 0 19 15z" fill="#B9DAA5" stroke="${INK}" stroke-width="2.3" stroke-linejoin="round"/><path d="M85 81q14-4 18-17-14 1-18 17z" fill="#B9DAA5" stroke="${INK}" stroke-width="2.3" stroke-linejoin="round"/><circle cx="85" cy="70" r="7" fill="#F2A497" stroke="${INK}" stroke-width="2.3"/></g></svg>`,
+  empty: `<svg viewBox="0 0 170 130" aria-hidden="true"><g class="float"><path d="M85 52c-18-12-42-12-60-6v52c18-6 42-6 60 6 18-12 42-12 60-6V46c-18-6-42-6-60 6z" fill="#fff" stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"/><path d="M85 52v52" stroke="${INK}" stroke-width="2.3"/><path d="M38 64h32M38 74h26M38 84h30M100 64h32M100 74h26M100 84h30" stroke="#A8D3E6" stroke-width="3.2" stroke-linecap="round"/></g><g class="twinkle"><path d="M40 14l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#F6D27A" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/></g><g class="twinkle d2"><path d="M132 10l2.5 5.5 5.5 2.5-5.5 2.5-2.5 5.5-2.5-5.5-5.5-2.5 5.5-2.5z" fill="#F2A497" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/></g><g class="twinkle d3"><circle cx="150" cy="44" r="4" fill="#B9DAA5" stroke="${INK}" stroke-width="2"/></g></svg>`,
+  cloud: `<svg class="deco" viewBox="0 0 74 56" aria-hidden="true"><g class="float"><path d="M13 44q-9 0-7-8 2-7 10-6 2-12 16-12 12 0 14 10 12-2 14 8 2 8-8 8z" fill="#fff" stroke="${INK}" stroke-width="2.5" stroke-linejoin="round"/><circle cx="31" cy="33" r="1.9" fill="${INK}"/><circle cx="43" cy="33" r="1.9" fill="${INK}"/><path d="M34 38q3 3 6 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="26" cy="37" r="2.6" fill="#F2A497" opacity=".7"/><circle cx="48" cy="37" r="2.6" fill="#F2A497" opacity=".7"/></g></svg>`,
+  speaker: `<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h3l4-3v10l-4-3H3z" fill="${INK}" stroke="${INK}" stroke-width="1.2" stroke-linejoin="round"/><path d="M13 7.5q2 2.5 0 5M15.3 5.3q4 4.7 0 9.4" stroke="${INK}" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`
+};
+const PACKS = [{"name":"辦公室日常","cat":"職場商務","words":[["agenda","n.","議程"],["assign","v.","分派；指派"],["attach","v.","附上；附加"],["colleague","n.","同事"],["deadline","n.","截止期限"],["department","n.","部門"],["document","n.","文件"],["extension","n.","分機；延期"],["file","v.","歸檔；提出（申請）"],["memo","n.","備忘錄"],["postpone","v.","延期"],["priority","n.","優先事項"],["reception","n.","接待處；歡迎會"],["remind","v.","提醒"],["schedule","n./v.","行程表；安排"],["supervisor","n.","主管；監督者"],["supply","n.","用品；供應"],["workload","n.","工作量"],["coordinate","v.","協調"],["delegate","v.","委派"],["efficient","adj.","有效率的"],["in charge of","phr.","負責"],["notify","v.","通知"],["operate","v.","操作；營運"],["facility","n.","設施"]]},{"name":"人事招聘","cat":"職場商務","words":[["applicant","n.","應徵者"],["candidate","n.","候選人"],["qualification","n.","資格；條件"],["resume","n.","履歷"],["interview","n./v.","面試"],["hire","v.","雇用"],["recruit","v.","招募"],["position","n.","職位"],["experience","n.","經驗"],["reference","n.","推薦人；參考"],["promote","v.","升職；推廣"],["promotion","n.","升遷；促銷"],["salary","n.","薪水"],["benefit","n.","福利；好處"],["employee","n.","員工"],["employer","n.","雇主"],["retire","v.","退休"],["resign","v.","辭職"],["evaluation","n.","評估；考核"],["performance","n.","表現；績效"],["training","n.","訓練"],["orientation","n.","新人說明會"],["personnel","n.","人事部門；全體員工"],["probation","n.","試用期"],["transfer","v.","調職；轉移"]]},{"name":"會議簡報","cat":"職場商務","words":[["conference","n.","會議；研討會"],["presentation","n.","簡報"],["attend","v.","出席"],["participant","n.","參加者"],["proposal","n.","提案"],["summarize","v.","摘要；總結"],["discuss","v.","討論"],["consensus","n.","共識"],["minutes","n.","會議記錄"],["handout","n.","講義"],["brainstorm","v.","腦力激盪"],["objective","n.","目標"],["input","n.","意見；投入"],["reschedule","v.","重新安排時間"],["venue","n.","會場"],["keynote","n.","主題演講"],["outline","n./v.","大綱；概述"],["clarify","v.","釐清"],["address","v.","處理；發表演說"],["agree on","phr.","對…達成共識"],["follow up","phr.","後續追蹤"],["point out","phr.","指出"],["highlight","v.","強調"],["refreshments","n.","茶點"],["register","v.","報名；登記"]]},{"name":"行銷銷售","cat":"職場商務","words":[["advertise","v.","做廣告"],["campaign","n.","活動；宣傳"],["competitor","n.","競爭對手"],["consumer","n.","消費者"],["demand","n.","需求"],["launch","v.","推出"],["market share","n.","市占率"],["survey","n.","問卷調查"],["target","n./v.","目標；鎖定"],["brand","n.","品牌"],["discount","n.","折扣"],["estimate","n./v.","估計；估價"],["revenue","n.","營收"],["strategy","n.","策略"],["trend","n.","趨勢"],["feature","n./v.","特色；以…為特色"],["promotional","adj.","促銷的"],["retail","n.","零售"],["wholesale","n.","批發"],["client","n.","客戶"],["quote","n.","報價"],["affordable","adj.","負擔得起的"],["exclusive","adj.","獨家的"],["expand","v.","擴展"],["potential","adj./n.","潛在的；潛力"]]},{"name":"財務會計","cat":"職場商務","words":[["budget","n.","預算"],["expense","n.","費用；支出"],["invoice","n.","發票；請款單"],["account","n.","帳戶；帳目"],["audit","n./v.","稽核；審計"],["balance","n.","餘額；平衡"],["deposit","n./v.","存款；訂金"],["profit","n.","利潤"],["loss","n.","虧損"],["reimburse","v.","核銷；償還"],["receipt","n.","收據"],["tax","n.","稅"],["fiscal","adj.","財政的；會計年度的"],["forecast","n./v.","預測"],["investment","n.","投資"],["loan","n.","貸款"],["interest rate","n.","利率"],["payroll","n.","薪資名冊"],["quarterly","adj.","每季的"],["statement","n.","報表；聲明"],["transaction","n.","交易"],["cost-effective","adj.","划算的"],["overdue","adj.","逾期的"],["refund","n./v.","退款"],["outstanding","adj.","未付的；傑出的"]]},{"name":"採購物流","cat":"職場商務","words":[["order","n./v.","訂單；訂購"],["purchase","n./v.","購買"],["supplier","n.","供應商"],["vendor","n.","廠商；小販"],["inventory","n.","庫存"],["shipment","n.","貨運；一批貨"],["deliver","v.","運送；遞送"],["warehouse","n.","倉庫"],["in stock","phr.","有庫存"],["out of stock","phr.","缺貨"],["backorder","n.","延期交貨的訂單"],["dispatch","v.","派送；發送"],["track","v.","追蹤"],["package","n.","包裹"],["fragile","adj.","易碎的"],["bulk","n.","大量"],["procurement","n.","採購"],["contract","n.","合約"],["negotiate","v.","談判；協商"],["specification","n.","規格"],["expedite","v.","加速處理"],["freight","n.","貨物；運費"],["courier","n.","快遞員；快遞公司"],["confirm","v.","確認"],["cancel","v.","取消"]]},{"name":"旅遊出差","cat":"旅遊交通","words":[["itinerary","n.","行程表"],["reservation","n.","預約；訂位"],["accommodation","n.","住宿"],["depart","v.","出發"],["departure","n.","出發；離境"],["arrival","n.","抵達"],["boarding pass","n.","登機證"],["luggage","n.","行李"],["destination","n.","目的地"],["delay","n./v.","延誤"],["fare","n.","票價；車資"],["round-trip","adj.","來回的"],["check in","phr.","報到；登記入住"],["connecting flight","n.","轉機航班"],["aisle","n.","走道"],["customs","n.","海關"],["passport","n.","護照"],["book","v.","預訂"],["rental","n.","租賃"],["commute","v./n.","通勤"],["transportation","n.","交通運輸"],["excursion","n.","短途旅行"],["brochure","n.","宣傳冊"],["complimentary","adj.","免費贈送的"],["amenities","n.","便利設施"]]},{"name":"製造品管","cat":"科學技術","words":[["assemble","v.","組裝"],["equipment","n.","設備"],["machinery","n.","機械"],["manufacture","v.","製造"],["production","n.","生產"],["capacity","n.","產能；容量"],["defect","n.","瑕疵"],["inspect","v.","檢查"],["inspection","n.","檢查"],["quality control","n.","品質管制"],["maintenance","n.","維修保養"],["malfunction","n./v.","故障"],["procedure","n.","程序"],["safety","n.","安全"],["regulation","n.","法規；規定"],["comply with","phr.","遵守"],["standard","n.","標準"],["output","n.","產量"],["material","n.","材料"],["plant","n.","工廠"],["automate","v.","自動化"],["efficiency","n.","效率"],["prototype","n.","原型"],["upgrade","v./n.","升級"],["install","v.","安裝"]]},{"name":"合約法務","cat":"職場商務","words":[["agreement","n.","協議"],["terms","n.","條款；條件"],["clause","n.","條款"],["sign","v.","簽署"],["signature","n.","簽名"],["renew","v.","續約；更新"],["expire","v.","到期"],["valid","adj.","有效的"],["obligation","n.","義務"],["liability","n.","責任；負債"],["breach","n.","違反"],["draft","n./v.","草稿；起草"],["amend","v.","修改"],["binding","adj.","有約束力的"],["confidential","adj.","機密的"],["authorize","v.","授權"],["permit","n./v.","許可證；允許"],["policy","n.","政策；保單"],["warranty","n.","保固"],["guarantee","n./v.","保證"],["dispute","n.","爭議"],["legal","adj.","法律的；合法的"],["party","n.","（合約）一方"],["effective","adj.","生效的；有效的"],["terminate","v.","終止"]]},{"name":"客服溝通","cat":"職場商務","words":[["complaint","n.","抱怨；客訴"],["inquiry","n.","詢問"],["respond","v.","回應"],["resolve","v.","解決"],["satisfaction","n.","滿意"],["apologize","v.","道歉"],["inconvenience","n.","不便"],["assistance","n.","協助"],["feedback","n.","回饋意見"],["replace","v.","更換"],["exchange","v./n.","交換；退換"],["representative","n.","代表；專員"],["available","adj.","有空的；可取得的"],["appreciate","v.","感激"],["courteous","adj.","有禮貌的"],["prompt","adj.","迅速的"],["via","prep.","經由"],["regarding","prep.","關於"],["further","adj.","進一步的"],["attention","n.","注意；（信件）收件人"],["accommodate","v.","容納；配合"],["convenient","adj.","方便的"],["on behalf of","phr.","代表"],["get back to","phr.","回覆（某人）"],["look into","phr.","調查；研究"]]}];
+const DEFAULT_SETTINGS = {newPerDay: 15, maxRev: 200, newOrder: 'prio', weight: true,
+  modes: {recog: true, recall: true, cloze: true, produce: true},
+  autoSpeak: true, accent: 'en-US', rate: '0.9', deck: '', lastDeck: '',
+  nick: '', avatar: '', board: true, classes: [], curClass: '', subs: [], xp: {week: '', pts: 0}};
+let S = {cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0};
+
+/* ---------- avatars (original designs) ---------- */
+const AVATARS = (() => {
+  const K = '#3E3A39', S = `stroke="${K}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"`;
+  const eye = (x, y, r = 2.3) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${K}"/>`;
+  const eyes = (y = 33, l = 26, r = 38) => eye(l, y) + eye(r, y);
+  const blush = (y = 40, l = 21, r = 43) => `<ellipse cx="${l}" cy="${y}" rx="3" ry="1.8" fill="#F2A497" opacity=".75"/><ellipse cx="${r}" cy="${y}" rx="3" ry="1.8" fill="#F2A497" opacity=".75"/>`;
+  const smile = (y = 41, w = 4) => `<path d="M${32 - w} ${y} q${w} ${w * .8} ${w * 2} 0" fill="none" ${S}/>`;
+  const bg = c => `<circle cx="32" cy="32" r="31" fill="${c}"/>`;
+  const wrap = (c, body) => `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">${bg(c)}${body}</svg>`;
+  const list = [
+    ['cat', '貓', wrap('#FCE5E0', `<path d="M16 30 L18 12 L29 22Z" fill="#F6D27A" ${S}/><path d="M48 30 L46 12 L35 22Z" fill="#F6D27A" ${S}/><circle cx="32" cy="36" r="17" fill="#F6D27A" ${S}/>${eyes(34)}<path d="M30.3 39h3.4l-1.7 2.2z" fill="#E07F6F"/><path d="M32 41.2q-2 3-4.5 1.2M32 41.2q2 3 4.5 1.2" fill="none" ${S}/><path d="M14 38h7M14 42l7-1M50 38h-7M50 42l-7-1" ${S}/>`)],
+    ['dog', '狗', wrap('#E4F2F8', `<ellipse cx="16" cy="33" rx="6" ry="12" transform="rotate(18 16 33)" fill="#A9744F" ${S}/><ellipse cx="48" cy="33" rx="6" ry="12" transform="rotate(-18 48 33)" fill="#A9744F" ${S}/><circle cx="32" cy="34" r="16" fill="#E8C9A0" ${S}/><ellipse cx="32" cy="42" rx="8" ry="6" fill="#fff" ${S}/>${eyes(31)}<ellipse cx="32" cy="38.5" rx="3.2" ry="2.3" fill="${K}"/><path d="M32 41v2.5" ${S}/>`)],
+    ['rabbit', '兔子', wrap('#E8F3E1', `<ellipse cx="25" cy="16" rx="5.5" ry="13" fill="#fff" ${S}/><ellipse cx="39" cy="16" rx="5.5" ry="13" fill="#fff" ${S}/><ellipse cx="25" cy="17" rx="2.2" ry="8" fill="#F8C9C0"/><ellipse cx="39" cy="17" rx="2.2" ry="8" fill="#F8C9C0"/><circle cx="32" cy="39" r="15" fill="#fff" ${S}/>${eyes(37)}${blush(43)}<path d="M30.5 41.5h3l-1.5 1.8z" fill="#E07F6F"/><rect x="30.3" y="44" width="3.4" height="3.6" rx=".8" fill="#fff" ${S}/>`)],
+    ['croc', '鱷魚', wrap('#E4F2F8', `<circle cx="22" cy="24" r="6.5" fill="#8DBF7A" ${S}/><circle cx="42" cy="24" r="6.5" fill="#8DBF7A" ${S}/><rect x="11" y="26" width="42" height="24" rx="11" fill="#8DBF7A" ${S}/>${eye(22, 24, 2.4)}${eye(42, 24, 2.4)}<circle cx="27" cy="33" r="1.2" fill="${K}"/><circle cx="37" cy="33" r="1.2" fill="${K}"/><path d="M16 40 Q32 47 48 40" fill="none" ${S}/><path d="M22 42.3l1.6 2.6 1.6-2.1M38.8 42.2l1.6 2.6 1.6-2.4" fill="#fff" stroke="${K}" stroke-width="1.4" stroke-linejoin="round"/>`)],
+    ['squirrel', '松鼠', wrap('#FDF2D2', `<path d="M42 52C60 50 61 28 51 17c-6-5-13 1-8 7 7 7 4 18-5 22z" fill="#C98A4E" ${S}/><path d="M18 26l2-8 6 6zM34 24l5-6 1 8z" fill="#D9A066" ${S}/><circle cx="28" cy="37" r="14" fill="#D9A066" ${S}/><ellipse cx="28" cy="42" rx="7" ry="5" fill="#F3DDB9"/>${eye(23, 34)}${eye(33, 34)}<ellipse cx="28" cy="39" rx="2" ry="1.5" fill="${K}"/>${smile(42, 2.5).replace('M29.5', 'M25.5')}`)],
+    ['bear', '熊', wrap('#FCE5E0', `<circle cx="18" cy="20" r="7" fill="#A9744F" ${S}/><circle cx="46" cy="20" r="7" fill="#A9744F" ${S}/><circle cx="32" cy="35" r="18" fill="#A9744F" ${S}/><ellipse cx="32" cy="42" rx="8.5" ry="6.5" fill="#E8C9A0" ${S}/>${eyes(32)}<ellipse cx="32" cy="39.5" rx="3" ry="2.2" fill="${K}"/><path d="M32 41.5v2.2" ${S}/>`)],
+    ['fox', '狐狸', wrap('#E8F3E1', `<path d="M12 23 L20 9 L28 21 L36 21 L44 9 L52 23 L50 37 Q32 57 14 37Z" fill="#E9915A" ${S}/><path d="M14 37 Q23 38 32 49 Q41 38 50 37 Q32 57 14 37Z" fill="#fff" ${S}/>${eyes(31, 24, 40)}<ellipse cx="32" cy="48" rx="2.6" ry="2" fill="${K}"/>`)],
+    ['panda', '熊貓', wrap('#E4F2F8', `<circle cx="17" cy="20" r="7" fill="${K}"/><circle cx="47" cy="20" r="7" fill="${K}"/><circle cx="32" cy="35" r="18" fill="#fff" ${S}/><ellipse cx="24.5" cy="33" rx="4.5" ry="6" transform="rotate(25 24.5 33)" fill="${K}"/><ellipse cx="39.5" cy="33" rx="4.5" ry="6" transform="rotate(-25 39.5 33)" fill="${K}"/><circle cx="25" cy="32" r="1.5" fill="#fff"/><circle cx="39" cy="32" r="1.5" fill="#fff"/><ellipse cx="32" cy="41" rx="2.6" ry="1.9" fill="${K}"/>${smile(44, 2.5)}`)],
+    ['penguin', '企鵝', wrap('#E4F2F8', `<circle cx="32" cy="34" r="20" fill="#4A5560" ${S}/><path d="M32 22c-9-6-17 2-15 11 2 9 9 13 15 13s13-4 15-13c2-9-6-17-15-11z" fill="#fff"/>${eyes(32, 25, 39)}<path d="M28 37h8l-4 5z" fill="#F2A96B" ${S}/>${blush(40, 20, 44)}`)],
+    ['owl', '貓頭鷹', wrap('#FDF2D2', `<path d="M14 18l8 6M50 18l-8 6" ${S}/><path d="M15 20Q32 10 49 20Q54 34 48 46Q32 58 16 46Q10 34 15 20Z" fill="#B98457" ${S}/><circle cx="24.5" cy="31" r="7.5" fill="#fff" ${S}/><circle cx="39.5" cy="31" r="7.5" fill="#fff" ${S}/>${eye(24.5, 31, 3)}${eye(39.5, 31, 3)}<path d="M29.5 37l2.5 4 2.5-4z" fill="#F6D27A" ${S}/><path d="M24 47q2 2 4 0M30 48q2 2 4 0M36 47q2 2 4 0" fill="none" stroke="${K}" stroke-width="1.6" stroke-linecap="round"/>`)],
+    ['frog', '青蛙', wrap('#FCE5E0', `<circle cx="22" cy="25" r="8" fill="#9CCB7F" ${S}/><circle cx="42" cy="25" r="8" fill="#9CCB7F" ${S}/><ellipse cx="32" cy="40" rx="21" ry="14" fill="#9CCB7F" ${S}/><circle cx="22" cy="25" r="4.5" fill="#fff"/><circle cx="42" cy="25" r="4.5" fill="#fff"/>${eye(22, 25.5)}${eye(42, 25.5)}<path d="M20 41 Q32 50 44 41" fill="none" ${S}/>${blush(40, 15, 49)}`)],
+    ['koala', '無尾熊', wrap('#E8F3E1', `<circle cx="14" cy="26" r="10" fill="#A8B0B5" ${S}/><circle cx="50" cy="26" r="10" fill="#A8B0B5" ${S}/><circle cx="14" cy="26" r="5" fill="#F3D3CF"/><circle cx="50" cy="26" r="5" fill="#F3D3CF"/><circle cx="32" cy="36" r="17" fill="#A8B0B5" ${S}/>${eyes(32, 24, 40)}<ellipse cx="32" cy="40" rx="4.5" ry="6" fill="${K}"/>`)],
+    ['lion', '獅子', wrap('#FDF2D2', `<circle cx="32" cy="34" r="24" fill="#D98E3F" ${S}/><circle cx="20" cy="20" r="4" fill="#F6D27A" ${S}/><circle cx="44" cy="20" r="4" fill="#F6D27A" ${S}/><circle cx="32" cy="35" r="15" fill="#F6D27A" ${S}/>${eyes(32, 26, 38)}<path d="M29.5 37h5l-2.5 3z" fill="${K}"/><path d="M32 40q-2 3-4.5 1.5M32 40q2 3 4.5 1.5" fill="none" ${S}/>`)],
+    ['chick', '小雞', wrap('#E4F2F8', `<path d="M30 15q2-6 4 0M27 17q1-5 4-1" fill="none" ${S}/><circle cx="32" cy="36" r="19" fill="#F6D27A" ${S}/>${eyes(32, 25, 39)}<path d="M28 37l4-3 4 3-4 3z" fill="#F2A96B" ${S}/>${blush(40, 19, 45)}`)],
+    ['starfish', '海星', wrap('#E4F2F8', `<path d="M32 8l6.5 14.5 15.5 1.5-11.7 10.4 3.5 15.4L32 42l-13.8 7.8 3.5-15.4L10 24l15.5-1.5z" fill="#F2A96B" ${S}/>${eyes(28, 28, 36)}${smile(34, 3)}<circle cx="22" cy="40" r="1.3" fill="#fff" opacity=".8"/><circle cx="43" cy="20" r="1.3" fill="#fff" opacity=".8"/>`)],
+    ['octopus', '章魚', wrap('#FDF2D2', `<path d="M14 42c0-17 8-28 18-28s18 11 18 28z" fill="#C9A3D9" ${S}/><path d="M16 42q-3 8 2 10M24 42q-2 9 2 11M32 42q0 9 0 12M40 42q2 9-2 11M48 42q3 8-2 10" fill="none" stroke="#C9A3D9" stroke-width="5" stroke-linecap="round"/><path d="M14 42h36" ${S}/>${eyes(31, 26, 38)}${blush(36, 21, 43)}${smile(36, 2.5)}`)],
+    ['alien', '外星人', wrap('#E8F3E1', `<path d="M32 16V8" ${S}/><circle cx="32" cy="7" r="3" fill="#F2A497" ${S}/><path d="M32 16c-12 0-19 8-18 18 1 10 9 18 18 18s17-8 18-18c1-10-6-18-18-18z" fill="#A8D3E6" ${S}/><ellipse cx="25" cy="33" rx="4.5" ry="6.5" transform="rotate(-20 25 33)" fill="${K}"/><ellipse cx="39" cy="33" rx="4.5" ry="6.5" transform="rotate(20 39 33)" fill="${K}"/><circle cx="26" cy="31" r="1.4" fill="#fff"/><circle cx="40" cy="31" r="1.4" fill="#fff"/>${smile(43, 2.5)}`)],
+    ['dino', '恐龍', wrap('#FCE5E0', `<path d="M20 18l4-7 4 6 4-7 4 7 4-6 3 7" fill="#F6D27A" ${S}/><rect x="13" y="17" width="38" height="33" rx="15" fill="#8FC9A8" ${S}/>${eyes(30, 24, 40)}<circle cx="29" cy="38" r="1.2" fill="${K}"/><circle cx="35" cy="38" r="1.2" fill="${K}"/><path d="M24 42q8 6 16 0" fill="none" ${S}/>`)],
+    ['whale', '鯨魚', wrap('#FDF2D2', `<path d="M32 18v-6M32 12q-4-4-8-2M32 12q4-4 8-2" fill="none" stroke="#7FB4D6" stroke-width="2.5" stroke-linecap="round"/><path d="M10 40c0-12 10-20 22-20s22 8 22 20c0 7-6 10-22 10S10 47 10 40z" fill="#7FB4D6" ${S}/><path d="M14 43q18 5 36 0" fill="none" stroke="#fff" stroke-width="2"/>${eyes(35, 22, 42)}${smile(38, 3)}`)],
+    ['hedgehog', '刺蝟', wrap('#E8F3E1', `<path d="M10 40l3-9-5-6 8-2 0-9 8 3 5-8 5 7 7-5 3 8 8-1-2 8 7 5-6 5 3 8z" fill="#8B6A4E" ${S}/><ellipse cx="32" cy="41" rx="15" ry="12" fill="#E8C9A0" ${S}/>${eyes(39, 26, 38)}<ellipse cx="32" cy="44" rx="2.4" ry="1.8" fill="${K}"/>${blush(45, 21, 43)}`)],
+  ];
+  const m = {};
+  list.forEach(([id, name, svg]) => { m[id] = {name, svg}; });
+  return m;
+})();
+const avatarSVG = (id, name) => AVATARS[id] ? AVATARS[id].svg : `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#E4F2F8"/><text x="32" y="41" text-anchor="middle" font-size="26" fill="#3E3A39">${esc((name || '?').slice(0, 1))}</text></svg>`;
+
+/* ---------- time ---------- */
+function dayStartOf(t){ const d = new Date(t - ROLL); d.setHours(0,0,0,0); return d.getTime() + ROLL; }
+function dayKey(t){ const d = new Date(t - ROLL); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function ensureDaily(){ const k = dayKey(Date.now()); if (S.daily.day !== k) S.daily = {day: k, newDone: 0, revDone: 0}; }
+function fmtSpan(ms){ const m = ms / MIN; if (m < 60) return Math.max(1, Math.round(m)) + ' 分'; if (m < 1440) return Math.round(m / 60) + ' 小時'; return fmtDays(m / 1440); }
+function fmtDays(d){ if (d < 30) return Math.round(d) + ' 天'; if (d < 365) return (d / 30).toFixed(1).replace(/\.0$/, '') + ' 個月'; return (d / 365).toFixed(1).replace(/\.0$/, '') + ' 年'; }
+function fmtTime(sec){ sec = Math.max(0, Math.floor(sec)); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60; return (h ? h + ':' + String(m).padStart(2,'0') : m) + ':' + String(s).padStart(2,'0'); }
+
+/* ---------- card helpers ---------- */
+function normalizeCard(c){
+  if (typeof c.ex === 'string') c.ex = c.ex ? [{en: c.ex, zh: ''}] : [];
+  c.ex = arr(c.ex).filter(e => e && e.en); c.senses = arr(c.senses); c.forms = arr(c.forms);
+  c.syn = arr(c.syn).map(s => typeof s === 'string' ? {w: s, note: ''} : s).filter(s => s && s.w);
+  c.ant = arr(c.ant).map(String); c.coll = arr(c.coll).map(String);
+  c.tags = arr(c.tags).map(String).filter(Boolean); c.star = !!c.star;
+  c.imp = int15(c.imp); c.prac = int15(c.prac); c.diff = int15(c.diff);
+  if (!c.state) c.state = 'new';
+  return c;
+}
+const prio = c => (c.imp || 3) * 0.6 + (c.prac || 3) * 0.4;
+function ivlMod(c){ return S.settings.weight ? clamp(1 + 0.15 * (3 - (c.imp||3)) + 0.1 * (3 - (c.prac||3)), 0.5, 1.5) : 1; }
+function easeFor(c){ return S.settings.weight ? clamp(2.5 - 0.15 * ((c.diff||3) - 3), 1.6, 2.8) : 2.5; }
+function stepsFor(c){ return S.settings.weight && (c.diff||3) >= 4 ? [1, 10, 60] : [1, 10]; }
+
+/* ---------- scheduler ---------- */
+function schedule(c, r, now, fuzz){
+  const n = {state: c.state, step: c.step || 0, due: c.due, ivl: c.ivl || 0, ease: c.ease || easeFor(c), lapses: c.lapses || 0};
+  const today = dayStartOf(now), mod = ivlMod(c);
+  const grad = ivl => { n.state = 'review'; n.step = 0; n.ivl = Math.max(1, Math.round(ivl)); n.due = today + n.ivl * DAY; };
+  if (n.state === 'review'){
+    const late = Math.max(0, Math.floor((today - c.due) / DAY));
+    let iv = n.ivl;
+    if (r === 1){ n.lapses++; n.ease = Math.max(1.3, n.ease - 0.2); n.ivl = 1; n.state = 'relearning'; n.step = 0; n.due = now + RELEARN[0] * MIN; return n; }
+    if (r === 2){ iv = iv * 1.2 * mod; n.ease = Math.max(1.3, n.ease - 0.15); }
+    if (r === 3){ iv = (iv + late / 2) * n.ease * mod; }
+    if (r === 4){ iv = (iv + late) * n.ease * 1.3 * mod; n.ease += 0.15; }
+    iv = Math.max(n.ivl + 1, iv);
+    if (fuzz && iv >= 3) iv *= 0.95 + Math.random() * 0.1;
+    grad(Math.min(36500, iv));
+    return n;
+  }
+  const relearn = n.state === 'relearning';
+  const steps = relearn ? RELEARN : stepsFor(c);
+  if (n.state === 'new'){ n.state = 'learning'; n.step = 0; n.ease = easeFor(c); }
+  if (r === 1){ n.step = 0; n.due = now + steps[0] * MIN; }
+  else if (r === 2){ const d = (n.step === 0 && steps.length > 1) ? (steps[0] + steps[1]) / 2 : steps[Math.min(n.step, steps.length-1)] * 1.5; n.due = now + d * MIN; }
+  else if (r === 3){ n.step++; if (n.step >= steps.length) grad(relearn ? n.ivl : 1); else n.due = now + steps[n.step] * MIN; }
+  else grad(relearn ? n.ivl + 1 : Math.max(2, 4 * mod));
+  return n;
+}
+function previewLabel(c, r){ const now = Date.now(), n = schedule(c, r, now, false); return n.state === 'review' ? fmtDays(n.ivl) : fmtSpan(n.due - now); }
+
+/* ---------- queue ---------- */
+const matchDeck = (c, d) => !d || (d === '__star' ? c.star : d[0] === '#' ? c.tags.includes(d.slice(1)) : c.deck === d);
+const inDeck = c => matchDeck(c, S.settings.deck);
+const allTags = () => [...new Set(S.cards.flatMap(c => c.tags))].sort();
+const TAG_PRESETS = ['易混淆','發音難','拼字難','工作常用','想造句','考前複習'];
+const decks = () => [...new Set(S.cards.map(c => c.deck).filter(Boolean))].sort();
+const isLearning = c => c.state === 'learning' || c.state === 'relearning';
+function queueInfo(){
+  ensureDaily();
+  const now = Date.now(), nd = dayStartOf(now) + DAY;
+  const pool = S.cards.filter(inDeck);
+  const learnNow = pool.filter(c => isLearning(c) && c.due <= now).sort((a,b) => a.due - b.due);
+  const learnToday = pool.filter(c => isLearning(c) && c.due < nd);
+  const revLeft = Math.max(0, S.settings.maxRev - S.daily.revDone);
+  const revs = pool.filter(c => c.state === 'review' && c.due < nd).sort((a,b) => (a.due - b.due) || (prio(b) - prio(a)));
+  const newLeft = Math.max(0, S.settings.newPerDay - S.daily.newDone);
+  const news = pool.filter(c => c.state === 'new').sort(S.settings.newOrder === 'prio' ? ((a,b) => (prio(b) - prio(a)) || ((a.order||0) - (b.order||0))) : ((a,b) => (a.order||0) - (b.order||0)));
+  return {now, learnNow, learnToday, revs: revs.slice(0, revLeft), news: news.slice(0, newLeft), allNew: news.length, pool};
+}
+function nextCard(){
+  const q = queueInfo();
+  if (q.learnNow.length) return q.learnNow[0];
+  if (q.revs.length) return q.revs[0];
+  if (q.news.length) return q.news[0];
+  return q.pool.filter(c => isLearning(c) && c.due <= q.now + LEARN_AHEAD).sort((a,b) => a.due - b.due)[0] || null;
+}
+
+/* ---------- storage ---------- */
+let mode = 'loading', DB = null, UID = null, loaded = false, AI = null, aiOff = false;
+let saving = false, again = false, saveTimer = null;
+const dirty = {meta: false, chunks: new Set(), del: new Set()};
+const metaRef = () => DB.doc('users/' + UID + '/data/meta');
+const chunkRef = ck => DB.doc('users/' + UID + '/data/' + ck);
+const cacheKey = () => LS_KEY + (UID ? ':' + UID : '');
+const metaBody = () => ({v: 2, settings: S.settings, daily: S.daily, hist: S.hist, chunkIds: S.chunkIds, nextChunk: S.nextChunk, updated: Date.now()});
+function cacheLocal(){ try { localStorage.setItem(cacheKey(), JSON.stringify(S)); } catch(e){} }
+function readCache(key){ try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch(e){ return null; } }
+function loadLocal(){ const d = readCache(cacheKey()); if (d) applyData(d); }
+const freshState = () => ({cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0});
+function applyData(d){
+  const st = {...structuredClone(DEFAULT_SETTINGS), ...(d.settings || {})};
+  st.modes = {...DEFAULT_SETTINGS.modes, ...((d.settings || {}).modes || {})};
+  S = {cards: (d.cards || []).map(c => normalizeCard(JSON.parse(JSON.stringify(c)))), settings: st,
+    daily: {day: '', newDone: 0, revDone: 0, ...(d.daily || {})}, hist: {...(d.hist || {})},
+    chunkIds: [...(d.chunkIds || [])], nextChunk: d.nextChunk || 0};
+  if (S.cards.some(c => !c.ck || !S.chunkIds.includes(c.ck))) rebuildChunks();
+}
+function chunkCounts(){ const m = {}; for (const c of S.cards) m[c.ck] = (m[c.ck] || 0) + 1; return m; }
+function assignChunk(counts){
+  const last = S.chunkIds[S.chunkIds.length - 1];
+  if (last && (counts[last] || 0) < CHUNK){ counts[last] = (counts[last] || 0) + 1; return last; }
+  const id = 'c' + (S.nextChunk++); S.chunkIds.push(id); counts[id] = 1; return id;
+}
+function rebuildChunks(){
+  const old = new Set(S.chunkIds); S.chunkIds = []; const counts = {};
+  for (const c of S.cards) c.ck = assignChunk(counts);
+  for (const id of S.chunkIds){ dirty.chunks.add(id); old.delete(id); }
+  for (const id of old) dirty.del.add(id);
+  dirty.meta = true;
+}
+function markDirty(ck){ if (ck) dirty.chunks.add(ck); dirty.meta = true; cacheLocal(); scheduleSave(); }
+function scheduleSave(){ if (mode !== 'cloud'){ setStatus(); return; } setStatus('pending'); clearTimeout(saveTimer); saveTimer = setTimeout(flush, 1200); }
+async function flush(){
+  clearTimeout(saveTimer);
+  if (mode !== 'cloud') return;
+  if (saving){ again = true; return; }
+  if (!dirty.meta && !dirty.chunks.size && !dirty.del.size){ setStatus('ok'); return; }
+  saving = true; setStatus('saving');
+  const ch = [...dirty.chunks], dl = [...dirty.del];
+  dirty.chunks.clear(); dirty.del.clear(); dirty.meta = false;
+  try {
+    for (const ck of ch){
+      const cs = S.cards.filter(c => c.ck === ck);
+      if (cs.length) await chunkRef(ck).set({cards: cs});
+      else { await chunkRef(ck).delete(); S.chunkIds = S.chunkIds.filter(x => x !== ck); }
+    }
+    for (const ck of dl) await chunkRef(ck).delete();
+    await metaRef().set(metaBody());
+    setStatus('ok');
+  } catch(e){
+    ch.forEach(x => dirty.chunks.add(x)); dl.forEach(x => dirty.del.add(x)); dirty.meta = true;
+    const code = e && e.code;
+    if (code === 'quota_exceeded') setStatus('err', '雲端空間已滿');
+    else if (code === 'invalid_argument' || code === 'revoked' || code === 'not_granted'){ mode = 'local'; setStatus(); showNotice('雲端儲存無法使用，資料暫存在此瀏覽器。建議到「設定」產生備份。'); }
+    else { setStatus('err', '儲存失敗，稍後重試'); setTimeout(flush, 5000); }
+  }
+  saving = false;
+  if (again){ again = false; flush(); }
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flush(); });
+function setStatus(kind, msg){
+  const dot = $('#dot'), t = $('#statusText'); dot.className = 'dot';
+  if (mode === 'loading'){ t.textContent = '載入中…'; return; }
+  if (mode === 'login'){ t.textContent = '尚未登入'; return; }
+  if (mode !== 'cloud'){ dot.classList.add('busy'); t.textContent = '僅存於此瀏覽器'; return; }
+  if (kind === 'ok' || !kind){ dot.classList.add('ok'); t.textContent = '已同步到雲端'; }
+  else if (kind === 'err'){ dot.classList.add('err'); t.textContent = msg || '儲存失敗'; }
+  else { dot.classList.add('busy'); t.textContent = '儲存中…'; }
+}
+function showNotice(msg){ const n = $('#notice'); n.textContent = msg; n.classList.add('on'); }
+
+let ACCOUNT = null;
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no({code: 'timeout'}), ms))]);
+function finishLoad(m, note){
+  loaded = true; mode = m;
+  if (note) showNotice(note); else $('#notice').classList.remove('on');
+  setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
+}
+async function boot(){
+  setAI(makeAI());
+  if (!FBX){
+    UID = null; loadLocal();
+    finishLoad('local', FB_FAIL ? '無法連線到資料庫，先使用這個瀏覽器裡的資料。' : '尚未設定 Firebase（請依 README 說明設定），目前資料只存在這個瀏覽器，也無法使用班級功能。');
+    return;
+  }
+  FBX.onAuth(u => {
+    leaveListeners(); closeGame(true); SOC.ready = false; SOC.cls = null;
+    if (!u){ ACCOUNT = null; UID = null; DB = null; mode = 'login'; loaded = false; S = freshState(); cur = null; setStatus(); showLogin(); renderMeChip(); return; }
+    hideLogin(); ACCOUNT = u; UID = u.uid; DB = FBX.db;
+    loadCloud();
+  });
+}
+async function loadCloud(){
+  mode = 'loading'; loaded = false; setStatus(); renderReview();
+  S = freshState(); cur = null; undoStack.length = 0;
+  loadLocal();
+  let migrate = false;
+  try {
+    const m = await withTimeout(metaRef().get(), 15000);
+    if (m.exists){
+      const d = JSON.parse(JSON.stringify(m.data())); const cards = [];
+      for (const ck of d.chunkIds || []){ const s = await chunkRef(ck).get(); if (s.exists) for (const c of (s.data().cards || [])) cards.push({...c, ck}); }
+      applyData({...d, cards});
+    } else {
+      const legacy = readCache(LS_KEY);
+      if (!S.cards.length && legacy && arr(legacy.cards).length && !localStorage.getItem(LS_KEY + ':migrated')){ applyData(legacy); try { localStorage.setItem(LS_KEY + ':migrated', UID); } catch(e){} }
+      rebuildChunks(); migrate = true;
+    }
+    finishLoad('cloud'); cacheLocal();
+    if (migrate) flush();
+    initSocial();
+    if (!S.settings.avatar) openProfile(true);
+  } catch(e){
+    loadLocal();
+    finishLoad('local', '雲端讀取失敗（可能是網路或 Firestore 規則尚未設定），先使用這個瀏覽器裡的資料。');
+  }
+}
+function showLogin(){ $('#login').classList.add('on'); $('#loginMsg').textContent = ''; }
+function hideLogin(){ $('#login').classList.remove('on'); }
+const AUTH_ERR = e => ({'auth/operation-not-allowed': '這個登入方式尚未在 Firebase 啟用（Authentication → 登入方式）', 'auth/unauthorized-domain': '這個網址尚未加入 Firebase 的「授權網域」', 'auth/popup-closed-by-user': '登入視窗已關閉', 'auth/popup-blocked': '瀏覽器擋下了登入視窗，請允許彈出視窗', 'auth/network-request-failed': '網路連線失敗'})[e && e.code] || ('登入失敗：' + ((e && e.code) || '請稍後再試'));
+$('#btnAnon').onclick = async () => { $('#loginMsg').innerHTML = '<span class="spin"></span> 登入中…'; try { await FBX.signInAnon(); } catch(e){ $('#loginMsg').textContent = AUTH_ERR(e); } };
+$('#btnGoogle').onclick = async () => { $('#loginMsg').innerHTML = '<span class="spin"></span> 登入中…'; try { await FBX.signInGoogle(); } catch(e){ $('#loginMsg').textContent = AUTH_ERR(e); } };
+
+/* ---------- profile & account ---------- */
+function renderMeChip(){
+  const el = $('#meChip'); if (!el) return;
+  if (!ACCOUNT){ el.innerHTML = ''; el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.innerHTML = `<span class="av">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><span>${esc(S.settings.nick || '設定暱稱')}</span>`;
+}
+function openProfile(first){
+  let pick = S.settings.avatar || Object.keys(AVATARS)[Math.floor(Math.random() * Object.keys(AVATARS).length)];
+  const box = $('#modalBox');
+  const draw = () => {
+    box.innerHTML = `<div class="row spread"><h2>${first ? '歡迎！先設定暱稱與頭像' : '暱稱與頭像'}</h2>${first ? '' : '<button class="btn small" id="pfClose">關閉</button>'}</div>
+      <p class="tiny muted">班級成員會看到你的暱稱與頭像；你的複習進度不會公開。</p>
+      <label>暱稱</label><input type="text" id="pfNick" maxlength="16" value="${esc(S.settings.nick || '')}" placeholder="例如：小明">
+      <label>選擇頭像</label>
+      <div class="avgrid">${Object.entries(AVATARS).map(([id, a]) => `<button class="avpick${id === pick ? ' on' : ''}" data-av="${id}" title="${esc(a.name)}">${a.svg}<span>${esc(a.name)}</span></button>`).join('')}</div>
+      <div class="row" style="margin-top:14px"><button class="btn pri" id="pfSave">儲存</button><span class="tiny muted" id="pfMsg"></span></div>`;
+    box.querySelectorAll('[data-av]').forEach(b => b.onclick = () => { const n = $('#pfNick').value; pick = b.dataset.av; draw(); $('#pfNick').value = n; });
+    $('#pfSave').onclick = () => {
+      const nick = $('#pfNick').value.trim().slice(0, 16);
+      if (!nick){ $('#pfMsg').textContent = '請輸入暱稱'; return; }
+      S.settings.nick = nick; S.settings.avatar = pick; markDirty(); pushProfile();
+      closeModal(); renderMeChip(); renderAccount(); renderClass(); toast('已儲存');
+    };
+    if ($('#pfClose')) $('#pfClose').onclick = closeModal;
+  };
+  draw(); $('#modal').classList.add('on');
+}
+let logoutArmed = false;
+function renderAccount(){
+  const el = $('#accArea'); if (!el) return;
+  if (!FBX){ el.innerHTML = `<div class="box"><h2>帳號</h2><p class="muted">${FB_FAIL ? '無法連線到資料庫。' : '尚未設定 Firebase，無法登入。請依 README 完成設定後重新整理。'}</p></div>`; return; }
+  if (!ACCOUNT){ el.innerHTML = ''; return; }
+  const anon = ACCOUNT.isAnonymous;
+  el.innerHTML = `<div class="box"><div class="row" style="gap:14px"><span class="av big">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><div style="flex:1"><div style="font-size:1.2rem">${esc(S.settings.nick || '尚未設定暱稱')}</div><div class="tiny muted">${anon ? '匿名帳號（資料綁定在這個瀏覽器）' : 'Google 帳號' + (ACCOUNT.email ? '・' + esc(ACCOUNT.email) : '') + '（可在任何裝置登入）'}</div></div><button class="btn small" id="accEdit">更換暱稱／頭像</button></div></div>
+    <div class="box"><h2>跨裝置使用</h2>${anon ? `<p class="tiny muted" style="margin:4px 0 10px">匿名帳號免註冊，但只存在這個瀏覽器；清除瀏覽資料或換手機就找不回來。綁定 Google 帳號後，目前所有單字與進度都會保留，之後在其他裝置用同一個 Google 帳號登入即可。</p><button class="btn pri" id="accLink">綁定 Google 帳號</button>` : '<p class="tiny muted" style="margin:4px 0 0">已綁定 Google，在其他裝置用同一個 Google 帳號登入即可看到相同資料。</p>'}<div class="tiny muted" id="accMsg" style="margin-top:8px"></div></div>
+    <div class="box"><h2>登出</h2><p class="tiny muted" style="margin:4px 0 10px">${anon ? '<b>注意：</b>匿名帳號登出後就無法再登入回來，資料會遺失。請先綁定 Google 帳號或下載備份。' : '登出後可隨時用 Google 帳號登入回來。'}</p><button class="btn danger" id="accOut">登出</button></div>`;
+  $('#accEdit').onclick = () => openProfile(false);
+  if ($('#accLink')) $('#accLink').onclick = async () => {
+    $('#accMsg').innerHTML = '<span class="spin"></span> 綁定中…';
+    try { const r = await FBX.linkGoogle(); ACCOUNT = r.user || FBX.user(); renderAccount(); toast('已綁定 Google 帳號'); }
+    catch(e){
+      if (e.code === 'in-use'){
+        $('#accMsg').innerHTML = '這個 Google 帳號之前已經用過。要改用它登入嗎？（目前匿名帳號的資料不會帶過去，建議先下載備份）<div class="row" style="margin-top:8px"><button class="btn small danger" id="accUse">改用該 Google 帳號登入</button></div>';
+        $('#accUse').onclick = async () => { try { await e.useExisting(); } catch(err){ $('#accMsg').textContent = AUTH_ERR(err); } };
+      } else $('#accMsg').textContent = AUTH_ERR(e);
+    }
+  };
+  $('#accOut').onclick = async e => {
+    if (!logoutArmed){ logoutArmed = true; e.target.textContent = anon ? '確定登出？資料將無法找回' : '確定登出？'; return; }
+    logoutArmed = false;
+    await flush();
+    try { localStorage.removeItem(cacheKey()); } catch(err){}
+    await FBX.signOut();
+  };
+}
+
+/* ---------- AI (Google Gemini) ---------- */
+const AI_KEY_LS = 'vocab-gemini-key', AI_MODEL_LS = 'vocab-gemini-model', AI_DEFAULT_MODEL = 'gemini-3.6-flash';
+const lsGet = k => { try { return localStorage.getItem(k) || ''; } catch(e){ return ''; } };
+function parseJSONLoose(t){
+  t = String(t || '').trim();
+  try { return JSON.parse(t); } catch(e){}
+  const f = t.match(/```(?:json)?\s*([\s\S]*?)```/); if (f){ try { return JSON.parse(f[1]); } catch(e){} }
+  const i = Math.min(...['{', '['].map(c => { const k = t.indexOf(c); return k < 0 ? 1e9 : k; })), j = Math.max(t.lastIndexOf('}'), t.lastIndexOf(']'));
+  if (i < 1e9 && j > i){ try { return JSON.parse(t.slice(i, j + 1)); } catch(e){} }
+  throw {code: 'invalid_json'};
+}
+function makeAI(){
+  const key = lsGet(AI_KEY_LS); if (!key) return null;
+  const model = lsGet(AI_MODEL_LS) || AI_DEFAULT_MODEL;
+  const json = async (prompt, opts = {}) => {
+    let res;
+    try {
+      res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+        method: 'POST', signal: opts.signal,
+        headers: {'Content-Type': 'application/json', 'x-goog-api-key': key},
+        body: JSON.stringify({contents: [{role: 'user', parts: [{text: prompt}]}], generationConfig: {responseMimeType: 'application/json', temperature: 0.7}})
+      });
+    } catch(e){ throw {code: e && e.name === 'AbortError' ? 'cancelled' : 'upstream_error'}; }
+    if (!res.ok){
+      let body = ''; try { body = await res.text(); } catch(e){}
+      if (res.status === 429) throw {code: 'rate_limited'};
+      if (res.status === 404) throw {code: 'bad_model'};
+      if (res.status === 401 || res.status === 403 || /API_KEY_INVALID|API key not valid/i.test(body)) throw {code: 'bad_key'};
+      if (res.status === 400 && /too long|exceeds/i.test(body)) throw {code: 'prompt_too_large'};
+      throw {code: 'upstream_error'};
+    }
+    const data = await res.json();
+    const cand = (data.candidates || [])[0];
+    if (!cand){ throw {code: (data.promptFeedback && data.promptFeedback.blockReason) ? 'refused' : 'empty_completion'}; }
+    if (cand.finishReason === 'SAFETY') throw {code: 'refused'};
+    const text = ((cand.content && cand.content.parts) || []).map(p => p.text || '').join('');
+    if (!text.trim()) throw {code: 'empty_completion'};
+    return parseJSONLoose(text);
+  };
+  return {json};
+}
+function setAI(fn){
+  AI = fn || null;
+  document.querySelectorAll('.aiOnly').forEach(el => el.classList.toggle('hide', !AI));
+  document.querySelectorAll('.aiHint').forEach(el => el.classList.toggle('on', !AI));
+  if (loaded) renderReview();
+}
+function aiErr(e){
+  const code = e && e.code;
+  return ({cancelled: '已停止', rate_limited: '使用太頻繁或已達免費額度上限，請稍後再試', refused: 'AI 無法處理這段內容', invalid_json: '回覆格式有誤，請再試一次',
+    empty_completion: 'AI 沒有回覆內容，請再試一次', prompt_too_large: '內容太長，請縮短後再試', bad_key: 'API 金鑰無效，請到「我的 → 設定」確認',
+    bad_model: '模型名稱無效，請到「我的 → 設定」更換模型'})[code] || '連線問題，請再試一次';
+}
+let aiCtl = null;
+function aibar(text){ const b = $('#aibar'); if (text){ $('#aibarText').textContent = text; b.classList.add('on'); } else b.classList.remove('on'); }
+$('#aibarStop').onclick = () => { if (aiCtl) aiCtl.abort(); enrichQ.length = 0; };
+
+const ENRICH_SPEC = `For each item return an object with these fields:
+- "word": the headword exactly as given
+- "ipa": US IPA, e.g. "/ˈmɪtɪɡeɪt/"
+- "pos": main part of speech, abbreviated (n. / v. / adj. / adv. / prep. / phr. v. / idiom)
+- "meaning": concise Traditional Chinese (Taiwan) meaning of the main sense; separate closely related senses with "；"
+- "type": one of 單字 / 片語動詞 / 慣用語 / 搭配詞
+- "cat": topic category, one of ${CATS.join(' / ')}
+- "level": CEFR level A1–C2
+- "diff": 1–5, how hard this is for a Taiwanese learner to master (spelling, pronunciation, confusing usage)
+- "imp": 1–5, how important / frequent it is in real-world English
+- "prac": 1–5, how useful it is for actively speaking and writing everyday or work English
+- "ex": 2 natural, modern example sentences, [{"en": "...", "zh": "Traditional Chinese translation"}]
+- "senses": 0–3 OTHER common meanings (polysemy) not covered by "meaning", [{"pos": "...", "meaning": "中文", "en": "short example"}]
+- "forms": 0–4 word-family / part-of-speech variants, [{"word": "...", "pos": "...", "meaning": "中文"}]
+- "syn": 2–4 synonyms with the nuance difference, [{"w": "...", "note": "short Traditional Chinese note on how it differs"}]
+- "ant": 0–3 antonyms, ["..."]
+- "coll": 2–4 common collocations or patterns, e.g. ["mitigate the risk", "mitigate the impact of"]
+- "usage": 1–2 Traditional Chinese sentences on register (formal/informal), typical contexts, and common mistakes Taiwanese learners make`;
+
+async function aiEnrichBatch(cards, signal){
+  const items = cards.map((c, i) => `${i + 1}. ${c.word}` + (c.src && c.src.line ? `  (context: "${c.src.line.slice(0, 200)}")` : '') + (c.userMeaning && c.meaning ? `  (learner's meaning: ${c.meaning})` : '')).join('\n');
+  const prompt = `You are an expert English vocabulary coach for a Traditional Chinese (Taiwan) speaker.\n${ENRICH_SPEC}\n\nIf a context sentence is given, make "meaning" the sense used in that context and do not reuse that sentence as an example.\nReply with only a JSON array with exactly ${cards.length} objects, in the same order as the items.\n\nItems:\n${items}`;
+  const res = await AI.json(prompt, {signal});
+  return arr(res);
+}
+function applyEnrich(c, r){
+  if (!r || typeof r !== 'object') return;
+  const s = v => typeof v === 'string' ? v.trim() : '';
+  if (s(r.ipa)) c.ipa = s(r.ipa);
+  if (s(r.pos)) c.pos = s(r.pos);
+  if (s(r.meaning) && !c.userMeaning){ if (c.src && c.meaning && !c.src.meaning) c.src.meaning = c.meaning; c.meaning = s(r.meaning); }
+  if (TYPES.includes(r.type)) c.type = r.type;
+  if (s(r.cat)) c.cat = CATS.includes(s(r.cat)) ? s(r.cat) : '其他';
+  if (LEVELS.includes(s(r.level).toUpperCase())) c.level = s(r.level).toUpperCase();
+  c.diff = int15(r.diff, c.diff); c.imp = int15(r.imp, c.imp); c.prac = int15(r.prac, c.prac);
+  const ex = arr(r.ex).filter(e => e && s(e.en)).map(e => ({en: s(e.en), zh: s(e.zh)}));
+  if (ex.length) c.ex = [...c.ex.filter(e => e.mine), ...ex];
+  c.senses = arr(r.senses).filter(x => x && s(x.meaning)).map(x => ({pos: s(x.pos), meaning: s(x.meaning), en: s(x.en)}));
+  c.forms = arr(r.forms).filter(x => x && s(x.word)).map(x => ({word: s(x.word), pos: s(x.pos), meaning: s(x.meaning)}));
+  c.syn = arr(r.syn).map(x => typeof x === 'string' ? {w: x, note: ''} : {w: s(x && x.w), note: s(x && x.note)}).filter(x => x.w);
+  c.ant = arr(r.ant).map(x => s(String(x))).filter(Boolean);
+  c.coll = arr(r.coll).map(x => s(String(x))).filter(Boolean);
+  if (s(r.usage)) c.usage = s(r.usage);
+  c.ai = true;
+  if (c.state === 'new') c.ease = easeFor(c);
+}
+const enrichQ = []; let enriching = false;
+function queueEnrich(ids){
+  if (!AI){ toast('AI 功能目前無法使用，單字已加入但未補齊細節'); return; }
+  for (const id of ids) if (!enrichQ.includes(id)) enrichQ.push(id);
+  runEnrich();
+}
+async function runEnrich(){
+  if (enriching) return; enriching = true;
+  let done = 0; const total = () => done + enrichQ.length;
+  while (enrichQ.length){
+    const batch = enrichQ.splice(0, 5).map(id => S.cards.find(c => c.id === id)).filter(Boolean);
+    if (!batch.length) continue;
+    aibar(`AI 正在補齊單字細節… ${done}/${total() + batch.length}（${batch.map(c => c.word).join(', ')}）`);
+    aiCtl = new AbortController();
+    try {
+      const res = await aiEnrichBatch(batch, aiCtl.signal);
+      batch.forEach((c, i) => {
+        const r = res.find(x => x && norm(x.word) === norm(c.word)) || res[i];
+        applyEnrich(c, r); dirty.chunks.add(c.ck);
+      });
+      markDirty(); done += batch.length;
+      if (cur && batch.includes(cur)) renderReview();
+      if ($('#p-browse').classList.contains('on')) renderBrowse();
+    } catch(e){
+      const msg = aiErr(e); if (e && e.code !== 'cancelled') toast(msg);
+      enrichQ.length = 0; break;
+    }
+  }
+  aiCtl = null; enriching = false; aibar(null); refreshAll(true);
+  if (done) toast(`已補齊 ${done} 個單字`);
+}
+
+const lazySent = new Set();
+function lazyEnrich(){
+  const q = queueInfo();
+  const ids = [...new Set([cur, ...q.learnNow, ...q.revs, ...q.news])].filter(c => c && !c.ai && c.lazy && !lazySent.has(c.id)).slice(0, 5).map(c => c.id);
+  if (!ids.length) return;
+  ids.forEach(id => lazySent.add(id));
+  queueEnrich(ids);
+}
+
+/* ---------- TOEIC packs & generator ---------- */
+function renderPacks(){
+  const have = new Set(S.cards.map(c => norm(c.word)));
+  $('#packList').innerHTML = PACKS.map((p, i) => {
+    const n = p.words.filter(w => have.has(norm(w[0]))).length, full = n === p.words.length;
+    return `<label class="chip" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;padding:5px 10px"><input type="checkbox" data-p="${i}" ${full ? 'disabled' : ''}>${esc(p.name)} <small>${full ? '已載入' : n ? n + '/' + p.words.length : p.words.length + ' 字'}</small></label>`;
+  }).join('');
+  $('#genTopics').innerHTML = [...PACKS.map(p => p.name), '餐飲聚會', '房地產', '健康保險', '科技與網路', '環境與能源', '銀行服務', '人際溝通'].map(x => `<option value="${esc(x)}">`).join('');
+}
+$('#packAll').onclick = () => $('#packList').querySelectorAll('input:not(:disabled)').forEach(cb => cb.checked = true);
+$('#packLoad').onclick = () => {
+  const sel = [...$('#packList').querySelectorAll('input:checked')].map(cb => PACKS[+cb.dataset.p]);
+  if (!sel.length){ $('#packMsg').textContent = '請先勾選主題'; return; }
+  const have = new Set(S.cards.map(c => norm(c.word)));
+  const rows = [];
+  sel.forEach(p => p.words.forEach(([word, pos, meaning]) => { if (!have.has(norm(word))) rows.push({word, pos, meaning, deck: '多益基礎', topic: p.name, cat: p.cat, lazy: true, level: '', imp: 4, prac: 4, diff: 3}); }));
+  const r = addCards(rows);
+  $('#packMsg').textContent = `已載入 ${r.added.length} 個字到「多益基礎」牌組。每天會出現 ${S.settings.newPerDay} 個新字，可到「我的 → 設定」調整。`;
+  renderPacks();
+};
+$('#genGo').onclick = async () => {
+  if (!AI) return;
+  const topic = $('#genTopic').value.trim() || '綜合', level = $('#genLevel').value, n = +$('#genN').value;
+  const known = [...new Set(S.cards.map(c => c.word.toLowerCase()))];
+  $('#genGo').disabled = true; $('#genMsg').innerHTML = '<span class="spin"></span> AI 產生中…';
+  aiCtl = new AbortController(); aibar('AI 正在產生多益單字組…');
+  try {
+    const res = await AI.json(`You are a TOEIC vocabulary expert building a study list for a Taiwanese learner aiming for ${level}.
+List ${n} English words or expressions (single words, phrasal verbs or fixed business phrases) that frequently appear in TOEIC Listening & Reading on the topic "${topic}". Prefer high-frequency, practical items; vary parts of speech.
+Do NOT include any of these words the learner already has: ${known.slice(-1500).join(', ') || '(none)'}
+Reply with only a JSON array: [{"word": "dictionary form", "pos": "n./v./adj./adv./phr.", "meaning": "concise Traditional Chinese (Taiwan) meaning as used in TOEIC contexts", "imp": 1-5 how often it appears on TOEIC, "prac": 1-5 usefulness in real work}]`, {signal: aiCtl.signal, cache: false});
+    const rows = arr(res).filter(x => x && x.word && x.meaning).map(x => ({word: String(x.word), pos: String(x.pos || ''), meaning: String(x.meaning), deck: '多益擴充', topic, lazy: true, imp: x.imp, prac: x.prac}));
+    const r = addCards(rows);
+    $('#genMsg').textContent = `已加入 ${r.added.length} 個新字到「多益擴充」牌組` + (r.skipped ? `（略過 ${r.skipped} 個重複）` : '') + `・目前共 ${S.cards.length} 字`;
+    renderPacks();
+  } catch(e){ $('#genMsg').textContent = aiErr(e); }
+  aiCtl = null; aibar(null); $('#genGo').disabled = false;
+};
+
+/* ---------- file import ---------- */
+function csvToTsv(text){
+  return text.split(/\r?\n/).map(line => {
+    const out = []; let cell = '', q = false;
+    for (let i = 0; i < line.length; i++){
+      const ch = line[i];
+      if (q){ if (ch === '"' && line[i+1] === '"'){ cell += '"'; i++; } else if (ch === '"') q = false; else cell += ch; }
+      else if (ch === '"') q = true; else if (ch === ','){ out.push(cell); cell = ''; } else cell += ch;
+    }
+    out.push(cell);
+    return out.map(s => s.trim()).filter((s, i, a) => i < 3 || s).join('\t');
+  }).join('\n');
+}
+function loadScript(src){ return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); }); }
+$('#bulkFile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    let text;
+    if (/\.xlsx?$/i.test(f.name)){
+      if (!window.XLSX) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+      const wb = XLSX.read(await f.arrayBuffer(), {type: 'array'});
+      text = XLSX.utils.sheet_to_csv(wb.Sheets[wb.SheetNames[0]], {FS: '\t', blankrows: false});
+    } else {
+      text = await f.text();
+      if (/\.csv$/i.test(f.name)) text = csvToTsv(text);
+    }
+    const lines = text.split(/\r?\n/).map(l => l.replace(/\t+$/, '').trim()).filter(Boolean);
+    $('#bulk').value = lines.join('\n');
+    if (!$('#bulkDeck').value) $('#bulkDeck').value = f.name.replace(/\.[^.]+$/, '');
+    $('#bulkMsg').textContent = `已讀入 ${lines.length} 行，確認後按「匯入」`;
+  } catch(err){ $('#bulkMsg').textContent = '檔案讀取失敗，可以改用複製貼上'; }
+};
+
+/* ---------- classes (班級), shared sets, games ---------- */
+const SOC = {ready: false, ro: false, user: null, me: null, cls: null, unsubs: [], members: [], sets: [], games: [], game: null, sub: 'board', names: {}};
+const CODE_CH = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const genCode = n => Array.from({length: n}, () => CODE_CH[Math.floor(Math.random() * CODE_CH.length)]).join('');
+function weekKey(t){ const d = new Date(dayStartOf(t) - ROLL); const wd = (d.getDay() + 6) % 7; d.setDate(d.getDate() - wd); return dayKey(d.getTime() + ROLL); }
+function computeStreak(){ const now = Date.now(); let s = 0; for (let i = 0; i < 400; i++){ const v = S.hist[dayKey(now - i * DAY)] || 0; if (v) s++; else if (i > 0) break; } return s; }
+function addXP(n){
+  if (!n) return;
+  const wk = weekKey(Date.now());
+  if (!S.settings.xp || S.settings.xp.week !== wk) S.settings.xp = {week: wk, pts: 0};
+  S.settings.xp.pts += n; markDirty(); pushProfileSoon();
+}
+const myXP = () => (S.settings.xp && S.settings.xp.week === weekKey(Date.now())) ? S.settings.xp.pts : 0;
+const clsRef = code => DB.doc('classes/' + code);
+const memberRef = (code, id) => DB.doc('classes/' + code + '/members/' + id);
+const socErr = e => {
+  const code = e && e.code;
+  if (code === 'invalid_argument' && !SOC.ro){ SOC.ro = true; renderClass(); }
+  return code === 'invalid_argument' ? '你目前沒有寫入權限' : code === 'quota_exceeded' ? '雲端空間已滿' : '連線問題，請稍後再試';
+};
+let profTimer = null, profWriting = false;
+function pushProfileSoon(){ clearTimeout(profTimer); profTimer = setTimeout(pushProfile, 15000); }
+async function pushProfile(){
+  if (!SOC.ready || SOC.ro || profWriting) return;
+  const codes = (S.settings.classes || []).map(c => c.code);
+  if (!codes.length) return;
+  profWriting = true;
+  const today = S.hist[dayKey(Date.now())] || 0;
+  const body = S.settings.board === false ? {hidden: true, nick: S.settings.nick || '', avatar: S.settings.avatar || '', updated: Date.now()} : {
+    nick: S.settings.nick || '', avatar: S.settings.avatar || '', hidden: false, day: dayKey(Date.now()), today, streak: computeStreak(),
+    learned: S.cards.filter(c => c.state !== 'new').length, mature: S.cards.filter(c => c.state === 'review' && c.ivl >= 21).length,
+    total: S.cards.length, week: weekKey(Date.now()), xp: myXP(), updated: Date.now()};
+  for (const code of codes){ try { await memberRef(code, SOC.me).set(body); } catch(e){ socErr(e); break; } }
+  profWriting = false;
+}
+async function initSocial(){
+  if (mode !== 'cloud' || !DB || !UID) { renderClass(); return; }
+  SOC.ro = false;
+  SOC.me = UID;
+  SOC.ready = true;
+  if (!S.settings.classes) S.settings.classes = [];
+  const cur = S.settings.curClass && S.settings.classes.find(c => c.code === S.settings.curClass) ? S.settings.curClass : (S.settings.classes[0] || {}).code;
+  if (cur) openClass(cur); else renderClass();
+  pushProfile();
+}
+function leaveListeners(){ SOC.unsubs.forEach(u => { try { u(); } catch(e){} }); SOC.unsubs = []; }
+function openClass(code){
+  leaveListeners(); closeGame(true);
+  SOC.cls = {code, name: (S.settings.classes.find(c => c.code === code) || {}).name || code};
+  S.settings.curClass = code; markDirty();
+  SOC.members = []; SOC.sets = []; SOC.games = [];
+  const err = e => { socErr(e); };
+  SOC.unsubs.push(clsRef(code).onSnapshot(s => { if (s.exists){ SOC.cls.meta = s.data(); SOC.cls.name = SOC.cls.meta.name || code; renderClass(); } }, err));
+  SOC.unsubs.push(DB.collection('classes/' + code + '/members').onSnapshot(s => { SOC.members = s.docs.map(d => ({id: d.id, ...d.data()})); renderClass(); }, err));
+  SOC.unsubs.push(DB.collection('classes/' + code + '/sets').onSnapshot(s => { SOC.sets = s.docs.map(d => ({id: d.id, ...d.data()})); renderClass(); autoSync(); }, err));
+  SOC.unsubs.push(DB.collection('classes/' + code + '/games').orderBy('created', 'desc').limit(12).onSnapshot(s => { SOC.games = s.docs.map(d => ({id: d.id, ...d.data()})); renderClass(); }, err));
+  renderClass();
+}
+async function createClass(){
+  const name = $('#clsName').value.trim(); if (!name){ toast('請輸入班級名稱'); return; }
+  const code = genCode(6);
+  try {
+    await clsRef(code).set({name, owner: SOC.me, created: Date.now()});
+    S.settings.classes = [...(S.settings.classes || []), {code, name}]; markDirty();
+    openClass(code); pushProfile(); toast(`已建立班級「${name}」，邀請碼 ${code}`);
+  } catch(e){ toast(socErr(e)); }
+}
+async function joinClass(){
+  const code = $('#clsCode').value.trim().toUpperCase(); if (!code){ toast('請輸入邀請碼'); return; }
+  if ((S.settings.classes || []).some(c => c.code === code)){ openClass(code); return; }
+  try {
+    const s = await clsRef(code).get();
+    if (!s.exists){ toast('找不到這個班級，請確認邀請碼'); return; }
+    S.settings.classes = [...(S.settings.classes || []), {code, name: s.data().name || code}]; markDirty();
+    openClass(code); pushProfile(); toast(`已加入「${s.data().name}」`);
+  } catch(e){ toast(socErr(e)); }
+}
+let leaveArmed = false;
+async function leaveClass(btn){
+  if (!SOC.cls) return;
+  if (!leaveArmed){ leaveArmed = true; btn.textContent = '確定離開？'; return; }
+  leaveArmed = false;
+  const code = SOC.cls.code;
+  try { await memberRef(code, SOC.me).delete(); } catch(e){}
+  S.settings.classes = S.settings.classes.filter(c => c.code !== code);
+  S.settings.subs = (S.settings.subs || []).filter(s => s.cls !== code);
+  markDirty(); leaveListeners(); SOC.cls = null;
+  const next = S.settings.classes[0]; if (next) openClass(next.code); else renderClass();
+}
+async function namesFor(ids){
+  const out = {};
+  for (const id of ids){
+    const m = SOC.members.find(x => x.id === id), me = id === SOC.me;
+    out[id] = {name: (me && S.settings.nick) || (m && m.nick) || (me ? '我' : '同學'), avatar: (me && S.settings.avatar) || (m && m.avatar) || '', me};
+  }
+  return out;
+}
+const avatarHTML = p => `<span class="av">${avatarSVG(p.avatar, p.name)}</span>`;
+
+/* ----- shared sets ----- */
+const SHARE_KEYS = ['word','ipa','pos','meaning','ex','senses','forms','syn','ant','coll','usage','cat','level','type','topic','imp','prac','diff','src','ai'];
+const shareFields = c => { const o = {}; SHARE_KEYS.forEach(k => { if (c[k] !== undefined && c[k] !== null && c[k] !== '') o[k] = c[k]; }); if (o.ex) o.ex = o.ex.filter(e => !e.mine || true); return o; };
+async function shareDeck(){
+  const deck = $('#shDeck').value; if (!deck){ toast('請選擇要分享的牌組'); return; }
+  const cards = S.cards.filter(c => c.deck === deck);
+  if (!cards.length){ toast('這個牌組沒有單字'); return; }
+  const code = SOC.cls.code;
+  const existing = SOC.sets.find(s => s.owner === SOC.me && s.name === deck);
+  const id = existing ? existing.id : SOC.me.slice(-6).replace(/[^A-Za-z0-9]/g, 'x') + '-' + genCode(5);
+  const words = cards.map(shareFields), parts = [];
+  for (let i = 0; i < words.length; i += 60) parts.push(words.slice(i, i + 60));
+  const msg = t => { SOC.shMsg = t; const el = $('#shMsg'); if (el) el.innerHTML = t; };
+  $('#shBtn').disabled = true; msg('<span class="spin"></span> 分享中…');
+  try {
+    const setRef = DB.doc(`classes/${code}/sets/${id}`);
+    if (!existing) await setRef.set({name: deck, owner: SOC.me, count: 0, parts: 0, updated: 0});
+    for (let i = 0; i < parts.length; i++) await DB.doc(`classes/${code}/sets/${id}/parts/p${i}`).set({words: parts[i]});
+    for (let i = parts.length; i < (existing ? existing.parts || 0 : 0); i++) await DB.doc(`classes/${code}/sets/${id}/parts/p${i}`).delete();
+    await DB.doc(`classes/${code}/sets/${id}`).set({name: deck, owner: SOC.me, count: words.length, parts: parts.length, updated: Date.now(), topics: [...new Set(cards.map(c => c.topic || c.cat).filter(Boolean))].slice(0, 4)});
+    msg(esc(`已分享「${deck}」（${words.length} 字）。同學加入後各自學習，進度互不影響。`));
+  } catch(e){ msg(esc(socErr(e))); }
+  if ($('#shBtn')) $('#shBtn').disabled = false;
+}
+async function unshareSet(set){
+  try {
+    for (let i = 0; i < (set.parts || 0); i++) await DB.doc(`classes/${SOC.cls.code}/sets/${set.id}/parts/p${i}`).delete();
+    await DB.doc(`classes/${SOC.cls.code}/sets/${set.id}`).delete();
+    toast('已停止分享');
+  } catch(e){ toast(socErr(e)); }
+}
+async function syncSet(set, silent){
+  const code = SOC.cls.code;
+  let sub = (S.settings.subs || []).find(s => s.cls === code && s.id === set.id);
+  const words = [];
+  try {
+    for (let i = 0; i < (set.parts || 0); i++){ const s = await DB.doc(`classes/${code}/sets/${set.id}/parts/p${i}`).get(); if (s.exists) words.push(...arr(s.data().words)); }
+  } catch(e){ if (!silent) toast(socErr(e)); return; }
+  if (!sub){ sub = {cls: code, id: set.id, name: set.name, local: set.owner === SOC.me ? set.name : set.name + '・班級', synced: 0}; S.settings.subs = [...(S.settings.subs || []), sub]; }
+  const rows = words.filter(w => w && w.word).map(w => { const r = JSON.parse(JSON.stringify(w)); return {word: r.word, meaning: r.meaning || '', pos: r.pos || '', deck: sub.local, topic: r.topic, cat: r.cat, level: r.level, imp: r.imp, prac: r.prac, diff: r.diff, src: r.src, lazy: !r.ai, rich: r}; });
+  const r = addCards(rows);
+  sub.synced = set.updated || Date.now(); markDirty();
+  if (!silent || r.added.length) toast(r.added.length ? `「${set.name}」加入 ${r.added.length} 個新字到牌組「${sub.local}」` : `「${set.name}」已是最新`);
+  renderClass();
+}
+let syncing = false;
+async function autoSync(){
+  if (syncing || !SOC.cls) return; syncing = true;
+  for (const set of SOC.sets){
+    const sub = (S.settings.subs || []).find(s => s.cls === SOC.cls.code && s.id === set.id);
+    if (sub && set.owner !== SOC.me && (set.updated || 0) > (sub.synced || 0)) await syncSet(set, true);
+  }
+  syncing = false;
+}
+
+/* ----- games ----- */
+function gamePool(src){
+  let pool = S.cards.filter(c => c.meaning && c.word);
+  if (src === '__star') pool = pool.filter(c => c.star);
+  else if (src === '__learned') pool = pool.filter(c => c.state !== 'new');
+  else if (src) pool = pool.filter(c => c.deck === src);
+  return pool;
+}
+const shortMeaning = m => String(m).split(/[；;]/).slice(0, 2).join('；').slice(0, 24);
+async function createGame(){
+  const modeG = $('#gMode').value, src = $('#gSrc').value, n = +$('#gN').value;
+  const pool = gamePool(src);
+  if (pool.length < 6){ toast('這個範圍的單字少於 6 個，請換個範圍'); return; }
+  const picks = shuffle(pool).slice(0, n);
+  const items = picks.map(c => ({w: c.word, m: shortMeaning(c.meaning)}));
+  let qs = null;
+  if (modeG === 'quiz'){
+    qs = items.map(it => {
+      const t = ['meaning', 'word', 'listen'][Math.floor(Math.random() * 3)];
+      const others = shuffle(pool.filter(c => norm(c.word) !== norm(it.w)).map(c => t === 'word' ? c.word : shortMeaning(c.meaning))).filter((v, i, a) => a.indexOf(v) === i && v !== (t === 'word' ? it.w : it.m)).slice(0, 3);
+      const right = t === 'word' ? it.w : it.m;
+      const o = shuffle([right, ...others]);
+      return {t, w: it.w, m: it.m, o, a: o.indexOf(right)};
+    });
+  }
+  const code = genCode(5);
+  const srcLabel = src === '__star' ? '已標記' : src === '__learned' ? '已學過' : src || '全部單字';
+  try {
+    await gameRef(code).set({cls: SOC.cls.code, mode: modeG, host: SOC.me, title: `${modeG === 'match' ? '連連看' : '快問快答'}・${srcLabel}`, created: Date.now(), n: items.length, items, qs, startAt: null});
+    openGame(code);
+  } catch(e){ toast(socErr(e)); }
+}
+const gamePath = code => `classes/${SOC.cls.code}/games/${code}`;
+const gameRef = code => DB.doc(gamePath(code));
+function closeGame(silent){
+  const g = SOC.game; if (!g) return;
+  (g.unsubs || []).forEach(u => { try { u(); } catch(e){} });
+  clearInterval(g.timer); clearTimeout(g.cd);
+  SOC.game = null;
+  if (!silent) renderClass();
+}
+function openGame(code){
+  closeGame(true);
+  const g = SOC.game = {code, data: null, players: [], phase: 'lobby', unsubs: [], score: 0, correct: 0, idx: 0, wrongWords: {}, write: Promise.resolve()};
+  SOC.sub = 'games';
+  g.unsubs.push(gameRef(code).onSnapshot(s => {
+    if (!s.exists){ toast('找不到這場遊戲（遊戲碼需屬於目前的班級）'); closeGame(); return; }
+    g.data = s.data();
+    if (g.data.startAt && g.phase === 'lobby') beginCountdown();
+    renderGame();
+  }, e => toast(socErr(e))));
+  g.unsubs.push(DB.collection(gamePath(code) + '/players').onSnapshot(s => {
+    g.players = s.docs.map(d => ({id: d.id, ...d.data()}));
+    const mine = g.players.find(p => p.id === SOC.me);
+    if (mine && mine.done && g.phase === 'lobby'){ g.phase = 'result'; g.prev = mine; }
+    if (!g.playersLoaded){ g.playersLoaded = true; if (g.pendingStart){ g.pendingStart = false; beginCountdown(); } }
+    renderGamePlayers(); if (g.phase === 'lobby' || g.phase === 'result') renderGame();
+  }, () => {}));
+  writeMe({joined: Date.now(), prog: 0, done: false, score: 0, timeMs: 0}, true);
+  switchTab('friends'); renderClass();
+}
+function writeMe(body, joinOnly){
+  const g = SOC.game; if (!g || g.noWrite) return;
+  const ref = DB.doc(gamePath(g.code) + '/players/' + SOC.me);
+  g.write = g.write.then(async () => {
+    if (joinOnly){ const s = await ref.get(); if (s.exists) return; }
+    await ref.set({...body, n: g.data ? g.data.n : 0, at: Date.now()});
+  }).catch(e => socErr(e));
+}
+async function startGame(){
+  const g = SOC.game; if (!g || !g.data) return;
+  try { await gameRef(g.code).update({startAt: Date.now() + 3500}); } catch(e){ toast(socErr(e)); }
+}
+function beginCountdown(){
+  const g = SOC.game; if (!g || g.phase !== 'lobby') return;
+  if (!g.playersLoaded){ g.pendingStart = true; return; }
+  const mine = g.players.find(p => p.id === SOC.me);
+  if (mine && mine.done){ g.phase = 'result'; return; }
+  g.phase = 'count';
+  const tick = () => {
+    if (SOC.game !== g) return;
+    const left = Math.ceil((g.data.startAt - Date.now()) / 1000);
+    if (left <= 0){ startPlay(); return; }
+    g.countLeft = left; renderGame();
+    g.cd = setTimeout(tick, 200);
+  };
+  tick();
+}
+function startPlay(){
+  const g = SOC.game; g.phase = 'play'; g.t0 = Date.now(); g.idx = 0; g.score = 0; g.correct = 0; g.penalty = 0;
+  if (g.data.mode === 'match'){ g.round = 0; g.matched = 0; setupRound(); }
+  else nextQ(true);
+  renderGame();
+}
+/* match */
+function setupRound(){
+  const g = SOC.game, items = g.data.items, per = 6;
+  const slice = items.slice(g.round * per, g.round * per + per);
+  g.tiles = shuffle([...slice.map((it, i) => ({k: g.round * per + i, txt: it.w, side: 'w'})), ...slice.map((it, i) => ({k: g.round * per + i, txt: it.m, side: 'm'}))]);
+  g.sel = null; g.gone = new Set();
+}
+function tapTile(i){
+  const g = SOC.game; if (!g || g.phase !== 'play') return;
+  const t = g.tiles[i]; if (g.gone.has(i)) return;
+  if (g.sel === null){ g.sel = i; renderGame(); return; }
+  if (g.sel === i){ g.sel = null; renderGame(); return; }
+  const a = g.tiles[g.sel];
+  if (a.k === t.k && a.side !== t.side){
+    g.gone.add(i); g.gone.add(g.sel); g.sel = null; g.matched++;
+    writeMe({prog: g.matched, done: false, score: 0, timeMs: Date.now() - g.t0 + g.penalty});
+    if (g.gone.size === g.tiles.length){
+      g.round++;
+      if (g.round * 6 >= g.data.items.length) return finishGame();
+      setupRound();
+    }
+    renderGame();
+  } else {
+    g.penalty += 1000; const w = g.data.items[t.side === 'w' ? t.k : a.k].w; g.wrongWords[w] = 1;
+    g.flash = [g.sel, i]; g.sel = null; renderGame();
+    setTimeout(() => { if (SOC.game === g){ g.flash = null; renderGame(); } }, 450);
+  }
+}
+/* quiz */
+const QTIME = 10000;
+function nextQ(first){
+  const g = SOC.game; if (!first) g.idx++;
+  if (g.idx >= g.data.qs.length) return finishGame();
+  g.qStart = Date.now(); g.answered = null;
+  const q = g.data.qs[g.idx];
+  if (q.t === 'listen') setTimeout(() => speak(q.w), 150);
+  clearInterval(g.timer);
+  g.timer = setInterval(() => {
+    if (SOC.game !== g){ clearInterval(g.timer); return; }
+    const left = QTIME - (Date.now() - g.qStart);
+    const el = $('#qTime'); if (el) el.textContent = Math.max(0, Math.ceil(left / 1000));
+    const bar = $('#qBar'); if (bar) bar.style.width = Math.max(0, left / QTIME * 100) + '%';
+    if (left <= 0 && g.answered === null) answerQ(-1);
+  }, 100);
+  renderGame();
+}
+function answerQ(j){
+  const g = SOC.game; if (!g || g.answered !== null) return;
+  clearInterval(g.timer);
+  const q = g.data.qs[g.idx], ok = j === q.a;
+  const left = Math.max(0, QTIME - (Date.now() - g.qStart));
+  const gain = ok ? 100 + Math.round(left / 100) : 0;
+  g.answered = j; g.score += gain; if (ok) g.correct++; else g.wrongWords[q.w] = 1;
+  g.lastGain = gain;
+  writeMe({prog: g.idx + 1, done: false, score: g.score, timeMs: Date.now() - g.t0});
+  renderGame();
+  setTimeout(() => { if (SOC.game === g) nextQ(); }, ok ? 700 : 1400);
+}
+function finishGame(){
+  const g = SOC.game; clearInterval(g.timer);
+  g.phase = 'result';
+  const timeMs = Date.now() - g.t0 + (g.penalty || 0);
+  const res = g.data.mode === 'match' ? {prog: g.data.items.length, score: Math.max(0, 3000 - Math.round(timeMs / 100)), timeMs} : {prog: g.data.qs.length, score: g.score, timeMs};
+  g.prev = {...res, done: true};
+  if (g.noWrite){ renderGame(); return; }
+  writeMe({...res, done: true});
+  gameRef(g.code).update({['results.' + SOC.me]: {score: res.score, timeMs: res.timeMs, correct: g.data.mode === 'match' ? null : g.correct, at: Date.now()}}).catch(() => {});
+  const wrong = Object.keys(g.wrongWords);
+  const back = bringBack(wrong.map(w => S.cards.find(c => norm(c.word) === norm(w))).filter(Boolean));
+  g.backN = back;
+  addXP(Math.max(3, Math.round(res.score / 60)));
+  renderGame();
+}
+
+/* ----- rendering ----- */
+function renderClass(){
+  const area = $('#clsArea'); if (!area) return;
+  if (!$('#p-friends').classList.contains('on') && SOC.game && SOC.game.phase === 'play') return;
+  if (mode !== 'cloud' || !SOC.ready){
+    area.innerHTML = `<div class="box"><p>班級功能需要登入並連上雲端資料庫。${mode === 'loading' ? '連線中…' : !FBX ? '目前尚未設定 Firebase，單字與複習仍可在本機使用。' : '目前無法連到雲端，單字與複習仍可在本機使用。'}</p></div>`; return;
+  }
+  const ro = SOC.ro ? `<div class="notice on">無法寫入班級資料。請確認已登入，且 Firestore 安全規則已依 README 設定。</div>` : '';
+  const classes = S.settings.classes || [];
+  const joinBox = `<div class="box"><h2>${classes.length ? '建立或加入其他班級' : '建立或加入班級'}</h2>
+    <p class="tiny muted" style="margin:4px 0 0">班級裡可以分享學習集、看彼此的學習進度、一起玩單字對戰。每個人的複習進度各自獨立。<a href="#" data-guide>如何邀請朋友？</a></p>
+    <div class="row" style="margin-top:10px"><input type="text" id="clsName" placeholder="新班級名稱，例如：多益衝刺小組" style="flex:2;min-width:180px"><button class="btn pri" id="clsCreate">建立</button></div>
+    <div class="row" style="margin-top:10px"><input type="text" id="clsCode" placeholder="輸入邀請碼" style="flex:2;min-width:180px;text-transform:uppercase"><button class="btn" id="clsJoin">加入</button></div></div>`;
+  if (!SOC.cls){
+    area.innerHTML = ro + `<div class="box"><h2>我的名片</h2>${nickRow()}</div>` + joinBox;
+    bindClassCommon(); return;
+  }
+  const subs = [['board', '排行榜'], ['sets', '學習集'], ['games', '對戰遊戲'], ['history', '對戰紀錄']];
+  area.innerHTML = ro + `<div class="box">
+      <div class="row spread"><div class="row" style="gap:8px"><select id="clsSel" style="width:auto">${classes.map(c => `<option value="${esc(c.code)}"${c.code === SOC.cls.code ? ' selected' : ''}>${esc(c.code === SOC.cls.code ? SOC.cls.name : c.name)}</option>`).join('')}</select>
+      <span class="tiny muted">邀請碼</span><b class="code" id="clsCodeShow">${esc(SOC.cls.code)}</b><button class="btn small" id="clsCopy">複製</button></div>
+      <button class="btn small danger" id="clsLeave">離開班級</button></div>
+      ${nickRow()}
+    </div>
+    <div class="subtabs" style="margin-top:14px">${subs.map(([k, l]) => `<button data-csub="${k}" class="${SOC.sub === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div id="clsSub"></div>
+    <details style="margin-top:14px"><summary>建立或加入其他班級</summary>${joinBox}</details>`;
+  bindClassCommon();
+  $('#clsSel').onchange = e => openClass(e.target.value);
+  $('#clsCopy').onclick = async () => { try { await navigator.clipboard.writeText(SOC.cls.code); toast('已複製邀請碼'); } catch(e){ toast('邀請碼：' + SOC.cls.code); } };
+  $('#clsLeave').onclick = e => leaveClass(e.target);
+  area.querySelectorAll('[data-csub]').forEach(b => b.onclick = () => { SOC.sub = b.dataset.csub; renderClass(); });
+  if (SOC.sub === 'board') renderBoard();
+  else if (SOC.sub === 'sets') renderSets();
+  else if (SOC.sub === 'history') renderHistory();
+  else if (SOC.game) renderGame(); else renderGameList();
+}
+function nickRow(){
+  return `<div class="row" style="margin-top:10px"><span class="av">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><span>${esc(S.settings.nick || '尚未設定暱稱')}</span><button class="btn small" id="nickEdit">更換暱稱／頭像</button><label class="inline" style="margin:0 0 0 auto"><input type="checkbox" id="showBoard" ${S.settings.board !== false ? 'checked' : ''}> 在排行榜顯示我的進度</label></div>`;
+}
+function bindClassCommon(){
+  document.querySelectorAll('[data-guide]').forEach(a => a.onclick = e => { e.preventDefault(); switchTab('guide'); setTimeout(() => { const t = [...document.querySelectorAll('.guide h3')].find(x => x.textContent.includes('班級')); if (t) t.scrollIntoView(); }, 50); });
+  if ($('#clsCreate')) $('#clsCreate').onclick = createClass;
+  if ($('#clsJoin')) $('#clsJoin').onclick = joinClass;
+  if ($('#nickEdit')) $('#nickEdit').onclick = () => openProfile(false);
+  if ($('#showBoard')) $('#showBoard').onchange = e => { S.settings.board = e.target.checked; markDirty(); pushProfile(); toast(e.target.checked ? '會在排行榜顯示你的進度' : '已在排行榜隱藏你的進度'); };
+}
+async function renderBoard(){
+  const el = $('#clsSub'); if (!el) return;
+  const wk = weekKey(Date.now()), dk = dayKey(Date.now());
+  const ms = SOC.members.filter(m => !m.hidden || m.id === SOC.me);
+  const names = await namesFor(ms.map(m => m.id));
+  if (!$('#clsSub') || SOC.sub !== 'board') return;
+  const rows = ms.map(m => ({...m, xpW: m.week === wk ? (m.xp || 0) : 0, todayN: m.day === dk ? (m.today || 0) : 0})).sort((a, b) => b.xpW - a.xpW || b.todayN - a.todayN);
+  $('#clsSub').innerHTML = `<div class="box"><div class="row spread"><h2>本週排行</h2><span class="tiny muted">複習、練習、遊戲都會累積 XP・每週一重新計算</span></div>
+    <div class="board">${rows.map((m, i) => { const p = names[m.id]; return `<div class="brow${p.me ? ' me' : ''}"><span class="rank">${i + 1}</span>${avatarHTML(p)}<span class="bname">${esc(p.name)}${p.me ? '（我）' : ''}</span>
+      <span class="bstat"><b>${m.hidden ? '—' : m.xpW}</b><small>本週 XP</small></span><span class="bstat"><b>${m.hidden ? '—' : m.todayN}</b><small>今日複習</small></span><span class="bstat"><b>${m.hidden ? '—' : (m.streak || 0)}</b><small>連續天數</small></span><span class="bstat hide-sm"><b>${m.hidden ? '—' : (m.learned || 0)}</b><small>已學字數</small></span></div>`; }).join('') || '<p class="muted">還沒有成員，把邀請碼傳給同學吧。</p>'}</div></div>`;
+}
+async function renderSets(){
+  const el = $('#clsSub'); if (!el) return;
+  const names = await namesFor([...new Set(SOC.sets.map(s => s.owner))]);
+  if (!$('#clsSub') || SOC.sub !== 'sets') return;
+  const ds = decks();
+  $('#clsSub').innerHTML = `<div class="box"><h2>分享我的牌組成為學習集</h2>
+      <p class="tiny muted" style="margin:4px 0 0">同學加入後會複製到自己的單字庫，各自複習、進度互不影響；你更新分享後，同學下次開啟會自動收到新字。</p>
+      <div class="row" style="margin-top:10px"><select id="shDeck" style="flex:1;min-width:160px"><option value="">選擇牌組</option>${ds.map(d => `<option>${esc(d)}</option>`).join('')}</select><button class="btn pri" id="shBtn">分享／更新</button></div>
+      <div class="tiny muted" id="shMsg" style="margin-top:6px">${SOC.shMsg || ''}</div></div>
+    <div class="box"><h2>班級學習集</h2><div class="list">${SOC.sets.sort((a, b) => (b.updated || 0) - (a.updated || 0)).map(s => {
+      const sub = (S.settings.subs || []).find(x => x.cls === SOC.cls.code && x.id === s.id);
+      const mine = s.owner === SOC.me;
+      const fresh = sub && (s.updated || 0) <= (sub.synced || 0);
+      return `<div class="item" style="cursor:default"><div><b>${esc(s.name)}</b> <span class="tiny muted">${s.count || 0} 字</span><div class="tiny muted">${esc(names[s.owner].name)} 分享・${new Date(s.updated || 0).toLocaleDateString('zh-TW')} 更新${(s.topics || []).length ? '・' + s.topics.map(esc).join('、') : ''}</div></div>
+        <div class="row" style="gap:6px;align-self:center">${mine ? `<button class="btn small danger" data-unshare="${esc(s.id)}">停止分享</button>` : `<button class="btn small ${sub ? '' : 'pri'}" data-sync="${esc(s.id)}">${sub ? (fresh ? '已加入・同步' : '有更新・同步') : '加入學習'}</button>`}</div></div>`;
+    }).join('') || '<p class="muted">還沒有學習集。</p>'}</div></div>`;
+  $('#shBtn').onclick = shareDeck;
+  $('#clsSub').querySelectorAll('[data-sync]').forEach(b => b.onclick = () => syncSet(SOC.sets.find(s => s.id === b.dataset.sync)));
+  $('#clsSub').querySelectorAll('[data-unshare]').forEach(b => b.onclick = () => unshareSet(SOC.sets.find(s => s.id === b.dataset.unshare)));
+}
+async function renderGameList(){
+  const el = $('#clsSub'); if (!el) return;
+  const names = await namesFor([...new Set(SOC.games.map(g => g.host))]);
+  if (!$('#clsSub') || SOC.sub !== 'games' || SOC.game) return;
+  const ds = decks(), nStar = S.cards.filter(c => c.star).length;
+  $('#clsSub').innerHTML = `<div class="box"><h2>開一場對戰</h2>
+      <p class="tiny muted" style="margin:4px 0 0">建立後把遊戲碼傳給同學，大家進房後由房主按「開始」，同時倒數開賽，即時看到彼此進度。沒趕上的人之後也能進來挑戰同一組題目。</p>
+      <div class="row" style="margin-top:6px">
+        <div style="flex:1;min-width:140px"><label>遊戲</label><select id="gMode"><option value="match">連連看（配對單字與意思，比速度）</option><option value="quiz">快問快答（選擇題＋聽音，比分數）</option></select></div>
+        <div style="flex:1;min-width:140px"><label>題目範圍（用你的單字出題）</label><select id="gSrc"><option value="">全部單字</option><option value="__learned">已學過的字</option>${nStar ? '<option value="__star">★ 已標記</option>' : ''}${ds.map(d => `<option>${esc(d)}</option>`).join('')}</select></div>
+        <div style="flex:0 0 90px"><label>題數</label><select id="gN"><option>6</option><option selected>12</option><option>18</option></select></div>
+      </div>
+      <div class="row" style="margin-top:12px"><button class="btn pri" id="gCreate">建立遊戲</button><input type="text" id="gCode" placeholder="或輸入遊戲碼" style="width:150px;text-transform:uppercase"><button class="btn" id="gJoin">加入</button></div></div>
+    <div class="box"><h2>班級最近的遊戲</h2><div class="list">${SOC.games.map(g => `<div class="item" data-game="${esc(g.id)}"><div><b>${esc(g.title)}</b> <span class="tiny muted">${g.n} 題</span><div class="tiny muted">${esc(names[g.host].name)} 開的・${relTime(g.created)}・${g.startAt ? (g.startAt > Date.now() ? '即將開始' : '已開賽，可隨時挑戰') : '等待開始'}</div></div><span class="code" style="align-self:center">${esc(g.id)}</span></div>`).join('') || '<p class="muted">還沒有遊戲，開第一場吧！</p>'}</div></div>`;
+  $('#gCreate').onclick = createGame;
+  $('#gJoin').onclick = () => { const c = $('#gCode').value.trim().toUpperCase(); if (c) openGame(c); };
+  $('#clsSub').querySelectorAll('[data-game]').forEach(b => b.onclick = () => openGame(b.dataset.game));
+}
+function rankGame(gm){
+  const isMatch = gm.mode === 'match';
+  return Object.entries(gm.results || {}).map(([id, r]) => ({id, ...r})).sort((a, b) => isMatch ? (a.timeMs - b.timeMs) : (b.score - a.score || a.timeMs - b.timeMs));
+}
+let histCache = {code: null, at: 0, games: []};
+async function renderHistory(){
+  const el = $('#clsSub'); if (!el) return;
+  const code = SOC.cls.code;
+  if (histCache.code !== code || Date.now() - histCache.at > 20000){
+    el.innerHTML = '<div class="box loading">讀取對戰紀錄…</div>';
+    try {
+      const s = await DB.collection('classes/' + code + '/games').orderBy('created', 'desc').limit(80).get();
+      histCache = {code, at: Date.now(), games: s.docs.map(d => ({id: d.id, ...d.data()})).filter(gm => gm.results && Object.keys(gm.results).length)};
+    } catch(e){ if ($('#clsSub')) $('#clsSub').innerHTML = `<div class="box">${esc(socErr(e))}</div>`; return; }
+  }
+  if (!$('#clsSub') || SOC.sub !== 'history' || SOC.cls.code !== code) return;
+  const games = histCache.games;
+  const ids = [...new Set(games.flatMap(gm => Object.keys(gm.results)))];
+  const names = await namesFor(ids);
+  if (!$('#clsSub') || SOC.sub !== 'history') return;
+  const me = SOC.me, h2h = {};
+  let played = 0, wins = 0, bestMatch = null, bestQuiz = null;
+  for (const gm of games){
+    const rk = rankGame(gm), myI = rk.findIndex(r => r.id === me);
+    if (myI < 0) continue;
+    played++; if (myI === 0 && rk.length > 1) wins++;
+    const mine = rk[myI];
+    if (gm.mode === 'match'){ if (bestMatch === null || mine.timeMs < bestMatch) bestMatch = mine.timeMs; }
+    else if (bestQuiz === null || mine.score > bestQuiz) bestQuiz = mine.score;
+    rk.forEach((r, i) => { if (r.id === me) return; const o = h2h[r.id] = h2h[r.id] || {w: 0, l: 0}; if (myI < i) o.w++; else o.l++; });
+  }
+  const opp = Object.entries(h2h).sort((a, b) => (b[1].w + b[1].l) - (a[1].w + a[1].l));
+  const fmtRes = (gm, r) => gm.mode === 'match' ? (r.timeMs / 1000).toFixed(1) + ' 秒' : r.score + ' 分';
+  $('#clsSub').innerHTML = `<div class="grid4"><div class="stat"><b>${played}</b><span>我參加的對戰</span></div><div class="stat"><b>${wins}</b><span>拿下第一</span></div><div class="stat"><b>${bestMatch === null ? '—' : (bestMatch / 1000).toFixed(1) + 's'}</b><span>連連看最快</span></div><div class="stat"><b>${bestQuiz === null ? '—' : bestQuiz}</b><span>快問快答最高分</span></div></div>
+    <div class="box" style="margin-top:14px"><h2>我和同學的對戰成績</h2>${opp.length ? `<div class="board">${opp.map(([id, o]) => { const p = names[id]; const tot = o.w + o.l; return `<div class="brow">${avatarHTML(p)}<span class="bname">${esc(p.name)}</span><span class="bstat"><b>${o.w}</b><small>勝</small></span><span class="bstat"><b>${o.l}</b><small>負</small></span><span class="bstat"><b>${Math.round(o.w / tot * 100)}%</b><small>勝率</small></span></div>`; }).join('')}</div>` : '<p class="muted">還沒有和同學同場對戰的紀錄。</p>'}</div>
+    <div class="box"><div class="row spread"><h2>最近的對戰</h2><button class="btn small" id="histRefresh">重新整理</button></div><div class="list">${games.slice(0, 30).map(gm => { const rk = rankGame(gm); return `<div class="item" style="cursor:default;grid-template-columns:1fr"><div class="row spread"><b style="font-size:1rem">${esc(gm.title)}</b><span class="tiny muted">${new Date(gm.created).toLocaleString('zh-TW', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})}・${gm.n} 題</span></div><div class="tiny" style="margin-top:4px">${rk.map((r, i) => `<span class="hres${r.id === me ? ' me' : ''}">${['🥇','🥈','🥉'][i] || (i + 1) + '.'} ${esc(names[r.id].name)} ${fmtRes(gm, r)}</span>`).join('')}</div></div>`; }).join('') || '<p class="muted">還沒有完成的對戰。</p>'}</div></div>`;
+  $('#histRefresh').onclick = () => { histCache.at = 0; renderHistory(); };
+}
+function relTime(t){ const m = Math.round((Date.now() - (t || 0)) / MIN); return m < 1 ? '剛剛' : m < 60 ? m + ' 分鐘前' : m < 1440 ? Math.round(m / 60) + ' 小時前' : Math.round(m / 1440) + ' 天前'; }
+async function renderGamePlayers(){
+  const g = SOC.game, el = $('#gPlayers'); if (!g || !el || !g.data) return;
+  const names = await namesFor(g.players.map(p => p.id));
+  if (!$('#gPlayers')) return;
+  const isMatch = g.data.mode === 'match';
+  const ps = [...g.players].sort((a, b) => (b.done - a.done) || (isMatch ? (a.done && b.done ? a.timeMs - b.timeMs : b.prog - a.prog) : (b.score - a.score)));
+  $('#gPlayers').innerHTML = ps.map((p, i) => { const nm = names[p.id]; const pct = Math.round((p.prog || 0) / (g.data.n || 1) * 100);
+    return `<div class="gp${nm.me ? ' me' : ''}">${avatarHTML(nm)}<div style="flex:1;min-width:0"><div class="row spread" style="gap:4px"><span class="bname">${p.done ? ['🥇','🥈','🥉'][i] || '' : ''} ${esc(nm.name)}</span><span class="tiny">${p.done ? (isMatch ? (p.timeMs / 1000).toFixed(1) + ' 秒' : p.score + ' 分') : (g.data.startAt ? pct + '%' : '已進房')}</span></div><div class="pbar"><i style="width:${pct}%"></i></div></div></div>`; }).join('');
+}
+function renderGame(){
+  const g = SOC.game, el = $('#clsSub');
+  if (!g || !el || SOC.sub !== 'games') return;
+  if (!g.data){ el.innerHTML = '<div class="box loading">載入遊戲中…</div>'; return; }
+  const d = g.data, isMatch = d.mode === 'match', host = d.host === SOC.me;
+  let main = '';
+  if (g.phase === 'lobby'){
+    main = `<div class="gbig">${isMatch ? '連連看' : '快問快答'}</div><p class="muted">遊戲碼 <b class="code">${esc(g.code)}</b>・共 ${d.n} 題</p>
+      <p class="tiny muted">${isMatch ? '點一個英文、再點對應的中文。配錯加罰 1 秒，最快完成的人獲勝。' : '每題 10 秒，答得越快分數越高；🎧 題要聽發音選意思。'}</p>
+      ${host ? '<button class="btn pri" id="gStart" style="padding:12px 30px;font-size:1.05rem">開始（全員倒數 3 秒）</button>' : '<p>等待房主開始…</p>'}`;
+  } else if (g.phase === 'count'){
+    main = `<div class="countdown">${g.countLeft}</div><p class="muted">準備好了嗎？</p>`;
+  } else if (g.phase === 'play' && isMatch){
+    const total = d.items.length;
+    main = `<div class="row spread"><span class="tiny muted">第 ${g.round + 1} 組・已配對 ${g.matched}/${total}</span><span class="tiny muted" id="mClock"></span></div>
+      <div class="mgrid">${g.tiles.map((t, i) => `<button class="tile ${t.side}${g.sel === i ? ' sel' : ''}${g.gone.has(i) ? ' gone' : ''}${g.flash && g.flash.includes(i) ? ' bad' : ''}" data-tile="${i}" ${g.gone.has(i) ? 'disabled' : ''}>${esc(t.txt)}</button>`).join('')}</div>`;
+  } else if (g.phase === 'play'){
+    const q = d.qs[g.idx];
+    const prompt = q.t === 'listen' ? `<button class="speak" style="width:64px;height:64px" data-say="${esc(q.w)}">${ILL.speaker}</button><div class="tiny muted" style="margin-top:6px">聽發音，選出意思</div>` : `<div class="${q.t === 'word' ? 'meaning' : 'word'}" style="${q.t === 'word' ? 'font-size:1.5rem' : ''}">${esc(q.t === 'word' ? q.m : q.w)}</div><div class="tiny muted">${q.t === 'word' ? '選出對應的英文' : '選出正確的意思'}</div>`;
+    main = `<div class="row spread"><span class="tiny muted">${g.idx + 1} / ${d.qs.length}</span><span><b>${g.score}</b> 分　<span id="qTime">10</span> 秒</span></div><div class="pbar" style="margin:6px 0 14px"><i id="qBar" style="width:100%"></i></div>
+      <div style="text-align:center;margin:10px 0 16px">${prompt}${g.answered !== null && g.answered !== q.a ? `<div class="tiny" style="margin-top:6px">${esc(q.w)}：${esc(q.m)}</div>` : ''}</div>
+      <div class="opts">${q.o.map((o, j) => `<button class="opt${g.answered !== null ? (j === q.a ? ' ok' : j === g.answered ? ' no' : '') : ''}" data-opt="${j}">${esc(o)}</button>`).join('')}</div>
+      ${g.answered !== null && g.lastGain ? `<div class="gain">+${g.lastGain}</div>` : ''}`;
+  } else {
+    const r = g.prev || {};
+    const wrong = Object.keys(g.wrongWords || {});
+    main = `<div class="gbig">完成！</div><p>${isMatch ? `用時 <b>${((r.timeMs || 0) / 1000).toFixed(1)}</b> 秒` : `得分 <b>${r.score || 0}</b>（答對 ${g.correct}/${d.n}）`}</p>
+      ${wrong.length ? `<p class="tiny muted">這次卡住的字：${wrong.map(esc).join('、')}${g.backN ? `（${g.backN} 個已排入今天複習）` : ''}</p>` : ''}
+      <div class="row" style="justify-content:center"><button class="btn" id="gAgain">再練一次（不計分）</button></div>`;
+  }
+  el.innerHTML = `<div class="box"><div class="row spread"><button class="btn small" id="gBack">← 離開遊戲</button><span class="tiny muted">${esc(d.title)}</span></div>
+    <div class="gwrap"><div class="gmain">${main}</div><div class="gside"><div class="tiny muted" style="margin-bottom:6px">玩家</div><div id="gPlayers"></div></div></div></div>`;
+  renderGamePlayers();
+  $('#gBack').onclick = () => closeGame();
+  if ($('#gStart')) $('#gStart').onclick = startGame;
+  if ($('#gAgain')) $('#gAgain').onclick = () => { g.phase = 'play'; g.practice = true; g.wrongWords = {}; startPlayPractice(); };
+  el.querySelectorAll('[data-tile]').forEach(b => b.onclick = () => tapTile(+b.dataset.tile));
+  el.querySelectorAll('[data-opt]').forEach(b => b.onclick = () => answerQ(+b.dataset.opt));
+  if (g.phase === 'play' && isMatch){
+    clearInterval(g.timer);
+    g.timer = setInterval(() => { const c = $('#mClock'); if (!c || SOC.game !== g){ clearInterval(g.timer); return; } c.textContent = ((Date.now() - g.t0 + g.penalty) / 1000).toFixed(1) + ' 秒'; }, 100);
+  }
+}
+function startPlayPractice(){ SOC.game.noWrite = true; startPlay(); }
+
+/* ---------- speech ---------- */
+function speak(text){
+  try {
+    if (!('speechSynthesis' in window) || !text) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = S.settings.accent; u.rate = Number(S.settings.rate) || 0.9;
+    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.replace('_','-').startsWith(S.settings.accent));
+    if (v) u.voice = v;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch(e){}
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); } });
+const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
+
+/* ---------- word matching ---------- */
+function wordRegex(word){
+  const w = word.trim(); if (!w) return null;
+  const parts = w.split(/\s+/).map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  // allow inflection on each part (e.g. give up -> gave up handled partially, gives up)
+  const pat = parts.map((p, i) => {
+    const base = p.length > 4 && /e$|y$/i.test(p) ? p.slice(0, -1) : p;
+    return i === 0 ? base + "[a-z]*" : p;
+  }).join('\\s+');
+  return new RegExp('\\b(' + pat + ')\\b', 'i');
+}
+function highlight(text, word){
+  const e = esc(text); const re = word && wordRegex(esc(word)); if (!re) return e;
+  return e.replace(new RegExp(re.source, 'gi'), '<mark>$1</mark>');
+}
+function clozeFor(c){
+  const re = wordRegex(c.word); if (!re) return null;
+  const cands = [...c.ex.map(e => ({en: e.en, zh: e.zh})), ...(c.src && c.src.line ? [{en: c.src.line, zh: ''}] : [])];
+  const ok = cands.map(x => ({...x, m: x.en.match(re)})).filter(x => x.m);
+  if (!ok.length) return null;
+  const p = ok[Math.floor(Math.random() * ok.length)];
+  return {sentence: p.en, zh: p.zh, answer: p.m[1], blanked: p.en.replace(re, '_____')};
+}
+
+/* ---------- review UI ---------- */
+let cur = null, revealed = false, curMode = 'recog', typedVal = '', cz = null, verdict = null, aiFb = null, grading = false;
+const undoStack = [];
+const MODE_NAME = {recog: '看字想意思', recall: '看中文拼英文', cloze: '例句克漏字', produce: '用單字造句'};
+function pickMode(c){
+  if (c.state === 'new') return 'recog';
+  const m = S.settings.modes, young = c.state !== 'review' || c.ivl < 7;
+  const w = [];
+  if (m.recog) w.push(['recog', young ? 3 : 1]);
+  if (m.recall) w.push(['recall', young ? 1.5 : 1.5]);
+  if (m.cloze && clozeFor(c)) w.push(['cloze', young ? 1.5 : 2]);
+  if (m.produce && AI && !aiOff && c.state === 'review' && c.ivl >= 4) w.push(['produce', 1.2]);
+  if (!w.length) return 'recog';
+  let r = Math.random() * w.reduce((a, x) => a + x[1], 0);
+  for (const [k, v] of w){ if ((r -= v) <= 0) return k; }
+  return w[0][0];
+}
+function renderCounts(){
+  const q = queueInfo();
+  $('#counts').innerHTML = `<span class="c-new">${q.news.length}<small>新</small></span><span class="c-learn">${q.learnToday.length}<small>學習</small></span><span class="c-rev">${q.revs.length}<small>複習</small></span>`;
+}
+function renderDeckSelects(){
+  const ds = decks();
+  const tg = allTags(), nStar = S.cards.filter(c => c.star).length;
+  const valid = ['', ...ds, '__star', ...tg.map(t => '#' + t)];
+  if (!valid.includes(S.settings.deck)) S.settings.deck = '';
+  const o = (v, label, sel) => `<option value="${esc(v)}"${v===sel?' selected':''}>${esc(label)}</option>`;
+  const opt = sel => o('', `全部牌組（${S.cards.length}）`, sel) + ds.map(d => o(d, `${d}（${S.cards.filter(c=>c.deck===d).length}）`, sel)).join('') +
+    (nStar ? o('__star', `★ 已標記（${nStar}）`, sel) : '') + tg.map(t => o('#' + t, `# ${t}（${S.cards.filter(c=>c.tags.includes(t)).length}）`, sel)).join('');
+  $('#deckSel').innerHTML = opt(S.settings.deck);
+  const bd = $('#browseDeck').value; $('#browseDeck').innerHTML = opt(valid.includes(bd) ? bd : '');
+  $('#deckList').innerHTML = ds.map(d => `<option value="${esc(d)}">`).join('');
+  const fill = (sel, label, vals) => { const v = $(sel).value; $(sel).innerHTML = `<option value="">${label}</option>` + vals.map(x => `<option${x===v?' selected':''}>${esc(x)}</option>`).join(''); };
+  fill('#browseCat', '全部分類', CATS); fill('#browseLevel', '全部程度', LEVELS); fill('#browseType', '全部類型', TYPES);
+}
+function showNext(){
+  cur = nextCard(); revealed = false; typedVal = ''; verdict = null; aiFb = null; cz = null; grading = false;
+  if (cur && AI && !aiOff && !cur.ai && cur.lazy) lazyEnrich();
+  if (cur){ curMode = pickMode(cur); if (curMode === 'cloze') cz = clozeFor(cur); if (curMode === 'cloze' && !cz) curMode = 'recog'; }
+  renderReview();
+  if (cur && curMode === 'recog' && S.settings.autoSpeak) speak(cur.word);
+}
+const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+function videoUrl(src){
+  if (!src || !src.url) return '';
+  const m = src.url.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/);
+  if (m) return `https://www.youtube.com/watch?v=${m[1]}` + (src.t != null ? `&t=${Math.floor(src.t)}s` : '');
+  return src.url;
+}
+function headHTML(c){
+  return `<div class="row" style="justify-content:center;gap:10px"><div class="word">${esc(c.word)}</div>${sayBtn(c.word)}</div>
+    ${c.ipa || c.pos ? `<div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>` : ''}`;
+}
+function tagsHTML(c){
+  const t = [];
+  if (c.level) t.push(`<span class="tag lv">${esc(c.level)}</span>`);
+  if (c.type) t.push(`<span class="tag">${esc(c.type)}</span>`);
+  if (c.cat) t.push(`<span class="tag">${esc(c.cat)}</span>`);
+  if (c.topic) t.push(`<span class="tag">${esc(c.topic)}</span>`);
+  if (c.deck) t.push(`<span class="tag">📁 ${esc(c.deck)}</span>`);
+  return `<div class="tags">${t.join('')}</div>` + (c.ai ? `<div class="scores"><span>重要度 <span class="stars">${stars(c.imp)}</span></span><span>實用度 <span class="stars">${stars(c.prac)}</span></span><span>難度 <span class="stars">${stars(c.diff)}</span></span></div>` : '');
+}
+function detailHTML(c){
+  const out = [];
+  out.push(`<div style="text-align:center"><div class="meaning">${esc(c.meaning || '（尚未有中文意思）')}</div>${tagsHTML(c)}</div>`);
+  if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl">${sayBtn(e.en, 1)}<div><div class="en">${highlight(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
+  if (c.src && c.src.line){
+    const u = videoUrl(c.src);
+    out.push(`<div class="sec"><b>影片中的原句</b><div class="video"><div class="exl" style="margin:0">${sayBtn(c.src.line, 1)}<div><div class="en">${highlight(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">🎬 ${esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
+  }
+  if (c.senses.length) out.push(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh">${highlight(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`);
+  if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip"><span data-say="${esc(f.word)}" style="cursor:pointer">${esc(f.word)}</span> <small>${esc(f.pos)} ${esc(f.meaning)}</small></span>`).join('')}</div></div>`);
+  if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl"><span class="chip">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
+  if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant">${esc(a)}</span>`).join('')}</div></div>`);
+  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map(a => `<span class="chip" data-say="${esc(a)}" style="cursor:pointer">${highlight(a, c.word)}</span>`).join('')}</div></div>`);
+  if (c.usage) out.push(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`);
+  if (c.note) out.push(`<div class="sec"><b>我的筆記</b><div style="white-space:pre-wrap">${esc(c.note)}</div></div>`);
+  if (!c.ai && AI && !aiOff) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊這張卡</button></div>`);
+  return `<div class="detail">${out.join('')}</div>`;
+}
+function marksHTML(c){
+  if (!c.star && !c.tags.length) return '';
+  return `<div class="marks">${c.star ? '<span class="starMark">★</span>' : ''}${c.tags.map(t => `<span class="tagMark">#${esc(t)}</span>`).join('')}</div>`;
+}
+function toggleStar(c){
+  c.star = !c.star; markDirty(c.ck); renderDeckSelects();
+  if (cur === c) renderReview();
+  if ($('#p-browse').classList.contains('on')) renderBrowse();
+  toast(c.star ? '已標記 ★' : '已取消標記');
+}
+function openTagPicker(c){
+  const box = $('#modalBox');
+  const draw = () => {
+    const opts = [...new Set([...TAG_PRESETS, ...allTags(), ...c.tags])];
+    box.innerHTML = `<div class="row spread"><h2>「${esc(c.word)}」的標籤</h2><button class="btn small" id="tpClose">完成</button></div>
+      <p class="tiny muted">點一下加入或移除。可依標籤篩選複習與單字庫。</p>
+      <div class="chips">${opts.map(t => `<button class="tagPick${c.tags.includes(t) ? ' on' : ''}" data-t="${esc(t)}">#${esc(t)}</button>`).join('')}</div>
+      <div class="row" style="margin-top:12px"><input type="text" id="tpNew" placeholder="自訂標籤" style="flex:1"><button class="btn small" id="tpAdd">新增</button></div>`;
+    box.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { const t = b.dataset.t; c.tags = c.tags.includes(t) ? c.tags.filter(x => x !== t) : [...c.tags, t]; markDirty(c.ck); draw(); });
+    $('#tpAdd').onclick = () => { const t = $('#tpNew').value.trim().replace(/^#/, ''); if (t && !c.tags.includes(t)){ c.tags.push(t); markDirty(c.ck); } draw(); };
+    $('#tpNew').onkeydown = e => { if (e.key === 'Enter') $('#tpAdd').click(); };
+    $('#tpClose').onclick = () => { closeModal(); renderDeckSelects(); if (cur === c) renderReview(); if ($('#p-browse').classList.contains('on')) renderBrowse(); };
+  };
+  draw(); $('#modal').classList.add('on');
+}
+function frontHTML(c){
+  const tag = `${marksHTML(c)}<div class="modeTag">${MODE_NAME[curMode]}</div>`;
+  if (curMode === 'recog') return `<div class="front">${tag}${headHTML(c)}</div>`;
+  if (curMode === 'recall'){
+    const ex = c.ex[0] ? c.ex[0].en.replace(wordRegex(c.word) || /$^/, '_____') : '';
+    return `<div class="front">${tag}<div class="meaning" style="font-size:1.6rem">${esc(c.meaning)}</div>${c.pos ? `<div class="pos">${esc(c.pos)}</div>` : ''}${ex ? `<div class="hint">${esc(ex)}</div>` : ''}
+      <div class="hint">提示：${esc(c.word[0])}${'＿'.repeat(Math.max(0, c.word.length - 1))}（${c.word.length} 個字元）</div>
+      <div class="typed"><input type="text" id="typeIn" placeholder="輸入英文後按 Enter" autocapitalize="off" autocorrect="off" spellcheck="false" ${revealed ? 'disabled' : ''} value="${esc(typedVal)}"></div></div>`;
+  }
+  if (curMode === 'cloze'){
+    return `<div class="front">${tag}<div class="prompt">${esc(cz.blanked)}</div>${cz.zh ? `<div class="hint">${esc(cz.zh)}</div>` : ''}
+      <div class="hint">提示：${esc(c.meaning)}・${esc(cz.answer[0])}… （${cz.answer.length} 個字母）</div>
+      <div class="typed"><input type="text" id="typeIn" placeholder="填入空格的字後按 Enter" autocapitalize="off" autocorrect="off" spellcheck="false" ${revealed ? 'disabled' : ''} value="${esc(typedVal)}"></div></div>`;
+  }
+  // produce
+  return `<div class="front">${tag}${headHTML(c)}<div class="meaning">${esc(c.meaning)}</div>
+    <div class="hint">用這個字寫一個句子，最好和你的工作或生活有關${c.coll.length ? `。可參考搭配：${esc(c.coll.slice(0, 2).join('、'))}` : ''}</div>
+    <div class="typed" style="max-width:560px"><textarea id="typeIn" placeholder="例如：We need to ${esc(c.word)} ..." ${revealed || grading ? 'disabled' : ''}>${esc(typedVal)}</textarea></div></div>`;
+}
+function renderReview(){
+  renderCounts();
+  const area = $('#reviewArea');
+  if (!loaded){ area.innerHTML = '<div class="loading">讀取單字中…</div>'; return; }
+  if (!S.cards.length){
+    area.innerHTML = `<div class="card done">${ILL.empty}<div class="big">還沒有單字</div><p class="muted">從影片字幕自動找單字，或手動新增單字開始。</p><div class="row" style="justify-content:center"><button class="btn pri" data-go="add">載入多益基礎單字</button><button class="btn" data-go="video">從影片學單字</button></div></div>`;
+    area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => switchTab(b.dataset.go)); return;
+  }
+  if (!cur){
+    const q = queueInfo();
+    const nextL = q.pool.filter(isLearning).sort((a,b) => a.due - b.due)[0];
+    const nextR = q.pool.filter(c => c.state === 'review').sort((a,b) => a.due - b.due)[0];
+    let tip = '';
+    if (nextL) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後到期。`;
+    else if (q.allNew && S.daily.newDone >= S.settings.newPerDay) tip = `今天的新卡額度（${S.settings.newPerDay}）已用完，還有 ${q.allNew} 張新卡明天再學。`;
+    else if (nextR) tip = `下一張複習卡在 ${new Date(nextR.due).toLocaleDateString('zh-TW', {month:'numeric', day:'numeric'})}。`;
+    area.innerHTML = `<div class="card done">${ILL.done}<div class="big">今日進度已完成</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center">${AI && !aiOff ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}${undoStack.length ? '<button class="btn" id="undoBtn">復原上一張</button>' : ''}</div></div>`;
+    area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => switchTab(b.dataset.go));
+    if ($('#undoBtn')) $('#undoBtn').onclick = undo;
+    return;
+  }
+  const c = cur;
+  let verdictHTML = '';
+  if (revealed && verdict) verdictHTML = verdict.text ? `<div class="verdict ${verdict.cls}"><span>${esc(verdict.text)}</span></div>` : '';
+  let fbHTML = '';
+  if (grading) fbHTML = `<div class="aiFb"><span class="spin"></span> AI 批改中…</div>`;
+  else if (aiFb) fbHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][aiFb.grade] || ''}</b>　${esc(aiFb.feedback)}${aiFb.corrected ? `<div style="margin-top:6px">✏️ ${esc(aiFb.corrected)} ${sayBtn(aiFb.corrected, 1)}</div>` : ''}${aiFb.example ? `<div class="tiny muted" style="margin-top:4px">再一個例句：${esc(aiFb.example)}</div>` : ''}</div>`;
+  const back = revealed ? `<hr class="divider">${curMode !== 'recog' ? `<div style="text-align:center">${headHTML(c)}</div>` : ''}${detailHTML(c)}${c.lapses >= 4 ? `<div class="leech">這個字已忘記 ${c.lapses} 次，試著加一則自己的筆記或例句來幫助記憶</div>` : ''}` : '';
+  const sug = verdict ? verdict.sug : 0;
+  let controls;
+  if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div>`;
+  else if (curMode === 'produce') controls = `<div class="row" style="margin-top:14px"><button class="btn ai" id="gradeBtn" style="flex:2" ${grading ? 'disabled' : ''}>✨ 請 AI 批改</button><button class="btn" id="revealBtn" style="flex:1">直接看答案</button></div>`;
+  else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>`;
+  area.innerHTML = `<div class="card">${frontHTML(c)}${verdictHTML}${fbHTML}${back}</div>${controls}
+    <div class="row spread" style="margin-top:12px"><div class="row"><button class="btn small${c.star ? ' on' : ''}" id="starBtn" title="標記 (S)">${c.star ? '★ 已標記' : '☆ 標記'}</button><button class="btn small" id="tagBtn"># 標籤${c.tags.length ? '・' + c.tags.length : ''}</button>${undoStack.length ? '<button class="btn small" id="undoBtn">復原</button>' : ''}<button class="btn small" id="editCur">編輯</button></div><span class="tiny muted keys">空白鍵：翻面／良好　1–4：評分　S：標記　R：發音　U：復原</span></div>`;
+  $('#starBtn').onclick = () => toggleStar(c);
+  $('#tagBtn').onclick = () => openTagPicker(c);
+  area.querySelectorAll('[data-r]').forEach(b => b.onclick = () => rate(+b.dataset.r));
+  area.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => queueEnrich([b.dataset.enrich]));
+  if ($('#revealBtn')) $('#revealBtn').onclick = reveal;
+  if ($('#gradeBtn')) $('#gradeBtn').onclick = grade;
+  if ($('#undoBtn')) $('#undoBtn').onclick = undo;
+  $('#editCur').onclick = () => openEditor(c);
+  const ti = $('#typeIn');
+  if (ti && !revealed && !grading){
+    ti.focus(); ti.oninput = () => { typedVal = ti.value; };
+    ti.onkeydown = e => { if (e.key === 'Enter' && !(curMode === 'produce' && e.shiftKey)){ e.preventDefault(); typedVal = ti.value; curMode === 'produce' ? grade() : reveal(); } };
+  }
+}
+function reveal(){
+  if (!cur || revealed) return;
+  const ti = $('#typeIn'); if (ti) typedVal = ti.value;
+  if (curMode === 'recall' || curMode === 'cloze'){
+    const a = norm(typedVal), ok1 = curMode === 'cloze' ? norm(cz.answer) : norm(cur.word), ok2 = norm(cur.word);
+    if (!a) verdict = {cls: 'no', text: '未作答', sug: 1};
+    else if (a === ok1) verdict = {cls: 'ok', text: '答對了 ✓', sug: 3};
+    else if (a === ok2) verdict = {cls: 'mid', text: `字對了，但這裡要用 ${curMode === 'cloze' ? cz.answer : cur.word} 這個形式`, sug: 2};
+    else if (lev(a, ok1) <= 1 || lev(a, ok2) <= 1) verdict = {cls: 'mid', text: `差一點，拼字是 ${curMode === 'cloze' ? cz.answer : cur.word}`, sug: 2};
+    else verdict = {cls: 'no', text: `答案是 ${curMode === 'cloze' ? cz.answer : cur.word}`, sug: 1};
+  }
+  revealed = true; renderReview();
+  if (curMode !== 'recog' && S.settings.autoSpeak) speak(curMode === 'cloze' ? cz.sentence : cur.word);
+}
+function lev(a, b){
+  if (Math.abs(a.length - b.length) > 2) return 9;
+  const d = Array.from({length: a.length + 1}, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+async function grade(){
+  if (!cur || grading || revealed) return;
+  const ti = $('#typeIn'); if (ti) typedVal = ti.value;
+  if (!typedVal.trim()){ toast('先寫一個句子'); return; }
+  if (!AI){ reveal(); return; }
+  const c = cur; grading = true; renderReview();
+  try {
+    const r = await AI.json(`You are a friendly English teacher for a Taiwanese learner. The target word is "${c.word}" (${c.pos || ''}, meaning: ${c.meaning}). The learner wrote this sentence to practise it:\n"""${typedVal.slice(0, 600)}"""\nJudge whether the target word (any inflection) is used correctly, with the right meaning, grammar and collocation, and whether it sounds natural.\nReply with only JSON: {"grade": 1-4 (1 = word missing or misused, 2 = understandable but has errors or sounds unnatural, 3 = correct, 4 = correct and natural/idiomatic), "feedback": "1–3 sentences in Traditional Chinese explaining what is good and what to fix", "corrected": "an improved version of the learner's sentence (keep their idea; same sentence if already perfect)", "example": "one more natural example sentence using the word in a different context"}`, {modelTier: 'quick', cache: false});
+    if (cur !== c) return;
+    const g = int15(r && r.grade, 2);
+    aiFb = {grade: clamp(g, 1, 4), feedback: String(r.feedback || ''), corrected: String(r.corrected || ''), example: String(r.example || '')};
+    verdict = {cls: g >= 3 ? 'ok' : g === 2 ? 'mid' : 'no', text: '', sug: clamp(g, 1, 4)};
+    grading = false; revealed = true; renderReview();
+  } catch(e){
+    grading = false; if (cur === c){ toast(aiErr(e)); renderReview(); }
+  }
+}
+function rate(r){
+  if (!cur || !revealed) return;
+  const now = Date.now(); ensureDaily();
+  undoStack.push({id: cur.id, card: JSON.parse(JSON.stringify(cur)), daily: {...S.daily}, day: S.daily.day});
+  if (undoStack.length > 30) undoStack.shift();
+  const wasNew = cur.state === 'new', wasRev = cur.state === 'review';
+  Object.assign(cur, schedule(cur, r, now, true));
+  cur.reps = (cur.reps || 0) + 1; cur.last = now;
+  if (wasNew) S.daily.newDone++;
+  if (wasRev) S.daily.revDone++;
+  S.hist[S.daily.day] = (S.hist[S.daily.day] || 0) + 1;
+  addXP(r >= 3 ? 2 : 1);
+  const keys = Object.keys(S.hist).sort(); while (keys.length > 400) delete S.hist[keys.shift()];
+  markDirty(cur.ck); showNext();
+}
+function undo(){
+  const u = undoStack.pop(); if (!u) return;
+  const c = S.cards.find(x => x.id === u.id);
+  if (!c){ toast('那張卡已被刪除'); renderReview(); return; }
+  Object.keys(c).forEach(k => { if (!(k in u.card)) delete c[k]; });
+  Object.assign(c, u.card); S.daily = u.daily;
+  if (S.hist[u.day]) S.hist[u.day]--;
+  markDirty(c.ck);
+  cur = c; revealed = false; typedVal = ''; verdict = null; aiFb = null; curMode = 'recog'; renderReview();
+  toast('已復原');
+}
+document.addEventListener('keydown', e => {
+  if (!$('#p-review').classList.contains('on') || $('#modal').classList.contains('on')) return;
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); if (revealed) rate(verdict && verdict.sug ? verdict.sug : 3); else if (curMode !== 'produce') reveal(); }
+  else if (['1','2','3','4'].includes(e.key) && revealed) rate(+e.key);
+  else if (e.key === 'r' || e.key === 'R'){ if (cur) speak(cur.word); }
+  else if (e.key === 'u' || e.key === 'U') undo();
+  else if ((e.key === 's' || e.key === 'S') && cur) toggleStar(cur);
+});
+
+/* ---------- adding ---------- */
+function newCard(f, counts, order){
+  const base = {id: uid(), word: f.word.trim(), meaning: (f.meaning || '').trim(), userMeaning: !!(f.meaning || '').trim() && !f.src,
+    pos: f.pos || '', ipa: '', ex: f.ex ? [{en: f.ex.trim(), zh: '', mine: true}] : [], note: (f.note || '').trim(),
+    deck: (f.deck || '').trim(), level: f.level || '', topic: f.topic || '', cat: f.cat || '', lazy: !!f.lazy, imp: f.imp, prac: f.prac, diff: f.diff, src: f.src || null, ai: false,
+    state: 'new', step: 0, due: 0, ivl: 0, ease: 2.5, lapses: 0, reps: 0, created: Date.now(), order, ck: assignChunk(counts)};
+  if (f.rich){ for (const k of SHARE_KEYS) if (f.rich[k] != null && f.rich[k] !== '') base[k] = f.rich[k]; base.userMeaning = false; }
+  return normalizeCard(base);
+}
+function addCards(list){
+  const counts = chunkCounts();
+  const seen = new Set(S.cards.map(c => (c.deck||'') + '\u0000' + norm(c.word)));
+  let order = S.cards.reduce((m, c) => Math.max(m, c.order || 0), 0);
+  const added = []; let skipped = 0;
+  for (const f of list){
+    if (!f.word || !f.word.trim()){ skipped++; continue; }
+    const key = (f.deck||'').trim() + '\u0000' + norm(f.word);
+    if (seen.has(key)){ skipped++; continue; }
+    seen.add(key);
+    const c = newCard(f, counts, ++order); S.cards.push(c); dirty.chunks.add(c.ck); added.push(c);
+  }
+  if (added.length) markDirty();
+  refreshAll(true);
+  return {added, skipped};
+}
+$('#addForm').onsubmit = e => {
+  e.preventDefault();
+  const useAI = AI && !aiOff && $('#fAI').checked;
+  const word = $('#fWord').value.trim(), meaning = $('#fMeaning').value.trim();
+  if (!meaning && !useAI){ $('#addMsg').textContent = '請填中文意思（或開啟 AI 補齊）'; return; }
+  const deck = $('#fDeck').value.trim();
+  const r = addCards([{word, meaning, ex: $('#fEx').value, note: $('#fNote').value, deck}]);
+  if (r.added.length){
+    S.settings.lastDeck = deck;
+    $('#addMsg').textContent = `已加入「${word}」` + (useAI ? '，AI 補齊中…' : '');
+    ['#fWord','#fMeaning','#fEx','#fNote'].forEach(s => $(s).value = '');
+    $('#fWord').focus();
+    if (useAI) queueEnrich(r.added.map(c => c.id));
+  } else $('#addMsg').textContent = '這個單字已經在同一個牌組裡了';
+};
+function parseLine(line){
+  let parts;
+  if (line.includes('\t')) parts = line.split('\t');
+  else if (line.includes('|')) parts = line.split('|');
+  else if (line.includes('｜')) parts = line.split('｜');
+  else { const m = line.match(/^([A-Za-z][A-Za-z' .-]*?)\s*(?:,|，|:|：| - |=)\s*(.+)$/); parts = m ? [m[1], m[2]] : [line]; }
+  parts = parts.map(s => s.trim());
+  return {word: parts[0] || '', meaning: parts[1] || '', ex: parts[2] || ''};
+}
+$('#bulkBtn').onclick = () => {
+  const deck = $('#bulkDeck').value.trim(), bm = AI && !aiOff ? $('#bulkMode').value : 'none', useAI = bm !== 'none';
+  const lines = $('#bulk').value.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  if (!lines.length){ $('#bulkMsg').textContent = '請先貼上單字'; return; }
+  const rows = lines.map(l => ({...parseLine(l), deck, lazy: bm === 'lazy'})).filter(r => /[A-Za-z]/.test(r.word) && !/^(word|單字|vocabulary|english)$/i.test(r.word));
+  if (!useAI && rows.some(r => !r.meaning)){ $('#bulkMsg').textContent = '沒有開啟 AI 補齊時，每行都需要中文意思'; return; }
+  const r = addCards(rows);
+  $('#bulkMsg').textContent = `匯入 ${r.added.length} 個` + (r.skipped ? `，略過 ${r.skipped} 行（重複）` : '');
+  if (r.added.length){ $('#bulk').value = ''; if (bm === 'now') queueEnrich(r.added.map(c => c.id)); }
+};
+
+/* ---------- video ---------- */
+function parseTs(s){
+  const m = s.trim().match(/^(?:(\d+):)?(\d{1,2}):(\d{2})(?:[.,](\d+))?$/);
+  if (!m) return null;
+  return (+(m[1] || 0)) * 3600 + (+m[2]) * 60 + (+m[3]) + (m[4] ? +('0.' + m[4]) : 0);
+}
+function parseSubs(text){
+  text = text.replace(/\r/g, '').replace(/^﻿/, '');
+  const segs = [];
+  if (/-->/.test(text)){
+    for (const block of text.split(/\n\s*\n/)){
+      const lines = block.split('\n').map(s => s.trim()).filter(Boolean);
+      const i = lines.findIndex(l => l.includes('-->'));
+      if (i < 0) continue;
+      const t = parseTs(lines[i].split('-->')[0].trim().replace(/^(\d+:\d+:\d+),/, '$1.'));
+      const body = lines.slice(i + 1).join(' ').replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '').replace(/\s+/g, ' ').trim();
+      if (!body) continue;
+      const prev = segs[segs.length - 1];
+      if (prev && (prev.text === body || prev.text.endsWith(body))) continue;
+      if (prev && body.startsWith(prev.text)){ prev.text = body; continue; }
+      segs.push({t, text: body});
+    }
+    return segs;
+  }
+  const lines = text.split('\n').map(s => s.trim()).filter(Boolean);
+  let curT = null, buf = [], anyTs = false;
+  const push = () => { if (buf.length){ segs.push({t: curT, text: buf.join(' ')}); buf = []; } };
+  for (const l of lines){
+    const inline = l.match(/^((?:\d+:)?\d{1,2}:\d{2})\s+(.+)$/);
+    const ts = parseTs(l);
+    if (ts != null){ push(); curT = ts; anyTs = true; continue; }
+    if (inline){ push(); curT = parseTs(inline[1]); anyTs = true; buf.push(inline[2]); continue; }
+    if (/^\d+\s*(seconds?|minutes?|hours?|秒鐘?|分鐘|小時)/i.test(l) && anyTs) continue;
+    buf.push(l);
+  }
+  push();
+  if (!anyTs){
+    const all = segs.map(s => s.text).join(' ');
+    return all.split(/(?<=[.!?])\s+/).filter(Boolean).map(s => ({t: null, text: s}));
+  }
+  return segs;
+}
+$('#vFile').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => { $('#vSubs').value = rd.result; if (!$('#vTitle').value) $('#vTitle').value = f.name.replace(/\.[^.]+$/, ''); toast('已讀入字幕檔'); };
+  rd.readAsText(f);
+};
+let vCands = [], vSegs = [], vMeta = {};
+$('#vGo').onclick = async () => {
+  if (!AI) return;
+  const raw = $('#vSubs').value.trim();
+  if (!raw){ $('#vMsg').textContent = '請先貼上字幕或上傳字幕檔'; return; }
+  vSegs = parseSubs(raw);
+  if (!vSegs.length){ $('#vMsg').textContent = '讀不到字幕內容'; return; }
+  vMeta = {url: $('#vUrl').value.trim(), title: $('#vTitle').value.trim()};
+  let txt = '', used = 0;
+  for (let i = 0; i < vSegs.length; i++){ const line = `[${i}] ${vSegs[i].text}\n`; if (txt.length + line.length > 60000) break; txt += line; used = i + 1; }
+  const known = [...new Set(S.cards.map(c => c.word.toLowerCase()))].slice(0, 600).join(', ');
+  const max = +$('#vMax').value, level = $('#vLevel').value, focus = $('#vFocus').value.trim();
+  $('#vGo').disabled = true;
+  $('#vMsg').innerHTML = '<span class="spin"></span> AI 正在閱讀字幕、挑選單字（約 20–60 秒）…' + (used < vSegs.length ? `（字幕太長，先分析前 ${used} 段）` : '');
+  aiCtl = new AbortController(); aibar('AI 正在分析字幕…');
+  try {
+    const res = await AI.json(`You are an English vocabulary coach for a Taiwanese learner at CEFR ${level}${focus ? `, who especially wants to improve: ${focus}` : ''}.
+Below is a video transcript split into numbered segments. Pick up to ${max} words or multi-word expressions from it that are most worth learning for this learner:
+- prefer items at or above the learner's level that are genuinely important and useful in real life (high frequency, versatile); include useful phrasal verbs, idioms and collocations, not only single words
+- skip proper nouns, filler words, very basic words, and anything in this known list: ${known || '(none)'}
+- use the dictionary (lemma) form as "word"
+Reply with only a JSON array sorted from most to least useful, each item:
+{"word": "lemma", "surface": "exact form in the transcript", "seg": segment number where it appears, "pos": "n./v./adj./phr. v./idiom...", "meaning": "short Traditional Chinese meaning as used in this video", "level": "A1–C2", "imp": 1-5 importance/frequency, "prac": 1-5 usefulness for the learner's speaking and writing, "diff": 1-5 difficulty for a Taiwanese learner, "why": "one short Traditional Chinese reason it's worth learning"}
+
+Transcript:
+${txt}`, {signal: aiCtl.signal});
+    vCands = arr(res).filter(x => x && x.word).map(x => ({...x, seg: Number.isInteger(+x.seg) && vSegs[+x.seg] ? +x.seg : vSegs.findIndex(s => s.text.toLowerCase().includes(String(x.surface || x.word).toLowerCase())), pick: true}));
+    $('#vMsg').textContent = vCands.length ? `找到 ${vCands.length} 個值得學的單字` : 'AI 沒有找到合適的單字';
+    renderCands();
+  } catch(e){ $('#vMsg').textContent = aiErr(e); }
+  aiCtl = null; aibar(null); $('#vGo').disabled = false;
+};
+function renderCands(){
+  const known = new Set(S.cards.map(c => norm(c.word)));
+  const u = vMeta.url;
+  $('#vResult').innerHTML = !vCands.length ? '' : `<div class="box"><div class="row spread"><h2>選擇要加入的單字</h2><div class="row"><button class="btn small" id="cAll">全選</button><button class="btn small" id="cNone">全不選</button></div></div>
+    <div class="list">${vCands.map((x, i) => {
+      const seg = vSegs[x.seg]; const dup = known.has(norm(x.word));
+      const link = u && seg && seg.t != null ? ` <a class="tiny" href="${esc(videoUrl({url: u, t: seg.t}))}" target="_blank" rel="noopener">${fmtTime(seg.t)} ↗</a>` : '';
+      return `<label class="cand"><input type="checkbox" data-i="${i}" ${x.pick && !dup ? 'checked' : ''}><div><div class="row" style="gap:8px"><b style="font-weight:400;font-size:1.15rem">${esc(x.word)}</b><span class="pos">${esc(x.pos || '')}</span>${x.level ? `<span class="tag lv">${esc(x.level)}</span>` : ''}${dup ? '<span class="tag">已在單字庫</span>' : ''}<span class="tiny muted">重要 <span class="stars">${stars(int15(x.imp))}</span> 實用 <span class="stars">${stars(int15(x.prac))}</span></span></div>
+        <div>${esc(x.meaning || '')}${x.why ? ` <span class="tiny muted">— ${esc(x.why)}</span>` : ''}</div>${seg ? `<div class="ctx">“${highlight(seg.text, x.surface || x.word)}”${link}</div>` : ''}</div></label>`;
+    }).join('')}</div>
+    <label>加入到牌組</label><input type="text" id="cDeck" list="deckList" value="${esc(vMeta.title || '影片單字')}">
+    <div class="row" style="margin-top:12px"><button class="btn pri" id="cAdd">加入選取的單字並用 AI 補齊細節</button><span class="tiny muted" id="cMsg"></span></div></div>`;
+  $('#vResult').querySelectorAll('[data-i]').forEach(cb => cb.onchange = () => { vCands[+cb.dataset.i].pick = cb.checked; });
+  $('#cAll').onclick = () => { vCands.forEach(x => x.pick = true); renderCands(); };
+  $('#cNone').onclick = () => { vCands.forEach(x => x.pick = false); renderCands(); };
+  $('#cAdd').onclick = () => {
+    const picks = [...$('#vResult').querySelectorAll('[data-i]')].filter(cb => cb.checked).map(cb => vCands[+cb.dataset.i]);
+    if (!picks.length){ $('#cMsg').textContent = '請至少選一個'; return; }
+    const deck = $('#cDeck').value.trim();
+    const r = addCards(picks.map(x => { const seg = vSegs[x.seg]; return {word: String(x.word), meaning: String(x.meaning || ''), pos: String(x.pos || ''), level: LEVELS.includes(x.level) ? x.level : '',
+      imp: x.imp, prac: x.prac, diff: x.diff, deck, src: {url: vMeta.url, title: vMeta.title, t: seg ? seg.t : null, line: seg ? seg.text : ''}}; }));
+    $('#cMsg').textContent = `已加入 ${r.added.length} 個` + (r.skipped ? `（${r.skipped} 個重複略過）` : '') + '，AI 正在補齊細節，可以先去複習';
+    if (r.added.length) queueEnrich(r.added.map(c => c.id));
+  };
+}
+
+/* ---------- practice ---------- */
+function pickWords(scope, n){
+  const now = Date.now();
+  let pool = S.cards.filter(c => inDeck(c) && c.meaning);
+  if (scope === 'star') pool = pool.filter(c => c.star);
+  else if (scope === 'recent') pool = pool.filter(c => c.last && now - c.last < 7 * DAY);
+  else if (scope === 'weak') pool = pool.filter(c => c.state !== 'new').sort((a,b) => ((b.lapses||0) - (a.lapses||0)) || ((a.ease||2.5) - (b.ease||2.5))).slice(0, Math.max(n * 2, 12));
+  else if (scope === 'learned') pool = pool.filter(c => c.state !== 'new');
+  if (pool.length < 3) pool = S.cards.filter(c => inDeck(c) && c.meaning && c.state !== 'new');
+  if (pool.length < 3) pool = S.cards.filter(c => inDeck(c) && c.meaning);
+  // weighted: prefer important/practical
+  return shuffle(pool).sort((a,b) => (prio(b) + Math.random() * 2) - (prio(a) + Math.random() * 2)).slice(0, n);
+}
+function bringBack(cards){
+  const today = dayStartOf(Date.now());
+  let n = 0;
+  for (const c of cards){ if (c.state === 'review' && c.due > today){ c.due = today; dirty.chunks.add(c.ck); n++; } }
+  if (n) markDirty();
+  return n;
+}
+let prData = null;
+$('#prGo').onclick = async () => {
+  if (!AI) return;
+  const type = $('#prType').value, n = +$('#prN').value, topic = $('#prTopic').value.trim();
+  const words = pickWords($('#prScope').value, n);
+  if (words.length < 2){ $('#prMsg').textContent = '單字太少，先多加一些單字吧'; return; }
+  const list = words.map(c => `- ${c.word} (${c.pos || ''}: ${c.meaning})`).join('\n');
+  const topicLine = topic ? `Topic / situation: ${topic}.` : 'Choose a realistic everyday or workplace situation.';
+  let prompt;
+  if (type === 'story' || type === 'dialog'){
+    prompt = `Write a natural, modern English ${type === 'dialog' ? 'dialogue between two people (label speakers A: and B:, one turn per line)' : 'short passage'} of 100–180 words for a Taiwanese learner. ${topicLine}
+Use EACH of these target words/expressions exactly once, in the meaning given, inflected as needed:
+${list}
+In the text, replace each target word with a numbered blank [[1]], [[2]], ... in order of appearance.
+Reply with only JSON: {"title": "...", "text": "... with [[n]] blanks ...", "blanks": [{"n": 1, "answer": "exact form used in the text", "lemma": "target word as listed"}], "zh": "full Traditional Chinese translation of the complete text"}`;
+  } else if (type === 'choice'){
+    prompt = `Create a vocabulary quiz for a Taiwanese English learner. For EACH target word below, write one natural sentence with a blank "____" where only the target word (inflected as needed) fits well, plus 3 distractors that are tempting but wrong — preferably near-synonyms or easily confused words, so the learner must understand nuance, collocation and usage. ${topicLine}
+Target words:
+${list}
+Reply with only a JSON array, one object per target word: {"lemma": "target word as listed", "sentence": "... ____ ...", "options": ["4 options, the correct one included, in random order, each inflected to fit"], "answer": index of the correct option (0–3), "explain": "Traditional Chinese: why the answer fits and how each distractor differs"}`;
+  } else {
+    prompt = `For EACH target word below, write one natural Traditional Chinese (Taiwan) sentence that a learner should translate into English using that target word. Make the sentences practical (work or daily life) and varied. ${topicLine}
+Target words:
+${list}
+Reply with only a JSON array: [{"lemma": "target word as listed", "zh": "中文句子", "ref": "a natural English translation using the target word"}]`;
+  }
+  $('#prGo').disabled = true; $('#prMsg').innerHTML = '<span class="spin"></span> AI 出題中…'; $('#prArea').innerHTML = '';
+  aiCtl = new AbortController(); aibar('AI 出題中…');
+  try {
+    const res = await AI.json(prompt, {signal: aiCtl.signal, cache: false});
+    prData = {type, words, res};
+    $('#prMsg').textContent = '';
+    renderPractice();
+  } catch(e){ $('#prMsg').textContent = aiErr(e); }
+  aiCtl = null; aibar(null); $('#prGo').disabled = false;
+};
+const cardByLemma = (words, lemma) => words.find(c => norm(c.word) === norm(lemma)) || S.cards.find(c => norm(c.word) === norm(lemma));
+function renderPractice(){
+  const {type, words, res} = prData, area = $('#prArea');
+  if (type === 'story' || type === 'dialog'){
+    const blanks = arr(res.blanks);
+    let html = esc(res.text || '').replace(/\[\[(\d+)\]\]/g, (_, n) => `<input type="text" data-n="${n}" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${n}">`);
+    if (type === 'dialog') html = html.replace(/\n/g, '<br>');
+    const bank = shuffle(blanks.map(b => b.lemma || b.answer));
+    area.innerHTML = `<div class="box"><h2>${esc(res.title || '情境填空')}</h2><div class="tiny muted">從字庫中選字填入，記得依文法變化詞形（時態、單複數）。</div>
+      <div class="bank">${bank.map(w => `<span class="chip">${esc(w)}</span>`).join('')}</div>
+      <div class="story">${html}</div>
+      <div class="row" style="margin-top:14px"><button class="btn pri" id="prCheck">對答案</button><button class="btn" data-say="${esc((res.text || '').replace(/\[\[(\d+)\]\]/g, (_, n) => (blanks.find(b => +b.n === +n) || {}).answer || ''))}">🔊 朗讀全文</button><button class="btn" id="prZh">看中文翻譯</button></div>
+      <div id="prZhBox" class="tiny muted" style="display:none;margin-top:10px;white-space:pre-wrap">${esc(res.zh || '')}</div><div id="prRes" style="margin-top:10px"></div></div>`;
+    $('#prZh').onclick = () => { const b = $('#prZhBox'); b.style.display = b.style.display === 'none' ? 'block' : 'none'; };
+    $('#prCheck').onclick = () => {
+      const wrong = []; let ok = 0;
+      area.querySelectorAll('.story input').forEach(inp => {
+        const b = blanks.find(x => +x.n === +inp.dataset.n); if (!b) return;
+        const v = norm(inp.value);
+        const right = v === norm(b.answer);
+        const close = !right && v && v === norm(b.lemma);
+        inp.classList.toggle('ok', right); inp.classList.toggle('no', !right);
+        if (right) ok++; else { inp.title = '答案：' + b.answer; if (!close) wrong.push(b.lemma); inp.value = (inp.value ? inp.value + ' → ' : '') + b.answer; }
+        inp.disabled = true;
+      });
+      const back = bringBack(wrong.map(w => cardByLemma(words, w)).filter(Boolean));
+      addXP(ok * 3);
+      $('#prRes').innerHTML = `<b>${ok} / ${blanks.length} 答對</b>` + (back ? `<span class="tiny muted">　答錯的 ${back} 個字已排入今天的複習</span>` : '') + `<div class="row" style="margin-top:8px"><button class="btn ai" id="prAgain">✨ 再來一題</button></div>`;
+      $('#prAgain').onclick = () => $('#prGo').click();
+      $('#prCheck').disabled = true;
+    };
+  } else if (type === 'choice'){
+    const qs = arr(res).filter(q => q && q.sentence && arr(q.options).length >= 2);
+    let answered = 0, ok = 0; const wrong = [];
+    area.innerHTML = `<div class="box"><h2>近義字辨析</h2><div class="tiny muted">選出最適合放進空格的字，答完會看到每個選項的差別。</div>${qs.map((q, i) => `<div class="q" data-q="${i}"><div>${i + 1}. ${esc(q.sentence).replace(/_{3,}/, '<b>______</b>')}</div><div class="opts">${q.options.map((o, j) => `<button class="opt" data-j="${j}">${esc(o)}</button>`).join('')}</div><div class="exp tiny" style="margin-top:8px;display:none"></div></div>`).join('')}<div id="prRes" style="margin-top:12px"></div></div>`;
+    area.querySelectorAll('.q').forEach(el => {
+      const q = qs[+el.dataset.q];
+      el.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+        if (el.dataset.done) return; el.dataset.done = 1; answered++;
+        const j = +b.dataset.j, right = j === +q.answer;
+        el.querySelectorAll('.opt').forEach(x => { if (+x.dataset.j === +q.answer) x.classList.add('ok'); });
+        if (!right){ b.classList.add('no'); wrong.push(q.lemma); } else ok++;
+        const correct = q.options[+q.answer] || '';
+        const full = String(q.sentence).replace(/_{3,}/, correct);
+        const ex = el.querySelector('.exp'); ex.style.display = 'block';
+        ex.innerHTML = `${right ? '✅' : '❌'} ${esc(q.explain || '')} ${sayBtn(full, 1)}`;
+        if (answered === qs.length){
+          addXP(ok * 3);
+          const back = bringBack(wrong.map(w => cardByLemma(words, w)).filter(Boolean));
+          $('#prRes').innerHTML = `<b>${ok} / ${qs.length} 答對</b>` + (back ? `<span class="tiny muted">　答錯的 ${back} 個字已排入今天的複習</span>` : '') + `<div class="row" style="margin-top:8px"><button class="btn ai" id="prAgain">✨ 再來一組</button></div>`;
+          $('#prAgain').onclick = () => $('#prGo').click();
+        }
+      });
+    });
+  } else {
+    const qs = arr(res).filter(q => q && q.zh);
+    area.innerHTML = `<div class="box"><h2>中翻英造句</h2><div class="tiny muted">用指定的單字把句子翻成英文，寫完按「批改」。</div>${qs.map((q, i) => `<div class="q" data-q="${i}"><div><b>${i + 1}.</b> ${esc(q.zh)}</div><div class="tiny muted">請用：<b>${esc(q.lemma)}</b></div><textarea style="min-height:60px;margin-top:6px"></textarea><div class="row" style="margin-top:6px"><button class="btn small ai" data-g>✨ 批改</button><button class="btn small" data-ref>看參考答案</button></div><div class="fb"></div></div>`).join('')}</div>`;
+    area.querySelectorAll('.q').forEach(el => {
+      const q = qs[+el.dataset.q], fb = el.querySelector('.fb');
+      el.querySelector('[data-ref]').onclick = () => { fb.innerHTML = `<div class="aiFb">參考：${esc(q.ref || '')} ${sayBtn(q.ref || '', 1)}</div>`; };
+      el.querySelector('[data-g]').onclick = async e => {
+        const ans = el.querySelector('textarea').value.trim(); if (!ans){ toast('先寫下你的翻譯'); return; }
+        e.target.disabled = true; fb.innerHTML = '<div class="aiFb"><span class="spin"></span> AI 批改中…</div>';
+        try {
+          const r = await AI.json(`You are an English teacher for a Taiwanese learner. Chinese sentence: "${q.zh}". The learner must translate it using "${q.lemma}". Learner's translation: """${ans.slice(0, 600)}"""\nA reference translation: "${q.ref || ''}".\nReply with only JSON: {"grade": 1-4 (1 wrong or target word missing/misused, 2 understandable with errors, 3 correct, 4 natural), "feedback": "1–3 sentences in Traditional Chinese", "corrected": "improved version keeping the learner's wording where possible"}`, {modelTier: 'quick', cache: false});
+          const g = clamp(int15(r.grade, 2), 1, 4);
+          fb.innerHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][g]}</b>　${esc(r.feedback || '')}<div style="margin-top:6px">✏️ ${esc(r.corrected || '')} ${sayBtn(r.corrected || '', 1)}</div><div class="tiny muted" style="margin-top:4px">參考：${esc(q.ref || '')}</div></div>`;
+          if (g >= 3) addXP(3);
+          if (g === 1){ const c = cardByLemma(words, q.lemma); if (c && bringBack([c])) toast(`「${c.word}」已排入今天的複習`); }
+        } catch(err){ fb.innerHTML = `<div class="tiny muted">${esc(aiErr(err))}</div>`; }
+        e.target.disabled = false;
+      };
+    });
+  }
+}
+
+/* ---------- browse & edit ---------- */
+function stateLabel(c){
+  const now = Date.now();
+  if (c.state === 'new') return ['b-new', '新卡'];
+  if (isLearning(c)) return ['b-learning', c.due <= now ? '學習中・到期' : '學習中・' + fmtSpan(c.due - now) + '後'];
+  const days = Math.round((c.due - dayStartOf(now)) / DAY);
+  return ['b-review', days <= 0 ? '今天複習' : days + ' 天後'];
+}
+function renderBrowse(){
+  const q = $('#search').value.trim().toLowerCase(), d = $('#browseDeck').value, st = $('#browseState').value;
+  const cat = $('#browseCat').value, lv = $('#browseLevel').value, ty = $('#browseType').value, sort = $('#browseSort').value;
+  let items = S.cards.filter(c => matchDeck(c, d) && (!cat || c.cat === cat) && (!lv || c.level === lv) && (!ty || c.type === ty) &&
+    (!q || c.word.toLowerCase().includes(q) || (c.meaning || '').toLowerCase().includes(q) || (c.topic || '').includes(q) || c.ex.some(e => e.en.toLowerCase().includes(q)) || c.syn.some(s => s.w.toLowerCase().includes(q))) &&
+    (!st || (st === 'learning' ? isLearning(c) : st === 'leech' ? (c.lapses||0) >= 4 : st === 'noai' ? !c.ai : c.state === st)));
+  const sorters = {az: (a,b) => a.word.localeCompare(b.word), prio: (a,b) => prio(b) - prio(a), due: (a,b) => (a.state === 'new') - (b.state === 'new') || a.due - b.due, new: (a,b) => (b.created||0) - (a.created||0)};
+  items.sort(sorters[sort] || sorters.az);
+  const total = items.length; items = items.slice(0, 300);
+  const noai = S.cards.filter(c => !c.ai).length;
+  $('#fillAll').style.display = noai && AI && !aiOff ? '' : 'none';
+  $('#fillAll').textContent = `✨ 補齊 ${noai} 個未補齊的單字`;
+  $('#browseInfo').textContent = `共 ${total} 張` + (total > 300 ? '（只顯示前 300 張）' : '') + '・點一下查看或編輯';
+  $('#list').innerHTML = items.map(c => {
+    const [cls, lab] = stateLabel(c);
+    return `<div class="item" data-id="${c.id}"><div>${c.star ? '<span class="starMark">★</span> ' : ''}<b>${esc(c.word)}</b> <span class="muted tiny">${esc(c.pos || '')} ${esc(c.level || '')}</span>${c.ai ? ` <span class="stars tiny" title="重要度">${stars(c.imp)}</span>` : ' <span class="tiny muted">（未補齊）</span>'}<div class="m">${esc(c.meaning || '')}</div><div class="tiny muted">${[c.cat, c.type, c.deck].filter(Boolean).map(esc).join('・')}${c.tags.map(t => ` <span class="tagMark">#${esc(t)}</span>`).join('')}</div></div><span class="badge ${cls}">${lab}</span></div>`;
+  }).join('') || '<p class="muted">沒有符合的單字</p>';
+  $('#list').querySelectorAll('.item').forEach(el => el.onclick = () => openEditor(S.cards.find(c => c.id === el.dataset.id)));
+}
+['#search','#browseDeck','#browseState','#browseCat','#browseLevel','#browseType','#browseSort'].forEach(s => $(s).addEventListener('input', renderBrowse));
+$('#fillAll').onclick = () => queueEnrich(S.cards.filter(c => !c.ai).map(c => c.id));
+
+function openEditor(c, editing){
+  if (!c) return;
+  const box = $('#modalBox');
+  if (!editing){
+    box.innerHTML = `<div class="row spread"><div class="row"><button class="btn small" id="mStar">${c.star ? '★ 已標記' : '☆ 標記'}</button><button class="btn small" id="mTag"># 標籤</button></div><div class="row"><button class="btn small" id="mEdit">編輯</button><button class="btn small" id="mClose">關閉</button></div></div>${marksHTML(c)}
+      <div style="text-align:center">${headHTML(c)}</div>${detailHTML(c)}
+      <p class="tiny muted" style="margin-top:16px">${stateLabel(c)[1]}・複習 ${c.reps||0} 次・忘記 ${c.lapses||0} 次・難易係數 ${Math.round((c.ease||2.5)*100)}%${c.state==='review' ? '・間隔 ' + fmtDays(c.ivl) : ''}</p>`;
+    $('#modal').classList.add('on');
+    $('#mClose').onclick = closeModal; $('#mEdit').onclick = () => openEditor(c, true);
+    $('#mStar').onclick = () => { toggleStar(c); openEditor(c); };
+    $('#mTag').onclick = () => openTagPicker(c);
+    box.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => { closeModal(); queueEnrich([c.id]); });
+    return;
+  }
+  const sel = (id, val, opts) => `<select id="${id}">${opts.map(o => `<option value="${esc(o[0])}"${String(o[0]) === String(val) ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select>`;
+  const n15 = [1,2,3,4,5].map(n => [n, stars(n)]);
+  box.innerHTML = `<div class="row spread"><h2>編輯單字</h2><button class="btn small" id="mClose">關閉</button></div>
+    <div class="row"><div style="flex:2;min-width:160px"><label>單字</label><input type="text" id="eWord" value="${esc(c.word)}"></div><div style="flex:1;min-width:100px"><label>詞性</label><input type="text" id="ePos" value="${esc(c.pos)}"></div><div style="flex:1;min-width:120px"><label>音標</label><input type="text" id="eIpa" value="${esc(c.ipa)}"></div></div>
+    <label>中文意思</label><input type="text" id="eMeaning" value="${esc(c.meaning)}">
+    <label>例句（一行一句：英文 | 中文）</label><textarea id="eEx" style="min-height:70px">${esc(c.ex.map(e => e.en + (e.zh ? ' | ' + e.zh : '')).join('\n'))}</textarea>
+    <label>同義字（一行一個：字 | 差異說明）</label><textarea id="eSyn" style="min-height:60px">${esc(c.syn.map(s => s.w + (s.note ? ' | ' + s.note : '')).join('\n'))}</textarea>
+    <div class="row"><div style="flex:1;min-width:160px"><label>反義字（逗號分隔）</label><input type="text" id="eAnt" value="${esc(c.ant.join(', '))}"></div><div style="flex:1;min-width:160px"><label>常用搭配（逗號分隔）</label><input type="text" id="eColl" value="${esc(c.coll.join(', '))}"></div></div>
+    <label>用法說明</label><input type="text" id="eUsage" value="${esc(c.usage)}">
+    <div class="row">
+      <div style="flex:1;min-width:110px"><label>分類</label>${sel('eCat', c.cat || '', [['', '—'], ...CATS.map(x => [x, x])])}</div>
+      <div style="flex:1;min-width:90px"><label>程度</label>${sel('eLevel', c.level || '', [['', '—'], ...LEVELS.map(x => [x, x])])}</div>
+      <div style="flex:1;min-width:100px"><label>類型</label>${sel('eType', c.type || '', [['', '—'], ...TYPES.map(x => [x, x])])}</div>
+    </div>
+    <div class="row">
+      <div style="flex:1;min-width:110px"><label>重要度</label>${sel('eImp', c.imp, n15)}</div>
+      <div style="flex:1;min-width:110px"><label>實用度</label>${sel('ePrac', c.prac, n15)}</div>
+      <div style="flex:1;min-width:110px"><label>難度</label>${sel('eDiff', c.diff, n15)}</div>
+    </div>
+    <div class="row"><div style="flex:1;min-width:160px"><label>牌組</label><input type="text" id="eDeck" list="deckList" value="${esc(c.deck)}"></div><div style="flex:2;min-width:160px"><label>我的筆記</label><input type="text" id="eNote" value="${esc(c.note)}"></div></div>
+    <label>標籤（逗號分隔）</label><input type="text" id="eTags" value="${esc(c.tags.join(', '))}">
+    <div class="row spread" style="margin-top:14px">
+      <div class="row"><button class="btn pri" id="eSave">儲存</button>${AI && !aiOff ? '<button class="btn ai small" id="eAI">✨ 重新補齊</button>' : ''}</div>
+      <div class="row"><button class="btn small" id="eReset">重設為新卡</button><button class="btn small danger" id="eDel">刪除</button></div>
+    </div>`;
+  $('#modal').classList.add('on');
+  $('#mClose').onclick = closeModal;
+  const lines = id => $(id).value.split('\n').map(s => s.trim()).filter(Boolean).map(l => l.split('|').map(s => s.trim()));
+  $('#eSave').onclick = () => {
+    const w = $('#eWord').value.trim(); if (!w){ toast('單字不能空白'); return; }
+    const m = $('#eMeaning').value.trim();
+    if (m !== c.meaning) c.userMeaning = true;
+    Object.assign(c, {word: w, meaning: m, pos: $('#ePos').value.trim(), ipa: $('#eIpa').value.trim(), usage: $('#eUsage').value.trim(),
+      ex: lines('#eEx').map(p => ({en: p[0], zh: p[1] || ''})), syn: lines('#eSyn').map(p => ({w: p[0], note: p[1] || ''})),
+      ant: $('#eAnt').value.split(/[,，]/).map(s => s.trim()).filter(Boolean), coll: $('#eColl').value.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+      cat: $('#eCat').value, level: $('#eLevel').value, type: $('#eType').value, imp: +$('#eImp').value, prac: +$('#ePrac').value, diff: +$('#eDiff').value,
+      deck: $('#eDeck').value.trim(), note: $('#eNote').value.trim(), tags: [...new Set($('#eTags').value.split(/[,，]/).map(s => s.trim().replace(/^#/, '')).filter(Boolean))]});
+    markDirty(c.ck); closeModal(); refreshAll(true); toast('已儲存');
+  };
+  if ($('#eAI')) $('#eAI').onclick = () => { closeModal(); c.userMeaning = false; queueEnrich([c.id]); };
+  $('#eReset').onclick = () => { Object.assign(c, {state: 'new', step: 0, due: 0, ivl: 0, ease: easeFor(c), lapses: 0, reps: 0}); markDirty(c.ck); closeModal(); refreshAll(); toast('已重設為新卡'); };
+  let armed = false;
+  $('#eDel').onclick = e => {
+    if (!armed){ armed = true; e.target.textContent = '再按一次確認刪除'; return; }
+    S.cards = S.cards.filter(x => x !== c); markDirty(c.ck); closeModal();
+    if (cur === c) cur = null;
+    refreshAll(); toast('已刪除');
+  };
+}
+function closeModal(){ $('#modal').classList.remove('on'); }
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+
+/* ---------- stats ---------- */
+function bars(data){ const max = Math.max(1, ...data.map(d => d.v)); return `<div class="bars">${data.map(d => `<div class="bar"><s>${d.v || ''}</s><i style="height:${(d.v / max) * 100}%"></i><em>${d.l}</em></div>`).join('')}</div>`; }
+function hbars(entries){ const max = Math.max(1, ...entries.map(e => e[1])); return entries.map(([k, v]) => `<div class="hbar"><span>${esc(k)}</span><i style="width:${v / max * 100}%"></i><span class="tiny muted">${v}</span></div>`).join(''); }
+function renderStats(){
+  const now = Date.now(), today = dayStartOf(now);
+  const pool = S.cards.filter(inDeck);
+  const n = pool.filter(c => c.state === 'new').length, l = pool.filter(isLearning).length;
+  const young = pool.filter(c => c.state === 'review' && c.ivl < 21).length, mature = pool.filter(c => c.state === 'review' && c.ivl >= 21).length;
+  const fc = [];
+  for (let i = 0; i < 7; i++){ const s = today + i * DAY, e = s + DAY; fc.push({v: pool.filter(c => c.state !== 'new' && (i === 0 ? c.due < e : c.due >= s && c.due < e)).length, l: i === 0 ? '今天' : i === 1 ? '明天' : new Date(s).toLocaleDateString('zh-TW', {month:'numeric', day:'numeric'})}); }
+  const hs = []; let streak = 0, counting = true;
+  for (let i = 0; i < 60; i++){ const k = dayKey(now - i * DAY), v = S.hist[k] || 0; if (counting){ if (v) streak++; else if (i > 0) counting = false; } if (i < 14) hs.unshift({v, l: i === 0 ? '今天' : k.slice(5).replace('-', '/')}); }
+  const count = key => { const m = {}; pool.forEach(c => { const k = c[key] || '未分類'; m[k] = (m[k] || 0) + 1; }); return Object.entries(m).sort((a,b) => b[1] - a[1]); };
+  $('#statsArea').innerHTML = `<div class="tiny muted" style="margin-bottom:8px">${S.settings.deck ? '牌組：' + esc(S.settings.deck) : '全部牌組'}（可在「複習」頁切換）</div>
+    <div class="grid4"><div class="stat"><b class="c-new">${n}</b><span>新卡</span></div><div class="stat"><b class="c-learn">${l}</b><span>學習中</span></div><div class="stat"><b>${young}</b><span>熟悉中（&lt;21 天）</span></div><div class="stat"><b class="c-rev">${mature}</b><span>已熟記（≥21 天）</span></div></div>
+    <div class="grid4" style="margin-top:8px"><div class="stat"><b>${S.hist[dayKey(now)] || 0}</b><span>今天複習次數</span></div><div class="stat"><b>${streak}</b><span>連續天數</span></div><div class="stat"><b>${Array.from({length: 30}, (_, i) => S.hist[dayKey(now - i * DAY)] || 0).reduce((a,b) => a + b, 0)}</b><span>近 30 天複習</span></div><div class="stat"><b>${pool.length}</b><span>單字總數</span></div></div>
+    <h3>未來 7 天到期</h3><div class="box">${bars(fc)}</div>
+    <h3>近 14 天複習量</h3><div class="box">${bars(hs).replace('class="bars"', 'class="bars alt"')}</div>
+    <div class="row" style="align-items:flex-start;gap:14px"><div style="flex:1;min-width:250px"><h3>依主題分類</h3><div class="box">${hbars(count('cat'))}</div></div><div style="flex:1;min-width:250px"><h3>依程度與類型</h3><div class="box">${hbars(count('level'))}<hr class="divider" style="margin:10px 0">${hbars(count('type'))}</div></div></div>`;
+}
+
+/* ---------- settings ---------- */
+function fillSettings(){
+  const s = S.settings;
+  $('#sNew').value = s.newPerDay; $('#sRev').value = s.maxRev; $('#sOrder').value = s.newOrder; $('#sWeight').checked = !!s.weight;
+  $('#mRecog').checked = s.modes.recog; $('#mRecall').checked = s.modes.recall; $('#mCloze').checked = s.modes.cloze; $('#mProduce').checked = s.modes.produce;
+  $('#sSpeak').checked = !!s.autoSpeak; $('#sAccent').value = s.accent; $('#sRate').value = s.rate;
+  $('#fDeck').value = s.lastDeck || '';
+  $('#aiKey').value = lsGet(AI_KEY_LS); $('#aiModel').value = lsGet(AI_MODEL_LS);
+}
+$('#saveSettings').onclick = () => {
+  const s = S.settings;
+  s.newPerDay = clamp(parseInt($('#sNew').value) || 0, 0, 999); s.maxRev = clamp(parseInt($('#sRev').value) || 0, 0, 9999);
+  s.newOrder = $('#sOrder').value; s.weight = $('#sWeight').checked;
+  s.modes = {recog: $('#mRecog').checked, recall: $('#mRecall').checked, cloze: $('#mCloze').checked, produce: $('#mProduce').checked};
+  s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value;
+  markDirty(); fillSettings(); refreshAll();
+  $('#setMsg').textContent = '已儲存'; setTimeout(() => $('#setMsg').textContent = '', 2000);
+};
+$('#aiSave').onclick = async () => {
+  const k = $('#aiKey').value.trim(), m = $('#aiModel').value.trim();
+  if (!k){ $('#aiMsg').textContent = '請貼上 API 金鑰'; return; }
+  try { localStorage.setItem(AI_KEY_LS, k); if (m) localStorage.setItem(AI_MODEL_LS, m); else localStorage.removeItem(AI_MODEL_LS); } catch(e){}
+  setAI(makeAI());
+  $('#aiMsg').innerHTML = '<span class="spin"></span> 測試中…';
+  try { const r = await AI.json('Reply with only this JSON: {"ok": true}'); $('#aiMsg').textContent = r && r.ok ? '✓ 連線成功，AI 功能已啟用' : '已儲存（回覆格式異常，可再試一次）'; }
+  catch(e){ $('#aiMsg').textContent = '✗ ' + aiErr(e); }
+};
+$('#aiClear').onclick = () => { try { localStorage.removeItem(AI_KEY_LS); } catch(e){} $('#aiKey').value = ''; setAI(null); $('#aiMsg').textContent = '已清除金鑰'; };
+const backupData = () => ({app: 'vocab-srs', v: 2, exported: new Date().toISOString(), settings: S.settings, hist: S.hist, cards: S.cards.map(({ck, ...c}) => c)});
+$('#dlBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify(backupData())], {type: 'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `vocab-backup-${dayKey(Date.now())}.json`;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast(`已下載備份（${S.cards.length} 張卡）`);
+};
+$('#ulBackup').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('#backup').value = await f.text(); e.target.value = '';
+  toast('已讀入備份檔，請按下方「還原」確認');
+};
+$('#exportBtn').onclick = () => { $('#backup').value = JSON.stringify(backupData()); toast(`備份已產生（${S.cards.length} 張卡），請按「複製」`); };
+$('#copyBtn').onclick = async () => {
+  const t = $('#backup').value; if (!t){ toast('請先產生備份'); return; }
+  try { await navigator.clipboard.writeText(t); toast('已複製到剪貼簿'); } catch(e){ $('#backup').select(); toast('請手動選取文字複製（Ctrl/⌘ + C）'); }
+};
+let restoreArmed = false;
+$('#restoreBtn').onclick = e => {
+  let d; try { d = JSON.parse($('#backup').value); } catch(err){ toast('備份文字格式不正確'); return; }
+  if (!d || !Array.isArray(d.cards)){ toast('找不到單字資料'); return; }
+  if (!restoreArmed){ restoreArmed = true; e.target.textContent = `確定用備份（${d.cards.length} 張）取代目前資料？再按一次`; return; }
+  restoreArmed = false; e.target.textContent = '還原（會取代目前全部資料）';
+  applyData({settings: {...d.settings, nick: S.settings.nick, avatar: S.settings.avatar, classes: S.settings.classes, curClass: S.settings.curClass, subs: S.settings.subs}, hist: d.hist, daily: S.daily, chunkIds: S.chunkIds, nextChunk: S.nextChunk, cards: d.cards.filter(c => c && c.word).map(c => ({...c, id: c.id || uid(), ck: undefined}))});
+  rebuildChunks(); markDirty(); cur = null; fillSettings(); refreshAll(); toast('已還原');
+};
+let resetArmed = false;
+$('#resetProg').onclick = e => {
+  if (!resetArmed){ resetArmed = true; e.target.textContent = '確定？所有進度會清除，再按一次'; return; }
+  resetArmed = false; e.target.textContent = '把所有卡片重設為新卡';
+  S.cards.forEach(c => Object.assign(c, {state: 'new', step: 0, due: 0, ivl: 0, ease: easeFor(c), lapses: 0, reps: 0}));
+  S.chunkIds.forEach(ck => dirty.chunks.add(ck)); markDirty(); cur = null; refreshAll(); toast('已全部重設');
+};
+
+/* ---------- shell ---------- */
+$('#deckSel').onchange = () => { S.settings.deck = $('#deckSel').value; markDirty(); cur = null; showNext(); };
+const TAB_OF = {add: 'browse', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
+function switchTab(t){
+  let sub = null;
+  if (t === 'stats' || t === 'settings' || t === 'guide' || t === 'account'){ sub = t; t = 'me'; }
+  const navT = TAB_OF[t] || t;
+  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === navT));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id === 'p-' + t));
+  if (sub) switchSub(sub);
+  window.scrollTo(0, 0);
+  if (t === 'review'){ if (!cur || !S.cards.includes(cur)) showNext(); else renderReview(); }
+  if (t === 'browse') renderBrowse();
+  if (t === 'friends') renderClass();
+  if (t === 'me' && statsVisible()) renderStats();
+}
+const statsVisible = () => $('#p-me').classList.contains('on') && $('#p-stats').style.display !== 'none';
+function switchSub(s){
+  document.querySelectorAll('.subtabs button').forEach(b => b.classList.toggle('on', b.dataset.sub === s));
+  $('#p-stats').style.display = s === 'stats' ? '' : 'none';
+  $('#p-settings').style.display = s === 'settings' ? '' : 'none';
+  $('#p-guide').style.display = s === 'guide' ? '' : 'none';
+  $('#p-account').style.display = s === 'account' ? '' : 'none';
+  if (s === 'account') renderAccount();
+  if (s === 'stats') renderStats();
+}
+document.querySelectorAll('.subtabs button').forEach(b => b.onclick = () => switchSub(b.dataset.sub));
+document.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => switchTab(b.dataset.goto));
+$('#meChip').onclick = () => switchTab('account');
+document.querySelectorAll('#nav button').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
+function refreshAll(keepCard){
+  renderDeckSelects(); renderPacks();
+  if (cur && !S.cards.includes(cur)) cur = null;
+  if (keepCard && cur) renderReview();
+  else if (!cur || !revealed) showNext(); else renderReview();
+  if ($('#p-browse').classList.contains('on')) renderBrowse();
+  if (statsVisible()) renderStats();
+}
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
+setInterval(() => { if (loaded && $('#p-review').classList.contains('on')){ if (!cur) showNext(); else renderCounts(); } }, 30000);
+
+document.querySelectorAll('.aiOnly').forEach(el => el.classList.add('hide'));
+$('#avrow').innerHTML = ['croc','rabbit','cat','dog','squirrel','starfish','alien'].map(k => AVATARS[k].svg).join('');
+renderReview();
+boot();
+})();
+</script>
+</body>
+</html>
