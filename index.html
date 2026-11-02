@@ -242,6 +242,12 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .addable .w.hl{background:linear-gradient(transparent 45%,var(--yama) 45%)}
 .wpop{position:fixed;z-index:28;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:10px;box-shadow:0 3px 0 var(--ink);display:none}
 .wpop.on{display:block}
+.say{cursor:pointer}
+.word.say:hover{color:#2f7fa3}
+.chip.say:hover{filter:brightness(.96)}
+.exl.say .zh:hover{color:var(--ink)}
+.speaking{animation:speakPulse .7s ease-out}
+@keyframes speakPulse{0%{box-shadow:0 0 0 0 rgba(168,211,230,.9)}100%{box-shadow:0 0 0 8px rgba(168,211,230,0)}}
 /* modal etc */
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
@@ -469,6 +475,8 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
       <li>選擇你的程度後按「分析字幕找單字」，勾選想學的字加入。</li>
       <li>每張卡片都會附上影片原句，並可從該秒數開始播放。</li>
     </ol>
+    <h3>4-0. 發音</h3>
+    <p>點一下英文就會唸出來：單字、例句（點中文翻譯或句子空白處唸整句）、同義字、反義字、詞性變化、常用搭配都可以點。</p>
     <h3>4-1. 例句中的生字</h3>
     <p>看例句時遇到不熟的字，直接點那個字（或用滑鼠選取一段片語），按「加入單字」就會加入單字庫，並自動加上 #例句生字 標籤、保留原本的例句。設定 Gemini 金鑰時可以不填中文，AI 會依照例句的意思補上。</p>
     <h3>5. 標記與標籤</h3>
@@ -2870,12 +2878,15 @@ function openWordPop(text, anchor, fromId, sentence){
   wpopCtx = {fromId, sentence};
   const draw = word => {
     const ex = S.cards.find(c => norm(c.word) === norm(word));
-    el.innerHTML = `<div class="row" style="gap:6px"><input type="text" id="wpWord" value="${esc(word)}" style="flex:1;min-width:0;font-size:1.05rem">${sayBtn(word, 1)}<button class="btn small" id="wpX" aria-label="關閉">✕</button></div>
+    el.innerHTML = `<div class="row" style="gap:6px"><input type="text" id="wpWord" value="${esc(word)}" style="flex:1;min-width:0;font-size:1.05rem"><button class="btn small" id="wpX" aria-label="關閉">✕</button></div>
+      <div class="row" style="gap:6px;margin-top:6px"><button class="btn small" id="wpSay">再唸一次</button>${sentence ? '<button class="btn small" id="wpSent">唸整句</button>' : ''}</div>
       ${guess !== text.toLowerCase() && !text.includes(' ') ? `<div class="tiny muted" style="margin-top:4px">原文是「${esc(text)}」，已幫你改成原形，可自行修改</div>` : ''}
       ${ex ? `<div class="tiny" style="margin-top:8px">「${esc(ex.word)}」已經在你的單字庫：${esc(ex.meaning || '')}</div><div class="row" style="margin-top:8px"><button class="btn small" id="wpOpen">查看</button><button class="btn small" id="wpStar">${ex.star ? '★ 已標記' : '☆ 標記為重點'}</button></div>`
         : `<input type="text" id="wpMeaning" placeholder="${AI ? '中文意思（可留空，由 AI 補上）' : '中文意思（必填）'}" style="margin-top:8px">
            <div class="row" style="margin-top:8px"><button class="btn pri small" id="wpAdd">加入單字</button><span class="tiny muted">${from && from.deck ? '加到「' + esc(from.deck) + '」・' : ''}#例句生字</span></div>`}`;
     $('#wpX').onclick = closeWordPop;
+    if ($('#wpSay')) $('#wpSay').onclick = () => speak($('#wpWord').value);
+    if ($('#wpSent')) $('#wpSent').onclick = () => speak(sentence);
     $('#wpWord').oninput = e => { const v = e.target.value; clearTimeout(el._t); el._t = setTimeout(() => { const pos = e.target.selectionStart; draw(v); const i = $('#wpWord'); i.focus(); i.setSelectionRange(pos, pos); }, 350); };
     if ($('#wpOpen')) $('#wpOpen').onclick = () => { closeWordPop(); openEditor(ex); };
     if ($('#wpStar')) $('#wpStar').onclick = () => { toggleStar(ex); draw(word); };
@@ -2897,6 +2908,7 @@ function openWordPop(text, anchor, fromId, sentence){
     }
   };
   draw(guess);
+  speak(text);
   el.classList.add('on');
   const r = anchor.getBoundingClientRect(), pw = Math.min(320, window.innerWidth - 16);
   el.style.width = pw + 'px';
@@ -2940,7 +2952,7 @@ function speak(text){
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   } catch(e){}
 }
-document.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); } });
+document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
 const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
 
 /* ---------- word matching ---------- */
@@ -3030,7 +3042,7 @@ function videoUrl(src){
   return src.url;
 }
 function headHTML(c){
-  return `<div class="row" style="justify-content:center;gap:10px"><div class="word">${esc(c.word)}</div>${sayBtn(c.word)}</div>
+  return `<div class="row" style="justify-content:center;gap:10px"><div class="word say" data-say="${esc(c.word)}" title="點一下發音">${esc(c.word)}</div></div>
     ${c.ipa || c.pos ? `<div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>` : ''}`;
 }
 function tagsHTML(c){
@@ -3045,16 +3057,16 @@ function tagsHTML(c){
 function detailHTML(c){
   const out = [];
   out.push(`<div style="text-align:center"><div class="meaning">${esc(c.meaning || '（尚未有中文意思）')}</div>${tagsHTML(c)}</div>`);
-  if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl">${sayBtn(e.en, 1)}<div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
+  if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl say" data-say="${esc(e.en)}"><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
   if (c.src && c.src.line){
     const u = videoUrl(c.src);
-    out.push(`<div class="sec"><b>${c.src.kind === 'ex' ? '來源例句' : '影片中的原句'}</b><div class="video"><div class="exl" style="margin:0">${sayBtn(c.src.line, 1)}<div><div class="en addable" data-from="${c.id}">${clickable(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">${c.src.kind === 'ex' ? '📖 ' + esc(c.src.title || '') : '🎬 ' + esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
+    out.push(`<div class="sec"><b>${c.src.kind === 'ex' ? '來源例句' : '影片中的原句'}</b><div class="video"><div class="exl say" style="margin:0" data-say="${esc(c.src.line)}"><div><div class="en addable" data-from="${c.id}">${clickable(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">${c.src.kind === 'ex' ? '📖 ' + esc(c.src.title || '') : '🎬 ' + esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
   }
   if (c.senses.length) out.push(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh addable" data-from="${c.id}">${clickable(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`);
-  if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip sayc">${sayBtn(f.word, 1)}<span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`);
-  if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl">${sayBtn(s.w, 1)}<span class="chip">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
-  if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant sayc">${sayBtn(a, 1)}${esc(a)}</span>`).join('')}</div></div>`);
-  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map((a, i) => `<span class="chip sayc">${sayBtn(a, 1)}<span>${highlight(a, c.word)}${c.collZh[i] ? ` <span class="zhm">${esc(c.collZh[i])}</span>` : ''}</span></span>`).join('')}</div></div>`);
+  if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip say" data-say="${esc(f.word)}"><span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`);
+  if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl"><span class="chip say" data-say="${esc(s.w)}">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
+  if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant say" data-say="${esc(a)}">${esc(a)}</span>`).join('')}</div></div>`);
+  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map((a, i) => `<span class="chip say" data-say="${esc(a)}"><span>${highlight(a, c.word)}${c.collZh[i] ? ` <span class="zhm">${esc(c.collZh[i])}</span>` : ''}</span></span>`).join('')}</div></div>`);
   if (c.usage) out.push(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`);
   if (c.note) out.push(`<div class="sec"><b>我的筆記</b><div style="white-space:pre-wrap">${esc(c.note)}</div></div>`);
   if (!c.ai && AI) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊${c.builtin ? '更多細節（音標、用法說明、更多例句）' : '這張卡'}</button></div>`);
@@ -3105,6 +3117,27 @@ function frontHTML(c){
     <div class="hint">用這個字寫一個句子，最好和你的工作或生活有關${c.coll.length ? `。可參考搭配：${esc(c.coll.slice(0, 2).join('、'))}` : ''}</div>
     <div class="typed" style="max-width:560px"><textarea id="typeIn" placeholder="例如：We need to ${esc(c.word)} ..." ${revealed || grading ? 'disabled' : ''}>${esc(typedVal)}</textarea></div></div>`;
 }
+const zhTried = new Set();
+async function ensureZh(c){
+  if (!AI || !c || zhTried.has(c.id)) return;
+  const collIdx = c.coll.map((x, i) => i).filter(i => !c.collZh[i]);
+  const formIdx = c.forms.map((x, i) => i).filter(i => c.forms[i] && c.forms[i].word && !c.forms[i].meaning);
+  if (!collIdx.length && !formIdx.length) return;
+  zhTried.add(c.id);
+  const items = [...collIdx.map(i => c.coll[i]), ...formIdx.map(i => c.forms[i].word + (c.forms[i].pos ? ' (' + c.forms[i].pos + ')' : ''))];
+  try {
+    const r = await AI.json(`Translate each English item into a concise Traditional Chinese (Taiwan) meaning, as used in connection with the word "${c.word}" (${c.meaning || ''}). Keep each translation short (a few characters to one short phrase).
+Reply with only a JSON array of ${items.length} strings, in the same order.
+Items:
+${items.map((x, i) => (i + 1) + '. ' + x).join('\n')}`);
+    const out = arr(r).map(x => typeof x === 'string' ? x.trim() : (x && (x.zh || x.meaning || x.translation)) ? String(x.zh || x.meaning || x.translation).trim() : '');
+    collIdx.forEach((ci, k) => { if (out[k]) c.collZh[ci] = out[k]; });
+    formIdx.forEach((fi, k) => { const v = out[collIdx.length + k]; if (v) c.forms[fi].meaning = v; });
+    markDirty(c.ck);
+    if (cur === c && revealed) renderReview();
+    if ($('#modal').classList.contains('on') && $('#modalBox').dataset.card === c.id && !$('#eWord')) openEditor(c);
+  } catch(e){ zhTried.delete(c.id); }
+}
 function renderReview(){
   renderCounts();
   const area = $('#reviewArea');
@@ -3131,7 +3164,7 @@ function renderReview(){
   if (revealed && verdict) verdictHTML = verdict.text ? `<div class="verdict ${verdict.cls}"><span>${esc(verdict.text)}</span></div>` : '';
   let fbHTML = '';
   if (grading) fbHTML = `<div class="aiFb"><span class="spin"></span> AI 批改中…</div>`;
-  else if (aiFb) fbHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][aiFb.grade] || ''}</b>　${esc(aiFb.feedback)}${aiFb.corrected ? `<div style="margin-top:6px">✏️ ${esc(aiFb.corrected)} ${sayBtn(aiFb.corrected, 1)}</div>` : ''}${aiFb.example ? `<div class="tiny muted" style="margin-top:4px">再一個例句：${esc(aiFb.example)}</div>` : ''}</div>`;
+  else if (aiFb) fbHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][aiFb.grade] || ''}</b>　${esc(aiFb.feedback)}${aiFb.corrected ? `<div style="margin-top:6px">✏️ <span class="say" data-say="${esc(aiFb.corrected)}">${esc(aiFb.corrected)}</span></div>` : ''}${aiFb.example ? `<div class="tiny muted" style="margin-top:4px">再一個例句：${esc(aiFb.example)}</div>` : ''}</div>`;
   const back = revealed ? `<hr class="divider">${curMode !== 'recog' ? `<div style="text-align:center">${headHTML(c)}</div>` : ''}${detailHTML(c)}${c.lapses >= 4 ? `<div class="leech">這個字已忘記 ${c.lapses} 次，試著加一則自己的筆記或例句來幫助記憶</div>` : ''}` : '';
   const sug = verdict ? verdict.sug : 0;
   let controls;
@@ -3148,6 +3181,7 @@ function renderReview(){
   if ($('#gradeBtn')) $('#gradeBtn').onclick = grade;
   if ($('#undoBtn')) $('#undoBtn').onclick = undo;
   $('#editCur').onclick = () => openEditor(c);
+  if (revealed) ensureZh(c);
   const ti = $('#typeIn');
   if (ti && !revealed && !grading){
     ti.focus(); ti.oninput = () => { typedVal = ti.value; };
@@ -3497,7 +3531,7 @@ function renderPractice(){
         const correct = q.options[+q.answer] || '';
         const full = String(q.sentence).replace(/_{3,}/, correct);
         const ex = el.querySelector('.exp'); ex.style.display = 'block';
-        ex.innerHTML = `${right ? '✅' : '❌'} ${esc(q.explain || '')} ${sayBtn(full, 1)}`;
+        ex.innerHTML = `${right ? '✅' : '❌'} ${esc(q.explain || '')}`; const qd = el.firstElementChild; qd.classList.add('say'); qd.dataset.say = full; speak(full);
         if (answered === qs.length){
           addXP(ok * 3);
           const back = bringBack(wrong.map(w => cardByLemma(words, w)).filter(Boolean));
@@ -3511,14 +3545,14 @@ function renderPractice(){
     area.innerHTML = `<div class="box"><h2>中翻英造句</h2><div class="tiny muted">用指定的單字把句子翻成英文，寫完按「批改」。</div>${qs.map((q, i) => `<div class="q" data-q="${i}"><div><b>${i + 1}.</b> ${esc(q.zh)}</div><div class="tiny muted">請用：<b>${esc(q.lemma)}</b></div><textarea style="min-height:60px;margin-top:6px"></textarea><div class="row" style="margin-top:6px"><button class="btn small ai" data-g>✨ 批改</button><button class="btn small" data-ref>看參考答案</button></div><div class="fb"></div></div>`).join('')}</div>`;
     area.querySelectorAll('.q').forEach(el => {
       const q = qs[+el.dataset.q], fb = el.querySelector('.fb');
-      el.querySelector('[data-ref]').onclick = () => { fb.innerHTML = `<div class="aiFb">參考：${esc(q.ref || '')} ${sayBtn(q.ref || '', 1)}</div>`; };
+      el.querySelector('[data-ref]').onclick = () => { fb.innerHTML = `<div class="aiFb">參考：<span class="say" data-say="${esc(q.ref || '')}">${esc(q.ref || '')}</span></div>`; };
       el.querySelector('[data-g]').onclick = async e => {
         const ans = el.querySelector('textarea').value.trim(); if (!ans){ toast('先寫下你的翻譯'); return; }
         e.target.disabled = true; fb.innerHTML = '<div class="aiFb"><span class="spin"></span> AI 批改中…</div>';
         try {
           const r = await AI.json(`You are an English teacher for a Taiwanese learner. Chinese sentence: "${q.zh}". The learner must translate it using "${q.lemma}". Learner's translation: """${ans.slice(0, 600)}"""\nA reference translation: "${q.ref || ''}".\nReply with only JSON: {"grade": 1-4 (1 wrong or target word missing/misused, 2 understandable with errors, 3 correct, 4 natural), "feedback": "1–3 sentences in Traditional Chinese", "corrected": "improved version keeping the learner's wording where possible"}`, {modelTier: 'quick', cache: false});
           const g = clamp(int15(r.grade, 2), 1, 4);
-          fb.innerHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][g]}</b>　${esc(r.feedback || '')}<div style="margin-top:6px">✏️ ${esc(r.corrected || '')} ${sayBtn(r.corrected || '', 1)}</div><div class="tiny muted" style="margin-top:4px">參考：${esc(q.ref || '')}</div></div>`;
+          fb.innerHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][g]}</b>　${esc(r.feedback || '')}<div style="margin-top:6px">✏️ <span class="say" data-say="${esc(r.corrected || '')}">${esc(r.corrected || '')}</span></div><div class="tiny muted" style="margin-top:4px">參考：${esc(q.ref || '')}</div></div>`;
           if (g >= 3) addXP(3);
           if (g === 1){ const c = cardByLemma(words, q.lemma); if (c && bringBack([c])) toast(`「${c.word}」已排入今天的複習`); }
         } catch(err){ fb.innerHTML = `<div class="tiny muted">${esc(aiErr(err))}</div>`; }
@@ -3568,6 +3602,7 @@ function openEditor(c, editing){
     $('#modal').classList.add('on');
     $('#mClose').onclick = closeModal; $('#mEdit').onclick = () => openEditor(c, true);
     $('#mStar').onclick = () => { toggleStar(c); openEditor(c); };
+    box.dataset.card = c.id; ensureZh(c);
     $('#mTag').onclick = () => openTagPicker(c);
     box.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => { closeModal(); queueEnrich([c.id]); });
     return;
