@@ -227,6 +227,8 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 @media (max-width:560px){ .avgrid{grid-template-columns:repeat(4,1fr)} .mechip span:last-child{display:none} .mechip{padding:2px} }
 .role{font-size:.7rem;background:var(--mizu-s);border:1px solid var(--ink);border-radius:6px;padding:0 5px;margin-left:4px;vertical-align:1px}
 .saBox:not(:empty){margin-top:10px;border-top:1.5px dashed #d9d1c4;padding-top:10px}
+.chip.sayc{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 4px}
+.chip .zhm{font-size:.85rem;color:#5d5654}
 /* modal etc */
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
@@ -562,19 +564,21 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 
 <script type="module">
 /* =====================================================================
-   ★ Firebase 設定：請把 Firebase 主控台「專案設定 → 一般 → 你的應用程式」
-     中的 firebaseConfig 內容貼到下面（取代整個 { ... }）。
+   ★ Firebase 設定放在同一個資料夾的 firebase-config.js（只需設定一次，
+     之後更新網站只要換 index.html）。也可以直接把設定貼在下面。
    ===================================================================== */
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBuLWQl-YFQPjvfCWZ1pNqFmuNTNq5bm4Q",
-  authDomain: "english-ding.firebaseapp.com",
-  projectId: "english-ding",
-  storageBucket: "english-ding.firebasestorage.app",
-  messagingSenderId: "133286484140",
-  appId: "1:133286484140:web:05a3b78cd292084c9ee709"
+let FIREBASE_CONFIG = {
+  apiKey: "貼上你的 apiKey",
+  authDomain: "你的專案.firebaseapp.com",
+  projectId: "你的專案 ID",
+  storageBucket: "你的專案.firebasestorage.app",
+  messagingSenderId: "",
+  appId: ""
 };
 /* ===================================================================== */
-
+if (!window.__FB_MOCK && /貼上|你的/.test(FIREBASE_CONFIG.apiKey + FIREBASE_CONFIG.projectId)){
+  try { const m = await import('./firebase-config.js?v=' + Date.now()); if (m && m.default) FIREBASE_CONFIG = m.default; } catch(e){}
+}
 const FB_CONFIGURED = !!FIREBASE_CONFIG.apiKey && !/貼上|你的/.test(FIREBASE_CONFIG.apiKey + FIREBASE_CONFIG.projectId);
 async function loadFirebase(cfg){
   const base = 'https://www.gstatic.com/firebasejs/12.11.0/';
@@ -945,6 +949,214 @@ convenient|Is 3 p.m. convenient for you?|下午三點你方便嗎？|suitable, h
 on behalf of|I'm calling on behalf of Mr. Lee.|我代表李先生打電話來。|representing, for|—|—|on behalf of the company, act on behalf of|—
 get back to|I'll get back to you tomorrow.|我明天回覆你。|reply to, call back|—|v.:回到（某事）|get back to sb, get back to work|—
 look into|We will look into the matter.|我們會調查這件事。|investigate, examine|ignore|—|look into a problem, look into the possibility|—`;
+const FORM_ZH_RAW = `assignment=任務；分派
+attachment=附件；依戀
+departmental=部門的
+documentation=文件資料；記錄
+extend=延長；擴大
+extensive=廣泛的
+filing=歸檔；申報
+memorandum=備忘錄
+postponement=延期
+prioritize=排定優先順序
+receptionist=接待員
+receive=收到
+reminder=提醒（物）
+scheduled=預定的
+supervise=監督
+supervision=監督；管理
+supplier=供應商
+coordinator=協調人
+coordination=協調
+delegation=代表團；委派
+efficiency=效率
+efficiently=有效率地
+notification=通知
+operation=操作；營運；手術
+operator=操作員；業者
+facilitate=促進；使便利
+apply=申請；應用
+application=申請（書）；應用程式
+candidacy=候選資格
+qualify=有資格；使合格
+qualified=合格的；有資格的
+interviewer=面試官
+interviewee=面試者
+hiring=僱用
+recruitment=招募
+recruiter=招募人員
+experienced=有經驗的
+refer=提到；參考；轉介
+promotion=升遷；促銷
+promote=升職；推廣
+promotional=促銷的
+beneficial=有益的
+employ=僱用
+employment=就業；僱用
+retirement=退休
+retiree=退休人員
+resignation=辭職
+evaluate=評估
+perform=執行；表演
+performer=表演者
+train=訓練
+trainee=受訓者
+orient=使適應；定方向
+probationary=試用期的
+transferable=可轉讓的
+confer=商討；授予
+present=呈現；報告
+presenter=報告者；主持人
+attendance=出席（人數）
+attendee=出席者
+participate=參加
+participation=參與
+propose=提議
+summary=摘要
+discussion=討論
+brainstorming=腦力激盪
+objectively=客觀地
+clarification=說明；澄清
+agreement=協議；同意
+refresh=使恢復精神；更新
+registration=註冊；報名
+advertisement=廣告
+advertising=廣告業；廣告活動
+compete=競爭
+competitive=有競爭力的
+consume=消耗；消費
+consumption=消費；消耗量
+demanding=要求高的
+branding=品牌塑造
+discounted=打折的
+estimation=估計
+strategic=策略性的
+trendy=時髦的
+retailer=零售商
+wholesaler=批發商
+clientele=（全體）客戶
+quotation=報價單；引言
+afford=負擔得起
+exclusively=獨家地；專門地
+expansion=擴張
+potentially=潛在地
+budgetary=預算的
+expensive=昂貴的
+expend=花費
+accountant=會計師
+accounting=會計
+auditor=稽核員
+balanced=平衡的
+profitable=有利潤的
+lose=失去；虧損
+reimbursement=報銷；償還
+taxable=應課稅的
+taxation=課稅；稅制
+invest=投資
+investor=投資人
+quarter=季；四分之一
+state=陳述；說明
+transact=交易；辦理
+refundable=可退款的
+purchaser=購買者
+supply=供應
+vend=販賣
+ship=運送
+delivery=遞送；交貨
+tracking=追蹤
+packaging=包裝
+fragility=易碎；脆弱
+bulky=龐大的；笨重的
+procure=採購；取得
+contractor=承包商
+negotiation=談判；協商
+specify=明確指定
+specific=具體的；特定的
+confirmation=確認（函）
+cancellation=取消
+reserve=預訂；保留
+accommodate=容納；提供住宿
+departure=出發；離開
+depart=出發；離開
+arrive=抵達
+board=登機；上車
+delayed=延誤的
+custom=習俗；（形）訂製的
+booking=預訂
+rent=租用；租金
+commuter=通勤者
+transport=運輸
+compliment=讚美
+assembly=組裝；集會
+equip=配備
+machine=機器
+manufacturer=製造商
+manufacturing=製造業
+produce=生產；農產品
+productive=有生產力的
+defective=有瑕疵的
+inspection=檢查
+inspector=檢查員
+inspect=檢查
+maintain=維護；維持
+procedural=程序上的
+safe=安全的
+regulate=管理；調節
+compliance=遵守；合規
+standardize=使標準化
+materialize=實現；具體化
+automation=自動化
+automatic=自動的
+efficient=有效率的
+installation=安裝
+agree=同意
+signature=簽名
+sign=簽署；標誌
+renewal=續約；更新
+renewable=可續約的；可再生的
+expiration=到期
+validity=有效性；效期
+validate=驗證；使生效
+oblige=迫使；使感激
+obligatory=義務的；必須的
+liable=有（法律）責任的
+amendment=修正（案）
+bind=約束；綁
+confidentiality=機密性；保密
+authorization=授權
+permission=許可
+warrant=保證；授權；令狀
+disputable=有爭議的
+legally=合法地；法律上
+legalize=使合法化
+effectively=有效地；實際上
+effectiveness=效果；有效性
+termination=終止
+complain=抱怨
+inquire=詢問
+response=回應
+responsive=反應快的
+resolution=解決；決心；解析度
+satisfy=使滿意
+satisfied=滿意的
+apology=道歉
+inconvenient=不方便的
+assist=協助
+assistant=助理
+replacement=替換（品）；接替者
+represent=代表
+availability=可用性；有空
+appreciation=感激；欣賞；增值
+courtesy=禮貌
+promptly=迅速地；準時地
+regard=看待；關心
+furthermore=此外
+attentive=專心的；殷勤的
+accommodation=住宿；通融
+convenience=方便`;
+let FORM_ZH = null;
+function formZh(w){ if (!FORM_ZH){ FORM_ZH = {}; FORM_ZH_RAW.split('\n').forEach(l => { const i = l.indexOf('='); if (i > 0) FORM_ZH[l.slice(0, i).trim().toLowerCase()] = l.slice(i + 1).trim(); }); } return FORM_ZH[String(w || '').trim().toLowerCase()] || ''; }
+function fillFormZh(c){ let ch = false; for (const f of c.forms){ if (f && f.word && !f.meaning){ const z = formZh(f.word); if (z){ f.meaning = z; ch = true; } } } return ch; }
 let BUILTIN = null;
 function builtinFor(word){
   if (!BUILTIN){
@@ -958,7 +1170,7 @@ function builtinFor(word){
         syn: list(p[3]).map(w => ({w, note: ''})), ant: list(p[4]),
         senses: none(p[5]) ? [] : p[5].split(';').map(s => { const i = s.indexOf(':'); return {pos: s.slice(0, i).trim(), meaning: s.slice(i + 1).trim(), en: ''}; }),
         coll: list(p[6]),
-        forms: list(p[7]).map(f => { const m = f.match(/^(.+?)\((.+)\)$/); return m ? {word: m[1].trim(), pos: m[2], meaning: ''} : {word: f, pos: '', meaning: ''}; })
+        forms: list(p[7]).map(f => { const m = f.match(/^(.+?)\((.+)\)$/); return m ? {word: m[1].trim(), pos: m[2], meaning: formZh(m[1])} : {word: f, pos: '', meaning: formZh(f)}; })
       };
     });
   }
@@ -1135,7 +1347,7 @@ const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeou
 function finishLoad(m, note){
   loaded = true; mode = m;
   if (note) showNotice(note); else $('#notice').classList.remove('on');
-  let fixed = 0; for (const c of S.cards) if (applyBuiltin(c)){ dirty.chunks.add(c.ck); fixed++; }
+  let fixed = 0; for (const c of S.cards){ const a = applyBuiltin(c), b = fillFormZh(c); if (a || b){ dirty.chunks.add(c.ck); fixed++; } }
   if (fixed) markDirty();
   setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
 }
@@ -2215,10 +2427,10 @@ function detailHTML(c){
     out.push(`<div class="sec"><b>影片中的原句</b><div class="video"><div class="exl" style="margin:0">${sayBtn(c.src.line, 1)}<div><div class="en">${highlight(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">🎬 ${esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
   }
   if (c.senses.length) out.push(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh">${highlight(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`);
-  if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip"><span data-say="${esc(f.word)}" style="cursor:pointer">${esc(f.word)}</span> <small>${esc(f.pos)} ${esc(f.meaning)}</small></span>`).join('')}</div></div>`);
-  if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl"><span class="chip">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
-  if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant">${esc(a)}</span>`).join('')}</div></div>`);
-  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map(a => `<span class="chip" data-say="${esc(a)}" style="cursor:pointer">${highlight(a, c.word)}</span>`).join('')}</div></div>`);
+  if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip sayc">${sayBtn(f.word, 1)}<span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`);
+  if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl">${sayBtn(s.w, 1)}<span class="chip">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
+  if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant sayc">${sayBtn(a, 1)}${esc(a)}</span>`).join('')}</div></div>`);
+  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map(a => `<span class="chip sayc">${sayBtn(a, 1)}<span>${highlight(a, c.word)}</span></span>`).join('')}</div></div>`);
   if (c.usage) out.push(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`);
   if (c.note) out.push(`<div class="sec"><b>我的筆記</b><div style="white-space:pre-wrap">${esc(c.note)}</div></div>`);
   if (!c.ai && AI) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊${c.builtin ? '更多細節（音標、用法說明、更多例句）' : '這張卡'}</button></div>`);
