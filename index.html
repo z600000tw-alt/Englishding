@@ -3369,7 +3369,7 @@ const ttsMem = new Map(), ttsPending = new Map();
 let ttsDB = null;
 function ttsStore(){
   if (ttsDB) return ttsDB;
-  ttsDB = new Promise(res => { try { const r = indexedDB.open('vocab-tts', 1); r.onupgradeneeded = () => r.result.createObjectStore('a'); r.onsuccess = () => res(r.result); r.onerror = () => res(null); } catch(e){ res(null); } });
+  ttsDB = new Promise(res => { try { const r = indexedDB.open('vocab-tts', 1); r.onupgradeneeded = () => r.result.createObjectStore('a'); r.onsuccess = () => { const d = r.result; try { if (localStorage.getItem('vocab-tts-v') !== '2'){ d.transaction('a', 'readwrite').objectStore('a').clear(); localStorage.setItem('vocab-tts-v', '2'); } } catch(e){} res(d); }; r.onerror = () => res(null); } catch(e){ res(null); } });
   return ttsDB;
 }
 async function idbGet(k){ const db = await ttsStore(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('a').objectStore('a').get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch(e){ res(null); } }); }
@@ -3386,13 +3386,13 @@ function b64bytes(b){ const s = atob(b), a = new Uint8Array(s.length); for (let 
 async function aiTTS(text, lang){
   const key = lsGet(AI_KEY_LS); if (!key) throw {code: 'bad_key'};
   const voice = S.settings.aiVoice || 'Kore';
-  const ck = voice + '|' + lang + '|' + text;
+  const ck = 'v2|' + voice + '|' + lang + '|' + text;
   if (ttsMem.has(ck)) return ttsMem.get(ck);
   if (ttsPending.has(ck)) return ttsPending.get(ck);
   const job = (async () => {
     const cached = await idbGet(ck);
     if (cached){ const u = URL.createObjectURL(cached); ttsMem.set(ck, u); return u; }
-    const prompt = lang.startsWith('zh') ? `用自然、清楚的台灣華語唸出：${text}` : `Say clearly and naturally, in ${lang === 'en-GB' ? 'British' : 'American'} English: ${text}`;
+    const prompt = text;  // 只送要唸的文字，不加任何指示，避免指示本身被唸出來
     const ok = lsGet('vocab-tts-ok'); const order = ok && TTS_MODELS.includes(ok) ? [ok, ...TTS_MODELS.filter(m => m !== ok)] : TTS_MODELS;
     for (const m of order){
       let res;
@@ -3433,7 +3433,7 @@ function playUrl(url, rate){
     const p = AUD.play(); if (p && p.catch) p.catch(() => fin());
   });
 }
-const useAiVoice = () => S.settings.ttsMode === 'ai' && !!lsGet(AI_KEY_LS);
+const useAiVoice = () => S.settings.ttsMode === 'ai' && !!lsGet(AI_KEY_LS) && !(Date.now() < +(lsGet('vocab-tts-cool') || 0));
 let sayTok = 0, ttsWarned = false;
 function stopSpeech(){ sayTok++; try { AUD.pause(); } catch(e){} if (audFin){ const f = audFin; audFin = null; f(); } try { speechSynthesis.cancel(); } catch(e){} }
 async function say(text, lang, rate){
@@ -3447,13 +3447,14 @@ async function say(text, lang, rate){
       return await playUrl(u, lang.startsWith('zh') ? 1 : Math.min(1.1, rate / 0.95));
     } catch(e){
       if (tok !== sayTok) return;
-      if (!ttsWarned){ ttsWarned = true; toast('AI 語音暫時無法使用（' + aiErr(e) + '），先改用裝置語音'); }
+      if (e && e.code === 'rate_limited'){ const t = new Date(); t.setUTCHours(8, 5, 0, 0); if (t <= new Date()) t.setUTCDate(t.getUTCDate() + 1); /* 額度在美西午夜重置 */ try { localStorage.setItem('vocab-tts-cool', String(t.getTime())); } catch(_){} toast('今天的 AI 語音額度用完了，先改用裝置語音，明天會自動恢復'); }
+      else if (!ttsWarned){ ttsWarned = true; toast('AI 語音暫時無法使用（' + aiErr(e) + '），先改用裝置語音'); }
     }
   }
   return deviceSay(text, lang, rate);
 }
 function speak(text){ say(text); }
-function prefetchTTS(texts){ if (!useAiVoice()) return; texts.filter(Boolean).slice(0, 3).forEach(t => aiTTS(t, S.settings.accent).catch(() => {})); }
+function prefetchTTS(texts){ if (!useAiVoice()) return; texts.filter(Boolean).slice(0, 1).forEach(t => aiTTS(t, S.settings.accent).catch(() => {})); }
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('more') && e.target.closest('#reviewArea')) UI.moreOpen = e.target.open; }, true);
 document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
 const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
