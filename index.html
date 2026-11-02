@@ -248,6 +248,57 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .exl.say .zh:hover{color:var(--ink)}
 .speaking{animation:speakPulse .7s ease-out}
 @keyframes speakPulse{0%{box-shadow:0 0 0 0 rgba(168,211,230,.9)}100%{box-shadow:0 0 0 8px rgba(168,211,230,0)}}
+
+/* today & session */
+.hello{font-size:1.25rem;margin:2px 0 10px}
+.todayBox{padding:18px}
+.todayTop{display:flex;align-items:center;gap:18px}
+.ring{width:118px;height:118px;flex:none}
+.todayNums{display:flex;flex-direction:column;gap:4px;font-size:.98rem}
+.todayNums b{font-weight:400;font-size:1.15rem;margin-left:4px;font-variant-numeric:tabular-nums}
+.dotc{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);margin-right:6px;vertical-align:0}
+.deckRow{display:flex;align-items:center;gap:8px;margin-top:14px}
+.deckRow select{flex:1}
+.startBtn{width:100%;margin-top:14px;padding:13px;font-size:1.08rem}
+.allDone{text-align:center;margin-top:14px;padding:12px;background:var(--waka-s);border-radius:12px}
+.todayFoot{text-align:center;margin-top:12px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
+.qt:hover{background:var(--yama-s)}
+.qi svg{width:26px;height:26px}
+.sesHead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.menuWrap{position:relative}
+.menuBox{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:2px solid var(--ink);border-radius:12px;box-shadow:0 3px 0 var(--ink);z-index:8;min-width:190px;display:none;padding:4px}
+.menuBox.on{display:block}
+.menuBox button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:.95rem}
+.menuBox button:hover{background:var(--yama-s)}
+.swipeable{touch-action:pan-y;user-select:text}
+.swipeable[data-swipe]::after{content:'';position:absolute;top:16px;padding:4px 14px;border:2.5px solid;border-radius:10px;font-size:1.1rem;opacity:0;transition:opacity .1s}
+.swipeable[data-swipe=right]::after{content:'記得 ✓';left:16px;color:#3f7d3a;border-color:#3f7d3a;opacity:1;background:#fff}
+.swipeable[data-swipe=left]::after{content:'忘記';right:16px;color:#b4513f;border-color:#b4513f;opacity:1;background:#fff}
+.swipeHint{text-align:center;margin-top:8px}
+@media (hover:hover) and (pointer:fine){ .swipeHint{display:none} }
+details.more{margin-top:14px;border-top:1.5px solid #ece6dc;padding-top:10px}
+details.more > summary{list-style:none;text-align:center;color:#2f7fa3;font-size:.92rem;padding:6px;cursor:pointer;text-decoration:none}
+details.more > summary::-webkit-details-marker{display:none}
+details.more > summary::after{content:' ▾'}
+details.more[open] > summary::after{content:' ▴'}
+.addMenu{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.addTile{display:flex;flex-direction:column;gap:2px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px;text-decoration:none;color:var(--ink)}
+.addTile:hover{background:var(--yama-s)}
+.addTile span{font-size:.78rem;color:var(--muted)}
+.addTile b{font-weight:400}
+.sesControls{position:sticky;bottom:calc(74px + env(safe-area-inset-bottom));z-index:5;background:linear-gradient(rgba(255,252,246,0),var(--bg) 14px);padding:10px 0 4px}
+.sesControls .answers{margin-top:4px}
+.sesControls .reveal{margin-top:4px}
+/* listening */
+.lsPlayer{text-align:center}
+.lsWord{font-size:2.6rem;line-height:1.15;margin-top:6px}
+.lsEx{margin:16px auto 0;max-width:520px;font-size:1.05rem}
+.lsCtrl{display:flex;justify-content:center;gap:12px;margin-top:22px}
+.lsCtrl .btn{min-width:64px;font-size:1.1rem}
+.lsMain{min-width:130px!important}
+@media (max-width:560px){ .ring{width:100px;height:100px} .lsWord{font-size:2.1rem} }
 /* modal etc */
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
@@ -299,15 +350,19 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 
   <!-- REVIEW -->
   <section class="panel on" id="p-review">
-    <div class="row spread">
-      <select id="deckSel" style="width:auto;min-width:150px"></select>
-      <div class="counts" id="counts"></div>
-    </div>
     <div id="reviewArea"><div class="loading">讀取單字中…</div></div>
+  </section>
+
+  <!-- LISTEN -->
+  <section class="panel" id="p-listen">
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="review">← 今日</button></div>
+    <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M9 26v-4a14 14 0 0 1 28 0v4" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><rect x="6" y="24" width="8" height="13" rx="4" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/><rect x="32" y="24" width="8" height="13" rx="4" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/></g></svg><h2>聽力模式</h2></div>
+    <div id="listenArea"></div>
   </section>
 
   <!-- VIDEO -->
   <section class="panel" id="p-video">
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="review">← 今日</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><rect x="5" y="10" width="36" height="26" rx="8" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5"/><path d="M19 17v12l10-6z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M17 4l6 6 6-6" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g></svg><h2>影片學單字</h2></div>
     <div class="notice aiHint">從字幕找單字需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
     <div class="box">
@@ -345,6 +400,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 
   <!-- PRACTICE -->
   <section class="panel" id="p-practice">
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="review">← 今日</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><rect x="7" y="8" width="26" height="32" rx="6" fill="#fff" stroke="#3E3A39" stroke-width="2.5"/><path d="M13 18h14M13 25h10" stroke="#A8D3E6" stroke-width="3" stroke-linecap="round"/><g class="sway"><path d="M28 36l2-7 10-10 5 5-10 10z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g></svg><h2>活用練習</h2></div>
     <div class="notice aiHint">活用練習需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
     <div class="box">
@@ -366,6 +422,12 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
   <!-- ADD -->
   <section class="panel" id="p-add">
     <div class="row spread" style="margin-bottom:10px"><button class="btn small" data-goto="browse">← 回單字庫</button></div>
+    <div class="addMenu">
+      <a href="#" class="addTile" data-jump="toeicBox"><b>多益單字包</b><span>250 個高頻字・AI 擴充</span></a>
+      <a href="#" class="addTile" data-goto="video"><b>從影片找單字</b><span>貼上字幕自動挑字</span></a>
+      <a href="#" class="addTile" data-jump="addForm"><b>手動新增</b><span>輸入一個單字</span></a>
+      <a href="#" class="addTile" data-jump="bulkBox"><b>匯入單字表</b><span>Excel／CSV／貼上</span></a>
+    </div>
     <div class="box" id="toeicBox">
       <h2>多益單字</h2>
       <p class="tiny muted" style="margin:4px 0 0">基礎包：10 個職場主題、共 250 個多益高頻字。載入後依「每日新卡上限」逐步學習；例句、音標、同反義字等細節會在學到該字時由 AI 自動補齊，不會一次耗用大量額度。</p>
@@ -397,7 +459,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
         <div class="row" style="margin-top:14px"><button class="btn pri" type="submit">加入</button><span class="tiny muted" id="addMsg"></span></div>
       </form>
     </div>
-    <div class="box">
+    <div class="box" id="bulkBox">
       <h2>批次匯入</h2>
       <p class="tiny muted" style="margin:6px 0 0">已經有單字書或單字表？一行一個，可以只有單字，也可以用 <code>|</code> 或 Tab 分隔：<code>單字 | 中文意思 | 例句</code>。也可以直接上傳 Excel（.xlsx）、CSV 或 TXT 檔，第一欄是單字、第二欄中文。同一牌組裡重複的字會略過。</p>
       <label class="inline" style="margin-top:10px"><input type="file" id="bulkFile" accept=".txt,.csv,.tsv,.xlsx,.xls"></label>
@@ -416,7 +478,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 
   <!-- BROWSE -->
   <section class="panel" id="p-browse">
-    <div class="row spread" style="align-items:center"><div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M23 13c-5-4-12-4-17-2v24c5-2 12-2 17 2 5-4 12-4 17-2V11c-5-2-12-2-17 2z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/><path d="M23 13v24" stroke="#3E3A39" stroke-width="2.2"/></g><path class="twinkle" d="M38 3l1.5 3.5 3.5 1.5-3.5 1.5L38 13l-1.5-3.5L33 8l3.5-1.5z" fill="#F6D27A" stroke="#3E3A39" stroke-width="1.6"/></svg><h2>我的單字</h2></div><button class="btn pri" data-goto="add">＋ 新增單字</button></div>
+    <div class="row spread" style="align-items:center"><div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M23 13c-5-4-12-4-17-2v24c5-2 12-2 17 2 5-4 12-4 17-2V11c-5-2-12-2-17 2z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/><path d="M23 13v24" stroke="#3E3A39" stroke-width="2.2"/></g><path class="twinkle" d="M38 3l1.5 3.5 3.5 1.5-3.5 1.5L38 13l-1.5-3.5L33 8l3.5-1.5z" fill="#F6D27A" stroke="#3E3A39" stroke-width="1.6"/></svg><h2>我的單字</h2></div><button class="btn pri" data-goto="add">＋ 新增</button></div>
     <div class="row">
       <input type="text" id="search" placeholder="搜尋單字、中文、例句…" style="flex:2;min-width:180px">
       <select id="browseDeck" style="flex:1;min-width:130px"></select>
@@ -451,7 +513,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
     <h3>1. 快速開始</h3>
     <ol>
       <li>到「單字」→「＋ 新增單字」，勾選多益基礎單字包的主題後按「載入」。</li>
-      <li>回到「複習」，每天把畫面上的新卡、學習、複習數量清空即可。</li>
+      <li>回到「今日」，按「開始複習」，把今天的份完成即可。複習時點卡片翻面，右滑代表記得、左滑代表忘記，也可以按下方四個評分按鈕。</li>
       <li>每天新卡數量可在「我的 → 設定與備份」調整（預設 15 個）。</li>
     </ol>
     <h3>2. 複習時怎麼評分</h3>
@@ -480,7 +542,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
     <h3>4-1. 例句中的生字</h3>
     <p>看例句時遇到不熟的字，直接點那個字（或用滑鼠選取一段片語），按「加入單字」就會加入單字庫，並自動加上 #例句生字 標籤、保留原本的例句。設定 Gemini 金鑰時可以不填中文，AI 會依照例句的意思補上。</p>
     <h3>5. 標記與標籤</h3>
-    <p>複習或查看單字時可按「☆ 標記」或「# 標籤」（例如 #易混淆、#發音難）。在複習頁上方的牌組選單、單字庫、活用練習中，都可以只挑選已標記或某個標籤的字。</p>
+    <p>複習時點右上角「⋯」，或在單字庫查看單字時，可以「☆ 標記」或加上「# 標籤」（例如 #易混淆、#發音難）。在「今日」頁的「範圍」選單、單字庫、活用練習中，都可以只挑選已標記或某個標籤的字。</p>
     <h3>6. 活用練習</h3>
     <p>「練習」頁可用學過的字產生情境短文填空、對話填空、近義字辨析選擇題、中翻英造句。答錯的字會自動排入今天的複習。</p>
     <h3>7. 和朋友一起學（班級）</h3>
@@ -570,9 +632,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 </div>
 
   <nav id="nav"><div class="inner">
-    <button data-tab="review" style="--tabc:#F2A497" class="on"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="8.5" width="15" height="15" rx="3.5"/><path d="M9 5h11a3.5 3.5 0 0 1 3.5 3.5V19"/><path d="M9.5 16l2.5 2.5 4.5-5"/></svg></span><span>複習</span></button>
-    <button data-tab="video" style="--tabc:#A8D3E6"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="21" height="15" rx="4.5"/><path d="M12 10.5v6l5-3z" fill="currentColor"/><path d="M10 24.5h8"/></svg></span><span>影片</span></button>
-    <button data-tab="practice" style="--tabc:#F6D27A"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/><path d="M6 22l4-1"/></svg></span><span>練習</span></button>
+    <button data-tab="review" style="--tabc:#F2A497" class="on"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 13 14 5l9.5 8"/><path d="M7 11.5V23h14V11.5"/><path d="M11.5 23v-6h5v6"/></svg></span><span>今日</span></button>
     <button data-tab="browse" style="--tabc:#B9DAA5"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8c-3-2-7-2.2-9.5-1v15c2.5-1.2 6.5-1 9.5 1 3-2 7-2.2 9.5-1V7c-2.5-1.2-6.5-1-9.5 1z"/><path d="M14 8v15"/></svg></span><span>單字</span></button>
     <button data-tab="friends" style="--tabc:#A8D3E6"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10" r="4"/><path d="M3.5 22c.8-4 3.6-6 7-6s6.2 2 7 6"/><circle cx="19" cy="9" r="3.2"/><path d="M18 14.6c3.3-.3 5.8 1.6 6.5 5.4"/></svg></span><span>班級</span></button>
     <button data-tab="me" style="--tabc:#F2A497"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="14" r="10"/><path d="M10 16.5c1.6 2.2 6.4 2.2 8 0"/><circle cx="10.5" cy="11.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="11.5" r=".9" fill="currentColor"/></svg></span><span>我的</span></button>
@@ -2941,6 +3001,100 @@ document.addEventListener('mouseup', phrasePick);
 document.addEventListener('touchend', phrasePick);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWordPop(); });
 window.addEventListener('scroll', closeWordPop, {passive: true});
+
+/* ---------- listening mode ---------- */
+const LSN = {list: [], i: 0, playing: false, token: 0, wake: null, opts: {src: 'today', n: 20, zh: true, ex: true, gap: 2}};
+function speakP(text, lang, rate){
+  return new Promise(res => {
+    try {
+      if (!('speechSynthesis' in window) || !text){ res(); return; }
+      const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate;
+      const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.replace('_', '-').startsWith(lang)); if (v) u.voice = v;
+      let done = false; const fin = () => { if (!done){ done = true; res(); } };
+      u.onend = fin; u.onerror = fin; setTimeout(fin, 1800 + text.length * 140 / rate);
+      speechSynthesis.speak(u);
+    } catch(e){ res(); }
+  });
+}
+const lsWait = ms => new Promise(r => setTimeout(r, ms));
+function lsPool(src){
+  const now = Date.now(); let pool = S.cards.filter(c => c.meaning);
+  if (src === 'today'){ const q = queueInfo(); pool = [...q.learnToday, ...q.revs, ...q.news].filter(c => c.meaning); if (pool.length < 5) pool = S.cards.filter(c => c.meaning && c.last && now - c.last < 3 * DAY).concat(pool); }
+  else if (src === 'recent') pool = pool.filter(c => c.last && now - c.last < 7 * DAY);
+  else if (src === 'star') pool = pool.filter(c => c.star);
+  else if (src === 'weak') pool = pool.filter(c => (c.lapses || 0) >= 2 || (c.state !== 'new' && (c.ease || 2.5) < 2.2));
+  else if (src === 'learned') pool = pool.filter(c => c.state !== 'new');
+  else if (src.startsWith('deck:')) pool = pool.filter(c => c.deck === src.slice(5));
+  return [...new Set(pool)];
+}
+function renderListen(){
+  const el = $('#listenArea'); if (!el) return;
+  const o = LSN.opts;
+  if (!LSN.list.length || (!LSN.playing && LSN.i >= LSN.list.length && !LSN.finished)){
+    const ds = decks();
+    el.innerHTML = `<div class="box"><p class="tiny muted" style="margin:0 0 6px">自動依序唸：英文單字 → 中文意思 → 例句。適合通勤、走路時用耳朵複習，不會影響複習進度。</p>
+      <div class="row"><div style="flex:2;min-width:160px"><label>要聽哪些字</label><select id="lsSrc"><option value="today">今天要複習的字</option><option value="recent">最近 7 天學過</option><option value="weak">常忘記的字</option><option value="star">★ 已標記</option><option value="learned">所有學過的字</option><option value="all">全部單字</option>${ds.map(d => `<option value="deck:${esc(d)}">牌組：${esc(d)}</option>`).join('')}</select></div>
+      <div style="flex:1;min-width:90px"><label>數量</label><select id="lsN"><option>10</option><option>20</option><option>30</option><option>50</option></select></div></div>
+      <div class="row" style="margin-top:6px"><label class="inline"><input type="checkbox" id="lsZh"> 唸中文意思</label><label class="inline"><input type="checkbox" id="lsEx"> 唸例句</label></div>
+      <div class="row"><div style="flex:1;min-width:120px"><label>每段間隔</label><select id="lsGap"><option value="1">短（1 秒）</option><option value="2">中（2 秒）</option><option value="3.5">長（3.5 秒，可以跟著唸）</option></select></div><div style="flex:1;min-width:120px"><label>英文語速</label><select id="lsRate"><option value="0.7">慢</option><option value="0.9">稍慢</option><option value="1">正常</option></select></div></div>
+      <button class="btn pri startBtn" id="lsGo" style="margin-top:14px">▶ 開始播放</button>
+      <div class="tiny muted" id="lsMsg" style="margin-top:8px">播放時會盡量保持螢幕開啟；iPhone 若鎖定螢幕，聲音會停止。</div></div>`;
+    $('#lsSrc').value = o.src; if (!$('#lsSrc').value) $('#lsSrc').value = 'today';
+    $('#lsN').value = String(o.n); $('#lsZh').checked = o.zh; $('#lsEx').checked = o.ex; $('#lsGap').value = String(o.gap); $('#lsRate').value = S.settings.rate || '0.9';
+    $('#lsGo').onclick = () => {
+      Object.assign(o, {src: $('#lsSrc').value, n: +$('#lsN').value, zh: $('#lsZh').checked, ex: $('#lsEx').checked, gap: +$('#lsGap').value});
+      o.rate = +$('#lsRate').value;
+      const pool = lsPool(o.src);
+      if (!pool.length){ $('#lsMsg').textContent = '這個範圍沒有單字，換一個試試'; return; }
+      LSN.list = (o.src === 'today' ? pool : shuffle(pool)).slice(0, o.n); LSN.i = 0; LSN.finished = false;
+      lsPlay();
+    };
+    return;
+  }
+  const c = LSN.list[Math.min(LSN.i, LSN.list.length - 1)];
+  const ex = c.ex[0];
+  el.innerHTML = `<div class="box lsPlayer">
+      <div class="row spread"><span class="tiny muted">${Math.min(LSN.i + 1, LSN.list.length)} / ${LSN.list.length}</span><button class="btn small" id="lsEnd">結束</button></div>
+      <div class="pbar" style="margin:8px 0 18px"><i style="width:${(Math.min(LSN.i + (LSN.finished ? 1 : 0), LSN.list.length) / LSN.list.length * 100).toFixed(1)}%"></i></div>
+      ${LSN.finished ? `<div class="gbig">聽完了！</div><p class="muted">共 ${LSN.list.length} 個字。</p><div class="row" style="justify-content:center"><button class="btn pri" id="lsAgain">再聽一次</button><button class="btn" id="lsNew">換一組</button></div>` : `
+      <div class="lsWord say" data-say="${esc(c.word)}">${esc(c.word)}</div>
+      <div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>
+      <div class="meaning" style="text-align:center">${esc(c.meaning)}</div>
+      ${ex ? `<div class="lsEx say" data-say="${esc(ex.en)}">${highlight(ex.en, c.word)}${ex.zh ? `<div class="zh">${esc(ex.zh)}</div>` : ''}</div>` : ''}
+      <div class="lsCtrl"><button class="btn" id="lsPrev" aria-label="上一個">⏮</button><button class="btn pri lsMain" id="lsToggle">${LSN.playing ? '⏸ 暫停' : '▶ 繼續'}</button><button class="btn" id="lsNext" aria-label="下一個">⏭</button></div>
+      <div class="row" style="justify-content:center;margin-top:10px"><button class="btn small" id="lsStar">${c.star ? '★ 已標記' : '☆ 不熟，標記起來'}</button></div>`}
+    </div>`;
+  $('#lsEnd').onclick = () => { lsStop(); LSN.list = []; renderListen(); };
+  if (LSN.finished){
+    $('#lsAgain').onclick = () => { LSN.i = 0; LSN.finished = false; lsPlay(); };
+    $('#lsNew').onclick = () => { LSN.list = []; LSN.finished = false; renderListen(); };
+    return;
+  }
+  $('#lsToggle').onclick = () => { LSN.playing ? lsStop() : lsPlay(); };
+  $('#lsPrev').onclick = () => { const was = LSN.playing; lsStop(); LSN.i = Math.max(0, LSN.i - 1); was ? lsPlay() : renderListen(); };
+  $('#lsNext').onclick = () => { const was = LSN.playing; lsStop(); LSN.i = Math.min(LSN.list.length - 1, LSN.i + 1); was ? lsPlay() : renderListen(); };
+  $('#lsStar').onclick = () => { toggleStar(c); renderListen(); };
+}
+async function lsPlay(){
+  const tok = ++LSN.token; LSN.playing = true;
+  try { if (navigator.wakeLock && !LSN.wake) LSN.wake = await navigator.wakeLock.request('screen'); } catch(e){}
+  const o = LSN.opts, gap = (o.gap || 2) * 1000, rate = o.rate || Number(S.settings.rate) || 0.9;
+  while (LSN.playing && tok === LSN.token && LSN.i < LSN.list.length){
+    const c = LSN.list[LSN.i];
+    renderListen();
+    await speakP(c.word, S.settings.accent, rate); if (tok !== LSN.token) return;
+    await lsWait(gap * 0.6); if (tok !== LSN.token) return;
+    await speakP(c.word, S.settings.accent, rate * 0.9); if (tok !== LSN.token) return;
+    if (o.zh && c.meaning){ await lsWait(gap * 0.5); if (tok !== LSN.token) return; await speakP(c.meaning.replace(/[；;]/g, '，'), 'zh-TW', 1); if (tok !== LSN.token) return; }
+    if (o.ex && c.ex[0]){ await lsWait(gap * 0.6); if (tok !== LSN.token) return; await speakP(c.ex[0].en, S.settings.accent, rate); if (tok !== LSN.token) return; }
+    await lsWait(gap); if (tok !== LSN.token) return;
+    LSN.i++;
+  }
+  if (tok === LSN.token && LSN.i >= LSN.list.length){ LSN.playing = false; LSN.finished = true; LSN.i = LSN.list.length - 1; lsRelease(); addXP(Math.round(LSN.list.length / 3)); renderListen(); }
+}
+function lsRelease(){ try { if (LSN.wake){ LSN.wake.release(); LSN.wake = null; } } catch(e){} }
+function lsStop(){ LSN.playing = false; LSN.token++; try { speechSynthesis.cancel(); } catch(e){} lsRelease(); if ($('#p-listen').classList.contains('on')) renderListen(); }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && LSN.playing && navigator.wakeLock && !LSN.wake) navigator.wakeLock.request('screen').then(w => LSN.wake = w).catch(() => {}); });
 /* ---------- speech ---------- */
 function speak(text){
   try {
@@ -2952,6 +3106,7 @@ function speak(text){
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   } catch(e){}
 }
+document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('more') && e.target.closest('#reviewArea')) UI.moreOpen = e.target.open; }, true);
 document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
 const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
 
@@ -3011,8 +3166,10 @@ function pickMode(c){
 }
 function renderCounts(){
   const q = queueInfo();
+  if (!$('#counts')) return;
   $('#counts').innerHTML = `<span class="c-new">${q.news.length}<small>新</small></span><span class="c-learn">${q.learnToday.length}<small>學習</small></span><span class="c-rev">${q.revs.length}<small>複習</small></span>`;
 }
+let DECK_OPTS = null;
 function renderDeckSelects(){
   const ds = decks();
   const tg = allTags(), nStar = S.cards.filter(c => c.star).length;
@@ -3021,7 +3178,8 @@ function renderDeckSelects(){
   const o = (v, label, sel) => `<option value="${esc(v)}"${v===sel?' selected':''}>${esc(label)}</option>`;
   const opt = sel => o('', `全部牌組（${S.cards.length}）`, sel) + ds.map(d => o(d, `${d}（${S.cards.filter(c=>c.deck===d).length}）`, sel)).join('') +
     (nStar ? o('__star', `★ 已標記（${nStar}）`, sel) : '') + tg.map(t => o('#' + t, `# ${t}（${S.cards.filter(c=>c.tags.includes(t)).length}）`, sel)).join('');
-  $('#deckSel').innerHTML = opt(S.settings.deck);
+  if ($('#deckSel')) $('#deckSel').innerHTML = opt(S.settings.deck);
+  DECK_OPTS = opt;
   const bd = $('#browseDeck').value; $('#browseDeck').innerHTML = opt(valid.includes(bd) ? bd : '');
   $('#deckList').innerHTML = ds.map(d => `<option value="${esc(d)}">`).join('');
   const fill = (sel, label, vals) => { const v = $(sel).value; $(sel).innerHTML = `<option value="">${label}</option>` + vals.map(x => `<option${x===v?' selected':''}>${esc(x)}</option>`).join(''); };
@@ -3032,7 +3190,7 @@ function showNext(){
   if (cur && AI && !aiOff && !cur.ai && cur.lazy) lazyEnrich();
   if (cur){ curMode = pickMode(cur); if (curMode === 'cloze') cz = clozeFor(cur); if (curMode === 'cloze' && !cz) curMode = 'recog'; }
   renderReview();
-  if (cur && curMode === 'recog' && S.settings.autoSpeak) speak(cur.word);
+  if (inSession && cur && curMode === 'recog' && S.settings.autoSpeak) speak(cur.word);
 }
 const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
 function videoUrl(src){
@@ -3045,32 +3203,42 @@ function headHTML(c){
   return `<div class="row" style="justify-content:center;gap:10px"><div class="word say" data-say="${esc(c.word)}" title="點一下發音">${esc(c.word)}</div></div>
     ${c.ipa || c.pos ? `<div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>` : ''}`;
 }
-function tagsHTML(c){
+const scoresHTML = c => `<div class="scores"><span>重要度 <span class="stars">${stars(c.imp)}</span></span><span>實用度 <span class="stars">${stars(c.prac)}</span></span><span>難度 <span class="stars">${stars(c.diff)}</span></span></div>`;
+function tagsHTML(c, compact){
   const t = [];
   if (c.level) t.push(`<span class="tag lv">${esc(c.level)}</span>`);
   if (c.type) t.push(`<span class="tag">${esc(c.type)}</span>`);
   if (c.cat) t.push(`<span class="tag">${esc(c.cat)}</span>`);
   if (c.topic) t.push(`<span class="tag">${esc(c.topic)}</span>`);
   if (c.deck) t.push(`<span class="tag">📁 ${esc(c.deck)}</span>`);
-  return `<div class="tags">${t.join('')}</div>` + (c.ai ? `<div class="scores"><span>重要度 <span class="stars">${stars(c.imp)}</span></span><span>實用度 <span class="stars">${stars(c.prac)}</span></span><span>難度 <span class="stars">${stars(c.diff)}</span></span></div>` : '');
+  return `<div class="tags">${t.join('')}</div>` + (c.ai && !compact ? `<div class="scores"><span>重要度 <span class="stars">${stars(c.imp)}</span></span><span>實用度 <span class="stars">${stars(c.prac)}</span></span><span>難度 <span class="stars">${stars(c.diff)}</span></span></div>` : '');
 }
-function detailHTML(c){
-  const out = [];
-  out.push(`<div style="text-align:center"><div class="meaning">${esc(c.meaning || '（尚未有中文意思）')}</div>${tagsHTML(c)}</div>`);
-  if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl say" data-say="${esc(e.en)}"><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
+const UI = {moreOpen: false};
+function detailHTML(c, compact){
+  const out = [], more = [];
+  const P = (s, isMore) => (compact && isMore ? more : out).push(s);
+  out.push(`<div style="text-align:center"><div class="meaning">${esc(c.meaning || '（尚未有中文意思）')}</div>${tagsHTML(c, compact)}</div>`);
+  const exHTML = e => `<div class="exl say" data-say="${esc(e.en)}"><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`;
+  if (c.ex.length && compact){ P(`<div class="sec"><b>例句</b>${exHTML(c.ex[0])}</div>`); if (c.ex.length > 1) P(`<div class="sec"><b>更多例句</b>${c.ex.slice(1).map(exHTML).join('')}</div>`, 1); }
+  else if (c.ex.length) out.push(`<div class="sec"><b>例句</b>${c.ex.map(e => `<div class="exl say" data-say="${esc(e.en)}"><div><div class="en addable" data-from="${c.id}">${clickable(e.en, c.word)}</div>${e.zh ? `<div class="zh">${esc(e.zh)}</div>` : ''}</div></div>`).join('')}</div>`);
   if (c.src && c.src.line){
     const u = videoUrl(c.src);
     out.push(`<div class="sec"><b>${c.src.kind === 'ex' ? '來源例句' : '影片中的原句'}</b><div class="video"><div class="exl say" style="margin:0" data-say="${esc(c.src.line)}"><div><div class="en addable" data-from="${c.id}">${clickable(c.src.line, c.word)}</div>${c.src.meaning ? `<div class="zh">此處意思：${esc(c.src.meaning)}</div>` : ''}<div class="tiny" style="margin-top:4px">${c.src.kind === 'ex' ? '📖 ' + esc(c.src.title || '') : '🎬 ' + esc(c.src.title || '影片')}${u ? ` ・ <a href="${esc(u)}" target="_blank" rel="noopener">${c.src.t != null ? '從 ' + fmtTime(c.src.t) + ' 播放' : '開啟影片'} ↗</a>` : ''}</div></div></div></div></div>`);
   }
-  if (c.senses.length) out.push(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh addable" data-from="${c.id}">${clickable(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`);
-  if (c.forms.length) out.push(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip say" data-say="${esc(f.word)}"><span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`);
-  if (c.syn.length) out.push(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl"><span class="chip say" data-say="${esc(s.w)}">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`);
-  if (c.ant.length) out.push(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant say" data-say="${esc(a)}">${esc(a)}</span>`).join('')}</div></div>`);
-  if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map((a, i) => `<span class="chip say" data-say="${esc(a)}"><span>${highlight(a, c.word)}${c.collZh[i] ? ` <span class="zhm">${esc(c.collZh[i])}</span>` : ''}</span></span>`).join('')}</div></div>`);
-  if (c.usage) out.push(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`);
+  if (c.senses.length) P(`<div class="sec"><b>一字多義</b>${c.senses.map(s => `<div class="exl"><span class="pos" style="min-width:40px">${esc(s.pos)}</span><div><div>${esc(s.meaning)}</div>${s.en ? `<div class="zh addable" data-from="${c.id}">${clickable(s.en, c.word)}</div>` : ''}</div></div>`).join('')}</div>`, 1);
+  if (c.forms.length) P(`<div class="sec"><b>詞性變化・字族</b><div class="chips">${c.forms.map(f => `<span class="chip say" data-say="${esc(f.word)}"><span>${esc(f.word)} <small>${esc(f.pos)}</small> <span class="zhm">${esc(f.meaning)}</span></span></span>`).join('')}</div></div>`, 1);
+  if (c.syn.length) P(`<div class="sec"><b>同義字（差異）</b>${c.syn.map(s => `<div class="exl"><span class="chip say" data-say="${esc(s.w)}">${esc(s.w)}</span><span class="tiny muted" style="margin-top:4px">${esc(s.note)}</span></div>`).join('')}</div>`, 1);
+  if (c.ant.length) P(`<div class="sec"><b>反義字</b><div class="chips">${c.ant.map(a => `<span class="chip ant say" data-say="${esc(a)}">${esc(a)}</span>`).join('')}</div></div>`, 1);
+  const collChip = (a, i) => `<span class="chip say" data-say="${esc(a)}"><span>${highlight(a, c.word)}${c.collZh[i] ? ` <span class="zhm">${esc(c.collZh[i])}</span>` : ''}</span></span>`;
+  if (c.coll.length){ const n = compact ? 2 : c.coll.length; P(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.slice(0, n).map(collChip).join('')}</div></div>`); if (c.coll.length > n) P(`<div class="sec"><b>更多搭配</b><div class="chips">${c.coll.slice(n).map((a, k) => collChip(a, k + n)).join('')}</div></div>`, 1); }
+  if (c.usage) P(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`, 1);
   if (c.note) out.push(`<div class="sec"><b>我的筆記</b><div style="white-space:pre-wrap">${esc(c.note)}</div></div>`);
-  if (!c.ai && AI) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊${c.builtin ? '更多細節（音標、用法說明、更多例句）' : '這張卡'}</button></div>`);
-  else if (!c.ai && !c.builtin) out.push(`<div class="sec tiny muted" style="text-align:center">這張卡還沒有例句、同反義字等細節。到「我的 → 設定與備份」填入免費的 Gemini 金鑰後，學到時會自動補齊。</div>`);
+  if (!c.ai && AI) P(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊${c.builtin ? '更多細節（音標、用法說明、更多例句）' : '這張卡'}</button></div>`, 1);
+  else if (!c.ai && !c.builtin) P(`<div class="sec tiny muted" style="text-align:center">這張卡還沒有例句、同反義字等細節。到「我的 → 設定與備份」填入免費的 Gemini 金鑰後，學到時會自動補齊。</div>`, 1);
+  if (compact && (more.length || c.ai)){
+    const labels = [c.ex.length > 1 && '例句', c.senses.length && '一字多義', c.forms.length && '詞性變化', (c.syn.length || c.ant.length) && '同反義字', c.usage && '用法'].filter(Boolean);
+    out.push(`<details class="more"${UI.moreOpen ? ' open' : ''}><summary>更多${labels.length ? '：' + labels.join('・') : ''}</summary>${c.ai ? `<div class="sec">${scoresHTML(c)}</div>` : ''}${more.join('')}</details>`);
+  }
   return `<div class="detail">${out.join('')}</div>`;
 }
 function marksHTML(c){
@@ -3138,25 +3306,119 @@ ${items.map((x, i) => (i + 1) + '. ' + x).join('\n')}`);
     if ($('#modal').classList.contains('on') && $('#modalBox').dataset.card === c.id && !$('#eWord')) openEditor(c);
   } catch(e){ zhTried.delete(c.id); }
 }
-function renderReview(){
+let inSession = false;
+function greet(){ const hr = new Date().getHours(); return hr < 5 ? '夜深了' : hr < 11 ? '早安' : hr < 18 ? '午安' : '晚安'; }
+const QI = (d, label) => `<span class="qi"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg></span><span>${label}</span>`;
+function renderToday(){
+  const area = $('#reviewArea');
+  const q = queueInfo();
+  const left = q.news.length + q.learnToday.length + q.revs.length;
+  const done = S.hist[S.daily.day] || 0;
+  const pct = done + left ? done / (done + left) : 1;
+  const mins = Math.max(1, Math.round((q.revs.length * 10 + q.learnToday.length * 12 + q.news.length * 25) / 60));
+  const R = 38, C = 2 * Math.PI * R;
+  const learned = S.cards.filter(c => c.state !== 'new').length;
+  area.innerHTML = `<div class="hello">${greet()}${S.settings.nick ? '，' + esc(S.settings.nick) : ''}</div>
+    <div class="box todayBox">
+      <div class="todayTop">
+        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" fill="none" stroke="#efe9df" stroke-width="10"/>${pct > 0 ? `<circle cx="50" cy="50" r="${R}" fill="none" stroke="#B9DAA5" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(C * pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/>` : ''}<text x="50" y="49" text-anchor="middle" font-size="22" fill="#3E3A39">${left}</text><text x="50" y="66" text-anchor="middle" font-size="10" fill="#837b77">${left ? '張待完成' : '全部完成'}</text></svg>
+        <div class="todayNums">
+          <div><span class="dotc c-new"></span>新字 <b>${q.news.length}</b></div>
+          <div><span class="dotc c-learn"></span>學習中 <b>${q.learnToday.length}</b></div>
+          <div><span class="dotc c-rev"></span>要複習 <b>${q.revs.length}</b></div>
+          <div class="tiny muted">今天已複習 ${done} 次</div>
+        </div>
+      </div>
+      <div class="deckRow"><span class="tiny muted">範圍</span><select id="deckSel"></select></div>
+      ${left ? `<button class="btn pri startBtn" id="startBtn">開始複習・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
+      <div class="tiny muted todayFoot">🔥 連續 ${computeStreak()} 天　・　本週 ${myXP()} XP　・　已學 ${learned} 字</div>
+    </div>
+    <div class="quick">
+      <button class="qt" data-q="listen">${QI('<path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/>', '聽力模式')}</button>
+      <button class="qt" data-q="practice">${QI('<path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/>', '活用練習')}</button>
+      <button class="qt" data-q="games">${QI('<path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/>', '班級對戰')}</button>
+      <button class="qt" data-q="add">${QI('<circle cx="14" cy="14" r="10"/><path d="M14 9v10M9 14h10"/>', '新增單字')}</button>
+      <button class="qt" data-q="video">${QI('<rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/>', '影片學單字')}</button>
+      <button class="qt" data-q="toeic">${QI('<path d="M14 8c-3-2-7-2.2-9.5-1v15c2.5-1.2 6.5-1 9.5 1 3-2 7-2.2 9.5-1V7c-2.5-1.2-6.5-1-9.5 1z"/><path d="M14 8v15"/>', '多益單字包')}</button>
+    </div>`;
+  if (!DECK_OPTS) renderDeckSelects();
+  $('#deckSel').innerHTML = DECK_OPTS ? DECK_OPTS(S.settings.deck) : '';
+  $('#deckSel').onchange = e => { S.settings.deck = e.target.value; markDirty(); cur = null; showNext(); };
+  if ($('#startBtn')) $('#startBtn').onclick = () => { inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
+  area.querySelectorAll('[data-q]').forEach(b => b.onclick = () => {
+    const k = b.dataset.q;
+    if (k === 'games'){ SOC.sub = 'games'; switchTab('friends'); }
+    else if (k === 'toeic'){ switchTab('add'); setTimeout(() => { const el = $('#toeicBox'); if (el) el.scrollIntoView({behavior: 'smooth'}); }, 60); }
+    else switchTab(k);
+  });
+}
+function sessionHead(){
+  return `<div class="sesHead"><button class="btn small" id="sesBack">← 今日</button><div class="counts" id="counts"></div><div class="menuWrap"><button class="btn small" id="sesMenu" aria-label="更多選項">⋯</button><div class="menuBox" id="sesMenuBox"></div></div></div>`;
+}
+function bindSessionHead(c){
   renderCounts();
+  $('#sesBack').onclick = () => { inSession = false; renderReview(); window.scrollTo(0, 0); };
+  $('#sesMenu').onclick = e => {
+    e.stopPropagation();
+    const box = $('#sesMenuBox');
+    if (box.classList.contains('on')){ box.classList.remove('on'); return; }
+    const items = [];
+    if (c){ items.push(['star', c.star ? '★ 取消標記' : '☆ 標記重點']); items.push(['tag', '# 標籤' + (c.tags.length ? '（' + c.tags.length + '）' : '')]); items.push(['edit', '編輯這張卡']); }
+    if (undoStack.length) items.push(['undo', '↶ 復原上一張']);
+    items.push(['deck', '切換範圍']);
+    box.innerHTML = items.map(([k, l]) => `<button data-m="${k}">${l}</button>`).join('') + '<div class="tiny muted" style="padding:6px 10px 2px">點卡片翻面・右滑記得・左滑忘記</div>';
+    box.classList.add('on');
+    box.querySelectorAll('[data-m]').forEach(b => b.onclick = () => {
+      box.classList.remove('on');
+      const k = b.dataset.m;
+      if (k === 'star') toggleStar(c); else if (k === 'tag') openTagPicker(c); else if (k === 'edit') openEditor(c);
+      else if (k === 'undo') undo(); else if (k === 'deck'){ inSession = false; renderReview(); setTimeout(() => $('#deckSel') && $('#deckSel').focus(), 50); }
+    });
+  };
+}
+document.addEventListener('click', e => { const b = $('#sesMenuBox'); if (b && b.classList.contains('on') && !e.target.closest('.menuWrap')) b.classList.remove('on'); });
+function bindGestures(card){
+  let sx = 0, sy = 0, dx = 0, active = false, moved = false, pid = null;
+  const interactive = t => t.closest('button,a,input,textarea,select,.w,[data-say],summary,.chip,details');
+  card.addEventListener('pointerdown', e => { if (e.button > 0 || interactive(e.target)) return; active = true; moved = false; sx = e.clientX; sy = e.clientY; dx = 0; pid = e.pointerId; });
+  card.addEventListener('pointermove', e => {
+    if (!active) return;
+    dx = e.clientX - sx; const dy = e.clientY - sy;
+    if (!moved && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2){ moved = true; try { card.setPointerCapture(pid); } catch(err){} }
+    if (moved && revealed){ card.style.transform = `translateX(${dx}px) rotate(${dx / 28}deg)`; card.dataset.swipe = dx > 70 ? 'right' : dx < -70 ? 'left' : ''; }
+  });
+  const reset = () => { card.style.transition = 'transform .2s'; card.style.transform = ''; card.dataset.swipe = ''; setTimeout(() => card.style.transition = '', 220); };
+  card.addEventListener('pointerup', () => {
+    if (!active) return; active = false;
+    if (moved && revealed){
+      if (dx > 90){ card.style.transition = 'transform .18s'; card.style.transform = 'translateX(130%) rotate(10deg)'; setTimeout(() => rate(3), 170); }
+      else if (dx < -90){ card.style.transition = 'transform .18s'; card.style.transform = 'translateX(-130%) rotate(-10deg)'; setTimeout(() => rate(1), 170); }
+      else reset();
+    } else if (!moved && !revealed && curMode === 'recog'){
+      const sel = window.getSelection && String(window.getSelection()); if (!sel) reveal();
+    }
+  });
+  card.addEventListener('pointercancel', () => { active = false; reset(); });
+}
+function renderReview(){
   const area = $('#reviewArea');
   if (!loaded){ area.innerHTML = '<div class="loading">讀取單字中…</div>'; return; }
   if (!S.cards.length){
-    area.innerHTML = `<div class="card done">${ILL.empty}<div class="big">還沒有單字</div><p class="muted">從影片字幕自動找單字，或手動新增單字開始。</p><div class="row" style="justify-content:center"><button class="btn pri" data-go="add">載入多益基礎單字</button><button class="btn" data-go="video">從影片學單字</button></div></div>`;
-    area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => switchTab(b.dataset.go)); return;
+    inSession = false;
+    area.innerHTML = `<div class="hello">${greet()}${S.settings.nick ? '，' + esc(S.settings.nick) : ''}</div><div class="card done">${ILL.empty}<div class="big">還沒有單字</div><p class="muted">先載入多益基礎單字，或從影片字幕找單字開始。</p><div class="row" style="justify-content:center"><button class="btn pri" data-go="add">載入多益基礎單字</button><button class="btn" data-go="video">從影片學單字</button></div></div>`;
+    area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { switchTab(b.dataset.go); if (b.dataset.go === 'add') setTimeout(() => { const el = $('#toeicBox'); if (el) el.scrollIntoView({behavior: 'smooth'}); }, 60); }); return;
   }
+  if (!inSession){ renderToday(); return; }
   if (!cur){
     const q = queueInfo();
     const nextL = q.pool.filter(isLearning).sort((a,b) => a.due - b.due)[0];
-    const nextR = q.pool.filter(c => c.state === 'review').sort((a,b) => a.due - b.due)[0];
     let tip = '';
-    if (nextL) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後到期。`;
-    else if (q.allNew && S.daily.newDone >= S.settings.newPerDay) tip = `今天的新卡額度（${S.settings.newPerDay}）已用完，還有 ${q.allNew} 張新卡明天再學。`;
-    else if (nextR) tip = `下一張複習卡在 ${new Date(nextR.due).toLocaleDateString('zh-TW', {month:'numeric', day:'numeric'})}。`;
-    area.innerHTML = `<div class="card done">${ILL.done}<div class="big">今日進度已完成</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center">${AI && !aiOff ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}${undoStack.length ? '<button class="btn" id="undoBtn">復原上一張</button>' : ''}</div></div>`;
-    area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => switchTab(b.dataset.go));
-    if ($('#undoBtn')) $('#undoBtn').onclick = undo;
+    if (nextL) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後再複習。`;
+    else if (q.allNew && S.daily.newDone >= S.settings.newPerDay) tip = `今天的新字額度（${S.settings.newPerDay}）已用完，明天繼續。`;
+    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">今日進度已完成</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center"><button class="btn pri" id="doneBack">回今日</button>${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
+    bindSessionHead(null);
+    $('#doneBack').onclick = () => { inSession = false; renderReview(); };
+    area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { inSession = false; switchTab(b.dataset.go); });
     return;
   }
   const c = cur;
@@ -3165,22 +3427,19 @@ function renderReview(){
   let fbHTML = '';
   if (grading) fbHTML = `<div class="aiFb"><span class="spin"></span> AI 批改中…</div>`;
   else if (aiFb) fbHTML = `<div class="aiFb"><b>${['','需要修正','可以更自然','正確','很道地'][aiFb.grade] || ''}</b>　${esc(aiFb.feedback)}${aiFb.corrected ? `<div style="margin-top:6px">✏️ <span class="say" data-say="${esc(aiFb.corrected)}">${esc(aiFb.corrected)}</span></div>` : ''}${aiFb.example ? `<div class="tiny muted" style="margin-top:4px">再一個例句：${esc(aiFb.example)}</div>` : ''}</div>`;
-  const back = revealed ? `<hr class="divider">${curMode !== 'recog' ? `<div style="text-align:center">${headHTML(c)}</div>` : ''}${detailHTML(c)}${c.lapses >= 4 ? `<div class="leech">這個字已忘記 ${c.lapses} 次，試著加一則自己的筆記或例句來幫助記憶</div>` : ''}` : '';
+  const back = revealed ? `<hr class="divider">${curMode !== 'recog' ? `<div style="text-align:center">${headHTML(c)}</div>` : ''}${detailHTML(c, true)}${c.lapses >= 4 ? `<div class="leech">這個字已忘記 ${c.lapses} 次，試著加一則自己的筆記或例句來幫助記憶</div>` : ''}` : '';
   const sug = verdict ? verdict.sug : 0;
   let controls;
-  if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div>`;
+  if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div><div class="tiny muted swipeHint">← 左滑：忘記　　右滑：記得 →</div>`;
   else if (curMode === 'produce') controls = `<div class="row" style="margin-top:14px"><button class="btn ai" id="gradeBtn" style="flex:2" ${grading ? 'disabled' : ''}>✨ 請 AI 批改</button><button class="btn" id="revealBtn" style="flex:1">直接看答案</button></div>`;
-  else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>`;
-  area.innerHTML = `<div class="card">${frontHTML(c)}${verdictHTML}${fbHTML}${back}</div>${controls}
-    <div class="row spread" style="margin-top:12px"><div class="row"><button class="btn small${c.star ? ' on' : ''}" id="starBtn" title="標記 (S)">${c.star ? '★ 已標記' : '☆ 標記'}</button><button class="btn small" id="tagBtn"># 標籤${c.tags.length ? '・' + c.tags.length : ''}</button>${undoStack.length ? '<button class="btn small" id="undoBtn">復原</button>' : ''}<button class="btn small" id="editCur">編輯</button></div><span class="tiny muted keys">空白鍵：翻面／良好　1–4：評分　S：標記　R：發音　U：復原</span></div>`;
-  $('#starBtn').onclick = () => toggleStar(c);
-  $('#tagBtn').onclick = () => openTagPicker(c);
+  else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>${curMode === 'recog' ? '<div class="tiny muted swipeHint">也可以直接點卡片翻面</div>' : ''}`;
+  area.innerHTML = sessionHead() + `<div class="card swipeable">${frontHTML(c)}${verdictHTML}${fbHTML}${back}</div><div class="sesControls">${controls}</div>`;
+  bindSessionHead(c);
+  bindGestures(area.querySelector('.card'));
   area.querySelectorAll('[data-r]').forEach(b => b.onclick = () => rate(+b.dataset.r));
   area.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => queueEnrich([b.dataset.enrich]));
   if ($('#revealBtn')) $('#revealBtn').onclick = reveal;
   if ($('#gradeBtn')) $('#gradeBtn').onclick = grade;
-  if ($('#undoBtn')) $('#undoBtn').onclick = undo;
-  $('#editCur').onclick = () => openEditor(c);
   if (revealed) ensureZh(c);
   const ti = $('#typeIn');
   if (ti && !revealed && !grading){
@@ -3253,7 +3512,7 @@ function undo(){
   toast('已復原');
 }
 document.addEventListener('keydown', e => {
-  if (!$('#p-review').classList.contains('on') || $('#modal').classList.contains('on')) return;
+  if (!inSession || !$('#p-review').classList.contains('on') || $('#modal').classList.contains('on')) return;
   const tag = (e.target.tagName || '').toLowerCase();
   if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -3673,7 +3932,7 @@ function renderStats(){
   const hs = []; let streak = 0, counting = true;
   for (let i = 0; i < 60; i++){ const k = dayKey(now - i * DAY), v = S.hist[k] || 0; if (counting){ if (v) streak++; else if (i > 0) counting = false; } if (i < 14) hs.unshift({v, l: i === 0 ? '今天' : k.slice(5).replace('-', '/')}); }
   const count = key => { const m = {}; pool.forEach(c => { const k = c[key] || '未分類'; m[k] = (m[k] || 0) + 1; }); return Object.entries(m).sort((a,b) => b[1] - a[1]); };
-  $('#statsArea').innerHTML = `<div class="tiny muted" style="margin-bottom:8px">${S.settings.deck ? '牌組：' + esc(S.settings.deck) : '全部牌組'}（可在「複習」頁切換）</div>
+  $('#statsArea').innerHTML = `<div class="tiny muted" style="margin-bottom:8px">${S.settings.deck ? '牌組：' + esc(S.settings.deck) : '全部牌組'}（可在「今日」頁的「範圍」切換）</div>
     <div class="grid4"><div class="stat"><b class="c-new">${n}</b><span>新卡</span></div><div class="stat"><b class="c-learn">${l}</b><span>學習中</span></div><div class="stat"><b>${young}</b><span>熟悉中（&lt;21 天）</span></div><div class="stat"><b class="c-rev">${mature}</b><span>已熟記（≥21 天）</span></div></div>
     <div class="grid4" style="margin-top:8px"><div class="stat"><b>${S.hist[dayKey(now)] || 0}</b><span>今天複習次數</span></div><div class="stat"><b>${streak}</b><span>連續天數</span></div><div class="stat"><b>${Array.from({length: 30}, (_, i) => S.hist[dayKey(now - i * DAY)] || 0).reduce((a,b) => a + b, 0)}</b><span>近 30 天複習</span></div><div class="stat"><b>${pool.length}</b><span>單字總數</span></div></div>
     <h3>未來 7 天到期</h3><div class="box">${bars(fc)}</div>
@@ -3745,8 +4004,8 @@ $('#resetProg').onclick = e => {
 };
 
 /* ---------- shell ---------- */
-$('#deckSel').onchange = () => { S.settings.deck = $('#deckSel').value; markDirty(); cur = null; showNext(); };
-const TAB_OF = {add: 'browse', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
+
+const TAB_OF = {add: 'browse', video: 'review', practice: 'review', listen: 'review', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
 function switchTab(t){
   let sub = null;
   if (t === 'stats' || t === 'settings' || t === 'guide' || t === 'account'){ sub = t; t = 'me'; }
@@ -3758,6 +4017,8 @@ function switchTab(t){
   if (t === 'review'){ if (!cur || !S.cards.includes(cur)) showNext(); else renderReview(); }
   if (t === 'browse') renderBrowse();
   if (t === 'friends') renderClass();
+  if (t === 'listen') renderListen();
+  if (t !== 'listen' && LSN.playing) lsStop();
   if (t === 'me' && statsVisible()) renderStats();
 }
 const statsVisible = () => $('#p-me').classList.contains('on') && $('#p-stats').style.display !== 'none';
@@ -3773,7 +4034,8 @@ function switchSub(s){
   if (s === 'stats') renderStats();
 }
 document.querySelectorAll('#p-me .subtabs button').forEach(b => b.onclick = () => switchSub(b.dataset.sub));
-document.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => switchTab(b.dataset.goto));
+document.querySelectorAll('[data-goto]').forEach(b => b.onclick = e => { e.preventDefault(); switchTab(b.dataset.goto); });
+document.querySelectorAll('[data-jump]').forEach(b => b.onclick = e => { e.preventDefault(); const el = document.getElementById(b.dataset.jump); if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); });
 $('#meChip').onclick = () => switchTab('account');
 document.querySelectorAll('#nav button').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
 function refreshAll(keepCard){
@@ -3786,7 +4048,7 @@ function refreshAll(keepCard){
 }
 let toastT;
 function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
-setInterval(() => { if (loaded && $('#p-review').classList.contains('on')){ if (!cur) showNext(); else renderCounts(); } }, 30000);
+setInterval(() => { if (loaded && $('#p-review').classList.contains('on')){ if (!inSession){ if (document.activeElement && document.activeElement.id === 'deckSel') return; renderToday(); } else if (!cur) showNext(); else renderCounts(); } }, 30000);
 
 document.querySelectorAll('.aiOnly').forEach(el => el.classList.add('hide'));
 $('#avrow').innerHTML = ['croc','rabbit','cat','dog','squirrel','starfish','alien'].map(k => AVATARS[k].svg).join('');
