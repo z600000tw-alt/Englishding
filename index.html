@@ -27,7 +27,7 @@
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Huninn","Noto Sans TC",system-ui,sans-serif;font-size:16px;line-height:1.6}
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:#2f7fa3;text-decoration-thickness:2px;text-underline-offset:3px}
-.wrap{max-width:800px;margin:0 auto;padding:14px 16px calc(110px + env(safe-area-inset-bottom))}
+.wrap{max-width:800px;margin:0 auto;padding:14px 16px calc(130px + env(safe-area-inset-bottom))}
 
 /* header */
 header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:4px 0 10px}
@@ -175,6 +175,12 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .story{font-size:1.05rem;line-height:2.2}
 .story input{width:120px;padding:1px 6px;border:0;border-bottom:2.5px solid var(--ink);border-radius:6px 6px 0 0;background:var(--yama-s);text-align:center}
 .story input.ok{background:var(--waka)} .story input.no{background:var(--coral)}
+.story .fb{display:inline-block;padding:0 8px;border-radius:6px;border-bottom:2.5px solid var(--ink);line-height:1.5}
+.story .fb.ok{background:#E3F0DA} .story .fb.ok i{font-style:normal;color:#5E8F48;margin-left:4px;font-size:.85em}
+.story .fb.no{background:#FBE3DE} .story .fb s{color:#B4554A;margin-right:6px;text-decoration-thickness:2px}
+.story .fb.no b{color:#2F6B3A} .story .fb sup{font-size:.6em;color:#B4554A;margin-right:3px}
+.fbList{margin:8px 0 0;padding-left:0;list-style:none;font-size:.92em;line-height:1.6}
+.fbList li{padding:6px 10px;background:#FFF6F3;border-radius:10px;margin-top:6px} .fbList s{color:#B4554A}
 .bank{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
 .q{background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;margin-top:10px}
 .opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
@@ -262,6 +268,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startBtn{width:100%;margin-top:14px;padding:13px;font-size:1.08rem}
 .allDone{text-align:center;margin-top:14px;padding:12px;background:var(--waka-s);border-radius:12px}
 .todayFoot{text-align:center;margin-top:12px}
+.moreNew{width:100%;margin-top:10px}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:#fff;border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
 .qt:hover{background:var(--yama-s)}
@@ -288,10 +295,18 @@ details.more[open] > summary::after{content:' ▴'}
 .addTile:hover{background:var(--yama-s)}
 .addTile span{font-size:.78rem;color:var(--muted)}
 .addTile b{font-weight:400}
-.sesControls{position:sticky;bottom:calc(74px + env(safe-area-inset-bottom));z-index:5;background:linear-gradient(rgba(255,252,246,0),var(--bg) 14px);padding:10px 0 4px}
+.sesControls{position:sticky;bottom:calc(98px + env(safe-area-inset-bottom));z-index:5;background:linear-gradient(rgba(255,252,246,0),var(--bg) 14px);padding:10px 0 4px}
 .sesControls .answers{margin-top:4px}
+.sesControls::after{content:'';position:absolute;left:-20px;right:-20px;top:100%;height:30px;background:var(--bg)}
 .sesControls .reveal{margin-top:4px}
 /* listening */
+.btn .hic{width:18px;height:18px;vertical-align:-4px;margin-right:2px}
+.hubGo .hic{width:24px;height:24px;color:var(--muted)}
+.lsCtrl .hic{width:26px;height:26px}
+.lsCtrl .lsMain .hic{width:22px;height:22px}
+.hic{width:22px;height:22px;vertical-align:-5px;flex:none}
+.lsCtrl .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.startBtn .hic{width:20px;height:20px;margin-right:4px}
 .lsPlayer{text-align:center}
 .lsWord{font-size:2.6rem;line-height:1.15;margin-top:6px}
 .lsEx{margin:16px auto 0;max-width:520px;font-size:1.05rem}
@@ -362,7 +377,7 @@ nav#nav button.center.on{color:var(--ink)}
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
 .modal .box{width:100%;max-width:600px;max-height:88vh;overflow:auto}
-.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:.9rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:30;max-width:90vw}
+.toast{position:fixed;left:50%;bottom:calc(112px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:.9rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:30;max-width:90vw}
 .toast.on{opacity:1}
 .notice{background:var(--yama-s);border:2px solid var(--ink);border-radius:16px;padding:9px 12px;font-size:.88rem;margin-bottom:12px;display:none}
 .notice.on{display:block}
@@ -416,23 +431,23 @@ nav#nav button.center.on{color:var(--ink)}
   <section class="panel" id="p-train">
     <h2 class="ptitle">練習</h2>
     <div class="hubList">
-      <button class="hubItem" data-goto="listen"><span class="hubIc" style="background:var(--mizu-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/></svg></span><span class="hubTx"><b>聽力模式</b><span>自動唸單字、中文與例句，通勤時用耳朵複習</span></span><span class="hubGo">›</span></button>
-      <button class="hubItem" data-goto="practice"><span class="hubIc" style="background:var(--yama-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/></svg></span><span class="hubTx"><b>活用練習</b><span>情境短文填空、近義字辨析、中翻英造句</span></span><span class="hubGo">›</span></button>
-      <button class="hubItem" data-hub="games"><span class="hubIc" style="background:var(--coral-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>班級對戰</b><span>連連看、快問快答，和同學比誰背得快</span></span><span class="hubGo">›</span></button>
-      <button class="hubItem" data-goto="video"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/></svg></span><span class="hubTx"><b>影片學單字</b><span>貼上影片字幕，挑出值得學的單字</span></span><span class="hubGo">›</span></button>
+      <button class="hubItem" data-goto="listen"><span class="hubIc" style="background:var(--mizu-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/></svg></span><span class="hubTx"><b>聽力模式</b><span>自動唸單字、中文與例句，通勤時用耳朵複習</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
+      <button class="hubItem" data-goto="practice"><span class="hubIc" style="background:var(--yama-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/></svg></span><span class="hubTx"><b>活用練習</b><span>情境短文填空、近義字辨析、中翻英造句</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
+      <button class="hubItem" data-hub="games"><span class="hubIc" style="background:var(--coral-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>班級對戰</b><span>連連看、快問快答，和同學比誰背得快</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
+      <button class="hubItem" data-goto="video"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/></svg></span><span class="hubTx"><b>影片學單字</b><span>貼上影片字幕，挑出值得學的單字</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
     </div>
   </section>
 
   <!-- LISTEN -->
   <section class="panel" id="p-listen">
-    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train">← 練習</button></div>
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>練習</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M9 26v-4a14 14 0 0 1 28 0v4" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><rect x="6" y="24" width="8" height="13" rx="4" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/><rect x="32" y="24" width="8" height="13" rx="4" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/></g></svg><h2>聽力模式</h2></div>
     <div id="listenArea"></div>
   </section>
 
   <!-- VIDEO -->
   <section class="panel" id="p-video">
-    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train">← 練習</button></div>
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>練習</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><rect x="5" y="10" width="36" height="26" rx="8" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5"/><path d="M19 17v12l10-6z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M17 4l6 6 6-6" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g></svg><h2>影片學單字</h2></div>
     <div class="notice aiHint">從字幕找單字需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
     <div class="box">
@@ -470,7 +485,7 @@ nav#nav button.center.on{color:var(--ink)}
 
   <!-- PRACTICE -->
   <section class="panel" id="p-practice">
-    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train">← 練習</button></div>
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>練習</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><rect x="7" y="8" width="26" height="32" rx="6" fill="#fff" stroke="#3E3A39" stroke-width="2.5"/><path d="M13 18h14M13 25h10" stroke="#A8D3E6" stroke-width="3" stroke-linecap="round"/><g class="sway"><path d="M28 36l2-7 10-10 5 5-10 10z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g></svg><h2>活用練習</h2></div>
     <div class="notice aiHint">活用練習需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
     <div class="box">
@@ -491,7 +506,7 @@ nav#nav button.center.on{color:var(--ink)}
 
   <!-- ADD -->
   <section class="panel" id="p-add">
-    <div class="row spread" style="margin-bottom:10px"><button class="btn small" data-goto="browse">← 回單字庫</button></div>
+    <div class="row spread" style="margin-bottom:10px"><button class="btn small" data-goto="browse"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>回單字庫</button></div>
     <div class="addMenu">
       <a href="#" class="addTile" data-jump="toeicBox"><b>多益單字包</b><span>250 個高頻字・AI 擴充</span></a>
       <a href="#" class="addTile" data-goto="video"><b>從影片找單字</b><span>貼上字幕自動挑字</span></a>
@@ -672,8 +687,21 @@ nav#nav button.center.on{color:var(--ink)}
       <label class="inline"><input type="checkbox" id="sSpeak"> 自動朗讀</label>
       <div class="row">
         <div style="flex:1;min-width:140px"><label>口音</label><select id="sAccent"><option value="en-US">美式</option><option value="en-GB">英式</option></select></div>
-        <div style="flex:1;min-width:140px"><label>語速</label><select id="sRate"><option value="0.7">慢</option><option value="0.9">稍慢</option><option value="1">正常</option></select></div>
+        <div style="flex:1;min-width:140px"><label>語速</label><select id="sRate"><option value="0.7">慢</option><option value="0.85">稍慢</option><option value="0.95">自然</option><option value="1.05">稍快</option></select></div>
       </div>
+      <label>語音來源</label>
+      <select id="sTtsMode"><option value="device">裝置內建語音（免費、即時）</option><option value="ai">AI 真人語音（較自然，需 Gemini 金鑰）</option></select>
+      <div id="ttsDevBox">
+        <label>裝置語音（已自動挑選最自然的，可自行更換）</label>
+        <div class="row" style="flex-wrap:nowrap"><select id="sVoice" style="flex:1;min-width:0"></select><button class="btn small" id="sVoiceTest" type="button">試聽</button></div>
+        <p class="tiny muted" style="margin:6px 0 0">想要更自然：iPhone 到「設定 → 輔助使用 → 朗讀內容 → 聲音 → 英文」下載標示「加強版」或「高品質」的聲音；電腦建議用 Chrome 或 Edge（Edge 有 Natural 語音）。</p>
+      </div>
+      <div id="ttsAiBox" style="display:none">
+        <label>AI 聲音</label>
+        <div class="row" style="flex-wrap:nowrap"><select id="sAiVoice" style="flex:1;min-width:0"><option value="Kore">Kore・沉穩女聲</option><option value="Aoede">Aoede・輕快女聲</option><option value="Leda">Leda・年輕女聲</option><option value="Zephyr">Zephyr・明亮女聲</option><option value="Charon">Charon・沉穩男聲</option><option value="Puck">Puck・活潑男聲</option><option value="Orus">Orus・穩重男聲</option><option value="Fenrir">Fenrir・有精神男聲</option></select><button class="btn small" id="sAiVoiceTest" type="button">試聽</button></div>
+        <p class="tiny muted" style="margin:6px 0 0">第一次唸某個字會花 1～2 秒產生，之後會存在這台裝置上，再唸就是即時的。使用你的 Gemini 免費額度；額度用完時會自動改用裝置語音。</p>
+      </div>
+      <span class="tiny muted" id="ttsMsg"></span>
       <div class="row" style="margin-top:14px"><button class="btn pri" id="saveSettings">儲存設定</button><span class="tiny muted" id="setMsg"></span></div>
     </div>
     <div class="box">
@@ -818,8 +846,8 @@ const ILL = {
 const PACKS = [{"name":"辦公室日常","cat":"職場商務","words":[["agenda","n.","議程"],["assign","v.","分派；指派"],["attach","v.","附上；附加"],["colleague","n.","同事"],["deadline","n.","截止期限"],["department","n.","部門"],["document","n.","文件"],["extension","n.","分機；延期"],["file","v.","歸檔；提出（申請）"],["memo","n.","備忘錄"],["postpone","v.","延期"],["priority","n.","優先事項"],["reception","n.","接待處；歡迎會"],["remind","v.","提醒"],["schedule","n./v.","行程表；安排"],["supervisor","n.","主管；監督者"],["supply","n.","用品；供應"],["workload","n.","工作量"],["coordinate","v.","協調"],["delegate","v.","委派"],["efficient","adj.","有效率的"],["in charge of","phr.","負責"],["notify","v.","通知"],["operate","v.","操作；營運"],["facility","n.","設施"]]},{"name":"人事招聘","cat":"職場商務","words":[["applicant","n.","應徵者"],["candidate","n.","候選人"],["qualification","n.","資格；條件"],["resume","n.","履歷"],["interview","n./v.","面試"],["hire","v.","雇用"],["recruit","v.","招募"],["position","n.","職位"],["experience","n.","經驗"],["reference","n.","推薦人；參考"],["promote","v.","升職；推廣"],["promotion","n.","升遷；促銷"],["salary","n.","薪水"],["benefit","n.","福利；好處"],["employee","n.","員工"],["employer","n.","雇主"],["retire","v.","退休"],["resign","v.","辭職"],["evaluation","n.","評估；考核"],["performance","n.","表現；績效"],["training","n.","訓練"],["orientation","n.","新人說明會"],["personnel","n.","人事部門；全體員工"],["probation","n.","試用期"],["transfer","v.","調職；轉移"]]},{"name":"會議簡報","cat":"職場商務","words":[["conference","n.","會議；研討會"],["presentation","n.","簡報"],["attend","v.","出席"],["participant","n.","參加者"],["proposal","n.","提案"],["summarize","v.","摘要；總結"],["discuss","v.","討論"],["consensus","n.","共識"],["minutes","n.","會議記錄"],["handout","n.","講義"],["brainstorm","v.","腦力激盪"],["objective","n.","目標"],["input","n.","意見；投入"],["reschedule","v.","重新安排時間"],["venue","n.","會場"],["keynote","n.","主題演講"],["outline","n./v.","大綱；概述"],["clarify","v.","釐清"],["address","v.","處理；發表演說"],["agree on","phr.","對…達成共識"],["follow up","phr.","後續追蹤"],["point out","phr.","指出"],["highlight","v.","強調"],["refreshments","n.","茶點"],["register","v.","報名；登記"]]},{"name":"行銷銷售","cat":"職場商務","words":[["advertise","v.","做廣告"],["campaign","n.","活動；宣傳"],["competitor","n.","競爭對手"],["consumer","n.","消費者"],["demand","n.","需求"],["launch","v.","推出"],["market share","n.","市占率"],["survey","n.","問卷調查"],["target","n./v.","目標；鎖定"],["brand","n.","品牌"],["discount","n.","折扣"],["estimate","n./v.","估計；估價"],["revenue","n.","營收"],["strategy","n.","策略"],["trend","n.","趨勢"],["feature","n./v.","特色；以…為特色"],["promotional","adj.","促銷的"],["retail","n.","零售"],["wholesale","n.","批發"],["client","n.","客戶"],["quote","n.","報價"],["affordable","adj.","負擔得起的"],["exclusive","adj.","獨家的"],["expand","v.","擴展"],["potential","adj./n.","潛在的；潛力"]]},{"name":"財務會計","cat":"職場商務","words":[["budget","n.","預算"],["expense","n.","費用；支出"],["invoice","n.","發票；請款單"],["account","n.","帳戶；帳目"],["audit","n./v.","稽核；審計"],["balance","n.","餘額；平衡"],["deposit","n./v.","存款；訂金"],["profit","n.","利潤"],["loss","n.","虧損"],["reimburse","v.","核銷；償還"],["receipt","n.","收據"],["tax","n.","稅"],["fiscal","adj.","財政的；會計年度的"],["forecast","n./v.","預測"],["investment","n.","投資"],["loan","n.","貸款"],["interest rate","n.","利率"],["payroll","n.","薪資名冊"],["quarterly","adj.","每季的"],["statement","n.","報表；聲明"],["transaction","n.","交易"],["cost-effective","adj.","划算的"],["overdue","adj.","逾期的"],["refund","n./v.","退款"],["outstanding","adj.","未付的；傑出的"]]},{"name":"採購物流","cat":"職場商務","words":[["order","n./v.","訂單；訂購"],["purchase","n./v.","購買"],["supplier","n.","供應商"],["vendor","n.","廠商；小販"],["inventory","n.","庫存"],["shipment","n.","貨運；一批貨"],["deliver","v.","運送；遞送"],["warehouse","n.","倉庫"],["in stock","phr.","有庫存"],["out of stock","phr.","缺貨"],["backorder","n.","延期交貨的訂單"],["dispatch","v.","派送；發送"],["track","v.","追蹤"],["package","n.","包裹"],["fragile","adj.","易碎的"],["bulk","n.","大量"],["procurement","n.","採購"],["contract","n.","合約"],["negotiate","v.","談判；協商"],["specification","n.","規格"],["expedite","v.","加速處理"],["freight","n.","貨物；運費"],["courier","n.","快遞員；快遞公司"],["confirm","v.","確認"],["cancel","v.","取消"]]},{"name":"旅遊出差","cat":"旅遊交通","words":[["itinerary","n.","行程表"],["reservation","n.","預約；訂位"],["accommodation","n.","住宿"],["depart","v.","出發"],["departure","n.","出發；離境"],["arrival","n.","抵達"],["boarding pass","n.","登機證"],["luggage","n.","行李"],["destination","n.","目的地"],["delay","n./v.","延誤"],["fare","n.","票價；車資"],["round-trip","adj.","來回的"],["check in","phr.","報到；登記入住"],["connecting flight","n.","轉機航班"],["aisle","n.","走道"],["customs","n.","海關"],["passport","n.","護照"],["book","v.","預訂"],["rental","n.","租賃"],["commute","v./n.","通勤"],["transportation","n.","交通運輸"],["excursion","n.","短途旅行"],["brochure","n.","宣傳冊"],["complimentary","adj.","免費贈送的"],["amenities","n.","便利設施"]]},{"name":"製造品管","cat":"科學技術","words":[["assemble","v.","組裝"],["equipment","n.","設備"],["machinery","n.","機械"],["manufacture","v.","製造"],["production","n.","生產"],["capacity","n.","產能；容量"],["defect","n.","瑕疵"],["inspect","v.","檢查"],["inspection","n.","檢查"],["quality control","n.","品質管制"],["maintenance","n.","維修保養"],["malfunction","n./v.","故障"],["procedure","n.","程序"],["safety","n.","安全"],["regulation","n.","法規；規定"],["comply with","phr.","遵守"],["standard","n.","標準"],["output","n.","產量"],["material","n.","材料"],["plant","n.","工廠"],["automate","v.","自動化"],["efficiency","n.","效率"],["prototype","n.","原型"],["upgrade","v./n.","升級"],["install","v.","安裝"]]},{"name":"合約法務","cat":"職場商務","words":[["agreement","n.","協議"],["terms","n.","條款；條件"],["clause","n.","條款"],["sign","v.","簽署"],["signature","n.","簽名"],["renew","v.","續約；更新"],["expire","v.","到期"],["valid","adj.","有效的"],["obligation","n.","義務"],["liability","n.","責任；負債"],["breach","n.","違反"],["draft","n./v.","草稿；起草"],["amend","v.","修改"],["binding","adj.","有約束力的"],["confidential","adj.","機密的"],["authorize","v.","授權"],["permit","n./v.","許可證；允許"],["policy","n.","政策；保單"],["warranty","n.","保固"],["guarantee","n./v.","保證"],["dispute","n.","爭議"],["legal","adj.","法律的；合法的"],["party","n.","（合約）一方"],["effective","adj.","生效的；有效的"],["terminate","v.","終止"]]},{"name":"客服溝通","cat":"職場商務","words":[["complaint","n.","抱怨；客訴"],["inquiry","n.","詢問"],["respond","v.","回應"],["resolve","v.","解決"],["satisfaction","n.","滿意"],["apologize","v.","道歉"],["inconvenience","n.","不便"],["assistance","n.","協助"],["feedback","n.","回饋意見"],["replace","v.","更換"],["exchange","v./n.","交換；退換"],["representative","n.","代表；專員"],["available","adj.","有空的；可取得的"],["appreciate","v.","感激"],["courteous","adj.","有禮貌的"],["prompt","adj.","迅速的"],["via","prep.","經由"],["regarding","prep.","關於"],["further","adj.","進一步的"],["attention","n.","注意；（信件）收件人"],["accommodate","v.","容納；配合"],["convenient","adj.","方便的"],["on behalf of","phr.","代表"],["get back to","phr.","回覆（某人）"],["look into","phr.","調查；研究"]]}];
 const DEFAULT_SETTINGS = {newPerDay: 15, maxRev: 200, newOrder: 'prio', weight: true,
   modes: {recog: true, recall: true, cloze: true, produce: true},
-  autoSpeak: true, accent: 'en-US', rate: '0.9', deck: '', lastDeck: '',
-  nick: '', avatar: '', board: true, classes: [], curClass: '', subs: [], xp: {week: '', pts: 0}};
+  autoSpeak: true, accent: 'en-US', rate: '0.95', ttsMode: 'device', aiVoice: 'Kore', deck: '', lastDeck: '',
+  gameSound: true, nick: '', avatar: '', board: true, classes: [], curClass: '', subs: [], xp: {week: '', pts: 0}};
 let S = {cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0};
 
 /* ---------- avatars (original designs) ---------- */
@@ -1915,7 +1943,7 @@ function queueInfo(){
   const learnToday = pool.filter(c => isLearning(c) && c.due < nd);
   const revLeft = Math.max(0, S.settings.maxRev - S.daily.revDone);
   const revs = pool.filter(c => c.state === 'review' && c.due < nd).sort((a,b) => (a.due - b.due) || (prio(b) - prio(a)));
-  const newLeft = Math.max(0, S.settings.newPerDay - S.daily.newDone);
+  const newLeft = Math.max(0, S.settings.newPerDay + (S.daily.bonus || 0) - S.daily.newDone);
   const news = pool.filter(c => c.state === 'new').sort(S.settings.newOrder === 'prio' ? ((a,b) => (prio(b) - prio(a)) || ((a.order||0) - (b.order||0))) : ((a,b) => (a.order||0) - (b.order||0)));
   return {now, learnNow, learnToday, revs: revs.slice(0, revLeft), news: news.slice(0, newLeft), allNew: news.length, pool};
 }
@@ -2559,7 +2587,7 @@ const gameRef = code => DB.doc(gamePath(code));
 function closeGame(silent){
   const g = SOC.game; if (!g) return;
   (g.unsubs || []).forEach(u => { try { u(); } catch(e){} });
-  clearInterval(g.timer); clearTimeout(g.cd);
+  clearInterval(g.timer); clearTimeout(g.cd); bgmStop();
   SOC.game = null;
   if (!silent) renderClass();
 }
@@ -2605,12 +2633,14 @@ function beginCountdown(){
     if (SOC.game !== g) return;
     const left = Math.ceil((g.data.startAt - Date.now()) / 1000);
     if (left <= 0){ startPlay(); return; }
+    if (g.countLeft !== left) sfx('tick');
     g.countLeft = left; renderGame();
     g.cd = setTimeout(tick, 200);
   };
   tick();
 }
 function startPlay(){
+  sfx('go'); bgmStart();
   const g = SOC.game; g.phase = 'play'; g.t0 = Date.now(); g.idx = 0; g.score = 0; g.correct = 0; g.penalty = 0;
   if (g.data.mode === 'match'){ g.round = 0; g.matched = 0; setupRound(); }
   else nextQ(true);
@@ -2630,7 +2660,7 @@ function tapTile(i){
   if (g.sel === i){ g.sel = null; renderGame(); return; }
   const a = g.tiles[g.sel];
   if (a.k === t.k && a.side !== t.side){
-    g.gone.add(i); g.gone.add(g.sel); g.sel = null; g.matched++;
+    g.gone.add(i); g.gone.add(g.sel); g.sel = null; g.matched++; sfx('match');
     writeMe({prog: g.matched, done: false, score: 0, timeMs: Date.now() - g.t0 + g.penalty});
     if (g.gone.size === g.tiles.length){
       g.round++;
@@ -2639,7 +2669,7 @@ function tapTile(i){
     }
     renderGame();
   } else {
-    g.penalty += 1000; const w = g.data.items[t.side === 'w' ? t.k : a.k].w; g.wrongWords[w] = 1;
+    sfx('bad'); g.penalty += 1000; const w = g.data.items[t.side === 'w' ? t.k : a.k].w; g.wrongWords[w] = 1;
     g.flash = [g.sel, i]; g.sel = null; renderGame();
     setTimeout(() => { if (SOC.game === g){ g.flash = null; renderGame(); } }, 450);
   }
@@ -2668,6 +2698,7 @@ function answerQ(j){
   const q = g.data.qs[g.idx], ok = j === q.a;
   const left = Math.max(0, QTIME - (Date.now() - g.qStart));
   const gain = ok ? 100 + Math.round(left / 100) : 0;
+  sfx(ok ? 'ok' : 'bad');
   g.answered = j; g.score += gain; if (ok) g.correct++; else g.wrongWords[q.w] = 1;
   g.lastGain = gain;
   writeMe({prog: g.idx + 1, done: false, score: g.score, timeMs: Date.now() - g.t0});
@@ -2675,6 +2706,7 @@ function answerQ(j){
   setTimeout(() => { if (SOC.game === g) nextQ(); }, ok ? 700 : 1400);
 }
 function finishGame(){
+  bgmStop(); sfx('win');
   const g = SOC.game; clearInterval(g.timer);
   g.phase = 'result';
   const timeMs = Date.now() - g.t0 + (g.penalty || 0);
@@ -2822,7 +2854,7 @@ async function renderGameList(){
       <button class="btn pri" id="gCreate" style="width:100%;margin-top:12px">建立遊戲</button>
       <p class="tiny muted" style="margin:8px 0 0">建立後把遊戲碼傳給同學，大家進房後由你按「開始」，同時倒數開賽。</p>
     </div>
-    <div class="row spread" style="margin:16px 0 6px"><b style="font-weight:400">最近的遊戲</b><button class="btn small" id="gHist">對戰紀錄 ›</button></div>
+    <div class="row spread" style="margin:16px 0 6px"><b style="font-weight:400">最近的遊戲</b><button class="btn small" id="gHist">對戰紀錄 <svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></button></div>
     <div class="list">${SOC.games.map(g => `<div class="item" data-game="${esc(g.id)}"><div><b>${esc(g.title)}</b><div class="tiny muted">${esc(names[g.host].name)}・${relTime(g.created)}・${g.startAt ? (g.startAt > Date.now() ? '即將開始' : '可挑戰') : '等待開始'}</div></div><span class="code" style="align-self:center">${esc(g.id)}</span></div>`).join('') || '<p class="muted">還沒有遊戲，開第一場吧！</p>'}</div>`;
   $('#gNew').onclick = () => { SOC.gForm = !SOC.gForm; $('#gForm').style.display = SOC.gForm ? '' : 'none'; };
   $('#gHist').onclick = () => { SOC.sub = 'history'; renderClass(); };
@@ -2863,7 +2895,7 @@ async function renderHistory(){
   }
   const opp = Object.entries(h2h).sort((a, b) => (b[1].w + b[1].l) - (a[1].w + a[1].l));
   const fmtRes = (gm, r) => gm.mode === 'match' ? (r.timeMs / 1000).toFixed(1) + ' 秒' : r.score + ' 分';
-  $('#clsSub').innerHTML = `<div class="row" style="margin-bottom:10px"><button class="btn small" id="histBack">← 對戰</button></div><div class="grid4"><div class="stat"><b>${played}</b><span>我參加的對戰</span></div><div class="stat"><b>${wins}</b><span>拿下第一</span></div><div class="stat"><b>${bestMatch === null ? '—' : (bestMatch / 1000).toFixed(1) + 's'}</b><span>連連看最快</span></div><div class="stat"><b>${bestQuiz === null ? '—' : bestQuiz}</b><span>快問快答最高分</span></div></div>
+  $('#clsSub').innerHTML = `<div class="row" style="margin-bottom:10px"><button class="btn small" id="histBack"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>對戰</button></div><div class="grid4"><div class="stat"><b>${played}</b><span>我參加的對戰</span></div><div class="stat"><b>${wins}</b><span>拿下第一</span></div><div class="stat"><b>${bestMatch === null ? '—' : (bestMatch / 1000).toFixed(1) + 's'}</b><span>連連看最快</span></div><div class="stat"><b>${bestQuiz === null ? '—' : bestQuiz}</b><span>快問快答最高分</span></div></div>
     <div class="box" style="margin-top:14px"><h2>我和同學的對戰成績</h2>${opp.length ? `<div class="board">${opp.map(([id, o]) => { const p = names[id]; const tot = o.w + o.l; return `<div class="brow">${avatarHTML(p)}<span class="bname">${esc(p.name)}</span><span class="bstat"><b>${o.w}</b><small>勝</small></span><span class="bstat"><b>${o.l}</b><small>負</small></span><span class="bstat"><b>${Math.round(o.w / tot * 100)}%</b><small>勝率</small></span></div>`; }).join('')}</div>` : '<p class="muted">還沒有和同學同場對戰的紀錄。</p>'}</div>
     <div class="box"><div class="row spread"><h2>最近的對戰</h2><button class="btn small" id="histRefresh">重新整理</button></div><div class="list">${games.slice(0, 30).map(gm => { const rk = rankGame(gm); return `<div class="item" style="cursor:default;grid-template-columns:1fr"><div class="row spread"><b style="font-size:1rem">${esc(gm.title)}</b><span class="tiny muted">${new Date(gm.created).toLocaleString('zh-TW', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})}・${gm.n} 題</span></div><div class="tiny" style="margin-top:4px">${rk.map((r, i) => `<span class="hres${r.id === me ? ' me' : ''}">${['🥇','🥈','🥉'][i] || (i + 1) + '.'} ${esc(names[r.id].name)} ${fmtRes(gm, r)}</span>`).join('')}</div></div>`; }).join('') || '<p class="muted">還沒有完成的對戰。</p>'}</div></div>`;
   $('#histRefresh').onclick = () => { histCache.at = 0; renderHistory(); };
@@ -2909,10 +2941,11 @@ function renderGame(){
       ${wrong.length ? `<p class="tiny muted">這次卡住的字：${wrong.map(esc).join('、')}${g.backN ? `（${g.backN} 個已排入今天複習）` : ''}</p>` : ''}
       <div class="row" style="justify-content:center"><button class="btn" id="gAgain">再練一次（不計分）</button></div>`;
   }
-  el.innerHTML = `<div class="box"><div class="row spread"><button class="btn small" id="gBack">← 離開遊戲</button><span class="tiny muted">${esc(d.title)}</span></div>
+  el.innerHTML = `<div class="box"><div class="row spread"><button class="btn small" id="gBack"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>離開遊戲</button><div class="row" style="gap:6px;flex-wrap:nowrap"><span class="tiny muted">${esc(d.title)}</span><button class="btn small" id="gSound" aria-label="音樂開關" title="音樂與音效">${gameSoundOn() ? SND_ON : SND_OFF}</button></div></div>
     <div class="gwrap"><div class="gmain">${main}</div><div class="gside"><div class="tiny muted" style="margin-bottom:6px">玩家</div><div id="gPlayers"></div></div></div></div>`;
   renderGamePlayers();
   $('#gBack').onclick = () => closeGame();
+  $('#gSound').onclick = () => { S.settings.gameSound = !gameSoundOn(); markDirty(); if (!gameSoundOn()) bgmStop(); else { gaCtx(); if (g.phase === 'play') bgmStart(); } renderGame(); };
   if ($('#gStart')) $('#gStart').onclick = startGame;
   if ($('#gAgain')) $('#gAgain').onclick = () => { g.phase = 'play'; g.practice = true; g.wrongWords = {}; startPlayPractice(); };
   el.querySelectorAll('[data-tile]').forEach(b => b.onclick = () => tapTile(+b.dataset.tile));
@@ -3115,6 +3148,15 @@ document.addEventListener('touchend', phrasePick);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWordPop(); });
 window.addEventListener('scroll', closeWordPop, {passive: true});
 
+
+/* hand-drawn control icons */
+const HSVG = (body, fill) => `<svg class="hic" viewBox="0 0 32 32" fill="${fill || 'none'}" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const HI = {
+  prev: HSVG('<path d="M8.6 7.4c.4 5.8.3 11.5-.3 17.3"/><path d="M24.6 8.1c-4.4 2.3-8.6 5-12.4 8.1 3.7 2.7 7.9 5.3 12.1 7.5.6-5.3.7-10.4.3-15.6z"/>'),
+  next: HSVG('<path d="M23.4 7.6c-.4 5.8-.3 11.5.3 17.3"/><path d="M7.4 8.3c4.4 2.3 8.6 5 12.4 8.1-3.7 2.7-7.9 5.3-12.1 7.5-.6-5.3-.7-10.4-.3-15.6z"/>'),
+  play: HSVG('<path d="M10.4 7.3c5.2 2.5 9.8 5.5 13.5 8.8-3.8 3.1-8.3 6-13.2 8.6-.7-5.8-.8-11.6-.3-17.4z"/>', 'currentColor'),
+  pause: HSVG('<path d="M11.4 8.2c-.4 5.3-.3 10.6.3 16M20.4 7.9c.3 5.4.2 10.8-.3 16.2" stroke-width="3.8"/>')
+};
 /* ---------- listening mode ---------- */
 const LSN = {list: [], i: 0, playing: false, token: 0, wake: null, opts: {src: 'today', n: 20, zh: true, ex: true, gap: 2}};
 function speakP(text, lang, rate){
@@ -3150,10 +3192,10 @@ function renderListen(){
       <div style="flex:1;min-width:90px"><label>數量</label><select id="lsN"><option>10</option><option>20</option><option>30</option><option>50</option></select></div></div>
       <div class="row" style="margin-top:6px"><label class="inline"><input type="checkbox" id="lsZh"> 唸中文意思</label><label class="inline"><input type="checkbox" id="lsEx"> 唸例句</label></div>
       <div class="row"><div style="flex:1;min-width:120px"><label>每段間隔</label><select id="lsGap"><option value="1">短（1 秒）</option><option value="2">中（2 秒）</option><option value="3.5">長（3.5 秒，可以跟著唸）</option></select></div><div style="flex:1;min-width:120px"><label>英文語速</label><select id="lsRate"><option value="0.7">慢</option><option value="0.9">稍慢</option><option value="1">正常</option></select></div></div>
-      <button class="btn pri startBtn" id="lsGo" style="margin-top:14px">▶ 開始播放</button>
+      <button class="btn pri startBtn" id="lsGo" style="margin-top:14px">${HI.play} 開始播放</button>
       <div class="tiny muted" id="lsMsg" style="margin-top:8px">播放時會盡量保持螢幕開啟；iPhone 若鎖定螢幕，聲音會停止。</div></div>`;
     $('#lsSrc').value = o.src; if (!$('#lsSrc').value) $('#lsSrc').value = 'today';
-    $('#lsN').value = String(o.n); $('#lsZh').checked = o.zh; $('#lsEx').checked = o.ex; $('#lsGap').value = String(o.gap); $('#lsRate').value = S.settings.rate || '0.9';
+    $('#lsN').value = String(o.n); $('#lsZh').checked = o.zh; $('#lsEx').checked = o.ex; $('#lsGap').value = String(o.gap); $('#lsRate').value = ({'0.7': '0.7', '0.85': '0.9', '1.05': '1'})[S.settings.rate] || '1';
     $('#lsGo').onclick = () => {
       Object.assign(o, {src: $('#lsSrc').value, n: +$('#lsN').value, zh: $('#lsZh').checked, ex: $('#lsEx').checked, gap: +$('#lsGap').value});
       o.rate = +$('#lsRate').value;
@@ -3174,7 +3216,7 @@ function renderListen(){
       <div class="ipa">${esc(c.ipa || '')} <span class="pos">${esc(c.pos || '')}</span></div>
       <div class="meaning" style="text-align:center">${esc(c.meaning)}</div>
       ${ex ? `<div class="lsEx say" data-say="${esc(ex.en)}">${highlight(ex.en, c.word)}${ex.zh ? `<div class="zh">${esc(ex.zh)}</div>` : ''}</div>` : ''}
-      <div class="lsCtrl"><button class="btn" id="lsPrev" aria-label="上一個">⏮</button><button class="btn pri lsMain" id="lsToggle">${LSN.playing ? '⏸ 暫停' : '▶ 繼續'}</button><button class="btn" id="lsNext" aria-label="下一個">⏭</button></div>
+      <div class="lsCtrl"><button class="btn" id="lsPrev" aria-label="上一個">${HI.prev}</button><button class="btn pri lsMain" id="lsToggle">${LSN.playing ? HI.pause + ' 暫停' : HI.play + ' 繼續'}</button><button class="btn" id="lsNext" aria-label="下一個">${HI.next}</button></div>
       <div class="row" style="justify-content:center;margin-top:10px"><button class="btn small" id="lsStar">${c.star ? '★ 已標記' : '☆ 不熟，標記起來'}</button></div>`}
     </div>`;
   $('#lsEnd').onclick = () => { lsStop(); LSN.list = []; renderListen(); };
@@ -3195,30 +3237,223 @@ async function lsPlay(){
   while (LSN.playing && tok === LSN.token && LSN.i < LSN.list.length){
     const c = LSN.list[LSN.i];
     renderListen();
-    await speakP(c.word, S.settings.accent, rate); if (tok !== LSN.token) return;
+    { const nx = LSN.list[LSN.i + 1]; if (nx) prefetchTTS([nx.word, o.ex && nx.ex[0] && nx.ex[0].en]); }
+    await say(c.word, S.settings.accent, rate); if (tok !== LSN.token) return;
     await lsWait(gap * 0.6); if (tok !== LSN.token) return;
-    await speakP(c.word, S.settings.accent, rate * 0.9); if (tok !== LSN.token) return;
-    if (o.zh && c.meaning){ await lsWait(gap * 0.5); if (tok !== LSN.token) return; await speakP(c.meaning.replace(/[；;]/g, '，'), 'zh-TW', 1); if (tok !== LSN.token) return; }
-    if (o.ex && c.ex[0]){ await lsWait(gap * 0.6); if (tok !== LSN.token) return; await speakP(c.ex[0].en, S.settings.accent, rate); if (tok !== LSN.token) return; }
+    await say(c.word, S.settings.accent, rate * 0.9); if (tok !== LSN.token) return;
+    if (o.zh && c.meaning){ await lsWait(gap * 0.5); if (tok !== LSN.token) return; await say(c.meaning.replace(/[；;]/g, '，'), 'zh-TW', 1); if (tok !== LSN.token) return; }
+    if (o.ex && c.ex[0]){ await lsWait(gap * 0.6); if (tok !== LSN.token) return; await say(c.ex[0].en, S.settings.accent, rate); if (tok !== LSN.token) return; }
     await lsWait(gap); if (tok !== LSN.token) return;
     LSN.i++;
   }
   if (tok === LSN.token && LSN.i >= LSN.list.length){ LSN.playing = false; LSN.finished = true; LSN.i = LSN.list.length - 1; lsRelease(); addXP(Math.round(LSN.list.length / 3)); renderListen(); }
 }
 function lsRelease(){ try { if (LSN.wake){ LSN.wake.release(); LSN.wake = null; } } catch(e){} }
-function lsStop(){ LSN.playing = false; LSN.token++; try { speechSynthesis.cancel(); } catch(e){} lsRelease(); if ($('#p-listen').classList.contains('on')) renderListen(); }
+function lsStop(){ LSN.playing = false; LSN.token++; stopSpeech(); lsRelease(); if ($('#p-listen').classList.contains('on')) renderListen(); }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && LSN.playing && navigator.wakeLock && !LSN.wake) navigator.wakeLock.request('screen').then(w => LSN.wake = w).catch(() => {}); });
-/* ---------- speech ---------- */
-function speak(text){
-  try {
-    if (!('speechSynthesis' in window) || !text) return;
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = S.settings.accent; u.rate = Number(S.settings.rate) || 0.9;
-    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.replace('_','-').startsWith(S.settings.accent));
-    if (v) u.voice = v;
-    speechSynthesis.cancel(); speechSynthesis.speak(u);
-  } catch(e){}
+
+/* ---------- game music & sound effects (generated, no files) ---------- */
+const GA = {ctx: null, master: null, bgmOn: false, timer: null, next: 0, step: 0};
+const gameSoundOn = () => S.settings.gameSound !== false;
+function gaCtx(){
+  if (!GA.ctx){
+    try { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; GA.ctx = new AC(); GA.master = GA.ctx.createGain(); GA.master.gain.value = 0.55; GA.master.connect(GA.ctx.destination); } catch(e){ return null; }
+  }
+  if (GA.ctx.state === 'suspended') GA.ctx.resume().catch(() => {});
+  return GA.ctx;
 }
+document.addEventListener('pointerdown', e => { if (e.target.closest('#p-friends')) gaCtx(); }, true);
+const NOTE = n => 440 * Math.pow(2, (n - 69) / 12);
+function tone(midi, t, dur, {type = 'triangle', vol = 0.12, attack = 0.008, release = 0.08, slide = 0} = {}){
+  const c = GA.ctx; if (!c) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.setValueAtTime(NOTE(midi), t);
+  if (slide) o.frequency.linearRampToValueAtTime(NOTE(midi + slide), t + dur);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + attack);
+  g.gain.setValueAtTime(vol, t + Math.max(attack, dur - release)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(GA.master); o.start(t); o.stop(t + dur + 0.02);
+}
+function noiseHit(t, vol = 0.05){
+  const c = GA.ctx; if (!c) return;
+  const len = Math.floor(c.sampleRate * 0.05), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+  const s = c.createBufferSource(), g = c.createGain(), f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 6000;
+  g.gain.value = vol; s.buffer = buf; s.connect(f); f.connect(g); g.connect(GA.master); s.start(t);
+}
+// original 8-bar loop, 132 BPM, C major pentatonic flavour
+const BPM = 132, SIX = 60 / BPM / 4;
+const CHORDS = [[48, 52, 55], [45, 48, 52], [41, 45, 48], [43, 47, 50], [48, 52, 55], [45, 48, 52], [41, 45, 48], [43, 47, 50]];
+const MEL = [72,0,74,76, 0,79,76,0, 74,0,72,74, 76,0,0,0, 69,0,72,74, 0,76,74,0, 72,0,69,72, 74,0,0,0,
+             72,0,74,76, 0,79,81,0, 79,0,76,74, 76,0,79,0, 77,0,76,74, 0,72,74,0, 76,0,74,72, 72,0,0,0];
+function sfx(kind){
+  if (!gameSoundOn() || !gaCtx()) return;
+  const t = GA.ctx.currentTime + 0.01;
+  if (kind === 'tick') tone(76, t, 0.12, {type: 'square', vol: 0.06});
+  else if (kind === 'go'){ tone(84, t, 0.18, {type: 'square', vol: 0.07}); tone(88, t + 0.09, 0.25, {type: 'triangle', vol: 0.1}); }
+  else if (kind === 'ok'){ tone(84, t, 0.09, {type: 'triangle', vol: 0.14}); tone(91, t + 0.08, 0.16, {type: 'triangle', vol: 0.14}); }
+  else if (kind === 'match'){ tone(79, t, 0.08, {type: 'triangle', vol: 0.12}); tone(86, t + 0.06, 0.12, {type: 'sine', vol: 0.12}); }
+  else if (kind === 'bad'){ tone(52, t, 0.22, {type: 'sawtooth', vol: 0.05, slide: -4}); }
+  else if (kind === 'win'){ [72, 76, 79, 84].forEach((n, i) => tone(n, t + i * 0.11, i === 3 ? 0.6 : 0.16, {type: 'triangle', vol: 0.13})); [60, 64, 67].forEach(n => tone(n, t + 0.33, 0.6, {type: 'sine', vol: 0.06})); }
+}
+function bgmSchedule(){
+  const c = GA.ctx; if (!c || !GA.bgmOn) return;
+  while (GA.next < c.currentTime + 0.15){
+    const s = GA.step % 128, bar = Math.floor(s / 16) % 8, inBar = s % 16, t = GA.next;
+    if (inBar % 4 === 0) tone(CHORDS[bar][0] - 12, t, SIX * 3.2, {type: 'triangle', vol: 0.11});
+    if (inBar === 8) tone(CHORDS[bar][0] - 5, t, SIX * 3.2, {type: 'triangle', vol: 0.08});
+    if (inBar === 2 || inBar === 6 || inBar === 10 || inBar === 14) CHORDS[bar].forEach(n => tone(n + 12, t, SIX * 1.2, {type: 'square', vol: 0.018}));
+    if (inBar % 2 === 0) noiseHit(t, inBar % 4 === 2 ? 0.035 : 0.018);
+    const m = MEL[s % 64]; if (m) tone(m, t, SIX * 1.8, {type: 'triangle', vol: 0.07});
+    GA.next += SIX; GA.step++;
+  }
+}
+function bgmStart(){
+  if (!gameSoundOn() || !gaCtx() || GA.bgmOn) return;
+  GA.bgmOn = true; GA.next = GA.ctx.currentTime + 0.05; GA.step = 0;
+  GA.timer = setInterval(bgmSchedule, 25);
+}
+function bgmStop(){ GA.bgmOn = false; clearInterval(GA.timer); GA.timer = null; }
+document.addEventListener('visibilitychange', () => { if (!GA.ctx) return; if (document.visibilityState === 'hidden') GA.ctx.suspend().catch(() => {}); else if (GA.bgmOn) GA.ctx.resume().catch(() => {}); });
+const SND_ON = '<svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 12.6c1.9-.2 3.8-.1 5.6.1 2.4-2.1 4.7-3.9 7.2-5.4.4 5.8.4 11.6-.1 17.4-2.5-1.5-4.8-3.3-7.1-5.3-1.8.2-3.7.2-5.6 0-.3-2.3-.3-4.6 0-6.8z"/><path d="M23 12c1.3 2.6 1.3 5.4 0 8.1M26 9.2c2.3 4.3 2.3 9.2 0 13.6"/></svg>';
+const SND_OFF = '<svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 12.6c1.9-.2 3.8-.1 5.6.1 2.4-2.1 4.7-3.9 7.2-5.4.4 5.8.4 11.6-.1 17.4-2.5-1.5-4.8-3.3-7.1-5.3-1.8.2-3.7.2-5.6 0-.3-2.3-.3-4.6 0-6.8z"/><path d="M23.2 12.6c2 2.2 3.9 4.4 5.6 6.8M28.6 12.4c-1.9 2.3-3.7 4.6-5.4 7"/></svg>';
+/* ---------- speech ---------- */
+
+/* ----- pronunciation engine ----- */
+function voiceScore(v){
+  const n = ((v.name || '') + ' ' + (v.voiceURI || '')).toLowerCase(); let s = 0;
+  if (/natural|neural|online/.test(n)) s += 50;
+  if (/premium|enhanced|高品質|加強/.test(n)) s += 40;
+  if (/siri/.test(n)) s += 35;
+  if (/google/.test(n)) s += 30;
+  if (/samantha|ava|allison|zoe|evan|nathan|serena|daniel|karen|moira|tessa|aria|jenny|guy|libby|sonia|ryan|michelle|emma|brian/.test(n)) s += 12;
+  if (/compact|espeak|robot|novelty|bells|bubbles|bad news|good news|whisper|zarvox|trinoids|albert|jester|organ|cellos|superstar|wobble|boing|bahh/.test(n)) s -= 80;
+  if (v.localService === false) s += 4;
+  return s;
+}
+function voicesFor(lang){
+  let vs = []; try { vs = speechSynthesis.getVoices() || []; } catch(e){}
+  const L = lang.toLowerCase();
+  let m = vs.filter(v => (v.lang || '').replace('_', '-').toLowerCase().startsWith(L));
+  if (!m.length && L.startsWith('en')) m = vs.filter(v => (v.lang || '').toLowerCase().startsWith('en'));
+  if (!m.length && L.startsWith('zh')) m = vs.filter(v => /zh[-_](tw|hant)/i.test(v.lang || '')).concat(vs.filter(v => (v.lang || '').toLowerCase().startsWith('zh')));
+  return m.sort((a, b) => voiceScore(b) - voiceScore(a));
+}
+function pickVoice(lang){
+  const vs = voicesFor(lang); if (!vs.length) return null;
+  const saved = lsGet('vocab-voice-' + lang);
+  return (saved && vs.find(v => v.name === saved)) || vs[0];
+}
+function fillVoiceSelect(){
+  const sel = $('#sVoice'); if (!sel) return;
+  const lang = ($('#sAccent') && $('#sAccent').value) || S.settings.accent;
+  const vs = voicesFor(lang), cur = pickVoice(lang);
+  sel.innerHTML = vs.length ? vs.map(v => `<option value="${esc(v.name)}"${cur && v.name === cur.name ? ' selected' : ''}>${esc(v.name)}${voiceScore(v) >= 30 ? '・推薦' : ''}</option>`).join('') : '<option value="">（這個裝置沒有英文語音）</option>';
+}
+function syncTtsBoxes(){ const ai = $('#sTtsMode') && $('#sTtsMode').value === 'ai'; if ($('#ttsDevBox')){ $('#ttsDevBox').style.display = ai ? 'none' : ''; $('#ttsAiBox').style.display = ai ? '' : 'none'; } }
+try { if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => fillVoiceSelect(); } catch(e){}
+function deviceSay(text, lang, rate){
+  return new Promise(res => {
+    try {
+      if (!('speechSynthesis' in window) || !text){ res(); return; }
+      const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate;
+      const v = pickVoice(lang); if (v){ try { u.voice = v; } catch(e){} }
+      let done = false; const fin = () => { if (!done){ done = true; res(); } };
+      u.onend = fin; u.onerror = fin; setTimeout(fin, 2000 + text.length * 150 / rate);
+      speechSynthesis.speak(u);
+    } catch(e){ res(); }
+  });
+}
+// --- AI voice (Gemini TTS) ---
+const TTS_MODELS = ['gemini-3.8-flash-tts', 'gemini-3.8-flash-lite-tts', 'gemini-3.1-flash-tts-preview', 'gemini-2.5-flash-preview-tts'];
+const ttsMem = new Map(), ttsPending = new Map();
+let ttsDB = null;
+function ttsStore(){
+  if (ttsDB) return ttsDB;
+  ttsDB = new Promise(res => { try { const r = indexedDB.open('vocab-tts', 1); r.onupgradeneeded = () => r.result.createObjectStore('a'); r.onsuccess = () => res(r.result); r.onerror = () => res(null); } catch(e){ res(null); } });
+  return ttsDB;
+}
+async function idbGet(k){ const db = await ttsStore(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('a').objectStore('a').get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch(e){ res(null); } }); }
+async function idbPut(k, v){ const db = await ttsStore(); if (!db) return; try { db.transaction('a', 'readwrite').objectStore('a').put(v, k); } catch(e){} }
+function pcmToWav(bytes, rate){
+  const len = bytes.length, buf = new ArrayBuffer(44 + len), dv = new DataView(buf);
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, 'RIFF'); dv.setUint32(4, 36 + len, true); w(8, 'WAVE'); w(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true);
+  dv.setUint32(24, rate, true); dv.setUint32(28, rate * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); w(36, 'data'); dv.setUint32(40, len, true);
+  new Uint8Array(buf, 44).set(bytes);
+  return new Blob([buf], {type: 'audio/wav'});
+}
+function b64bytes(b){ const s = atob(b), a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+async function aiTTS(text, lang){
+  const key = lsGet(AI_KEY_LS); if (!key) throw {code: 'bad_key'};
+  const voice = S.settings.aiVoice || 'Kore';
+  const ck = voice + '|' + lang + '|' + text;
+  if (ttsMem.has(ck)) return ttsMem.get(ck);
+  if (ttsPending.has(ck)) return ttsPending.get(ck);
+  const job = (async () => {
+    const cached = await idbGet(ck);
+    if (cached){ const u = URL.createObjectURL(cached); ttsMem.set(ck, u); return u; }
+    const prompt = lang.startsWith('zh') ? `用自然、清楚的台灣華語唸出：${text}` : `Say clearly and naturally, in ${lang === 'en-GB' ? 'British' : 'American'} English: ${text}`;
+    const ok = lsGet('vocab-tts-ok'); const order = ok && TTS_MODELS.includes(ok) ? [ok, ...TTS_MODELS.filter(m => m !== ok)] : TTS_MODELS;
+    for (const m of order){
+      let res;
+      try {
+        res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, {method: 'POST', headers: {'Content-Type': 'application/json', 'x-goog-api-key': key},
+          body: JSON.stringify({contents: [{role: 'user', parts: [{text: prompt}]}], generationConfig: {responseModalities: ['AUDIO'], speechConfig: {voiceConfig: {prebuiltVoiceConfig: {voiceName: voice}}}}})});
+      } catch(e){ throw {code: 'upstream_error'}; }
+      if (res.status === 404) continue;
+      if (!res.ok){ const t = await res.text().catch(() => ''); if (res.status === 400 && /model|not found|not supported|modalit/i.test(t)) continue; throw {code: res.status === 429 ? 'rate_limited' : (res.status === 401 || res.status === 403 || /API_KEY_INVALID/.test(t)) ? 'bad_key' : 'upstream_error'}; }
+      const data = await res.json();
+      const part = (((data.candidates || [])[0] || {}).content || {parts: []}).parts.find(p => p.inlineData && p.inlineData.data);
+      if (!part) throw {code: 'empty_completion'};
+      const rate = +(((part.inlineData.mimeType || '').match(/rate=(\d+)/) || [0, 24000])[1]);
+      const blob = /wav|mpeg|mp3|ogg/.test(part.inlineData.mimeType || '') ? new Blob([b64bytes(part.inlineData.data)], {type: part.inlineData.mimeType}) : pcmToWav(b64bytes(part.inlineData.data), rate);
+      idbPut(ck, blob);
+      try { localStorage.setItem('vocab-tts-ok', m); } catch(e){}
+      const u = URL.createObjectURL(blob); ttsMem.set(ck, u); return u;
+    }
+    throw {code: 'bad_model'};
+  })();
+  ttsPending.set(ck, job);
+  try { return await job; } finally { ttsPending.delete(ck); }
+}
+const AUD = new Audio(); AUD.preload = 'auto';
+let audUnlocked = false;
+document.addEventListener('pointerdown', () => {
+  if (audUnlocked) return; audUnlocked = true;
+  try { AUD.src = URL.createObjectURL(pcmToWav(new Uint8Array(480), 24000)); AUD.play().catch(() => {}); } catch(e){}
+}, true);
+let audFin = null;
+function playUrl(url, rate){
+  return new Promise(res => {
+    let done = false; const fin = () => { if (!done){ done = true; if (audFin === fin) audFin = null; res(); } };
+    audFin = fin;
+    AUD.onended = fin; AUD.onerror = fin;
+    AUD.src = url; AUD.playbackRate = rate || 1;
+    try { AUD.preservesPitch = true; } catch(e){}
+    const p = AUD.play(); if (p && p.catch) p.catch(() => fin());
+  });
+}
+const useAiVoice = () => S.settings.ttsMode === 'ai' && !!lsGet(AI_KEY_LS);
+let sayTok = 0, ttsWarned = false;
+function stopSpeech(){ sayTok++; try { AUD.pause(); } catch(e){} if (audFin){ const f = audFin; audFin = null; f(); } try { speechSynthesis.cancel(); } catch(e){} }
+async function say(text, lang, rate){
+  if (!text) return;
+  lang = lang || S.settings.accent; rate = rate || Number(S.settings.rate) || 0.95;
+  stopSpeech(); const tok = sayTok;
+  if (useAiVoice()){
+    try {
+      const u = await aiTTS(text, lang);
+      if (tok !== sayTok) return;
+      return await playUrl(u, lang.startsWith('zh') ? 1 : Math.min(1.1, rate / 0.95));
+    } catch(e){
+      if (tok !== sayTok) return;
+      if (!ttsWarned){ ttsWarned = true; toast('AI 語音暫時無法使用（' + aiErr(e) + '），先改用裝置語音'); }
+    }
+  }
+  return deviceSay(text, lang, rate);
+}
+function speak(text){ say(text); }
+function prefetchTTS(texts){ if (!useAiVoice()) return; texts.filter(Boolean).slice(0, 3).forEach(t => aiTTS(t, S.settings.accent).catch(() => {})); }
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('more') && e.target.closest('#reviewArea')) UI.moreOpen = e.target.open; }, true);
 document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
 const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
@@ -3444,6 +3679,7 @@ function renderToday(){
       </div>
       <div class="deckRow"><span class="tiny muted">範圍</span><select id="deckSel"></select></div>
       ${left ? `<button class="btn pri startBtn" id="startBtn">開始複習・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
+      ${!q.news.length && q.allNew ? `<button class="btn moreNew" id="moreNew">＋ 再多學 5 個新字（還有 ${q.allNew} 個）</button>` : ''}
       <div class="tiny muted todayFoot">🔥 連續 ${computeStreak()} 天　・　本週 ${myXP()} XP　・　已學 ${learned} 字</div>
     </div>
     <div class="quick">
@@ -3455,6 +3691,7 @@ function renderToday(){
   $('#deckSel').innerHTML = DECK_OPTS ? DECK_OPTS(S.settings.deck) : '';
   $('#deckSel').onchange = e => { S.settings.deck = e.target.value; markDirty(); cur = null; showNext(); };
   if ($('#startBtn')) $('#startBtn').onclick = () => { inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
+  if ($('#moreNew')) $('#moreNew').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
   area.querySelectorAll('[data-q]').forEach(b => b.onclick = () => {
     const k = b.dataset.q;
     if (k === 'games'){ SOC.sub = 'games'; switchTab('friends'); }
@@ -3463,7 +3700,7 @@ function renderToday(){
   });
 }
 function sessionHead(){
-  return `<div class="sesHead"><button class="btn small" id="sesBack">← 今日</button><div class="counts" id="counts"></div><div class="menuWrap"><button class="btn small" id="sesMenu" aria-label="更多選項">⋯</button><div class="menuBox" id="sesMenuBox"></div></div></div>`;
+  return `<div class="sesHead"><button class="btn small" id="sesBack"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>今日</button><div class="counts" id="counts"></div><div class="menuWrap"><button class="btn small" id="sesMenu" aria-label="更多選項">⋯</button><div class="menuBox" id="sesMenuBox"></div></div></div>`;
 }
 function bindSessionHead(c){
   renderCounts();
@@ -3525,9 +3762,10 @@ function renderReview(){
     let tip = '';
     if (nextL) tip = `還有學習中的卡片，約 ${fmtSpan(nextL.due - Date.now())}後再複習。`;
     else if (q.allNew && S.daily.newDone >= S.settings.newPerDay) tip = `今天的新字額度（${S.settings.newPerDay}）已用完，明天繼續。`;
-    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">今日進度已完成</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center"><button class="btn pri" id="doneBack">回今日</button>${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
+    area.innerHTML = sessionHead() + `<div class="card done">${ILL.done}<div class="big">今日進度已完成</div><p class="muted">今天複習了 ${S.hist[S.daily.day] || 0} 次。${tip}</p><div class="row" style="justify-content:center"><button class="btn pri" id="doneBack">回今日</button>${q.allNew ? '<button class="btn" id="doneMore">再學 5 個新字</button>' : ''}${AI ? '<button class="btn ai" data-go="practice">去做活用練習</button>' : ''}<button class="btn" data-go="listen">聽力模式</button></div></div>`;
     bindSessionHead(null);
     $('#doneBack').onclick = () => { inSession = false; renderReview(); };
+    if ($('#doneMore')) $('#doneMore').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); cur = null; showNext(); };
     area.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { inSession = false; switchTab(b.dataset.go); });
     return;
   }
@@ -3540,12 +3778,13 @@ function renderReview(){
   const back = revealed ? `<hr class="divider">${curMode !== 'recog' ? `<div style="text-align:center">${headHTML(c)}</div>` : ''}${detailHTML(c, true)}${c.lapses >= 4 ? `<div class="leech">這個字已忘記 ${c.lapses} 次，試著加一則自己的筆記或例句來幫助記憶</div>` : ''}` : '';
   const sug = verdict ? verdict.sug : 0;
   let controls;
-  if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div><div class="tiny muted swipeHint">← 左滑：忘記　　右滑：記得 →</div>`;
+  if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div>`;
   else if (curMode === 'produce') controls = `<div class="row" style="margin-top:14px"><button class="btn ai" id="gradeBtn" style="flex:2" ${grading ? 'disabled' : ''}>✨ 請 AI 批改</button><button class="btn" id="revealBtn" style="flex:1">直接看答案</button></div>`;
-  else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>${curMode === 'recog' ? '<div class="tiny muted swipeHint">也可以直接點卡片翻面</div>' : ''}`;
+  else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>`;
   area.innerHTML = sessionHead() + `<div class="card swipeable">${frontHTML(c)}${verdictHTML}${fbHTML}${back}</div><div class="sesControls">${controls}</div>`;
   bindSessionHead(c);
   bindGestures(area.querySelector('.card'));
+  prefetchTTS([c.word, c.ex[0] && c.ex[0].en]);
   area.querySelectorAll('[data-r]').forEach(b => b.onclick = () => rate(+b.dataset.r));
   area.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => queueEnrich([b.dataset.enrich]));
   if ($('#revealBtn')) $('#revealBtn').onclick = reveal;
@@ -3870,19 +4109,28 @@ function renderPractice(){
       <div id="prZhBox" class="tiny muted" style="display:none;margin-top:10px;white-space:pre-wrap">${esc(res.zh || '')}</div><div id="prRes" style="margin-top:10px"></div></div>`;
     $('#prZh').onclick = () => { const b = $('#prZhBox'); b.style.display = b.style.display === 'none' ? 'block' : 'none'; };
     $('#prCheck').onclick = () => {
-      const wrong = []; let ok = 0;
+      const wrong = [], notes = []; let ok = 0;
+      const bankSet = blanks.map(x => norm(x.lemma || x.answer));
       area.querySelectorAll('.story input').forEach(inp => {
         const b = blanks.find(x => +x.n === +inp.dataset.n); if (!b) return;
-        const v = norm(inp.value);
-        const right = v === norm(b.answer);
-        const close = !right && v && v === norm(b.lemma);
-        inp.classList.toggle('ok', right); inp.classList.toggle('no', !right);
-        if (right) ok++; else { inp.title = '答案：' + b.answer; if (!close) wrong.push(b.lemma); inp.value = (inp.value ? inp.value + ' → ' : '') + b.answer; }
-        inp.disabled = true;
+        const raw = inp.value.trim(), v = norm(raw), ans = norm(b.answer), lem = norm(b.lemma || b.answer);
+        const right = v === ans;
+        const out = document.createElement('span'); out.className = 'fb ' + (right ? 'ok' : 'no');
+        if (right){ ok++; out.innerHTML = `<b>${esc(b.answer)}</b><i>✓</i>`; inp.replaceWith(out); return; }
+        let why;
+        if (!v) why = '沒有作答';
+        else if (v === lem) why = `字選對了，但要變化詞形：${b.lemma} → ${b.answer}`;
+        else if (lev(v, ans) <= 2 || lev(v, lem) <= 2) why = `拼字錯誤：正確拼法是 ${b.answer}`;
+        else if (bankSet.includes(v) || bankSet.some(w => lev(v, w) <= 1)) why = `選錯字：這裡應該填 ${b.lemma || b.answer}${b.lemma && norm(b.lemma) !== ans ? '（變化成 ' + b.answer + '）' : ''}`;
+        else why = `應填 ${b.answer}`;
+        if (v !== lem) wrong.push(b.lemma || b.answer);
+        out.innerHTML = `<sup>${b.n}</sup>${raw ? `<s>${esc(raw)}</s>` : ''}<b>${esc(b.answer)}</b>`;
+        inp.replaceWith(out);
+        notes.push(`<li><b>${b.n}.</b> ${raw ? `你填 <s>${esc(raw)}</s>，` : ''}${esc(why)}</li>`);
       });
       const back = bringBack(wrong.map(w => cardByLemma(words, w)).filter(Boolean));
       addXP(ok * 3);
-      $('#prRes').innerHTML = `<b>${ok} / ${blanks.length} 答對</b>` + (back ? `<span class="tiny muted">　答錯的 ${back} 個字已排入今天的複習</span>` : '') + `<div class="row" style="margin-top:8px"><button class="btn ai" id="prAgain">✨ 再來一題</button></div>`;
+      $('#prRes').innerHTML = `<b>${ok} / ${blanks.length} 答對</b>` + (notes.length ? `<ul class="fbList">${notes.join('')}</ul>` : '') + (back ? `<span class="tiny muted">　答錯的 ${back} 個字已排入今天的複習</span>` : '') + `<div class="row" style="margin-top:8px"><button class="btn ai" id="prAgain">✨ 再來一題</button></div>`;
       $('#prAgain').onclick = () => $('#prGo').click();
       $('#prCheck').disabled = true;
     };
@@ -4065,16 +4313,30 @@ function fillSettings(){
   const s = S.settings;
   $('#sNew').value = s.newPerDay; $('#sRev').value = s.maxRev; $('#sOrder').value = s.newOrder; $('#sWeight').checked = !!s.weight;
   $('#mRecog').checked = s.modes.recog; $('#mRecall').checked = s.modes.recall; $('#mCloze').checked = s.modes.cloze; $('#mProduce').checked = s.modes.produce;
-  $('#sSpeak').checked = !!s.autoSpeak; $('#sAccent').value = s.accent; $('#sRate').value = s.rate;
+  $('#sSpeak').checked = !!s.autoSpeak; $('#sAccent').value = s.accent; $('#sRate').value = ['0.7','0.85','0.95','1.05'].includes(String(s.rate)) ? String(s.rate) : '0.95';
+  $('#sTtsMode').value = s.ttsMode || 'device'; $('#sAiVoice').value = s.aiVoice || 'Kore'; fillVoiceSelect(); syncTtsBoxes();
   $('#fDeck').value = s.lastDeck || '';
   $('#aiKey').value = lsGet(AI_KEY_LS); $('#aiModel').value = lsGet(AI_MODEL_LS);
 }
+$('#sTtsMode').onchange = () => { syncTtsBoxes(); if ($('#sTtsMode').value === 'ai' && !lsGet(AI_KEY_LS)) $('#ttsMsg').textContent = '請先在下方「AI 功能設定」填入 Gemini 金鑰'; else $('#ttsMsg').textContent = ''; };
+$('#sAccent').addEventListener('change', fillVoiceSelect);
+$('#sVoiceTest').onclick = () => { try { localStorage.setItem('vocab-voice-' + $('#sAccent').value, $('#sVoice').value); } catch(e){} stopSpeech(); deviceSay('Thank you for your prompt reply. I will get back to you tomorrow.', $('#sAccent').value, Number($('#sRate').value)); };
+$('#sAiVoiceTest').onclick = async () => {
+  if (!lsGet(AI_KEY_LS)){ $('#ttsMsg').textContent = '請先在下方「AI 功能設定」填入 Gemini 金鑰'; return; }
+  const prev = [S.settings.ttsMode, S.settings.aiVoice, S.settings.accent];
+  S.settings.ttsMode = 'ai'; S.settings.aiVoice = $('#sAiVoice').value; S.settings.accent = $('#sAccent').value;
+  $('#ttsMsg').innerHTML = '<span class="spin"></span> 產生語音中…';
+  try { const u = await aiTTS('Thank you for your prompt reply. I will get back to you tomorrow.', S.settings.accent); $('#ttsMsg').textContent = ''; stopSpeech(); await playUrl(u, 1); }
+  catch(e){ $('#ttsMsg').textContent = '✗ ' + aiErr(e); }
+  [S.settings.ttsMode, S.settings.aiVoice, S.settings.accent] = prev;
+};
 $('#saveSettings').onclick = () => {
   const s = S.settings;
   s.newPerDay = clamp(parseInt($('#sNew').value) || 0, 0, 999); s.maxRev = clamp(parseInt($('#sRev').value) || 0, 0, 9999);
   s.newOrder = $('#sOrder').value; s.weight = $('#sWeight').checked;
   s.modes = {recog: $('#mRecog').checked, recall: $('#mRecall').checked, cloze: $('#mCloze').checked, produce: $('#mProduce').checked};
-  s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value;
+  s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value; s.ttsMode = $('#sTtsMode').value; s.aiVoice = $('#sAiVoice').value;
+  try { if ($('#sVoice').value) localStorage.setItem('vocab-voice-' + s.accent, $('#sVoice').value); } catch(e){}
   markDirty(); fillSettings(); refreshAll();
   $('#setMsg').textContent = '已儲存'; setTimeout(() => $('#setMsg').textContent = '', 2000);
 };
