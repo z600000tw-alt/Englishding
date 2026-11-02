@@ -40,14 +40,14 @@ h1 small{display:block;font-size:.78rem;color:var(--muted)}
 .dot.ok{background:var(--waka)} .dot.busy{background:var(--yama)} .dot.err{background:var(--coral)}
 
 /* bottom app tabs */
-nav#nav{position:fixed;left:0;right:0;bottom:0;z-index:12;background:var(--bg);border-top:var(--line);display:flex;justify-content:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+nav#nav{position:fixed;left:0;right:0;bottom:0;z-index:12;background:var(--bg);border-top:2px solid var(--ink);display:flex;justify-content:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
 nav#nav .inner{display:flex;width:100%;max-width:560px}
-nav#nav button{flex:1;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 2px;font-size:.74rem;color:var(--muted)}
-nav#nav button .ic{width:52px;height:32px;border-radius:999px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+nav#nav button{flex:1;position:relative;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px 8px;font-size:.74rem;color:#9a918c;transition:color .2s}
+nav#nav button .ic{height:30px;display:flex;align-items:center;justify-content:center}
 nav#nav button svg{width:26px;height:26px}
-nav#nav button.on{color:var(--ink)}
-nav#nav button.on .ic{background:var(--tabc,var(--yama));border:2px solid var(--ink)}
-nav#nav button:not(.on) .ic{border:2px solid transparent}
+nav#nav button.on{color:#d9705f}
+nav#nav button.on span:last-child{font-weight:700}
+nav#nav button:not(.center).on::after{content:'';position:absolute;bottom:1px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#d9705f}
 .subtabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
 .subtabs button{border:2px solid var(--ink);background:var(--paper);border-radius:999px;padding:5px 14px;cursor:pointer;white-space:nowrap;flex:none}
 .subtabs button.on{background:var(--mizu)}
@@ -65,7 +65,7 @@ nav#nav button:not(.on) .ic{border:2px solid transparent}
 label{font-size:.85rem;color:var(--muted);display:block;margin:10px 0 4px}
 label.inline{display:inline-flex;align-items:center;gap:7px;margin:7px 14px 0 0;color:var(--ink);font-size:.93rem}
 input[type=checkbox]{accent-color:#e07f6f;width:17px;height:17px}
-input[type=text],input[type=number],input[type=url],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff}
+input[type=text],input[type=search],input[type=number],input[type=url],select,textarea{width:100%;padding:9px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff}
 input[type=file]{font-size:.85rem}
 textarea{min-height:110px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:3px solid var(--yama);outline-offset:1px}
@@ -299,6 +299,65 @@ details.more[open] > summary::after{content:' ▴'}
 .lsCtrl .btn{min-width:64px;font-size:1.1rem}
 .lsMain{min-width:130px!important}
 @media (max-width:560px){ .ring{width:100px;height:100px} .lsWord{font-size:2.1rem} }
+
+/* nav center */
+nav#nav button.center::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:-30px;width:176px;height:28px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='176' height='28' viewBox='0 0 176 28'%3E%3Cpath d='M0 23.0 C 52.8 23.0, 59.8 1.5, 88.0 1.5 C 116.2 1.5, 123.2 23.0, 176 23.0 L176 28 L0 28 Z' fill='%23FFFCF6'/%3E%3Cpath d='M0 23.0 C 52.8 23.0, 59.8 1.5, 88.0 1.5 C 116.2 1.5, 123.2 23.0, 176 23.0' fill='none' stroke='%233E3A39' stroke-width='2'/%3E%3C/svg%3E") no-repeat;pointer-events:none}
+nav#nav button.center .ic,nav#nav button.center span:last-child{position:relative;z-index:1}
+nav#nav button.center .ic{margin-top:-22px;width:50px;height:50px;border-radius:50%;border:2px solid var(--ink);background:#fff;color:var(--ink);transition:background .2s,transform .15s}
+nav#nav button.center:active .ic{transform:scale(.94)}
+nav#nav button.center.on .ic{background:var(--coral)}
+nav#nav button.center .ic svg{width:26px;height:26px}
+nav#nav button.center span:last-child{margin-top:3px}
+nav#nav button.center.on{color:var(--ink)}
+/* pages */
+.ptitle{font-size:1.3rem;margin:4px 0 12px;font-weight:400}
+.pageTop{display:flex;align-items:center;justify-content:space-between}
+.pageTop .ptitle{margin-bottom:10px}
+.searchRow{display:flex;gap:8px}
+.searchRow input{flex:1;min-width:0}
+.segs{display:flex;gap:6px;overflow-x:auto;margin:10px 0 4px;padding-bottom:2px}
+.segs button{border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:4px 12px;cursor:pointer;white-space:nowrap;flex:none;font-size:.88rem}
+.segs button.on{background:var(--ink);color:#fff}
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 10px}
+.fgrid label{margin-top:6px}
+.filterPanel{margin-top:10px;padding:12px 14px}
+.wi{grid-template-columns:1fr auto;align-items:center;padding:10px 14px}
+.wiTop{display:flex;align-items:baseline;gap:6px}
+.wiTop b{font-size:1.08rem}
+.wi .m{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#5d5654}
+.wiMain{min-width:0}
+.wiState{font-size:.72rem;color:var(--muted);white-space:nowrap;background:none!important;border:0!important;padding:0!important}
+.wiState.b-new{color:#2f7fa3}.wiState.b-learning{color:#b4513f}.wiState.b-review{color:#4f7d3f}
+.hubList{display:flex;flex-direction:column;gap:10px}
+.hubItem{display:flex;align-items:center;gap:14px;border:1.5px solid var(--ink);background:#fff;border-radius:16px;padding:14px;cursor:pointer;text-align:left;width:100%}
+.hubItem:hover{background:var(--yama-s)}
+.hubIc{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;border:1.5px solid var(--ink)}
+.hubIc svg{width:26px;height:26px}
+.hubTx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.hubTx span{font-size:.82rem;color:var(--muted)}
+.hubGo{font-size:1.4rem;color:var(--muted)}
+.quick{grid-template-columns:repeat(3,1fr)}
+/* class */
+.clsHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.clsTitle{display:flex;flex-direction:column;min-width:0}
+.titleSel{border:0;background:transparent;font-size:1.3rem;padding:0 4px 0 0;width:auto;max-width:100%}
+.clsTabs{margin-bottom:12px}
+.bigCode{font-family:ui-monospace,Menlo,monospace;font-size:2.4rem;letter-spacing:6px;margin-top:4px}
+.gTop{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.emptyCls label{margin-top:14px}
+/* bars */
+.bars.dense{gap:3px}
+.bar{min-width:0}
+.bar em{font-size:.66rem;overflow:hidden}
+.bars.dense .bar s{font-size:.62rem}
+@media (max-width:560px){
+  header{flex-wrap:nowrap;padding-bottom:6px}
+  h1 small{display:none}
+  h1{font-size:1.15rem}
+  .brand svg{width:32px;height:32px}
+  .status #statusText{display:none}
+  .status{padding:6px;border-width:1.5px}
+}
 /* modal etc */
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
@@ -353,16 +412,27 @@ details.more[open] > summary::after{content:' ▴'}
     <div id="reviewArea"><div class="loading">讀取單字中…</div></div>
   </section>
 
+  <!-- TRAIN HUB -->
+  <section class="panel" id="p-train">
+    <h2 class="ptitle">練習</h2>
+    <div class="hubList">
+      <button class="hubItem" data-goto="listen"><span class="hubIc" style="background:var(--mizu-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/></svg></span><span class="hubTx"><b>聽力模式</b><span>自動唸單字、中文與例句，通勤時用耳朵複習</span></span><span class="hubGo">›</span></button>
+      <button class="hubItem" data-goto="practice"><span class="hubIc" style="background:var(--yama-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/></svg></span><span class="hubTx"><b>活用練習</b><span>情境短文填空、近義字辨析、中翻英造句</span></span><span class="hubGo">›</span></button>
+      <button class="hubItem" data-hub="games"><span class="hubIc" style="background:var(--coral-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>班級對戰</b><span>連連看、快問快答，和同學比誰背得快</span></span><span class="hubGo">›</span></button>
+      <button class="hubItem" data-goto="video"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/></svg></span><span class="hubTx"><b>影片學單字</b><span>貼上影片字幕，挑出值得學的單字</span></span><span class="hubGo">›</span></button>
+    </div>
+  </section>
+
   <!-- LISTEN -->
   <section class="panel" id="p-listen">
-    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="review">← 今日</button></div>
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train">← 練習</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M9 26v-4a14 14 0 0 1 28 0v4" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><rect x="6" y="24" width="8" height="13" rx="4" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/><rect x="32" y="24" width="8" height="13" rx="4" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/></g></svg><h2>聽力模式</h2></div>
     <div id="listenArea"></div>
   </section>
 
   <!-- VIDEO -->
   <section class="panel" id="p-video">
-    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="review">← 今日</button></div>
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train">← 練習</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><rect x="5" y="10" width="36" height="26" rx="8" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5"/><path d="M19 17v12l10-6z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M17 4l6 6 6-6" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g></svg><h2>影片學單字</h2></div>
     <div class="notice aiHint">從字幕找單字需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
     <div class="box">
@@ -400,7 +470,7 @@ details.more[open] > summary::after{content:' ▴'}
 
   <!-- PRACTICE -->
   <section class="panel" id="p-practice">
-    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="review">← 今日</button></div>
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train">← 練習</button></div>
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><rect x="7" y="8" width="26" height="32" rx="6" fill="#fff" stroke="#3E3A39" stroke-width="2.5"/><path d="M13 18h14M13 25h10" stroke="#A8D3E6" stroke-width="3" stroke-linecap="round"/><g class="sway"><path d="M28 36l2-7 10-10 5 5-10 10z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g></svg><h2>活用練習</h2></div>
     <div class="notice aiHint">活用練習需要 AI 功能：請先到「我的 → 設定與備份」填入免費的 Google Gemini API 金鑰。<button class="btn small" data-goto="settings" style="margin-left:6px">前往設定</button></div>
     <div class="box">
@@ -478,27 +548,26 @@ details.more[open] > summary::after{content:' ▴'}
 
   <!-- BROWSE -->
   <section class="panel" id="p-browse">
-    <div class="row spread" style="align-items:center"><div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><path d="M23 13c-5-4-12-4-17-2v24c5-2 12-2 17 2 5-4 12-4 17-2V11c-5-2-12-2-17 2z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/><path d="M23 13v24" stroke="#3E3A39" stroke-width="2.2"/></g><path class="twinkle" d="M38 3l1.5 3.5 3.5 1.5-3.5 1.5L38 13l-1.5-3.5L33 8l3.5-1.5z" fill="#F6D27A" stroke="#3E3A39" stroke-width="1.6"/></svg><h2>我的單字</h2></div><button class="btn pri" data-goto="add">＋ 新增</button></div>
-    <div class="row">
-      <input type="text" id="search" placeholder="搜尋單字、中文、例句…" style="flex:2;min-width:180px">
-      <select id="browseDeck" style="flex:1;min-width:130px"></select>
+    <div class="pageTop"><h2 class="ptitle">我的單字 <span class="tiny muted" id="browseCount"></span></h2><button class="btn pri small" data-goto="add">＋ 新增</button></div>
+    <div class="searchRow"><input type="search" id="search" placeholder="搜尋單字或中文"><button class="btn small" id="filterBtn">篩選</button></div>
+    <div class="segs" id="stateSegs"></div>
+    <div class="filterPanel box" id="filterPanel" style="display:none">
+      <div class="fgrid">
+        <div><label>牌組／標籤</label><select id="browseDeck"></select></div>
+        <div><label>排序</label><select id="browseSort"><option value="az">依字母</option><option value="new">最新加入</option><option value="due">依到期日</option><option value="prio">依重要度</option></select></div>
+        <div><label>主題</label><select id="browseCat"></select></div>
+        <div><label>程度</label><select id="browseLevel"></select></div>
+        <div><label>類型</label><select id="browseType"></select></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn small" id="filterReset" style="width:100%">清除篩選</button></div>
+      </div>
+      <button class="btn small ai aiOnly" id="fillAll" style="margin-top:12px">✨ 補齊未補齊的單字</button>
     </div>
-    <div class="row" style="margin-top:8px">
-      <select id="browseState" style="flex:1;min-width:110px">
-        <option value="">全部狀態</option><option value="new">新卡</option><option value="learning">學習中</option><option value="review">複習中</option><option value="leech">常忘記（≥4 次）</option><option value="noai">尚未補齊細節</option>
-      </select>
-      <select id="browseCat" style="flex:1;min-width:110px"></select>
-      <select id="browseLevel" style="flex:1;min-width:100px"></select>
-      <select id="browseType" style="flex:1;min-width:100px"></select>
-      <select id="browseSort" style="flex:1;min-width:110px"><option value="az">依字母</option><option value="prio">依重要度</option><option value="due">依到期日</option><option value="new">最新加入</option></select>
-    </div>
-    <div class="row spread" style="margin-top:8px"><span class="tiny muted" id="browseInfo"></span><button class="btn small aiOnly" id="fillAll">✨ 補齊所有未補齊的單字</button></div>
     <div class="list" id="list"></div>
+    <div class="tiny muted" id="browseInfo" style="text-align:center;margin-top:10px"></div>
   </section>
 
   <!-- STATS -->
   <section class="panel" id="p-friends">
-    <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><circle cx="17" cy="17" r="7" fill="#F2A497" stroke="#3E3A39" stroke-width="2.3"/><path d="M5 38c1-7 6-10 12-10s11 3 12 10z" fill="#F2A497" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g><g class="float d2"><circle cx="31" cy="15" r="6" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3"/><path d="M24 26c2-1.5 4.5-2 7-2 5.5 0 9.5 3 10.5 9H30" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/></g></svg><h2>班級與同伴</h2></div>
     <div id="clsArea"><div class="box loading">連線中…</div></div>
   </section>
 
@@ -632,8 +701,9 @@ details.more[open] > summary::after{content:' ▴'}
 </div>
 
   <nav id="nav"><div class="inner">
-    <button data-tab="review" style="--tabc:#F2A497" class="on"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 13 14 5l9.5 8"/><path d="M7 11.5V23h14V11.5"/><path d="M11.5 23v-6h5v6"/></svg></span><span>今日</span></button>
     <button data-tab="browse" style="--tabc:#B9DAA5"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8c-3-2-7-2.2-9.5-1v15c2.5-1.2 6.5-1 9.5 1 3-2 7-2.2 9.5-1V7c-2.5-1.2-6.5-1-9.5 1z"/><path d="M14 8v15"/></svg></span><span>單字</span></button>
+    <button data-tab="train" style="--tabc:#F6D27A"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/></svg></span><span>練習</span></button>
+    <button data-tab="review" class="center on"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 13 14 5l9.5 8"/><path d="M7 11.5V23h14V11.5"/><path d="M11.5 23v-6h5v6"/></svg></span><span>今日</span></button>
     <button data-tab="friends" style="--tabc:#A8D3E6"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10" r="4"/><path d="M3.5 22c.8-4 3.6-6 7-6s6.2 2 7 6"/><circle cx="19" cy="9" r="3.2"/><path d="M18 14.6c3.3-.3 5.8 1.6 6.5 5.4"/></svg></span><span>班級</span></button>
     <button data-tab="me" style="--tabc:#F2A497"><span class="ic"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="14" r="10"/><path d="M10 16.5c1.6 2.2 6.4 2.2 8 0"/><circle cx="10.5" cy="11.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="11.5" r=".9" fill="currentColor"/></svg></span><span>我的</span></button>
   </div></nav>
@@ -2629,35 +2699,71 @@ function renderClass(){
   }
   const ro = SOC.ro ? `<div class="notice on">無法寫入班級資料。請確認已登入，且 Firestore 安全規則已依 README 設定。</div>` : '';
   const classes = S.settings.classes || [];
-  const joinBox = `<div class="box"><h2>${classes.length ? '建立或加入其他班級' : '建立或加入班級'}</h2>
-    <p class="tiny muted" style="margin:4px 0 0">班級裡可以分享學習集、看彼此的學習進度、一起玩單字對戰。每個人的複習進度各自獨立。<a href="#" data-guide>如何邀請朋友？</a></p>
-    <div class="row" style="margin-top:10px"><input type="text" id="clsName" placeholder="新班級名稱，例如：多益衝刺小組" style="flex:2;min-width:180px"><button class="btn pri" id="clsCreate">建立</button></div>
-    <div class="row" style="margin-top:10px"><input type="text" id="clsCode" placeholder="輸入邀請碼" style="flex:2;min-width:180px;text-transform:uppercase"><button class="btn" id="clsJoin">加入</button></div></div>`;
   if (!SOC.cls){
-    area.innerHTML = ro + `<div class="box"><h2>我的名片</h2>${nickRow()}</div>` + joinBox;
+    area.innerHTML = ro + `<div class="box emptyCls">
+        <div style="text-align:center"><div class="big" style="font-size:1.2rem">和朋友一起背單字</div><p class="tiny muted" style="margin:4px 0 0">分享單字、看彼此進度、玩單字對戰。每個人的複習進度各自獨立。</p></div>
+        <div class="row" style="margin-top:14px;gap:8px"><span class="av">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><span>${esc(S.settings.nick || '尚未設定暱稱')}</span><button class="btn small" id="nickEdit" style="margin-left:auto">更換</button></div>
+        <label>建立新班級</label><div class="row"><input type="text" id="clsName" placeholder="班級名稱，例如：多益衝刺小組" style="flex:1;min-width:0"><button class="btn pri" id="clsCreate">建立</button></div>
+        <label>或用邀請碼加入</label><div class="row"><input type="text" id="clsCode" placeholder="邀請碼" style="flex:1;min-width:0;text-transform:uppercase"><button class="btn" id="clsJoin">加入</button></div>
+      </div>`;
     bindClassCommon(); return;
   }
-  const subs = [['board', '排行榜'], ['sets', '學習集'], ['games', '對戰遊戲'], ['history', '對戰紀錄'], ...(isClassAdmin() ? [['manage', '管理']] : [])];
+  const subs = [['board', '排行'], ['games', '對戰'], ['sets', '學習集'], ...(isClassAdmin() ? [['manage', '管理']] : [])];
   if (SOC.sub === 'manage' && !isClassAdmin()) SOC.sub = 'board';
-  area.innerHTML = ro + `<div class="box">
-      <div class="row spread"><div class="row" style="gap:8px"><select id="clsSel" style="width:auto">${classes.map(c => `<option value="${esc(c.code)}"${c.code === SOC.cls.code ? ' selected' : ''}>${esc(c.code === SOC.cls.code ? SOC.cls.name : c.name)}</option>`).join('')}</select>
-      <span class="tiny muted">邀請碼</span><b class="code" id="clsCodeShow">${esc(SOC.cls.code)}</b><button class="btn small" id="clsCopy">複製</button></div>
-      <button class="btn small danger" id="clsLeave">離開班級</button></div>
-      ${nickRow()}
+  const tabKey = SOC.sub === 'history' ? 'games' : SOC.sub;
+  area.innerHTML = ro + `<div class="clsHead">
+      <div class="clsTitle">${classes.length > 1 ? `<select id="clsSel" class="titleSel">${classes.map(c => `<option value="${esc(c.code)}"${c.code === SOC.cls.code ? ' selected' : ''}>${esc(c.code === SOC.cls.code ? SOC.cls.name : c.name)}</option>`).join('')}</select>` : `<h2 class="ptitle" style="margin:0">${esc(SOC.cls.name)}</h2>`}<span class="tiny muted">${SOC.members.length} 位成員</span></div>
+      <div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn small pri" id="clsInvite">邀請</button><div class="menuWrap"><button class="btn small" id="clsMenu" aria-label="更多">⋯</button><div class="menuBox" id="clsMenuBox"></div></div></div>
     </div>
-    <div class="subtabs" style="margin-top:14px">${subs.map(([k, l]) => `<button data-csub="${k}" class="${SOC.sub === k ? 'on' : ''}">${l}</button>`).join('')}</div>
-    <div id="clsSub"></div>
-    <details style="margin-top:14px"><summary>建立或加入其他班級</summary>${joinBox}</details>`;
-  bindClassCommon();
-  $('#clsSel').onchange = e => openClass(e.target.value);
-  $('#clsCopy').onclick = async () => { try { await navigator.clipboard.writeText(SOC.cls.code); toast('已複製邀請碼'); } catch(e){ toast('邀請碼：' + SOC.cls.code); } };
-  $('#clsLeave').onclick = e => leaveClass(e.target);
+    <div class="segs clsTabs">${subs.map(([k, l]) => `<button data-csub="${k}" class="${tabKey === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div id="clsSub"></div>`;
+  if ($('#clsSel')) $('#clsSel').onchange = e => openClass(e.target.value);
+  $('#clsInvite').onclick = openInvite;
+  $('#clsMenu').onclick = e => {
+    e.stopPropagation();
+    const box = $('#clsMenuBox');
+    if (box.classList.contains('on')){ box.classList.remove('on'); return; }
+    const show = S.settings.board !== false;
+    box.innerHTML = [['nick', '更換暱稱／頭像'], ['board', (show ? '✓ ' : '　') + '在排行榜顯示我的進度'], ['create', '建立新班級'], ['join', '加入其他班級'], ['leave', '離開這個班級']].map(([k, l]) => `<button data-cm="${k}"${k === 'leave' ? ' style="color:#b4513f"' : ''}>${l}</button>`).join('');
+    box.classList.add('on');
+    box.querySelectorAll('[data-cm]').forEach(b => b.onclick = ev => {
+      const k = b.dataset.cm;
+      if (k === 'leave'){ ev.stopPropagation(); if (!leaveArmed){ leaveArmed = true; b.textContent = '確定離開？再點一次'; return; } leaveClass(b); box.classList.remove('on'); return; }
+      box.classList.remove('on');
+      if (k === 'nick') openProfile(false);
+      else if (k === 'board'){ S.settings.board = !show; markDirty(); pushProfile(); toast(!show ? '會在排行榜顯示你的進度' : '已在排行榜隱藏你的進度'); }
+      else openClassForm(k);
+    });
+  };
   area.querySelectorAll('[data-csub]').forEach(b => b.onclick = () => { SOC.sub = b.dataset.csub; renderClass(); });
   if (SOC.sub === 'board') renderBoard();
   else if (SOC.sub === 'sets') renderSets();
   else if (SOC.sub === 'history') renderHistory();
   else if (SOC.sub === 'manage') renderManage(SOC.cls.code, $('#clsSub'));
   else if (SOC.game) renderGame(); else renderGameList();
+}
+document.addEventListener('click', e => { const b = $('#clsMenuBox'); if (b && b.classList.contains('on') && !e.target.closest('.menuWrap')){ b.classList.remove('on'); leaveArmed = false; } });
+function openInvite(){
+  const code = SOC.cls.code, url = location.href.split('#')[0].split('?')[0];
+  const msg = `一起來背英文單字！打開 ${url} ，登入後到「班級」輸入邀請碼：${code}`;
+  $('#modalBox').innerHTML = `<div class="row spread"><h2>邀請同學加入</h2><button class="btn small" id="ivClose">關閉</button></div>
+    <div style="text-align:center;margin:16px 0"><div class="tiny muted">邀請碼</div><div class="bigCode">${esc(code)}</div></div>
+    <div class="row" style="justify-content:center;gap:8px"><button class="btn" id="ivCode">複製邀請碼</button><button class="btn pri" id="ivMsg">複製邀請訊息</button></div>
+    <p class="tiny muted" style="margin-top:14px">邀請訊息：${esc(msg)}</p>`;
+  $('#modal').classList.add('on');
+  const cp = async (t, ok) => { try { await navigator.clipboard.writeText(t); toast(ok); } catch(e){ toast('請手動複製：' + t); } };
+  $('#ivClose').onclick = closeModal;
+  $('#ivCode').onclick = () => cp(code, '已複製邀請碼');
+  $('#ivMsg').onclick = () => cp(msg, '已複製邀請訊息，可以貼到 LINE 給朋友');
+}
+function openClassForm(kind){
+  $('#modalBox').innerHTML = `<div class="row spread"><h2>${kind === 'create' ? '建立新班級' : '加入其他班級'}</h2><button class="btn small" id="cfClose">關閉</button></div>
+    ${kind === 'create' ? '<label>班級名稱</label><div class="row"><input type="text" id="clsName" placeholder="例如：多益衝刺小組" style="flex:1;min-width:0"><button class="btn pri" id="clsCreate">建立</button></div>'
+      : '<label>邀請碼</label><div class="row"><input type="text" id="clsCode" placeholder="向朋友要邀請碼" style="flex:1;min-width:0;text-transform:uppercase"><button class="btn pri" id="clsJoin">加入</button></div>'}`;
+  $('#modal').classList.add('on');
+  $('#cfClose').onclick = closeModal;
+  if ($('#clsCreate')) $('#clsCreate').onclick = async () => { await createClass(); if (SOC.cls) closeModal(); };
+  if ($('#clsJoin')) $('#clsJoin').onclick = async () => { await joinClass(); if (SOC.cls && SOC.cls.code === $('#clsCode').value.trim().toUpperCase()) closeModal(); };
 }
 function nickRow(){
   return `<div class="row" style="margin-top:10px"><span class="av">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><span>${esc(S.settings.nick || '尚未設定暱稱')}</span><button class="btn small" id="nickEdit">更換暱稱／頭像</button><label class="inline" style="margin:0 0 0 auto"><input type="checkbox" id="showBoard" ${S.settings.board !== false ? 'checked' : ''}> 在排行榜顯示我的進度</label></div>`;
@@ -2667,6 +2773,7 @@ function bindClassCommon(){
   if ($('#clsCreate')) $('#clsCreate').onclick = createClass;
   if ($('#clsJoin')) $('#clsJoin').onclick = joinClass;
   if ($('#nickEdit')) $('#nickEdit').onclick = () => openProfile(false);
+  if ($('#clsCode')) $('#clsCode').onkeydown = e => { if (e.key === 'Enter') joinClass(); };
   if ($('#showBoard')) $('#showBoard').onchange = e => { S.settings.board = e.target.checked; markDirty(); pushProfile(); toast(e.target.checked ? '會在排行榜顯示你的進度' : '已在排行榜隱藏你的進度'); };
 }
 async function renderBoard(){
@@ -2705,15 +2812,20 @@ async function renderGameList(){
   const names = await namesFor([...new Set(SOC.games.map(g => g.host))]);
   if (!$('#clsSub') || SOC.sub !== 'games' || SOC.game) return;
   const ds = decks(), nStar = S.cards.filter(c => c.star).length;
-  $('#clsSub').innerHTML = `<div class="box"><h2>開一場對戰</h2>
-      <p class="tiny muted" style="margin:4px 0 0">建立後把遊戲碼傳給同學，大家進房後由房主按「開始」，同時倒數開賽，即時看到彼此進度。沒趕上的人之後也能進來挑戰同一組題目。</p>
-      <div class="row" style="margin-top:6px">
-        <div style="flex:1;min-width:140px"><label>遊戲</label><select id="gMode"><option value="match">連連看（配對單字與意思，比速度）</option><option value="quiz">快問快答（選擇題＋聽音，比分數）</option></select></div>
-        <div style="flex:1;min-width:140px"><label>題目範圍（用你的單字出題）</label><select id="gSrc"><option value="">全部單字</option><option value="__learned">已學過的字</option>${nStar ? '<option value="__star">★ 已標記</option>' : ''}${ds.map(d => `<option>${esc(d)}</option>`).join('')}</select></div>
-        <div style="flex:0 0 90px"><label>題數</label><select id="gN"><option>6</option><option selected>12</option><option>18</option></select></div>
+  $('#clsSub').innerHTML = `<div class="gTop"><button class="btn pri" id="gNew">＋ 開一場對戰</button><div class="row" style="gap:6px;flex-wrap:nowrap"><input type="text" id="gCode" placeholder="遊戲碼" style="width:96px;text-transform:uppercase"><button class="btn" id="gJoin">加入</button></div></div>
+    <div class="box" id="gForm" style="display:${SOC.gForm ? '' : 'none'};margin-top:12px">
+      <div class="fgrid">
+        <div><label>遊戲</label><select id="gMode"><option value="match">連連看・比速度</option><option value="quiz">快問快答・比分數</option></select></div>
+        <div><label>題數</label><select id="gN"><option>6</option><option selected>12</option><option>18</option></select></div>
+        <div style="grid-column:1/-1"><label>用哪些單字出題</label><select id="gSrc"><option value="">全部單字</option><option value="__learned">已學過的字</option>${nStar ? '<option value="__star">★ 已標記</option>' : ''}${ds.map(d => `<option>${esc(d)}</option>`).join('')}</select></div>
       </div>
-      <div class="row" style="margin-top:12px"><button class="btn pri" id="gCreate">建立遊戲</button><input type="text" id="gCode" placeholder="或輸入遊戲碼" style="width:150px;text-transform:uppercase"><button class="btn" id="gJoin">加入</button></div></div>
-    <div class="box"><h2>班級最近的遊戲</h2><div class="list">${SOC.games.map(g => `<div class="item" data-game="${esc(g.id)}"><div><b>${esc(g.title)}</b> <span class="tiny muted">${g.n} 題</span><div class="tiny muted">${esc(names[g.host].name)} 開的・${relTime(g.created)}・${g.startAt ? (g.startAt > Date.now() ? '即將開始' : '已開賽，可隨時挑戰') : '等待開始'}</div></div><span class="code" style="align-self:center">${esc(g.id)}</span></div>`).join('') || '<p class="muted">還沒有遊戲，開第一場吧！</p>'}</div></div>`;
+      <button class="btn pri" id="gCreate" style="width:100%;margin-top:12px">建立遊戲</button>
+      <p class="tiny muted" style="margin:8px 0 0">建立後把遊戲碼傳給同學，大家進房後由你按「開始」，同時倒數開賽。</p>
+    </div>
+    <div class="row spread" style="margin:16px 0 6px"><b style="font-weight:400">最近的遊戲</b><button class="btn small" id="gHist">對戰紀錄 ›</button></div>
+    <div class="list">${SOC.games.map(g => `<div class="item" data-game="${esc(g.id)}"><div><b>${esc(g.title)}</b><div class="tiny muted">${esc(names[g.host].name)}・${relTime(g.created)}・${g.startAt ? (g.startAt > Date.now() ? '即將開始' : '可挑戰') : '等待開始'}</div></div><span class="code" style="align-self:center">${esc(g.id)}</span></div>`).join('') || '<p class="muted">還沒有遊戲，開第一場吧！</p>'}</div>`;
+  $('#gNew').onclick = () => { SOC.gForm = !SOC.gForm; $('#gForm').style.display = SOC.gForm ? '' : 'none'; };
+  $('#gHist').onclick = () => { SOC.sub = 'history'; renderClass(); };
   $('#gCreate').onclick = createGame;
   $('#gJoin').onclick = () => { const c = $('#gCode').value.trim().toUpperCase(); if (c) openGame(c); };
   $('#clsSub').querySelectorAll('[data-game]').forEach(b => b.onclick = () => openGame(b.dataset.game));
@@ -2751,10 +2863,11 @@ async function renderHistory(){
   }
   const opp = Object.entries(h2h).sort((a, b) => (b[1].w + b[1].l) - (a[1].w + a[1].l));
   const fmtRes = (gm, r) => gm.mode === 'match' ? (r.timeMs / 1000).toFixed(1) + ' 秒' : r.score + ' 分';
-  $('#clsSub').innerHTML = `<div class="grid4"><div class="stat"><b>${played}</b><span>我參加的對戰</span></div><div class="stat"><b>${wins}</b><span>拿下第一</span></div><div class="stat"><b>${bestMatch === null ? '—' : (bestMatch / 1000).toFixed(1) + 's'}</b><span>連連看最快</span></div><div class="stat"><b>${bestQuiz === null ? '—' : bestQuiz}</b><span>快問快答最高分</span></div></div>
+  $('#clsSub').innerHTML = `<div class="row" style="margin-bottom:10px"><button class="btn small" id="histBack">← 對戰</button></div><div class="grid4"><div class="stat"><b>${played}</b><span>我參加的對戰</span></div><div class="stat"><b>${wins}</b><span>拿下第一</span></div><div class="stat"><b>${bestMatch === null ? '—' : (bestMatch / 1000).toFixed(1) + 's'}</b><span>連連看最快</span></div><div class="stat"><b>${bestQuiz === null ? '—' : bestQuiz}</b><span>快問快答最高分</span></div></div>
     <div class="box" style="margin-top:14px"><h2>我和同學的對戰成績</h2>${opp.length ? `<div class="board">${opp.map(([id, o]) => { const p = names[id]; const tot = o.w + o.l; return `<div class="brow">${avatarHTML(p)}<span class="bname">${esc(p.name)}</span><span class="bstat"><b>${o.w}</b><small>勝</small></span><span class="bstat"><b>${o.l}</b><small>負</small></span><span class="bstat"><b>${Math.round(o.w / tot * 100)}%</b><small>勝率</small></span></div>`; }).join('')}</div>` : '<p class="muted">還沒有和同學同場對戰的紀錄。</p>'}</div>
     <div class="box"><div class="row spread"><h2>最近的對戰</h2><button class="btn small" id="histRefresh">重新整理</button></div><div class="list">${games.slice(0, 30).map(gm => { const rk = rankGame(gm); return `<div class="item" style="cursor:default;grid-template-columns:1fr"><div class="row spread"><b style="font-size:1rem">${esc(gm.title)}</b><span class="tiny muted">${new Date(gm.created).toLocaleString('zh-TW', {month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})}・${gm.n} 題</span></div><div class="tiny" style="margin-top:4px">${rk.map((r, i) => `<span class="hres${r.id === me ? ' me' : ''}">${['🥇','🥈','🥉'][i] || (i + 1) + '.'} ${esc(names[r.id].name)} ${fmtRes(gm, r)}</span>`).join('')}</div></div>`; }).join('') || '<p class="muted">還沒有完成的對戰。</p>'}</div></div>`;
   $('#histRefresh').onclick = () => { histCache.at = 0; renderHistory(); };
+  $('#histBack').onclick = () => { SOC.sub = 'games'; renderClass(); };
 }
 function relTime(t){ const m = Math.round((Date.now() - (t || 0)) / MIN); return m < 1 ? '剛剛' : m < 60 ? m + ' 分鐘前' : m < 1440 ? Math.round(m / 60) + ' 小時前' : Math.round(m / 1440) + ' 天前'; }
 async function renderGamePlayers(){
@@ -3336,10 +3449,7 @@ function renderToday(){
     <div class="quick">
       <button class="qt" data-q="listen">${QI('<path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/>', '聽力模式')}</button>
       <button class="qt" data-q="practice">${QI('<path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/>', '活用練習')}</button>
-      <button class="qt" data-q="games">${QI('<path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/>', '班級對戰')}</button>
       <button class="qt" data-q="add">${QI('<circle cx="14" cy="14" r="10"/><path d="M14 9v10M9 14h10"/>', '新增單字')}</button>
-      <button class="qt" data-q="video">${QI('<rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/>', '影片學單字')}</button>
-      <button class="qt" data-q="toeic">${QI('<path d="M14 8c-3-2-7-2.2-9.5-1v15c2.5-1.2 6.5-1 9.5 1 3-2 7-2.2 9.5-1V7c-2.5-1.2-6.5-1-9.5 1z"/><path d="M14 8v15"/>', '多益單字包')}</button>
     </div>`;
   if (!DECK_OPTS) renderDeckSelects();
   $('#deckSel').innerHTML = DECK_OPTS ? DECK_OPTS(S.settings.deck) : '';
@@ -3825,30 +3935,40 @@ function renderPractice(){
 function stateLabel(c){
   const now = Date.now();
   if (c.state === 'new') return ['b-new', '新卡'];
-  if (isLearning(c)) return ['b-learning', c.due <= now ? '學習中・到期' : '學習中・' + fmtSpan(c.due - now) + '後'];
+  if (isLearning(c)) return ['b-learning', '學習中'];
   const days = Math.round((c.due - dayStartOf(now)) / DAY);
-  return ['b-review', days <= 0 ? '今天複習' : days + ' 天後'];
+  return ['b-review', days <= 0 ? '今天' : days < 30 ? days + ' 天後' : Math.round(days / 30) + ' 個月後'];
 }
+const BR = {state: '', open: false};
+const BR_SEGS = [['', '全部'], ['new', '新字'], ['learning', '學習中'], ['review', '複習中'], ['star', '★ 標記'], ['leech', '常忘記']];
 function renderBrowse(){
-  const q = $('#search').value.trim().toLowerCase(), d = $('#browseDeck').value, st = $('#browseState').value;
+  const q = $('#search').value.trim().toLowerCase(), d = $('#browseDeck').value, st = BR.state;
   const cat = $('#browseCat').value, lv = $('#browseLevel').value, ty = $('#browseType').value, sort = $('#browseSort').value;
+  const nf = [d, cat, lv, ty].filter(Boolean).length;
+  $('#filterBtn').textContent = nf ? `篩選・${nf}` : '篩選';
+  $('#filterBtn').classList.toggle('on', !!nf);
+  $('#stateSegs').innerHTML = BR_SEGS.map(([k, l]) => `<button data-st="${k}" class="${st === k ? 'on' : ''}">${l}</button>`).join('');
+  $('#stateSegs').querySelectorAll('[data-st]').forEach(b => b.onclick = () => { BR.state = b.dataset.st; renderBrowse(); });
   let items = S.cards.filter(c => matchDeck(c, d) && (!cat || c.cat === cat) && (!lv || c.level === lv) && (!ty || c.type === ty) &&
     (!q || c.word.toLowerCase().includes(q) || (c.meaning || '').toLowerCase().includes(q) || (c.topic || '').includes(q) || c.ex.some(e => e.en.toLowerCase().includes(q)) || c.syn.some(s => s.w.toLowerCase().includes(q))) &&
-    (!st || (st === 'learning' ? isLearning(c) : st === 'leech' ? (c.lapses||0) >= 4 : st === 'noai' ? !c.ai : c.state === st)));
+    (!st || (st === 'learning' ? isLearning(c) : st === 'leech' ? (c.lapses||0) >= 4 : st === 'star' ? c.star : c.state === st)));
   const sorters = {az: (a,b) => a.word.localeCompare(b.word), prio: (a,b) => prio(b) - prio(a), due: (a,b) => (a.state === 'new') - (b.state === 'new') || a.due - b.due, new: (a,b) => (b.created||0) - (a.created||0)};
   items.sort(sorters[sort] || sorters.az);
   const total = items.length; items = items.slice(0, 300);
   const noai = S.cards.filter(c => !c.ai).length;
-  $('#fillAll').style.display = noai && AI && !aiOff ? '' : 'none';
-  $('#fillAll').textContent = `✨ 補齊 ${noai} 個未補齊的單字`;
-  $('#browseInfo').textContent = `共 ${total} 張` + (total > 300 ? '（只顯示前 300 張）' : '') + '・點一下查看或編輯';
+  $('#fillAll').style.display = noai && AI ? '' : 'none';
+  $('#fillAll').textContent = `✨ 用 AI 補齊 ${noai} 個單字的細節`;
+  $('#browseCount').textContent = `${S.cards.length} 字`;
+  $('#browseInfo').textContent = total > 300 ? `共 ${total} 個，只顯示前 300 個，請用搜尋或篩選縮小範圍` : (total ? `共 ${total} 個` : '');
   $('#list').innerHTML = items.map(c => {
     const [cls, lab] = stateLabel(c);
-    return `<div class="item" data-id="${c.id}"><div>${c.star ? '<span class="starMark">★</span> ' : ''}<b>${esc(c.word)}</b> <span class="muted tiny">${esc(c.pos || '')} ${esc(c.level || '')}</span>${c.ai ? ` <span class="stars tiny" title="重要度">${stars(c.imp)}</span>` : ' <span class="tiny muted">（未補齊）</span>'}<div class="m">${esc(c.meaning || '')}</div><div class="tiny muted">${[c.cat, c.type, c.deck].filter(Boolean).map(esc).join('・')}${c.tags.map(t => ` <span class="tagMark">#${esc(t)}</span>`).join('')}</div></div><span class="badge ${cls}">${lab}</span></div>`;
-  }).join('') || '<p class="muted">沒有符合的單字</p>';
+    return `<div class="item wi" data-id="${c.id}"><div class="wiMain"><div class="wiTop">${c.star ? '<span class="starMark">★</span>' : ''}<b>${esc(c.word)}</b><span class="pos">${esc(c.pos || '')}</span></div><div class="m">${esc(c.meaning || '（尚未有中文）')}</div></div><span class="wiState ${cls}">${lab}</span></div>`;
+  }).join('') || '<p class="muted" style="text-align:center;margin-top:20px">沒有符合的單字</p>';
   $('#list').querySelectorAll('.item').forEach(el => el.onclick = () => openEditor(S.cards.find(c => c.id === el.dataset.id)));
 }
-['#search','#browseDeck','#browseState','#browseCat','#browseLevel','#browseType','#browseSort'].forEach(s => $(s).addEventListener('input', renderBrowse));
+['#search','#browseDeck','#browseCat','#browseLevel','#browseType','#browseSort'].forEach(s => $(s).addEventListener('input', renderBrowse));
+$('#filterBtn').onclick = () => { const f = $('#filterPanel'); f.style.display = f.style.display === 'none' ? '' : 'none'; };
+$('#filterReset').onclick = () => { ['#browseDeck','#browseCat','#browseLevel','#browseType'].forEach(s => $(s).value = ''); BR.state = ''; renderBrowse(); };
 $('#fillAll').onclick = () => queueEnrich(S.cards.filter(c => !c.ai).map(c => c.id));
 
 function openEditor(c, editing){
@@ -3920,7 +4040,7 @@ function closeModal(){ $('#modal').classList.remove('on'); }
 $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
 
 /* ---------- stats ---------- */
-function bars(data){ const max = Math.max(1, ...data.map(d => d.v)); return `<div class="bars">${data.map(d => `<div class="bar"><s>${d.v || ''}</s><i style="height:${(d.v / max) * 100}%"></i><em>${d.l}</em></div>`).join('')}</div>`; }
+function bars(data, cls){ const max = Math.max(1, ...data.map(d => d.v)); return `<div class="bars${cls ? ' ' + cls : ''}">${data.map(d => `<div class="bar"><s>${d.v || ''}</s><i style="height:${(d.v / max) * 100}%"></i><em>${d.l}</em></div>`).join('')}</div>`; }
 function hbars(entries){ const max = Math.max(1, ...entries.map(e => e[1])); return entries.map(([k, v]) => `<div class="hbar"><span>${esc(k)}</span><i style="width:${v / max * 100}%"></i><span class="tiny muted">${v}</span></div>`).join(''); }
 function renderStats(){
   const now = Date.now(), today = dayStartOf(now);
@@ -3930,13 +4050,13 @@ function renderStats(){
   const fc = [];
   for (let i = 0; i < 7; i++){ const s = today + i * DAY, e = s + DAY; fc.push({v: pool.filter(c => c.state !== 'new' && (i === 0 ? c.due < e : c.due >= s && c.due < e)).length, l: i === 0 ? '今天' : i === 1 ? '明天' : new Date(s).toLocaleDateString('zh-TW', {month:'numeric', day:'numeric'})}); }
   const hs = []; let streak = 0, counting = true;
-  for (let i = 0; i < 60; i++){ const k = dayKey(now - i * DAY), v = S.hist[k] || 0; if (counting){ if (v) streak++; else if (i > 0) counting = false; } if (i < 14) hs.unshift({v, l: i === 0 ? '今天' : k.slice(5).replace('-', '/')}); }
+  for (let i = 0; i < 60; i++){ const k = dayKey(now - i * DAY), v = S.hist[k] || 0; if (counting){ if (v) streak++; else if (i > 0) counting = false; } if (i < 14) hs.unshift({v, l: i === 0 ? '今' : (i % 2 === 0 ? String(new Date(now - i * DAY - ROLL).getDate()) : '')}); }
   const count = key => { const m = {}; pool.forEach(c => { const k = c[key] || '未分類'; m[k] = (m[k] || 0) + 1; }); return Object.entries(m).sort((a,b) => b[1] - a[1]); };
   $('#statsArea').innerHTML = `<div class="tiny muted" style="margin-bottom:8px">${S.settings.deck ? '牌組：' + esc(S.settings.deck) : '全部牌組'}（可在「今日」頁的「範圍」切換）</div>
     <div class="grid4"><div class="stat"><b class="c-new">${n}</b><span>新卡</span></div><div class="stat"><b class="c-learn">${l}</b><span>學習中</span></div><div class="stat"><b>${young}</b><span>熟悉中（&lt;21 天）</span></div><div class="stat"><b class="c-rev">${mature}</b><span>已熟記（≥21 天）</span></div></div>
     <div class="grid4" style="margin-top:8px"><div class="stat"><b>${S.hist[dayKey(now)] || 0}</b><span>今天複習次數</span></div><div class="stat"><b>${streak}</b><span>連續天數</span></div><div class="stat"><b>${Array.from({length: 30}, (_, i) => S.hist[dayKey(now - i * DAY)] || 0).reduce((a,b) => a + b, 0)}</b><span>近 30 天複習</span></div><div class="stat"><b>${pool.length}</b><span>單字總數</span></div></div>
     <h3>未來 7 天到期</h3><div class="box">${bars(fc)}</div>
-    <h3>近 14 天複習量</h3><div class="box">${bars(hs).replace('class="bars"', 'class="bars alt"')}</div>
+    <h3>近 14 天複習量</h3><div class="box">${bars(hs, 'alt dense')}</div>
     <div class="row" style="align-items:flex-start;gap:14px"><div style="flex:1;min-width:250px"><h3>依主題分類</h3><div class="box">${hbars(count('cat'))}</div></div><div style="flex:1;min-width:250px"><h3>依程度與類型</h3><div class="box">${hbars(count('level'))}<hr class="divider" style="margin:10px 0">${hbars(count('type'))}</div></div></div>`;
 }
 
@@ -4005,7 +4125,7 @@ $('#resetProg').onclick = e => {
 
 /* ---------- shell ---------- */
 
-const TAB_OF = {add: 'browse', video: 'review', practice: 'review', listen: 'review', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
+const TAB_OF = {add: 'browse', video: 'train', practice: 'train', listen: 'train', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
 function switchTab(t){
   let sub = null;
   if (t === 'stats' || t === 'settings' || t === 'guide' || t === 'account'){ sub = t; t = 'me'; }
@@ -4035,6 +4155,7 @@ function switchSub(s){
 }
 document.querySelectorAll('#p-me .subtabs button').forEach(b => b.onclick = () => switchSub(b.dataset.sub));
 document.querySelectorAll('[data-goto]').forEach(b => b.onclick = e => { e.preventDefault(); switchTab(b.dataset.goto); });
+document.querySelectorAll('[data-hub]').forEach(b => b.onclick = () => { SOC.sub = 'games'; switchTab('friends'); });
 document.querySelectorAll('[data-jump]').forEach(b => b.onclick = e => { e.preventDefault(); const el = document.getElementById(b.dataset.jump); if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); });
 $('#meChip').onclick = () => switchTab('account');
 document.querySelectorAll('#nav button').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
