@@ -225,6 +225,8 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .aiHint{display:none}
 .aiHint.on{display:block}
 @media (max-width:560px){ .avgrid{grid-template-columns:repeat(4,1fr)} .mechip span:last-child{display:none} .mechip{padding:2px} }
+.role{font-size:.7rem;background:var(--mizu-s);border:1px solid var(--ink);border-radius:6px;padding:0 5px;margin-left:4px;vertical-align:1px}
+.saBox:not(:empty){margin-top:10px;border-top:1.5px dashed #d9d1c4;padding-top:10px}
 /* modal etc */
 .modal{position:fixed;inset:0;background:rgba(62,58,57,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
 .modal.on{display:flex}
@@ -419,9 +421,10 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 
   <section class="panel" id="p-me">
     <div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M6 40q17-8 34 0" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><g class="sway"><path d="M23 38V22" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/><path d="M23 28q-10 0-11-9 9 0 11 9z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 24q9-2 11-11-9 1-11 11z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.2" stroke-linejoin="round"/></g><circle class="twinkle" cx="38" cy="10" r="4" fill="#F2A497" stroke="#3E3A39" stroke-width="2"/></svg><h2>我的學習</h2></div>
-    <div class="subtabs"><button class="on" data-sub="stats">學習統計</button><button data-sub="account">帳號</button><button data-sub="settings">設定與備份</button><button data-sub="guide">使用說明</button></div>
+    <div class="subtabs"><button class="on" data-sub="stats">學習統計</button><button data-sub="account">帳號</button><button data-sub="settings">設定與備份</button><button data-sub="guide">使用說明</button><button data-sub="admin" id="adminTabBtn" style="display:none">網站管理</button></div>
     <div class="sub" id="p-stats"><div id="statsArea"></div></div>
     <div class="sub" id="p-account" style="display:none"><div id="accArea"></div></div>
+    <div class="sub" id="p-admin" style="display:none"><div id="adminArea"></div></div>
   <div class="sub" id="p-guide" style="display:none"><div class="box guide">
     <h2>使用說明</h2>
     <h3>1. 快速開始</h3>
@@ -479,7 +482,13 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
       <li><b>綁定 Google</b>：在「我的 → 帳號」按「綁定 Google 帳號」，目前的資料會完整保留，之後在任何裝置用同一個 Google 帳號登入即可。</li>
       <li>右上角的頭像可以快速進入帳號頁，更換暱稱與頭像。</li>
     </ul>
-    <h3>11. 關於 AI 功能</h3>
+    <h3>11. 管理員</h3>
+    <ul>
+      <li><b>班級管理員</b>：建立班級的人就是班級管理員，可在班級的「管理」分頁更改班級名稱、移出成員、刪除學習集與遊戲、刪除班級，並可把其他成員設為管理員協助管理。</li>
+      <li><b>網站管理員</b>：網站架設者可以在 Firebase 把自己設為網站管理員（步驟見 README），之後「我的」頁會出現「網站管理」，可查看並管理所有班級。</li>
+      <li>任何管理員都<b>看不到</b>其他人的個人單字與複習進度。</li>
+    </ul>
+    <h3>12. 關於 AI 功能</h3>
     <p>字幕找單字、自動補齊單字細節、造句批改、AI 出題等功能使用 Google Gemini。請到「我的 → 設定與備份」依步驟申請免費的 API 金鑰並貼上（金鑰只存在你的瀏覽器）。沒有金鑰時，複習、多益單字包、班級與對戰遊戲都能正常使用。大量匯入單字時建議選「學到該字時才補齊」，避免一次用掉免費額度。</p>
   </div></div>
   <div class="sub" id="p-settings" style="display:none">
@@ -557,12 +566,12 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
      中的 firebaseConfig 內容貼到下面（取代整個 { ... }）。
    ===================================================================== */
 const FIREBASE_CONFIG = {
- apiKey: "AIzaSyBuLWQl-YFQPjvfCWZ1pNqFmuNTNq5bm4Q",
-  authDomain: "english-ding.firebaseapp.com",
-  projectId: "english-ding",
-  storageBucket: "english-ding.firebasestorage.app",
-  messagingSenderId: "133286484140",
-  appId: "1:133286484140:web:05a3b78cd292084c9ee709"
+  apiKey: "貼上你的 apiKey",
+  authDomain: "你的專案.firebaseapp.com",
+  projectId: "你的專案 ID",
+  storageBucket: "你的專案.firebasestorage.app",
+  messagingSenderId: "",
+  appId: ""
 };
 /* ===================================================================== */
 
@@ -686,6 +695,288 @@ const AVATARS = (() => {
 })();
 const avatarSVG = (id, name) => AVATARS[id] ? AVATARS[id].svg : `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#E4F2F8"/><text x="32" y="41" text-anchor="middle" font-size="26" fill="#3E3A39">${esc((name || '?').slice(0, 1))}</text></svg>`;
 
+const STARTER_DETAIL_RAW = `agenda|Let's go over today's agenda before we start.|開始之前我們先看一下今天的議程。|schedule, program|—|n.:（隱藏的）意圖、目的|set the agenda, on the agenda|—
+assign|The manager assigned the project to Lisa.|經理把這個專案分派給 Lisa。|allocate, give|—|v.:指定（時間、地點）|assign a task, be assigned to|assignment(n.)
+attach|Please see the attached file for details.|詳情請見附檔。|enclose, fasten|detach|v.:認為有（重要性）|attach importance to, attached file|attachment(n.)
+colleague|I'll ask a colleague to cover my shift.|我會請同事幫我代班。|coworker, associate|—|—|a former colleague, colleagues at work|—
+deadline|The deadline for the report is Friday.|報告的截止期限是星期五。|due date, time limit|—|—|meet a deadline, miss the deadline|—
+department|She works in the accounting department.|她在會計部門工作。|division, section|—|n.:（百貨公司的）專櫃|sales department, department store|departmental(adj.)
+document|Please sign the document and return it.|請簽署文件後寄回。|file, paper|—|v.:記錄、紀錄下來|legal document, document the process|documentation(n.)
+extension|Please call me at extension 205.|請撥分機 205 找我。|—|—|n.:延期；擴建|ask for an extension, extension cord|extend(v.), extensive(adj.)
+file|Please file these invoices by date.|請依日期將這些發票歸檔。|submit, store|—|n.:檔案；文件夾|file a complaint, file a claim|filing(n.)
+memo|I'll send a memo to all staff.|我會發一份備忘錄給全體員工。|note, notice|—|—|send a memo, internal memo|memorandum(n.)
+postpone|The meeting was postponed until next week.|會議延到下週。|delay, put off|advance, bring forward|—|postpone a meeting, postpone until|postponement(n.)
+priority|Customer safety is our top priority.|顧客安全是我們的第一優先。|precedence, focus|—|—|top priority, give priority to|prioritize(v.)
+reception|Please wait at the reception desk.|請在接待櫃檯等候。|front desk, welcome|—|n.:歡迎會；（手機）訊號|reception desk, a warm reception|receptionist(n.), receive(v.)
+remind|Please remind me to call the client.|請提醒我打電話給客戶。|prompt, notify|—|—|remind sb of sth, remind sb to do|reminder(n.)
+schedule|The project is ahead of schedule.|這個專案比預定進度超前。|timetable, plan|—|v.:安排（時間）|on schedule, behind schedule|scheduled(adj.)
+supervisor|Report any problems to your supervisor.|有任何問題請向主管報告。|manager, boss|subordinate|—|direct supervisor, shift supervisor|supervise(v.), supervision(n.)
+supply|We are running low on office supplies.|辦公用品快用完了。|stock, provision|demand|v.:供應、提供|office supplies, supply sb with sth|supplier(n.)
+workload|Hiring an assistant will reduce your workload.|聘請助理可以減輕你的工作量。|work, burden|—|—|heavy workload, reduce the workload|—
+coordinate|She coordinates the training schedule.|她負責協調訓練的時程。|organize, arrange|—|—|coordinate with, coordinate efforts|coordinator(n.), coordination(n.)
+delegate|A good manager knows how to delegate.|好的主管懂得委派工作。|assign, entrust|—|n.:代表、與會代表|delegate tasks, delegate authority|delegation(n.)
+efficient|The new system is more efficient.|新系統更有效率。|productive, effective|inefficient|—|energy-efficient, efficient use of time|efficiency(n.), efficiently(adv.)
+in charge of|Who is in charge of the event?|誰負責這次活動？|responsible for, managing|—|—|person in charge, take charge of|—
+notify|We will notify you when the order ships.|訂單出貨時我們會通知您。|inform, tell|—|—|notify sb of sth, notify in advance|notification(n.)
+operate|Only trained staff may operate this machine.|只有受過訓練的員工才能操作這台機器。|run, work|—|v.:動手術；營運|operate a business, operating hours|operation(n.), operator(n.)
+facility|The facility is open 24 hours.|這個設施 24 小時開放。|building, plant|—|n.:能力、才能|sports facility, manufacturing facility|facilitate(v.)
+applicant|We received over 100 applicants.|我們收到超過 100 位應徵者。|candidate, job seeker|—|—|successful applicant, job applicant|apply(v.), application(n.)
+candidate|She is the best candidate for the job.|她是這份工作最好的人選。|applicant, nominee|—|n.:（選舉的）候選人|ideal candidate, shortlist candidates|candidacy(n.)
+qualification|What qualifications are required for this role?|這個職位需要什麼資格？|requirement, credential|—|n.:（條件的）限制、保留|meet the qualifications, professional qualifications|qualify(v.), qualified(adj.)
+resume|Please send your resume to HR.|請將履歷寄給人資部。|CV|—|v.:重新開始、繼續|submit a resume, update your resume|—
+interview|I have a job interview tomorrow.|我明天有工作面試。|meeting|—|n.:訪談、採訪|job interview, interview for a position|interviewer(n.), interviewee(n.)
+hire|We plan to hire three new engineers.|我們打算聘請三位新工程師。|employ, recruit|fire, dismiss|v.:租用|hire staff, new hire|hiring(n.)
+recruit|The company recruits graduates every year.|公司每年都招募畢業生。|hire, enlist|—|n.:新成員、新兵|recruit staff, new recruit|recruitment(n.), recruiter(n.)
+position|She applied for the sales position.|她應徵了業務職位。|job, post|—|n.:位置；立場|apply for a position, open position|—
+experience|Do you have any sales experience?|你有任何業務經驗嗎？|background, expertise|inexperience|v.:經歷、體驗|work experience, years of experience|experienced(adj.)
+reference|Can you provide two references?|你可以提供兩位推薦人嗎？|referee, recommendation|—|n.:參考、提及|for reference, reference letter|refer(v.)
+promote|She was promoted to manager.|她被升為經理。|advance, upgrade|demote|v.:推廣、促銷|be promoted to, promote a product|promotion(n.)
+promotion|He got a promotion last month.|他上個月升職了。|advancement|demotion|n.:促銷活動|get a promotion, sales promotion|promote(v.), promotional(adj.)
+salary|The salary is negotiable.|薪水可以商量。|pay, wage|—|—|annual salary, salary increase|—
+benefit|The job offers good benefits.|這份工作的福利很好。|advantage, perk|drawback|v.:對…有益|health benefits, benefit from|beneficial(adj.)
+employee|The company has 500 employees.|公司有 500 名員工。|staff member, worker|employer|—|full-time employee, employee benefits|employ(v.), employment(n.)
+employer|Your employer will pay for the training.|你的雇主會支付訓練費用。|company, boss|employee|—|former employer, equal opportunity employer|employ(v.)
+retire|He plans to retire next year.|他計畫明年退休。|step down|—|v.:就寢；（使）退役|retire from, early retirement|retirement(n.), retiree(n.)
+resign|She resigned from her position.|她辭去了職位。|quit, step down|—|v.:resign oneself to 只好接受|resign from, letter of resignation|resignation(n.)
+evaluation|Annual evaluations are held in December.|年度考核在十二月舉行。|assessment, review|—|—|performance evaluation, conduct an evaluation|evaluate(v.)
+performance|Her performance this year has been excellent.|她今年的表現非常好。|achievement, results|—|n.:演出、表演|job performance, performance review|perform(v.), performer(n.)
+training|All new staff must attend training.|所有新進員工都必須參加訓練。|instruction, coaching|—|—|training session, on-the-job training|train(v.), trainee(n.)
+orientation|New employee orientation starts at 9 a.m.|新人說明會早上九點開始。|introduction, induction|—|n.:方向；傾向|orientation session, new hire orientation|orient(v.)
+personnel|Please contact the personnel department.|請聯絡人事部門。|staff, HR|—|—|personnel department, key personnel|—
+probation|New employees have a three-month probation.|新員工有三個月的試用期。|trial period|—|n.:緩刑|probation period, on probation|probationary(adj.)
+transfer|He was transferred to the Tokyo office.|他被調到東京辦公室。|move, relocate|—|n./v.:轉帳；轉乘|transfer to, bank transfer|transferable(adj.)
+conference|She is attending a conference in Singapore.|她正在新加坡參加研討會。|meeting, convention|—|—|press conference, conference call|confer(v.)
+presentation|I'm giving a presentation on sales results.|我要做一場銷售成果簡報。|talk, demonstration|—|n.:呈現方式；出示|give a presentation, upon presentation of|present(v.), presenter(n.)
+attend|All managers must attend the meeting.|所有經理都必須出席會議。|be present at, go to|miss|v.:attend to 處理、照顧|attend a meeting, attend to a customer|attendance(n.), attendee(n.)
+participant|Each participant will receive a certificate.|每位參加者都會獲得證書。|attendee, member|—|—|workshop participants, active participant|participate(v.), participation(n.)
+proposal|The board approved the proposal.|董事會通過了這項提案。|plan, suggestion|—|n.:求婚|submit a proposal, budget proposal|propose(v.)
+summarize|Let me summarize the main points.|讓我總結一下重點。|sum up, outline|expand|—|summarize the findings, to summarize|summary(n.)
+discuss|We need to discuss the budget.|我們需要討論預算。|talk about, review|—|—|discuss a plan, discuss with|discussion(n.)
+consensus|We finally reached a consensus.|我們終於達成了共識。|agreement, accord|disagreement|—|reach a consensus, general consensus|—
+minutes|Who will take the minutes today?|今天誰負責做會議記錄？|record, notes|—|n.:分鐘（minute 複數）|take the minutes, meeting minutes|—
+handout|Please refer to the handout.|請參考講義。|leaflet, printout|—|n.:救濟品；施捨|distribute handouts, hand out|—
+brainstorm|Let's brainstorm ideas for the campaign.|我們來為這次宣傳活動腦力激盪。|generate ideas|—|n.:腦力激盪會議|brainstorm ideas, brainstorming session|brainstorming(n.)
+objective|The main objective is to cut costs.|主要目標是降低成本。|goal, aim|—|adj.:客觀的|achieve an objective, objective opinion|objectively(adv.)
+input|We'd appreciate your input on this plan.|我們很希望聽到你對這個計畫的意見。|feedback, contribution|output|n.:輸入（資料）|provide input, data input|—
+reschedule|Can we reschedule the call to Monday?|我們可以把電話會議改到星期一嗎？|postpone, rearrange|—|—|reschedule an appointment, reschedule for|—
+venue|The venue holds up to 300 people.|會場最多可容納 300 人。|location, site|—|—|event venue, change of venue|—
+keynote|The CEO will give the keynote speech.|執行長將發表主題演講。|main speech|—|n.:基調、主旨|keynote speaker, keynote address|—
+outline|Please outline your proposal in one page.|請用一頁概述你的提案。|summarize, sketch|—|n.:輪廓|outline a plan, in outline|—
+clarify|Could you clarify what you mean?|你可以釐清一下你的意思嗎？|explain, make clear|confuse|—|clarify a point, clarify the details|clarification(n.)
+address|We must address this issue immediately.|我們必須立即處理這個問題。|deal with, handle|ignore|n.:地址；v.:向…發表演說|address an issue, address the audience|—
+agree on|We agreed on a new deadline.|我們對新的截止日達成共識。|settle on, decide on|disagree on|—|agree on a price, agree on terms|agreement(n.)
+follow up|I'll follow up with an email.|我會再寄一封電子郵件追蹤後續。|check back, pursue|—|n.:follow-up 後續追蹤|follow up on, follow-up meeting|—
+point out|She pointed out an error in the report.|她指出報告中的一個錯誤。|indicate, mention|—|—|point out a mistake, point out that|—
+highlight|The report highlights three key risks.|這份報告強調了三項主要風險。|emphasize, stress|downplay|n.:最精彩的部分|highlight the importance, highlights of the trip|—
+refreshments|Refreshments will be served after the talk.|演講結束後會提供茶點。|snacks, drinks|—|—|light refreshments, serve refreshments|refresh(v.)
+register|Please register for the seminar online.|請上網報名研討會。|sign up, enroll|—|n.:收銀機；登記簿|register for, cash register|registration(n.)
+advertise|We advertise on social media.|我們在社群媒體上打廣告。|promote, publicize|—|—|advertise a product, advertise for staff|advertisement(n.), advertising(n.)
+campaign|The ad campaign was a great success.|這次廣告活動非常成功。|drive, promotion|—|n.:（政治）競選活動|marketing campaign, launch a campaign|—
+competitor|Our prices are lower than our competitors'.|我們的價格比競爭對手低。|rival, competition|partner|—|main competitor, stay ahead of competitors|compete(v.), competitive(adj.)
+consumer|Consumers prefer eco-friendly products.|消費者偏好環保產品。|customer, buyer|producer|—|consumer demand, consumer goods|consume(v.), consumption(n.)
+demand|Demand for electric cars is rising.|電動車的需求正在上升。|need, request|supply|v.:要求|in demand, meet demand|demanding(adj.)
+launch|We will launch the new model in May.|我們將在五月推出新機型。|release, introduce|withdraw|n.:發表會；v.:發射|product launch, launch a campaign|—
+market share|We aim to increase our market share.|我們的目標是提高市占率。|share of the market|—|—|gain market share, lose market share|—
+survey|Please complete our customer survey.|請填寫我們的顧客問卷。|questionnaire, poll|—|v.:調查；勘測|conduct a survey, survey results|—
+target|We missed our sales target this quarter.|這季我們沒達成銷售目標。|goal, objective|—|v.:以…為目標對象|sales target, target audience|—
+brand|They built a strong brand in Asia.|他們在亞洲打造了強大的品牌。|label, trademark|—|v.:為…貼上標籤|brand image, brand loyalty|branding(n.)
+discount|Members get a 10% discount.|會員享九折優惠。|reduction, markdown|markup|v.:不重視、低估|offer a discount, at a discount|discounted(adj.)
+estimate|Can you give me an estimate for the repair?|你可以給我維修的估價嗎？|quote, approximation|—|v.:估計|rough estimate, cost estimate|estimation(n.)
+revenue|Revenue grew by 15% last year.|去年營收成長了 15%。|income, earnings|expenditure|—|annual revenue, generate revenue|—
+strategy|We need a new marketing strategy.|我們需要新的行銷策略。|plan, approach|—|—|business strategy, develop a strategy|strategic(adj.)
+trend|Online shopping is a growing trend.|網購是日益成長的趨勢。|tendency, movement|—|n.:流行、時尚|market trend, follow the trend|trendy(adj.)
+feature|The phone features a large screen.|這支手機的特色是大螢幕。|include, highlight|—|n.:專題報導；特徵|key features, feature story|—
+promotional|We are offering promotional prices this week.|本週提供促銷價格。|advertising, marketing|—|—|promotional event, promotional materials|promote(v.), promotion(n.)
+retail|She has ten years of retail experience.|她有十年的零售經驗。|sales, selling|wholesale|v.:以…價格零售|retail price, retail store|retailer(n.)
+wholesale|We buy coffee beans at wholesale prices.|我們以批發價購買咖啡豆。|bulk|retail|adj.:大規模的|wholesale price, wholesale market|wholesaler(n.)
+client|We have a meeting with a new client.|我們跟一位新客戶有會議。|customer, account|—|—|potential client, client list|clientele(n.)
+quote|Please send us a quote for 500 units.|請給我們 500 件的報價。|estimate, price|—|v.:引用；報價|price quote, get a quote|quotation(n.)
+affordable|We offer affordable housing options.|我們提供價格合理的住宅選擇。|reasonable, inexpensive|expensive|—|affordable price, affordable housing|afford(v.)
+exclusive|Members get exclusive access to sales.|會員可以獨享特賣活動。|sole, special|shared|adj.:高級的、排外的|exclusive offer, exclusive rights|exclusively(adv.)
+expand|The company plans to expand overseas.|公司計畫拓展海外市場。|grow, extend|reduce|v.:詳述 expand on|expand the business, expand into|expansion(n.)
+potential|This market has great potential.|這個市場很有潛力。|possibility, promise|—|adj.:潛在的|potential customers, reach full potential|potentially(adv.)
+budget|We are over budget this month.|這個月我們超出預算了。|allowance, funds|—|adj.:便宜的、低價的|within budget, budget cuts|budgetary(adj.)
+expense|Travel expenses will be reimbursed.|差旅費會核銷。|cost, spending|income|—|travel expenses, at one's expense|expensive(adj.), expend(v.)
+invoice|Please pay the invoice within 30 days.|請在 30 天內支付這張請款單。|bill, statement|—|v.:開立請款單|send an invoice, invoice number|—
+account|I'd like to open a savings account.|我想開一個儲蓄帳戶。|record, ledger|—|n.:客戶；說明、敘述|bank account, take into account|accountant(n.), accounting(n.)
+audit|The company is audited every year.|公司每年都接受稽核。|inspection, review|—|n.:審計|internal audit, conduct an audit|auditor(n.)
+balance|Please check your account balance.|請確認你的帳戶餘額。|remainder|imbalance|n./v.:平衡|account balance, work-life balance|balanced(adj.)
+deposit|A 20% deposit is required.|需要支付兩成訂金。|down payment|withdrawal|v.:存入；放置|make a deposit, security deposit|—
+profit|Profits rose by 8% this year.|今年利潤增加了 8%。|earnings, gain|loss|v.:獲益|net profit, make a profit|profitable(adj.)
+loss|The company reported a loss.|公司公布了虧損。|deficit|profit, gain|n.:失去、喪失|suffer a loss, at a loss|lose(v.)
+reimburse|The company will reimburse your travel costs.|公司會核銷你的差旅費用。|refund, repay|—|—|reimburse expenses, be reimbursed for|reimbursement(n.)
+receipt|Please keep your receipt.|請保留收據。|proof of purchase|—|n.:收到、接收|keep the receipt, upon receipt of|receive(v.)
+tax|Prices do not include tax.|價格不含稅。|duty, levy|—|v.:對…課稅；使負擔沉重|sales tax, tax return|taxable(adj.), taxation(n.)
+fiscal|The fiscal year ends in March.|會計年度在三月結束。|financial, budgetary|—|—|fiscal year, fiscal policy|—
+forecast|Sales are forecast to grow next year.|預測明年銷售會成長。|predict, projection|—|n.:天氣預報|sales forecast, weather forecast|—
+investment|The new equipment is a good investment.|新設備是一項不錯的投資。|funding, stake|—|—|return on investment, make an investment|invest(v.), investor(n.)
+loan|The bank approved our loan.|銀行核准了我們的貸款。|credit, advance|—|v.:借出|take out a loan, repay a loan|—
+interest rate|Interest rates are expected to rise.|預期利率會上升。|rate|—|—|low interest rate, raise interest rates|—
+payroll|Payroll is processed on the 25th.|薪資在每月 25 日處理。|wages, salary list|—|n.:員工總數|on the payroll, payroll department|—
+quarterly|We publish quarterly reports.|我們每季發布報告。|every three months|—|n.:季刊|quarterly report, quarterly earnings|quarter(n.)
+statement|Your bank statement is available online.|你的銀行對帳單可以在線上查看。|report, record|—|n.:聲明、陳述|bank statement, issue a statement|state(v.)
+transaction|All transactions are recorded automatically.|所有交易都會自動記錄。|deal, exchange|—|—|business transaction, online transaction|transact(v.)
+cost-effective|Online ads are more cost-effective.|網路廣告比較划算。|economical, efficient|costly|—|cost-effective solution, highly cost-effective|—
+overdue|Your payment is two weeks overdue.|你的款項已逾期兩週。|late, unpaid|early|adj.:早該發生的|overdue payment, long overdue|—
+refund|You can get a full refund within 30 days.|30 天內可以全額退款。|repayment, reimbursement|charge|v.:退款|full refund, request a refund|refundable(adj.)
+outstanding|There is an outstanding balance of $200.|還有 200 元的未付餘額。|unpaid, due|paid|adj.:傑出的|outstanding balance, outstanding performance|—
+order|I'd like to order 50 boxes of paper.|我想訂購 50 箱紙。|purchase, request|cancel|n.:順序；命令|place an order, out of order|—
+purchase|You can purchase tickets online.|你可以在線上購買門票。|buy, acquire|sell|n.:購買的東西|make a purchase, proof of purchase|purchaser(n.)
+supplier|We changed suppliers last year.|我們去年更換了供應商。|vendor, provider|customer|—|main supplier, local supplier|supply(v.)
+vendor|Contact the vendor about the delay.|請就延誤一事聯絡廠商。|supplier, seller|buyer|n.:小販|software vendor, street vendor|vend(v.)
+inventory|We take inventory every month.|我們每個月盤點庫存。|stock, supply|—|n.:清單、目錄|take inventory, inventory control|—
+shipment|The shipment will arrive on Monday.|這批貨將在星期一抵達。|delivery, consignment|—|—|track a shipment, shipment date|ship(v.)
+deliver|We deliver within three business days.|我們在三個工作天內送達。|send, transport|—|v.:發表（演說）；兌現（承諾）|deliver a package, deliver a speech|delivery(n.)
+warehouse|The goods are stored in our warehouse.|貨物存放在我們的倉庫。|storehouse, depot|—|—|warehouse manager, warehouse space|—
+in stock|This item is currently in stock.|這項商品目前有庫存。|available|out of stock|—|keep in stock, items in stock|—
+out of stock|Sorry, that model is out of stock.|抱歉，那個型號缺貨。|sold out, unavailable|in stock|—|temporarily out of stock, run out of stock|—
+backorder|Your item is on backorder.|你的商品目前延期交貨中。|delayed order|—|v.:延期交貨|on backorder, backorder an item|—
+dispatch|Your order was dispatched this morning.|你的訂單今天早上已經寄出。|send, ship|receive|n.:派遣；急件|dispatch an order, dispatch a team|—
+track|You can track your package online.|你可以在線上追蹤包裹。|trace, follow|—|n.:軌道；田徑|track an order, keep track of|tracking(n.)
+package|The package arrived damaged.|包裹送達時已損壞。|parcel, box|—|n.:套裝方案；v.:包裝|package deal, benefits package|packaging(n.)
+fragile|Please handle fragile items with care.|易碎品請小心輕放。|breakable, delicate|sturdy|adj.:脆弱的（身體、局勢）|fragile items, fragile economy|fragility(n.)
+bulk|We offer discounts on bulk orders.|大量訂購有折扣。|large quantity|—|n.:大部分 the bulk of|in bulk, bulk order|bulky(adj.)
+procurement|She manages procurement for the factory.|她負責工廠的採購業務。|purchasing, acquisition|—|—|procurement process, procurement department|procure(v.)
+contract|We signed a two-year contract.|我們簽了兩年的合約。|agreement, deal|—|v.:感染（疾病）；收縮|sign a contract, contract terms|contractor(n.)
+negotiate|We negotiated a lower price.|我們談到了更低的價格。|bargain, discuss|—|v.:通過、越過（障礙）|negotiate a deal, negotiate with|negotiation(n.)
+specification|The parts must meet our specifications.|零件必須符合我們的規格。|requirement, standard|—|—|technical specifications, meet specifications|specify(v.), specific(adj.)
+expedite|Can you expedite the shipment?|可以加速處理這批貨嗎？|speed up, hasten|delay|—|expedite delivery, expedite the process|—
+freight|Freight charges are included.|運費已包含在內。|cargo, shipping|—|—|freight charges, air freight|—
+courier|The documents will be sent by courier.|文件會以快遞寄送。|delivery service, messenger|—|v.:以快遞寄送|by courier, courier service|—
+confirm|Please confirm your reservation by email.|請以電子郵件確認您的預約。|verify, approve|cancel, deny|—|confirm a booking, confirm that|confirmation(n.)
+cancel|The flight was canceled due to weather.|班機因天候取消。|call off, scrap|confirm|—|cancel an order, cancel a meeting|cancellation(n.)
+itinerary|I'll email you the travel itinerary.|我會把行程表寄給你。|schedule, route|—|—|travel itinerary, detailed itinerary|—
+reservation|I have a reservation under the name Chen.|我用陳的名字訂了位。|booking|cancellation|n.:保留意見、疑慮|make a reservation, have reservations about|reserve(v.)
+accommodation|The price includes accommodation.|價格包含住宿。|lodging, housing|—|n.:通融、調解|hotel accommodation, find accommodation|accommodate(v.)
+depart|The train departs at 8:15.|火車 8:15 開。|leave, set off|arrive|v.:偏離 depart from|depart from, depart for|departure(n.)
+departure|Please arrive one hour before departure.|請在出發前一小時抵達。|leaving|arrival|n.:背離、偏離|departure time, departure gate|depart(v.)
+arrival|Our arrival was delayed by fog.|我們因為起霧延誤抵達。|coming|departure|n.:新來的人；新產品|arrival time, new arrivals|arrive(v.)
+boarding pass|Please show your boarding pass at the gate.|請在登機門出示登機證。|—|—|—|print a boarding pass, mobile boarding pass|board(v.)
+luggage|You may bring one piece of carry-on luggage.|你可以攜帶一件隨身行李。|baggage, bags|—|—|carry-on luggage, luggage allowance|—
+destination|Tokyo is a popular travel destination.|東京是熱門的旅遊目的地。|end point|origin|—|final destination, tourist destination|—
+delay|There is a two-hour delay.|延誤了兩個小時。|holdup, postponement|—|v.:延後|without delay, flight delay|delayed(adj.)
+fare|How much is the bus fare?|公車車資多少？|ticket price, fee|—|v.:進展 fare well|bus fare, round-trip fare|—
+round-trip|A round-trip ticket is cheaper.|來回票比較便宜。|return|one-way|—|round-trip ticket, round-trip flight|—
+check in|You can check in online 24 hours before.|你可以提前 24 小時線上報到。|register|check out|n.:check-in 報到手續|check in at the hotel, check-in counter|—
+connecting flight|I missed my connecting flight.|我錯過了轉機航班。|connection|direct flight|—|catch a connecting flight, miss a connection|—
+aisle|Would you like an aisle seat?|您想要靠走道的座位嗎？|passage, walkway|—|n.:（超市）貨架走道|aisle seat, in aisle 5|—
+customs|We went through customs quickly.|我們很快就通過了海關。|border control|—|n.:風俗習慣|go through customs, customs declaration|custom(n.)
+passport|Your passport must be valid for six months.|護照效期必須在六個月以上。|travel document|—|n.:途徑 passport to success|renew a passport, passport control|—
+book|I booked a table for four.|我訂了四人的位子。|reserve|cancel|n.:書|book a flight, fully booked|booking(n.)
+rental|Car rental is included in the package.|套裝行程包含租車。|lease, hire|—|n.:租金|car rental, rental fee|rent(v.)
+commute|My commute takes about an hour.|我通勤大約要一個小時。|journey to work|—|v.:減刑|daily commute, commute to work|commuter(n.)
+transportation|Public transportation is very convenient here.|這裡的大眾運輸很方便。|transport, transit|—|—|public transportation, means of transportation|transport(v.)
+excursion|We joined a half-day excursion.|我們參加了半日遊。|trip, outing|—|—|day excursion, go on an excursion|—
+brochure|Please take a brochure at the desk.|請到櫃檯拿一份簡介手冊。|pamphlet, leaflet|—|—|travel brochure, product brochure|—
+complimentary|Breakfast is complimentary.|早餐免費。|free, on the house|paid|adj.:讚美的|complimentary breakfast, complimentary tickets|compliment(n./v.)
+amenities|The hotel has excellent amenities.|這間飯店的設施很完善。|facilities, conveniences|—|—|hotel amenities, modern amenities|—
+assemble|The parts are assembled in Vietnam.|零件在越南組裝。|put together, build|disassemble|v.:集合、聚集|assemble a product, assemble a team|assembly(n.)
+equipment|The lab bought new equipment.|實驗室買了新設備。|apparatus, gear|—|—|office equipment, safety equipment|equip(v.)
+machinery|The factory uses heavy machinery.|工廠使用重型機械。|machines, equipment|—|n.:（組織的）機制|heavy machinery, operate machinery|machine(n.)
+manufacture|We manufacture auto parts.|我們製造汽車零件。|produce, make|—|n.:製造業|manufacture goods, date of manufacture|manufacturer(n.), manufacturing(n.)
+production|Production will start next month.|下個月開始生產。|manufacturing, output|consumption|n.:（電影、戲劇）作品|production line, mass production|produce(v.), productive(adj.)
+capacity|The plant is running at full capacity.|工廠正滿載生產。|volume, ability|—|n.:身分、職位 in one's capacity as|full capacity, seating capacity|—
+defect|Each unit is checked for defects.|每個產品都會檢查是否有瑕疵。|flaw, fault|—|v.:叛逃|product defect, free of defects|defective(adj.)
+inspect|Inspectors inspect the products daily.|檢查員每天檢查產品。|examine, check|—|—|inspect equipment, inspect for damage|inspection(n.), inspector(n.)
+inspection|The building passed the safety inspection.|大樓通過了安全檢查。|examination, check|—|—|safety inspection, on inspection|inspect(v.)
+quality control|Quality control is done at every stage.|每個階段都會做品質管制。|QC, quality assurance|—|—|quality control process, strict quality control|—
+maintenance|The elevator is closed for maintenance.|電梯因維修保養暫停使用。|upkeep, servicing|—|n.:贍養費|routine maintenance, maintenance staff|maintain(v.)
+malfunction|The printer malfunctioned again.|印表機又故障了。|break down, fail|work properly|—|equipment malfunction, system malfunction|—
+procedure|Please follow the safety procedures.|請遵守安全程序。|process, method|—|n.:手術|standard procedure, follow procedures|procedural(adj.)
+safety|Wear safety glasses at all times.|請隨時配戴安全護目鏡。|security, protection|danger|—|safety regulations, for safety reasons|safe(adj.)
+regulation|New regulations take effect in January.|新法規一月生效。|rule, law|—|n.:調節、管理|safety regulations, comply with regulations|regulate(v.)
+comply with|All products must comply with EU standards.|所有產品都必須符合歐盟標準。|follow, obey|violate|—|comply with rules, comply with a request|compliance(n.)
+standard|The product meets international standards.|這項產品符合國際標準。|norm, benchmark|—|adj.:標準的、一般的|meet standards, standard procedure|standardize(v.)
+output|Output increased by 20%.|產量增加了 20%。|production, yield|input|n.:輸出（電腦）|daily output, increase output|—
+material|We use recycled materials.|我們使用回收材料。|substance, matter|—|n.:資料、素材|raw materials, training materials|materialize(v.)
+plant|The company is building a new plant.|公司正在興建新工廠。|factory, facility|—|n.:植物；v.:種植|power plant, manufacturing plant|—
+automate|We automated the packing process.|我們把包裝流程自動化了。|mechanize|—|—|automate a process, fully automated|automation(n.), automatic(adj.)
+efficiency|The new layout improves efficiency.|新的配置提高了效率。|productivity|inefficiency|—|improve efficiency, energy efficiency|efficient(adj.)
+prototype|We tested the prototype last week.|我們上週測試了原型機。|model, sample|—|—|build a prototype, prototype design|—
+upgrade|We need to upgrade our software.|我們需要升級軟體。|improve, update|downgrade|n.:（座位、房型）升等|upgrade the system, get an upgrade|—
+install|The technician will install the new system.|技術人員會安裝新系統。|set up, fit|uninstall, remove|v.:使就職|install software, install equipment|installation(n.)
+agreement|Both parties signed the agreement.|雙方都簽署了協議。|contract, deal|disagreement|n.:同意、一致|reach an agreement, in agreement|agree(v.)
+terms|Please read the terms carefully.|請仔細閱讀條款。|conditions, provisions|—|n.:用語；in terms of 就…而言|terms and conditions, payment terms|—
+clause|There is a clause about late payment.|有一條關於延遲付款的條款。|provision, article|—|n.:子句（文法）|contract clause, include a clause|—
+sign|Please sign here.|請在這裡簽名。|endorse, autograph|—|n.:標誌；跡象|sign a contract, sign up for|signature(n.)
+signature|We need your signature on this form.|這份表格需要您的簽名。|autograph|—|adj.:代表性的 signature dish|electronic signature, signature dish|sign(v.)
+renew|I need to renew my contract.|我需要續約。|extend, update|cancel|v.:更新、恢復|renew a contract, renew a subscription|renewal(n.), renewable(adj.)
+expire|My passport expires next month.|我的護照下個月到期。|end, run out|—|v.:去世（正式）|expire on, expiration date|expiration(n.)
+valid|This ticket is valid for one year.|這張票一年內有效。|effective, legitimate|invalid|adj.:合理的、有根據的|valid ID, valid point|validity(n.), validate(v.)
+obligation|We have an obligation to protect data.|我們有義務保護資料。|duty, responsibility|—|—|legal obligation, without obligation|oblige(v.), obligatory(adj.)
+liability|The company denied liability.|公司否認負有責任。|responsibility|—|n.:負債；累贅|limited liability, accept liability|liable(adj.)
+breach|That would be a breach of contract.|那會構成違約。|violation, infringement|compliance|v.:違反；突破|breach of contract, data breach|—
+draft|I'll send you the first draft.|我會把初稿寄給你。|version, outline|final version|v.:徵召|first draft, draft a proposal|—
+amend|The contract was amended twice.|合約修改過兩次。|revise, modify|—|—|amend a contract, amend the law|amendment(n.)
+binding|This agreement is legally binding.|本協議具法律約束力。|enforceable|non-binding|n.:裝訂|legally binding, binding agreement|bind(v.)
+confidential|This information is strictly confidential.|這份資訊屬於高度機密。|private, classified|public|—|confidential information, keep confidential|confidentiality(n.)
+authorize|Only managers can authorize refunds.|只有經理可以授權退款。|approve, permit|forbid|—|authorize payment, authorized dealer|authorization(n.)
+permit|You need a permit to park here.|在這裡停車需要許可證。|license, pass|ban|v.:允許|work permit, permit sb to do|permission(n.)
+policy|Our return policy is 30 days.|我們的退貨期限是 30 天。|rule, guideline|—|n.:保單|return policy, insurance policy|—
+warranty|The laptop has a two-year warranty.|這台筆電有兩年保固。|guarantee|—|—|under warranty, extended warranty|warrant(v.)
+guarantee|We guarantee delivery within 48 hours.|我們保證 48 小時內送達。|promise, assure|—|n.:保證書；擔保|money-back guarantee, guarantee that|—
+dispute|The dispute was settled out of court.|這起爭議在庭外和解。|disagreement, conflict|agreement|v.:對…提出異議|settle a dispute, labor dispute|disputable(adj.)
+legal|Please consult our legal team.|請諮詢我們的法務團隊。|lawful, legitimate|illegal|—|legal advice, legal action|legally(adv.), legalize(v.)
+party|Both parties must agree to changes.|任何變更都需雙方同意。|side, participant|—|n.:派對；政黨|third party, the parties involved|—
+effective|The new rules are effective from May 1.|新規定從五月一日起生效。|in effect, valid|—|adj.:有效的、有成效的|effective immediately, effective solution|effectively(adv.), effectiveness(n.)
+terminate|They terminated the contract early.|他們提前終止了合約。|end, cancel|begin, renew|v.:解雇|terminate a contract, terminate employment|termination(n.)
+complaint|We received a complaint about the noise.|我們收到關於噪音的客訴。|grievance, criticism|praise|n.:病痛|file a complaint, customer complaint|complain(v.)
+inquiry|Thank you for your inquiry.|感謝您的詢問。|question, query|reply|n.:調查|make an inquiry, inquiry about|inquire(v.)
+respond|We will respond within 24 hours.|我們會在 24 小時內回覆。|reply, answer|ignore|v.:（對治療）有反應|respond to, respond quickly|response(n.), responsive(adj.)
+resolve|We resolved the issue quickly.|我們很快解決了這個問題。|solve, settle|—|v.:下定決心|resolve a problem, resolve to do|resolution(n.)
+satisfaction|Customer satisfaction is our goal.|顧客滿意是我們的目標。|contentment|dissatisfaction|—|customer satisfaction, job satisfaction|satisfy(v.), satisfied(adj.)
+apologize|We apologize for the delay.|造成延誤，我們深感抱歉。|say sorry|—|—|apologize for, apologize to sb|apology(n.)
+inconvenience|Sorry for any inconvenience.|造成任何不便，敬請見諒。|trouble, bother|convenience|v.:造成不便|cause inconvenience, apologize for the inconvenience|inconvenient(adj.)
+assistance|Please let us know if you need assistance.|如果需要協助請告訴我們。|help, support|—|—|technical assistance, be of assistance|assist(v.), assistant(n.)
+feedback|We welcome your feedback.|歡迎您提供意見。|comments, response|—|—|positive feedback, give feedback|—
+replace|We will replace the damaged item.|我們會更換損壞的商品。|substitute, exchange|—|v.:取代|replace A with B, replace a part|replacement(n.)
+exchange|You may exchange items within 14 days.|14 天內可以換貨。|swap, trade|—|n.:交流；匯兌|exchange rate, in exchange for|—
+representative|A sales representative will call you.|業務代表會打電話給您。|agent, rep|—|adj.:具代表性的|customer service representative, sales representative|represent(v.)
+available|The manager is not available right now.|經理現在沒空。|free, accessible|unavailable, busy|adj.:可取得的|available for, readily available|availability(n.)
+appreciate|We appreciate your patience.|感謝您的耐心。|value, be grateful for|—|v.:增值；理解|appreciate your help, appreciate in value|appreciation(n.)
+courteous|The staff were courteous and helpful.|員工很有禮貌又樂於助人。|polite, respectful|rude|—|courteous service, courteous staff|courtesy(n.)
+prompt|Thank you for your prompt reply.|謝謝您的迅速回覆。|quick, immediate|slow, delayed|v.:促使；n.:提示|prompt reply, prompt payment|promptly(adv.)
+via|We'll contact you via email.|我們會透過電子郵件聯絡您。|through, by way of|—|prep.:經過（某地）|via email, fly via Hong Kong|—
+regarding|I'm writing regarding your order.|我來信是關於您的訂單。|about, concerning|—|—|regarding your inquiry, questions regarding|regard(v./n.)
+further|For further details, call us.|欲知更多細節請來電。|additional, more|—|adv.:更遠；v.:促進|further information, until further notice|furthermore(adv.)
+attention|Attention: all passengers.|各位旅客請注意。|notice, focus|—|n.:（信件）收件人 Attn.|pay attention to, attention to detail|attentive(adj.)
+accommodate|We can accommodate groups of up to 50.|我們最多可容納 50 人的團體。|hold, serve|—|v.:配合、遷就|accommodate a request, accommodate guests|accommodation(n.)
+convenient|Is 3 p.m. convenient for you?|下午三點你方便嗎？|suitable, handy|inconvenient|—|convenient time, convenient location|convenience(n.)
+on behalf of|I'm calling on behalf of Mr. Lee.|我代表李先生打電話來。|representing, for|—|—|on behalf of the company, act on behalf of|—
+get back to|I'll get back to you tomorrow.|我明天回覆你。|reply to, call back|—|v.:回到（某事）|get back to sb, get back to work|—
+look into|We will look into the matter.|我們會調查這件事。|investigate, examine|ignore|—|look into a problem, look into the possibility|—`;
+let BUILTIN = null;
+function builtinFor(word){
+  if (!BUILTIN){
+    BUILTIN = {};
+    const none = s => !s || s.trim() === '—';
+    const list = s => none(s) ? [] : s.split(/,\s*/).map(x => x.trim()).filter(Boolean);
+    STARTER_DETAIL_RAW.split('\n').forEach(l => {
+      const p = l.split('|'); if (p.length < 8) return;
+      BUILTIN[p[0].trim().toLowerCase()] = {
+        ex: [{en: p[1].trim(), zh: p[2].trim()}],
+        syn: list(p[3]).map(w => ({w, note: ''})), ant: list(p[4]),
+        senses: none(p[5]) ? [] : p[5].split(';').map(s => { const i = s.indexOf(':'); return {pos: s.slice(0, i).trim(), meaning: s.slice(i + 1).trim(), en: ''}; }),
+        coll: list(p[6]),
+        forms: list(p[7]).map(f => { const m = f.match(/^(.+?)\((.+)\)$/); return m ? {word: m[1].trim(), pos: m[2], meaning: ''} : {word: f, pos: '', meaning: ''}; })
+      };
+    });
+  }
+  return BUILTIN[String(word || '').trim().toLowerCase()];
+}
+function applyBuiltin(c){
+  if (c.ai || c.builtin) return false;
+  const d = builtinFor(c.word); if (!d) return false;
+  const b = JSON.parse(JSON.stringify(d));
+  if (!c.ex.length) c.ex = b.ex;
+  if (!c.syn.length) c.syn = b.syn;
+  if (!c.ant.length) c.ant = b.ant;
+  if (!c.senses.length) c.senses = b.senses;
+  if (!c.coll.length) c.coll = b.coll;
+  if (!c.forms.length) c.forms = b.forms;
+  c.builtin = true;
+  return true;
+}
 /* ---------- time ---------- */
 function dayStartOf(t){ const d = new Date(t - ROLL); d.setHours(0,0,0,0); return d.getTime() + ROLL; }
 function dayKey(t){ const d = new Date(t - ROLL); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
@@ -844,6 +1135,8 @@ const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeou
 function finishLoad(m, note){
   loaded = true; mode = m;
   if (note) showNotice(note); else $('#notice').classList.remove('on');
+  let fixed = 0; for (const c of S.cards) if (applyBuiltin(c)){ dirty.chunks.add(c.ck); fixed++; }
+  if (fixed) markDirty();
   setStatus(); fillSettings(); refreshAll(); renderClass(); renderAccount(); renderMeChip();
 }
 async function boot(){
@@ -925,10 +1218,12 @@ function renderAccount(){
   if (!FBX){ el.innerHTML = `<div class="box"><h2>帳號</h2><p class="muted">${FB_FAIL ? '無法連線到資料庫。' : '尚未設定 Firebase，無法登入。請依 README 完成設定後重新整理。'}</p></div>`; return; }
   if (!ACCOUNT){ el.innerHTML = ''; return; }
   const anon = ACCOUNT.isAnonymous;
-  el.innerHTML = `<div class="box"><div class="row" style="gap:14px"><span class="av big">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><div style="flex:1"><div style="font-size:1.2rem">${esc(S.settings.nick || '尚未設定暱稱')}</div><div class="tiny muted">${anon ? '匿名帳號（資料綁定在這個瀏覽器）' : 'Google 帳號' + (ACCOUNT.email ? '・' + esc(ACCOUNT.email) : '') + '（可在任何裝置登入）'}</div></div><button class="btn small" id="accEdit">更換暱稱／頭像</button></div></div>
+  el.innerHTML = `<div class="box"><div class="row" style="gap:14px"><span class="av big">${avatarSVG(S.settings.avatar, S.settings.nick)}</span><div style="flex:1"><div style="font-size:1.2rem">${esc(S.settings.nick || '尚未設定暱稱')}</div><div class="tiny muted">${anon ? '匿名帳號（資料綁定在這個瀏覽器）' : 'Google 帳號' + (ACCOUNT.email ? '・' + esc(ACCOUNT.email) : '') + '（可在任何裝置登入）'}</div></div><button class="btn small" id="accEdit">更換暱稱／頭像</button></div>
+      <div class="tiny muted" style="margin-top:12px">使用者 ID：<code id="accUid">${esc(UID)}</code> <button class="btn small" id="accCopyUid">複製</button>${SOC.siteAdmin ? ' <span class="role">網站管理員</span>' : ''}</div></div>
     <div class="box"><h2>跨裝置使用</h2>${anon ? `<p class="tiny muted" style="margin:4px 0 10px">匿名帳號免註冊，但只存在這個瀏覽器；清除瀏覽資料或換手機就找不回來。綁定 Google 帳號後，目前所有單字與進度都會保留，之後在其他裝置用同一個 Google 帳號登入即可。</p><button class="btn pri" id="accLink">綁定 Google 帳號</button>` : '<p class="tiny muted" style="margin:4px 0 0">已綁定 Google，在其他裝置用同一個 Google 帳號登入即可看到相同資料。</p>'}<div class="tiny muted" id="accMsg" style="margin-top:8px"></div></div>
     <div class="box"><h2>登出</h2><p class="tiny muted" style="margin:4px 0 10px">${anon ? '<b>注意：</b>匿名帳號登出後就無法再登入回來，資料會遺失。請先綁定 Google 帳號或下載備份。' : '登出後可隨時用 Google 帳號登入回來。'}</p><button class="btn danger" id="accOut">登出</button></div>`;
   $('#accEdit').onclick = () => openProfile(false);
+  $('#accCopyUid').onclick = async () => { try { await navigator.clipboard.writeText(UID); toast('已複製使用者 ID'); } catch(e){ toast('請手動選取複製'); } };
   if ($('#accLink')) $('#accLink').onclick = async () => {
     $('#accMsg').innerHTML = '<span class="spin"></span> 綁定中…';
     try { const r = await FBX.linkGoogle(); ACCOUNT = r.user || FBX.user(); renderAccount(); toast('已綁定 Google 帳號'); }
@@ -961,8 +1256,17 @@ function parseJSONLoose(t){
 }
 function makeAI(){
   const key = lsGet(AI_KEY_LS); if (!key) return null;
-  const model = lsGet(AI_MODEL_LS) || AI_DEFAULT_MODEL;
+  const models = [...new Set([lsGet(AI_MODEL_LS) || AI_DEFAULT_MODEL, 'gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'])];
   const json = async (prompt, opts = {}) => {
+    const ok = lsGet('vocab-gemini-ok');
+    const order = ok && models.includes(ok) ? [ok, ...models.filter(m => m !== ok)] : models;
+    for (const m of order){
+      try { const r = await callModel(m, prompt, opts); if (m !== ok){ try { localStorage.setItem('vocab-gemini-ok', m); } catch(e){} } return r; }
+      catch(e){ if (e && e.code === 'bad_model') continue; throw e; }
+    }
+    throw {code: 'bad_model'};
+  };
+  const callModel = async (model, prompt, opts) => {
     let res;
     try {
       res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
@@ -983,7 +1287,7 @@ function makeAI(){
     const cand = (data.candidates || [])[0];
     if (!cand){ throw {code: (data.promptFeedback && data.promptFeedback.blockReason) ? 'refused' : 'empty_completion'}; }
     if (cand.finishReason === 'SAFETY') throw {code: 'refused'};
-    const text = ((cand.content && cand.content.parts) || []).map(p => p.text || '').join('');
+    const text = ((cand.content && cand.content.parts) || []).filter(p => !p.thought).map(p => p.text || '').join('');
     if (!text.trim()) throw {code: 'empty_completion'};
     return parseJSONLoose(text);
   };
@@ -1076,6 +1380,7 @@ async function runEnrich(){
       if ($('#p-browse').classList.contains('on')) renderBrowse();
     } catch(e){
       const msg = aiErr(e); if (e && e.code !== 'cancelled') toast(msg);
+      batch.forEach(c => lazySent.delete(c.id)); enrichQ.forEach(id => lazySent.delete(id));
       enrichQ.length = 0; break;
     }
   }
@@ -1203,6 +1508,9 @@ async function initSocial(){
   if (mode !== 'cloud' || !DB || !UID) { renderClass(); return; }
   SOC.ro = false;
   SOC.me = UID;
+  SOC.siteAdmin = false;
+  try { const s = await DB.doc('admins/' + UID).get(); SOC.siteAdmin = !!s.exists; } catch(e){}
+  $('#adminTabBtn').style.display = SOC.siteAdmin ? '' : 'none';
   SOC.ready = true;
   if (!S.settings.classes) S.settings.classes = [];
   const cur = S.settings.curClass && S.settings.classes.find(c => c.code === S.settings.curClass) ? S.settings.curClass : (S.settings.classes[0] || {}).code;
@@ -1216,7 +1524,14 @@ function openClass(code){
   S.settings.curClass = code; markDirty();
   SOC.members = []; SOC.sets = []; SOC.games = [];
   const err = e => { socErr(e); };
-  SOC.unsubs.push(clsRef(code).onSnapshot(s => { if (s.exists){ SOC.cls.meta = s.data(); SOC.cls.name = SOC.cls.meta.name || code; renderClass(); } }, err));
+  SOC.unsubs.push(clsRef(code).onSnapshot(s => {
+    if (!SOC.cls || SOC.cls.code !== code) return;
+    if (!s.exists){ toast('這個班級已被刪除'); dropClass(code); return; }
+    SOC.cls.meta = s.data(); SOC.cls.name = SOC.cls.meta.name || code;
+    if (arr(SOC.cls.meta.banned).includes(SOC.me) && !SOC.siteAdmin){ toast('你已被管理員移出這個班級'); dropClass(code); return; }
+    const mine = (S.settings.classes || []).find(c => c.code === code); if (mine && mine.name !== SOC.cls.name){ mine.name = SOC.cls.name; markDirty(); }
+    renderClass();
+  }, err));
   SOC.unsubs.push(DB.collection('classes/' + code + '/members').onSnapshot(s => { SOC.members = s.docs.map(d => ({id: d.id, ...d.data()})); renderClass(); }, err));
   SOC.unsubs.push(DB.collection('classes/' + code + '/sets').onSnapshot(s => { SOC.sets = s.docs.map(d => ({id: d.id, ...d.data()})); renderClass(); autoSync(); }, err));
   SOC.unsubs.push(DB.collection('classes/' + code + '/games').orderBy('created', 'desc').limit(12).onSnapshot(s => { SOC.games = s.docs.map(d => ({id: d.id, ...d.data()})); renderClass(); }, err));
@@ -1237,10 +1552,21 @@ async function joinClass(){
   try {
     const s = await clsRef(code).get();
     if (!s.exists){ toast('找不到這個班級，請確認邀請碼'); return; }
+    if (arr(s.data().banned).includes(SOC.me)){ toast('你已被這個班級的管理員移出，無法加入'); return; }
     S.settings.classes = [...(S.settings.classes || []), {code, name: s.data().name || code}]; markDirty();
     openClass(code); pushProfile(); toast(`已加入「${s.data().name}」`);
   } catch(e){ toast(socErr(e)); }
 }
+function dropClass(code){
+  S.settings.classes = (S.settings.classes || []).filter(c => c.code !== code);
+  S.settings.subs = (S.settings.subs || []).filter(s => s.cls !== code);
+  markDirty();
+  if (SOC.cls && SOC.cls.code === code){ leaveListeners(); closeGame(true); SOC.cls = null; }
+  const next = S.settings.classes[0]; if (next) openClass(next.code); else renderClass();
+}
+const clsMeta = () => (SOC.cls && SOC.cls.meta) || {};
+const isClassOwner = (meta = clsMeta()) => SOC.siteAdmin || meta.owner === SOC.me;
+const isClassAdmin = (meta = clsMeta()) => isClassOwner(meta) || arr(meta.admins).includes(SOC.me);
 let leaveArmed = false;
 async function leaveClass(btn){
   if (!SOC.cls) return;
@@ -1503,7 +1829,8 @@ function renderClass(){
     area.innerHTML = ro + `<div class="box"><h2>我的名片</h2>${nickRow()}</div>` + joinBox;
     bindClassCommon(); return;
   }
-  const subs = [['board', '排行榜'], ['sets', '學習集'], ['games', '對戰遊戲'], ['history', '對戰紀錄']];
+  const subs = [['board', '排行榜'], ['sets', '學習集'], ['games', '對戰遊戲'], ['history', '對戰紀錄'], ...(isClassAdmin() ? [['manage', '管理']] : [])];
+  if (SOC.sub === 'manage' && !isClassAdmin()) SOC.sub = 'board';
   area.innerHTML = ro + `<div class="box">
       <div class="row spread"><div class="row" style="gap:8px"><select id="clsSel" style="width:auto">${classes.map(c => `<option value="${esc(c.code)}"${c.code === SOC.cls.code ? ' selected' : ''}>${esc(c.code === SOC.cls.code ? SOC.cls.name : c.name)}</option>`).join('')}</select>
       <span class="tiny muted">邀請碼</span><b class="code" id="clsCodeShow">${esc(SOC.cls.code)}</b><button class="btn small" id="clsCopy">複製</button></div>
@@ -1521,6 +1848,7 @@ function renderClass(){
   if (SOC.sub === 'board') renderBoard();
   else if (SOC.sub === 'sets') renderSets();
   else if (SOC.sub === 'history') renderHistory();
+  else if (SOC.sub === 'manage') renderManage(SOC.cls.code, $('#clsSub'));
   else if (SOC.game) renderGame(); else renderGameList();
 }
 function nickRow(){
@@ -1541,7 +1869,7 @@ async function renderBoard(){
   if (!$('#clsSub') || SOC.sub !== 'board') return;
   const rows = ms.map(m => ({...m, xpW: m.week === wk ? (m.xp || 0) : 0, todayN: m.day === dk ? (m.today || 0) : 0})).sort((a, b) => b.xpW - a.xpW || b.todayN - a.todayN);
   $('#clsSub').innerHTML = `<div class="box"><div class="row spread"><h2>本週排行</h2><span class="tiny muted">複習、練習、遊戲都會累積 XP・每週一重新計算</span></div>
-    <div class="board">${rows.map((m, i) => { const p = names[m.id]; return `<div class="brow${p.me ? ' me' : ''}"><span class="rank">${i + 1}</span>${avatarHTML(p)}<span class="bname">${esc(p.name)}${p.me ? '（我）' : ''}</span>
+    <div class="board">${rows.map((m, i) => { const p = names[m.id]; return `<div class="brow${p.me ? ' me' : ''}"><span class="rank">${i + 1}</span>${avatarHTML(p)}<span class="bname">${esc(p.name)}${p.me ? '（我）' : ''}${roleTag(m.id, clsMeta())}</span>
       <span class="bstat"><b>${m.hidden ? '—' : m.xpW}</b><small>本週 XP</small></span><span class="bstat"><b>${m.hidden ? '—' : m.todayN}</b><small>今日複習</small></span><span class="bstat"><b>${m.hidden ? '—' : (m.streak || 0)}</b><small>連續天數</small></span><span class="bstat hide-sm"><b>${m.hidden ? '—' : (m.learned || 0)}</b><small>已學字數</small></span></div>`; }).join('') || '<p class="muted">還沒有成員，把邀請碼傳給同學吧。</p>'}</div></div>`;
 }
 async function renderSets(){
@@ -1675,6 +2003,109 @@ function renderGame(){
 }
 function startPlayPractice(){ SOC.game.noWrite = true; startPlay(); }
 
+
+/* ---------- admin ---------- */
+const roleTag = (id, meta) => meta.owner === id ? ' <span class="role">建立者</span>' : arr(meta.admins).includes(id) ? ' <span class="role">管理員</span>' : '';
+async function deleteSet(code, set){
+  for (let i = 0; i < (set.parts || 0); i++) await DB.doc(`classes/${code}/sets/${set.id}/parts/p${i}`).delete();
+  await DB.doc(`classes/${code}/sets/${set.id}`).delete();
+}
+async function deleteGame(code, gid){
+  const ps = await DB.collection(`classes/${code}/games/${gid}/players`).get();
+  for (const d of ps.docs) await DB.doc(`classes/${code}/games/${gid}/players/${d.id}`).delete();
+  await DB.doc(`classes/${code}/games/${gid}`).delete();
+}
+async function deleteClassAll(code, progress){
+  const sets = (await DB.collection(`classes/${code}/sets`).get()).docs.map(d => ({id: d.id, ...d.data()}));
+  for (const s of sets){ progress('刪除學習集「' + (s.name || '') + '」'); await deleteSet(code, s); }
+  const games = (await DB.collection(`classes/${code}/games`).get()).docs;
+  for (let i = 0; i < games.length; i++){ progress(`刪除遊戲 ${i + 1}/${games.length}`); await deleteGame(code, games[i].id); }
+  const mem = (await DB.collection(`classes/${code}/members`).get()).docs;
+  progress('移除成員');
+  for (const d of mem) await DB.doc(`classes/${code}/members/${d.id}`).delete();
+  await DB.doc('classes/' + code).delete();
+}
+async function renderManage(code, el, opts = {}){
+  if (!el) return;
+  const tok = (el._tok = (el._tok || 0) + 1);
+  if (!el.innerHTML.includes('mgName')) el.innerHTML = '<div class="box loading">讀取管理資料…</div>';
+  let meta, members, sets, games;
+  try {
+    const cs = await DB.doc('classes/' + code).get();
+    if (!cs.exists){ el.innerHTML = '<div class="box">這個班級已不存在。</div>'; if (opts.onGone) opts.onGone(); return; }
+    meta = cs.data();
+    members = (await DB.collection(`classes/${code}/members`).get()).docs.map(d => ({id: d.id, ...d.data()}));
+    sets = (await DB.collection(`classes/${code}/sets`).get()).docs.map(d => ({id: d.id, ...d.data()}));
+    games = (await DB.collection(`classes/${code}/games`).orderBy('created', 'desc').get()).docs.map(d => ({id: d.id, ...d.data()}));
+  } catch(e){ if (el._tok === tok) el.innerHTML = `<div class="box">${esc(socErr(e))}</div>`; return; }
+  if (el._tok !== tok || !el.isConnected) return;
+  if (!isClassAdmin(meta)){ el.innerHTML = '<div class="box">只有班級建立者與管理員可以使用管理功能。</div>'; return; }
+  const owner = isClassOwner(meta);
+  const nm = id => { const m = members.find(x => x.id === id); return (id === SOC.me && S.settings.nick) || (m && m.nick) || (meta.bannedNick && meta.bannedNick[id]) || '同學'; };
+  const av = id => { const m = members.find(x => x.id === id); return avatarSVG((id === SOC.me && S.settings.avatar) || (m && m.avatar) || '', nm(id)); };
+  const banned = arr(meta.banned);
+  const old = games.filter(g => Date.now() - (g.created || 0) > 30 * DAY);
+  const re = () => renderManage(code, el, opts);
+  const run = async (fn, okMsg) => { try { await fn(); if (okMsg) toast(okMsg); } catch(e){ toast(socErr(e)); } re(); };
+  el.innerHTML = `
+    <div class="box"><h2>班級設定</h2>
+      <div class="row" style="margin-top:8px"><input type="text" id="mgName" value="${esc(meta.name || '')}" maxlength="30" style="flex:1;min-width:160px"><button class="btn small" id="mgRename">更改名稱</button></div>
+      <p class="tiny muted" style="margin:8px 0 0">邀請碼 <b class="code">${esc(code)}</b>・建立者：${esc(nm(meta.owner))}・${members.length} 位成員・${new Date(meta.created || 0).toLocaleDateString('zh-TW')} 建立</p>
+      <p class="tiny muted" style="margin:6px 0 0">管理員可以管理成員、學習集與遊戲；看不到任何人的個人複習進度。${owner ? '只有建立者（與網站管理員）可以指派管理員或刪除班級。' : ''}</p></div>
+    <div class="box"><h2>成員（${members.length}）</h2><div class="board">${members.sort((a, b) => (b.id === meta.owner) - (a.id === meta.owner) || arr(meta.admins).includes(b.id) - arr(meta.admins).includes(a.id)).map(m => {
+      const isOwner = m.id === meta.owner, isAdm = arr(meta.admins).includes(m.id), me = m.id === SOC.me;
+      return `<div class="brow"><span class="av">${av(m.id)}</span><span class="bname">${esc(nm(m.id))}${me ? '（我）' : ''}${roleTag(m.id, meta)}<br><span class="tiny muted">最近活動：${m.updated ? relTime(m.updated) : '—'}</span></span>
+        ${owner && !isOwner ? `<button class="btn small" data-adm="${esc(m.id)}">${isAdm ? '取消管理員' : '設為管理員'}</button>` : ''}
+        ${!isOwner && !me && (owner || !isAdm) ? `<button class="btn small danger" data-kick="${esc(m.id)}">移出</button>` : ''}</div>`; }).join('')}</div>
+      ${banned.length ? `<h3>已移出的成員（${banned.length}）</h3><div class="board">${banned.map(id => `<div class="brow"><span class="bname">${esc((meta.bannedNick || {})[id] || '同學')}</span><button class="btn small" data-unban="${esc(id)}">允許重新加入</button></div>`).join('')}</div>` : ''}</div>
+    <div class="box"><h2>學習集（${sets.length}）</h2><div class="list">${sets.map(s => `<div class="item" style="cursor:default"><div><b>${esc(s.name)}</b> <span class="tiny muted">${s.count || 0} 字・${esc(nm(s.owner))} 分享</span></div><button class="btn small danger" data-delset="${esc(s.id)}" style="align-self:center">刪除</button></div>`).join('') || '<p class="muted">沒有學習集。</p>'}</div>
+      <p class="tiny muted" style="margin:8px 0 0">刪除學習集不會影響已加入的成員；他們單字庫裡的字與進度都會保留。</p></div>
+    <div class="box"><div class="row spread"><h2>對戰遊戲（${games.length}）</h2>${old.length ? `<button class="btn small danger" id="mgOld">清除 30 天前的遊戲（${old.length}）</button>` : ''}</div><div class="list">${games.slice(0, 20).map(g => `<div class="item" style="cursor:default"><div><b>${esc(g.title)}</b> <span class="tiny muted">${esc(nm(g.host))}・${relTime(g.created)}・${Object.keys(g.results || {}).length} 人完成</span></div><button class="btn small danger" data-delgame="${esc(g.id)}" style="align-self:center">刪除</button></div>`).join('') || '<p class="muted">沒有遊戲。</p>'}</div>
+      <p class="tiny muted" style="margin:8px 0 0">刪除遊戲也會刪除該場的對戰紀錄。</p></div>
+    ${owner ? `<div class="box" style="border-color:#c2453d"><h2>危險區</h2><p class="tiny muted" style="margin:4px 0 10px">刪除班級會移除所有成員名單、學習集與對戰紀錄，無法復原。每位成員自己的單字與複習進度不受影響。</p><button class="btn danger" id="mgDel">刪除班級</button><span class="tiny muted" id="mgDelMsg" style="margin-left:8px"></span></div>` : ''}`;
+  el.querySelector('#mgRename').onclick = () => { const n = el.querySelector('#mgName').value.trim(); if (!n){ toast('名稱不能空白'); return; } run(() => DB.doc('classes/' + code).update({name: n}), '已更改班級名稱'); };
+  el.querySelectorAll('[data-adm]').forEach(b => b.onclick = () => { const id = b.dataset.adm; const a = arr(meta.admins); run(() => DB.doc('classes/' + code).update({admins: a.includes(id) ? a.filter(x => x !== id) : [...a, id]}), a.includes(id) ? '已取消管理員' : '已設為管理員'); });
+  el.querySelectorAll('[data-kick]').forEach(b => { let armed = false; b.onclick = () => {
+    if (!armed){ armed = true; b.textContent = '確定移出？'; return; }
+    const id = b.dataset.kick;
+    run(async () => { await DB.doc('classes/' + code).update({banned: [...new Set([...banned, id])], ['bannedNick.' + id]: nm(id), admins: arr(meta.admins).filter(x => x !== id)}); await DB.doc(`classes/${code}/members/${id}`).delete(); }, '已移出成員');
+  }; });
+  el.querySelectorAll('[data-unban]').forEach(b => b.onclick = () => { const id = b.dataset.unban; run(() => DB.doc('classes/' + code).update({banned: banned.filter(x => x !== id)}), '已允許重新加入（對方需再次輸入邀請碼）'); });
+  el.querySelectorAll('[data-delset]').forEach(b => { let armed = false; b.onclick = () => { if (!armed){ armed = true; b.textContent = '確定刪除？'; return; } run(() => deleteSet(code, sets.find(s => s.id === b.dataset.delset)), '已刪除學習集'); }; });
+  el.querySelectorAll('[data-delgame]').forEach(b => { let armed = false; b.onclick = () => { if (!armed){ armed = true; b.textContent = '確定刪除？'; return; } histCache.at = 0; run(() => deleteGame(code, b.dataset.delgame), '已刪除遊戲'); }; });
+  if (el.querySelector('#mgOld')) { let armed = false; el.querySelector('#mgOld').onclick = e => { if (!armed){ armed = true; e.target.textContent = '確定清除？'; return; } histCache.at = 0; run(async () => { for (const g of old) await deleteGame(code, g.id); }, `已清除 ${old.length} 場舊遊戲`); }; }
+  if (el.querySelector('#mgDel')) { let step = 0; el.querySelector('#mgDel').onclick = async e => {
+    if (step === 0){ step = 1; e.target.textContent = '確定要刪除整個班級？'; return; }
+    if (step === 1){ step = 2; e.target.textContent = '最後確認：刪除'; return; }
+    e.target.disabled = true;
+    try { await deleteClassAll(code, t => { const m = el.querySelector('#mgDelMsg'); if (m) m.textContent = t + '…'; }); toast('班級已刪除'); if (opts.onGone) opts.onGone(); else dropClass(code); }
+    catch(err){ toast(socErr(err)); re(); }
+  }; }
+}
+async function renderSiteAdmin(){
+  const el = $('#adminArea'); if (!el) return;
+  if (!SOC.siteAdmin){ el.innerHTML = '<div class="box">只有網站管理員可以使用。</div>'; return; }
+  el.innerHTML = '<div class="box loading">讀取所有班級…</div>';
+  let list;
+  try {
+    list = (await DB.collection('classes').get()).docs.map(d => ({code: d.id, ...d.data()}));
+    for (const c of list){ const ms = await DB.collection(`classes/${c.code}/members`).get(); c.members = ms.docs.map(d => ({id: d.id, ...d.data()})); }
+  } catch(e){ el.innerHTML = `<div class="box">${esc(socErr(e))}</div>`; return; }
+  list.sort((a, b) => (b.created || 0) - (a.created || 0));
+  const totalMembers = new Set(list.flatMap(c => c.members.map(m => m.id))).size;
+  el.innerHTML = `<div class="grid4"><div class="stat"><b>${list.length}</b><span>班級數</span></div><div class="stat"><b>${totalMembers}</b><span>參加班級的人數</span></div><div class="stat"><b>${list.filter(c => c.members.some(m => Date.now() - (m.updated || 0) < 7 * DAY)).length}</b><span>本週有活動的班級</span></div><div class="stat"><b>${list.filter(c => !c.members.length).length}</b><span>沒有成員的班級</span></div></div>
+    <div class="box" style="margin-top:14px"><div class="row spread"><h2>所有班級</h2><button class="btn small" id="saRefresh">重新整理</button></div>
+    <p class="tiny muted" style="margin:4px 0 0">網站管理員可以管理任何班級（成員、學習集、遊戲、刪除班級），但看不到任何人的個人單字與複習進度。</p>
+    <div class="list">${list.map(c => { const o = c.members.find(m => m.id === c.owner); const last = Math.max(0, ...c.members.map(m => m.updated || 0));
+      return `<div class="item" style="cursor:default;grid-template-columns:1fr"><div class="row spread"><div><b>${esc(c.name || c.code)}</b> <span class="code">${esc(c.code)}</span><div class="tiny muted">建立者：${esc((o && o.nick) || '—')}・${c.members.length} 位成員・最近活動 ${last ? relTime(last) : '—'}</div></div><button class="btn small" data-sa="${esc(c.code)}">管理</button></div><div class="saBox" id="sa-${esc(c.code)}"></div></div>`; }).join('') || '<p class="muted">還沒有任何班級。</p>'}</div></div>`;
+  $('#saRefresh').onclick = renderSiteAdmin;
+  el.querySelectorAll('[data-sa]').forEach(b => b.onclick = () => {
+    const box = $('#sa-' + b.dataset.sa);
+    if (box.innerHTML){ box.innerHTML = ''; b.textContent = '管理'; return; }
+    b.textContent = '收合';
+    renderManage(b.dataset.sa, box, {onGone: () => { if (SOC.cls && SOC.cls.code === b.dataset.sa) dropClass(b.dataset.sa); setTimeout(renderSiteAdmin, 600); }});
+  });
+}
 /* ---------- speech ---------- */
 function speak(text){
   try {
@@ -1790,7 +2221,8 @@ function detailHTML(c){
   if (c.coll.length) out.push(`<div class="sec"><b>常用搭配</b><div class="chips">${c.coll.map(a => `<span class="chip" data-say="${esc(a)}" style="cursor:pointer">${highlight(a, c.word)}</span>`).join('')}</div></div>`);
   if (c.usage) out.push(`<div class="sec"><b>用法說明</b><div>${esc(c.usage)}</div></div>`);
   if (c.note) out.push(`<div class="sec"><b>我的筆記</b><div style="white-space:pre-wrap">${esc(c.note)}</div></div>`);
-  if (!c.ai && AI && !aiOff) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊這張卡</button></div>`);
+  if (!c.ai && AI) out.push(`<div class="sec" style="text-align:center"><button class="btn small ai" data-enrich="${c.id}">✨ 用 AI 補齊${c.builtin ? '更多細節（音標、用法說明、更多例句）' : '這張卡'}</button></div>`);
+  else if (!c.ai && !c.builtin) out.push(`<div class="sec tiny muted" style="text-align:center">這張卡還沒有例句、同反義字等細節。到「我的 → 設定與備份」填入免費的 Gemini 金鑰後，學到時會自動補齊。</div>`);
   return `<div class="detail">${out.join('')}</div>`;
 }
 function marksHTML(c){
@@ -1969,7 +2401,7 @@ function newCard(f, counts, order){
     deck: (f.deck || '').trim(), level: f.level || '', topic: f.topic || '', cat: f.cat || '', lazy: !!f.lazy, imp: f.imp, prac: f.prac, diff: f.diff, src: f.src || null, ai: false,
     state: 'new', step: 0, due: 0, ivl: 0, ease: 2.5, lapses: 0, reps: 0, created: Date.now(), order, ck: assignChunk(counts)};
   if (f.rich){ for (const k of SHARE_KEYS) if (f.rich[k] != null && f.rich[k] !== '') base[k] = f.rich[k]; base.userMeaning = false; }
-  return normalizeCard(base);
+  const nc = normalizeCard(base); applyBuiltin(nc); return nc;
 }
 function addCards(list){
   const counts = chunkCounts();
@@ -2397,6 +2829,7 @@ $('#saveSettings').onclick = () => {
 };
 $('#aiSave').onclick = async () => {
   const k = $('#aiKey').value.trim(), m = $('#aiModel').value.trim();
+  try { localStorage.removeItem('vocab-gemini-ok'); } catch(e){}
   if (!k){ $('#aiMsg').textContent = '請貼上 API 金鑰'; return; }
   try { localStorage.setItem(AI_KEY_LS, k); if (m) localStorage.setItem(AI_MODEL_LS, m); else localStorage.removeItem(AI_MODEL_LS); } catch(e){}
   setAI(makeAI());
@@ -2404,7 +2837,7 @@ $('#aiSave').onclick = async () => {
   try { const r = await AI.json('Reply with only this JSON: {"ok": true}'); $('#aiMsg').textContent = r && r.ok ? '✓ 連線成功，AI 功能已啟用' : '已儲存（回覆格式異常，可再試一次）'; }
   catch(e){ $('#aiMsg').textContent = '✗ ' + aiErr(e); }
 };
-$('#aiClear').onclick = () => { try { localStorage.removeItem(AI_KEY_LS); } catch(e){} $('#aiKey').value = ''; setAI(null); $('#aiMsg').textContent = '已清除金鑰'; };
+$('#aiClear').onclick = () => { try { localStorage.removeItem(AI_KEY_LS); localStorage.removeItem('vocab-gemini-ok'); } catch(e){} $('#aiKey').value = ''; setAI(null); $('#aiMsg').textContent = '已清除金鑰'; };
 const backupData = () => ({app: 'vocab-srs', v: 2, exported: new Date().toISOString(), settings: S.settings, hist: S.hist, cards: S.cards.map(({ck, ...c}) => c)});
 $('#dlBtn').onclick = () => {
   const blob = new Blob([JSON.stringify(backupData())], {type: 'application/json'});
@@ -2457,15 +2890,17 @@ function switchTab(t){
 }
 const statsVisible = () => $('#p-me').classList.contains('on') && $('#p-stats').style.display !== 'none';
 function switchSub(s){
-  document.querySelectorAll('.subtabs button').forEach(b => b.classList.toggle('on', b.dataset.sub === s));
+  document.querySelectorAll('#p-me .subtabs button').forEach(b => b.classList.toggle('on', b.dataset.sub === s));
   $('#p-stats').style.display = s === 'stats' ? '' : 'none';
   $('#p-settings').style.display = s === 'settings' ? '' : 'none';
   $('#p-guide').style.display = s === 'guide' ? '' : 'none';
   $('#p-account').style.display = s === 'account' ? '' : 'none';
+  $('#p-admin').style.display = s === 'admin' ? '' : 'none';
+  if (s === 'admin') renderSiteAdmin();
   if (s === 'account') renderAccount();
   if (s === 'stats') renderStats();
 }
-document.querySelectorAll('.subtabs button').forEach(b => b.onclick = () => switchSub(b.dataset.sub));
+document.querySelectorAll('#p-me .subtabs button').forEach(b => b.onclick = () => switchSub(b.dataset.sub));
 document.querySelectorAll('[data-goto]').forEach(b => b.onclick = () => switchTab(b.dataset.goto));
 $('#meChip').onclick = () => switchTab('account');
 document.querySelectorAll('#nav button').forEach(b => b.onclick = () => switchTab(b.dataset.tab));
