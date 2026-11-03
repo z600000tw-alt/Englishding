@@ -270,6 +270,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startBtn{width:100%;margin-top:14px;padding:13px;font-size:1.08rem}
 .allDone{text-align:center;margin-top:14px;padding:12px;background:var(--waka-s);border-radius:12px}
 .todayFoot{text-align:center;margin-top:12px}
+.zhLine{color:var(--ink);opacity:.8}
 .hintBtn{margin-top:12px;border:1.5px dashed var(--muted);background:none;color:var(--muted);border-radius:999px;padding:4px 14px;font:inherit;font-size:.85rem;cursor:pointer}.hintWrap{margin-top:4px}
 .mcOpts{display:grid;gap:8px;margin:16px auto 0;max-width:460px;text-align:left}
 .mcOpt{display:flex;gap:10px;align-items:center;width:100%;padding:11px 14px;border:2px solid var(--ink);border-radius:14px;background:var(--paper);color:var(--ink);font:inherit;font-size:1rem;cursor:pointer;text-align:left}
@@ -4566,8 +4567,8 @@ function frontHTML(c){
       <div class="typed"><input type="text" id="typeIn" placeholder="輸入英文後按 Enter" autocapitalize="off" autocorrect="off" spellcheck="false" ${revealed ? 'disabled' : ''} value="${esc(typedVal)}"></div></div>`;
   }
   if (curMode === 'cloze'){
-    return `<div class="front">${tag}<div class="prompt">${esc(cz.blanked)}</div>
-      ${hintBox(`${cz.zh ? `<div class="hint">${esc(cz.zh)}</div>` : ''}<div class="hint">${esc(c.meaning)}・開頭 ${esc(cz.answer[0])}…（${cz.answer.length} 個字母）</div>`)}
+    return `<div class="front">${tag}<div class="prompt">${esc(cz.blanked)}</div>${cz.zh ? `<div class="hint zhLine">${esc(cz.zh)}</div>` : ''}
+      ${hintBox(`<div class="hint">${esc(c.meaning)}・開頭 ${esc(cz.answer[0])}…（${cz.answer.length} 個字母）</div>`)}
       <div class="typed"><input type="text" id="typeIn" placeholder="填入空格的字後按 Enter" autocapitalize="off" autocorrect="off" spellcheck="false" ${revealed ? 'disabled' : ''} value="${esc(typedVal)}"></div></div>`;
   }
   // produce
