@@ -281,7 +281,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .newCut{margin-top:12px;padding:8px 12px;border-radius:12px;background:var(--yama-s);font-size:.82rem;line-height:1.5}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cfSent{font-size:1.15rem;margin-top:12px;line-height:1.7}.cfBlank{display:inline-block;min-width:70px;border-bottom:2.5px solid var(--ink);text-align:center;color:transparent}.cfAns{background:var(--yama-s);padding:0 4px;border-radius:5px;font-weight:400}
-.cfExp{margin-top:14px;display:grid;gap:8px}.cfRow{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}.cfRow .tiny{flex:1;min-width:150px;margin-top:5px}
+.qAsk{text-align:center;margin-bottom:4px}.qWrap{text-align:center}.qWrap .cfSent{text-align:center}.qPhrase{font-size:1.4rem}.ordLine{min-height:52px;margin:14px auto 6px;max-width:560px;padding:8px;border:2px dashed var(--muted);border-radius:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}.ordLine.done{border-style:solid}.ordPool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}.tok{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:10px;padding:6px 11px;font:inherit;font-size:1rem;cursor:pointer}.tok.on{background:var(--yama-s)}.tok.used{opacity:.25}.tBar{height:8px;border-radius:99px;background:var(--mizu-s);overflow:hidden;margin-bottom:10px}.tBar i{display:block;height:100%;background:var(--coral);transition:width .2s linear}.mtGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mtTile{min-height:64px;border:2px solid var(--ink);border-radius:14px;background:var(--paper);color:var(--ink);font:inherit;font-size:.98rem;padding:6px;cursor:pointer;word-break:break-word}.mtTile.w{background:var(--mizu-s)}.mtTile.sel{outline:3px solid var(--yama);transform:translateY(-2px)}.mtTile.bad{background:var(--coral-s);animation:shake .3s}.mtTile.gone{visibility:hidden}.questBox{margin-top:12px}.quest{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;margin-top:8px}.quest .qBar{grid-column:2/4;height:5px;border-radius:9px;background:var(--mizu-s);overflow:hidden}.quest .qBar i{display:block;height:100%;background:var(--waka)}.qChk{width:20px;height:20px;border:2px solid var(--ink);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem}.quest.ok .qChk{background:var(--waka)}.quest.ok .qTx{text-decoration:line-through;color:var(--muted)}.hubIc{font-size:1.3rem}.cfExp{margin-top:14px;display:grid;gap:8px}.cfRow{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}.cfRow .tiny{flex:1;min-width:150px;margin-top:5px}
 /* dark theme */
 :root[data-theme=dark]{--bg:#1d1b1a;--paper:#292625;--ink:#E9E3DC;--muted:#A69E98;--coral:#C97A6D;--yama:#B8973F;--mizu:#4F8DA8;--waka:#6E9658;--coral-s:#4A332F;--yama-s:#45392030;--mizu-s:#243843;--waka-s:#2B3A25;color-scheme:dark}
 :root[data-theme=dark] .newCut,:root[data-theme=dark] .introTip,:root[data-theme=dark] .fbList li{background:#3a3430}
@@ -297,7 +297,7 @@ mark{background:linear-gradient(transparent 45%,var(--yama) 45%);color:inherit;p
 .startRow{display:flex;gap:10px;margin-top:14px}.startRow .btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 8px;min-width:0}.startRow .btn b{font-weight:400;font-size:1.08rem}.startRow .btn small{font-size:.72rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .startRow .startRev:not(:disabled){background:var(--waka)}.startRow .btn:disabled{opacity:.5}
 .linkBtn{display:block;margin:10px auto 0;background:none;border:0;color:var(--muted);font-size:.85rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
 .qt{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid var(--ink);background:var(--paper);border-radius:14px;padding:12px 4px;cursor:pointer;font-size:.86rem}
 .qt:hover{background:var(--yama-s)}
 .qi svg{width:26px;height:26px}
@@ -379,7 +379,7 @@ nav#nav button.center.on{color:var(--ink)}
 .hubTx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .hubTx span{font-size:.82rem;color:var(--muted)}
 .hubGo{font-size:1.4rem;color:var(--muted)}
-.quick{grid-template-columns:repeat(3,1fr)}
+.quick{grid-template-columns:repeat(2,1fr)}
 /* class */
 .clsHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .clsTitle{display:flex;flex-direction:column;min-width:0}
@@ -459,12 +459,19 @@ nav#nav button.center.on{color:var(--ink)}
   <section class="panel" id="p-train">
     <h2 class="ptitle">練習</h2>
     <div class="hubList">
+      <button class="hubItem" data-goto="games"><span class="hubIc" style="background:var(--coral-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l2.6 5.6 6 .7-4.5 4.1 1.2 6L14 17.4l-5.3 3 1.2-6-4.5-4.1 6-.7z"/></svg></span><span class="hubTx"><b>趣味題型與挑戰</b><span>限時 60 秒、配對消消樂、Part 5 模擬、7 種題型・每日任務</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-goto="listen"><span class="hubIc" style="background:var(--mizu-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/></svg></span><span class="hubTx"><b>聽力模式</b><span>自動唸單字、中文與例句，通勤時用耳朵複習</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-goto="confuse"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h8M5 14h6M15 9l4 5-4 5M21 9l-2 2.5"/><circle cx="21.5" cy="19" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>易混淆字辨析</b><span>同義字放進例句選最適合的，附使用差異・免 AI</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-goto="practice"><span class="hubIc" style="background:var(--yama-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22l1.5-5L18 6.5l3.5 3.5L11 20.5z"/><path d="M15.5 9l3.5 3.5"/></svg></span><span class="hubTx"><b>活用練習</b><span>情境短文填空、近義字辨析、中翻英造句</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-hub="games"><span class="hubIc" style="background:var(--coral-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h18v10a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><path d="M10 14h4M12 12v4"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/><circle cx="16.5" cy="16" r="1" fill="currentColor"/></svg></span><span class="hubTx"><b>班級對戰</b><span>連連看、快問快答，和同學比誰背得快</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
       <button class="hubItem" data-goto="video"><span class="hubIc" style="background:var(--waka-s)"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="21" height="15" rx="4"/><path d="M12 10.5v6l5-3z" fill="currentColor"/></svg></span><span class="hubTx"><b>影片學單字</b><span>貼上影片字幕，挑出值得學的單字</span></span><span class="hubGo"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.2 8.6c2.6 2.4 5 4.9 7.1 7.6-2.2 2.6-4.6 5-7.3 7.3"/></svg></span></button>
     </div>
+  </section>
+
+  <!-- GAMES -->
+  <section class="panel" id="p-games">
+    <div class="row" style="margin-bottom:10px"><button class="btn small" data-goto="train"><svg class="hic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M25.2 16.4c-5.9-.4-11.8-.3-17.6.2"/><path d="M13.6 9.4c-2.4 2.2-4.4 4.5-6.1 7 1.9 2.3 4 4.4 6.4 6.3"/></svg>練習</button></div>
+    <div id="gmArea"></div>
   </section>
 
   <!-- CONFUSE -->
@@ -734,6 +741,15 @@ nav#nav button.center.on{color:var(--ink)}
       <label class="inline"><input type="checkbox" id="mRecall"> 看中文拼英文</label>
       <label class="inline"><input type="checkbox" id="mCloze"> 例句克漏字</label>
       <label class="inline aiOnly"><input type="checkbox" id="mProduce"> 用單字造句（AI 批改，熟悉的字才會出現）</label>
+      <div class="tiny muted" style="margin:8px 0 2px">趣味題型（免 AI，熟悉的字才會出現）</div>
+      <label class="inline"><input type="checkbox" id="mq_syn"> 同義字辨析</label>
+      <label class="inline"><input type="checkbox" id="mq_coll"> 搭配詞配對</label>
+      <label class="inline"><input type="checkbox" id="mq_form"> 詞性變化</label>
+      <label class="inline"><input type="checkbox" id="mq_ant"> 反義字</label>
+      <label class="inline"><input type="checkbox" id="mq_sense"> 一字多義</label>
+      <label class="inline"><input type="checkbox" id="mq_order"> 句子重組</label>
+      <label class="inline"><input type="checkbox" id="mq_dict"> 聽句子填空</label>
+
       <h3>發音</h3>
       <label class="inline"><input type="checkbox" id="sSpeak"> 自動朗讀</label>
       <div class="row">
@@ -906,7 +922,7 @@ const ILL = {
 };
 const PACKS = [{"name":"辦公室日常","cat":"職場商務","words":[["agenda","n.","議程"],["assign","v.","分派；指派"],["attach","v.","附上；附加"],["colleague","n.","同事"],["deadline","n.","截止期限"],["department","n.","部門"],["document","n.","文件"],["extension","n.","分機；延期"],["file","v.","歸檔；提出（申請）"],["memo","n.","備忘錄"],["postpone","v.","延期"],["priority","n.","優先事項"],["reception","n.","接待處；歡迎會"],["remind","v.","提醒"],["schedule","n./v.","行程表；安排"],["supervisor","n.","主管；監督者"],["supply","n.","用品；供應"],["workload","n.","工作量"],["coordinate","v.","協調"],["delegate","v.","委派"],["efficient","adj.","有效率的"],["in charge of","phr.","負責"],["notify","v.","通知"],["operate","v.","操作；營運"],["facility","n.","設施"]]},{"name":"人事招聘","cat":"職場商務","words":[["applicant","n.","應徵者"],["candidate","n.","候選人"],["qualification","n.","資格；條件"],["resume","n.","履歷"],["interview","n./v.","面試"],["hire","v.","雇用"],["recruit","v.","招募"],["position","n.","職位"],["experience","n.","經驗"],["reference","n.","推薦人；參考"],["promote","v.","升職；推廣"],["promotion","n.","升遷；促銷"],["salary","n.","薪水"],["benefit","n.","福利；好處"],["employee","n.","員工"],["employer","n.","雇主"],["retire","v.","退休"],["resign","v.","辭職"],["evaluation","n.","評估；考核"],["performance","n.","表現；績效"],["training","n.","訓練"],["orientation","n.","新人說明會"],["personnel","n.","人事部門；全體員工"],["probation","n.","試用期"],["transfer","v.","調職；轉移"]]},{"name":"會議簡報","cat":"職場商務","words":[["conference","n.","會議；研討會"],["presentation","n.","簡報"],["attend","v.","出席"],["participant","n.","參加者"],["proposal","n.","提案"],["summarize","v.","摘要；總結"],["discuss","v.","討論"],["consensus","n.","共識"],["minutes","n.","會議記錄"],["handout","n.","講義"],["brainstorm","v.","腦力激盪"],["objective","n.","目標"],["input","n.","意見；投入"],["reschedule","v.","重新安排時間"],["venue","n.","會場"],["keynote","n.","主題演講"],["outline","n./v.","大綱；概述"],["clarify","v.","釐清"],["address","v.","處理；發表演說"],["agree on","phr.","對…達成共識"],["follow up","phr.","後續追蹤"],["point out","phr.","指出"],["highlight","v.","強調"],["refreshments","n.","茶點"],["register","v.","報名；登記"]]},{"name":"行銷銷售","cat":"職場商務","words":[["advertise","v.","做廣告"],["campaign","n.","活動；宣傳"],["competitor","n.","競爭對手"],["consumer","n.","消費者"],["demand","n.","需求"],["launch","v.","推出"],["market share","n.","市占率"],["survey","n.","問卷調查"],["target","n./v.","目標；鎖定"],["brand","n.","品牌"],["discount","n.","折扣"],["estimate","n./v.","估計；估價"],["revenue","n.","營收"],["strategy","n.","策略"],["trend","n.","趨勢"],["feature","n./v.","特色；以…為特色"],["promotional","adj.","促銷的"],["retail","n.","零售"],["wholesale","n.","批發"],["client","n.","客戶"],["quote","n.","報價"],["affordable","adj.","負擔得起的"],["exclusive","adj.","獨家的"],["expand","v.","擴展"],["potential","adj./n.","潛在的；潛力"]]},{"name":"財務會計","cat":"職場商務","words":[["budget","n.","預算"],["expense","n.","費用；支出"],["invoice","n.","發票；請款單"],["account","n.","帳戶；帳目"],["audit","n./v.","稽核；審計"],["balance","n.","餘額；平衡"],["deposit","n./v.","存款；訂金"],["profit","n.","利潤"],["loss","n.","虧損"],["reimburse","v.","核銷；償還"],["receipt","n.","收據"],["tax","n.","稅"],["fiscal","adj.","財政的；會計年度的"],["forecast","n./v.","預測"],["investment","n.","投資"],["loan","n.","貸款"],["interest rate","n.","利率"],["payroll","n.","薪資名冊"],["quarterly","adj.","每季的"],["statement","n.","報表；聲明"],["transaction","n.","交易"],["cost-effective","adj.","划算的"],["overdue","adj.","逾期的"],["refund","n./v.","退款"],["outstanding","adj.","未付的；傑出的"]]},{"name":"採購物流","cat":"職場商務","words":[["order","n./v.","訂單；訂購"],["purchase","n./v.","購買"],["supplier","n.","供應商"],["vendor","n.","廠商；小販"],["inventory","n.","庫存"],["shipment","n.","貨運；一批貨"],["deliver","v.","運送；遞送"],["warehouse","n.","倉庫"],["in stock","phr.","有庫存"],["out of stock","phr.","缺貨"],["backorder","n.","延期交貨的訂單"],["dispatch","v.","派送；發送"],["track","v.","追蹤"],["package","n.","包裹"],["fragile","adj.","易碎的"],["bulk","n.","大量"],["procurement","n.","採購"],["contract","n.","合約"],["negotiate","v.","談判；協商"],["specification","n.","規格"],["expedite","v.","加速處理"],["freight","n.","貨物；運費"],["courier","n.","快遞員；快遞公司"],["confirm","v.","確認"],["cancel","v.","取消"]]},{"name":"旅遊出差","cat":"旅遊交通","words":[["itinerary","n.","行程表"],["reservation","n.","預約；訂位"],["accommodation","n.","住宿"],["depart","v.","出發"],["departure","n.","出發；離境"],["arrival","n.","抵達"],["boarding pass","n.","登機證"],["luggage","n.","行李"],["destination","n.","目的地"],["delay","n./v.","延誤"],["fare","n.","票價；車資"],["round-trip","adj.","來回的"],["check in","phr.","報到；登記入住"],["connecting flight","n.","轉機航班"],["aisle","n.","走道"],["customs","n.","海關"],["passport","n.","護照"],["book","v.","預訂"],["rental","n.","租賃"],["commute","v./n.","通勤"],["transportation","n.","交通運輸"],["excursion","n.","短途旅行"],["brochure","n.","宣傳冊"],["complimentary","adj.","免費贈送的"],["amenities","n.","便利設施"]]},{"name":"製造品管","cat":"科學技術","words":[["assemble","v.","組裝"],["equipment","n.","設備"],["machinery","n.","機械"],["manufacture","v.","製造"],["production","n.","生產"],["capacity","n.","產能；容量"],["defect","n.","瑕疵"],["inspect","v.","檢查"],["inspection","n.","檢查"],["quality control","n.","品質管制"],["maintenance","n.","維修保養"],["malfunction","n./v.","故障"],["procedure","n.","程序"],["safety","n.","安全"],["regulation","n.","法規；規定"],["comply with","phr.","遵守"],["standard","n.","標準"],["output","n.","產量"],["material","n.","材料"],["plant","n.","工廠"],["automate","v.","自動化"],["efficiency","n.","效率"],["prototype","n.","原型"],["upgrade","v./n.","升級"],["install","v.","安裝"]]},{"name":"合約法務","cat":"職場商務","words":[["agreement","n.","協議"],["terms","n.","條款；條件"],["clause","n.","條款"],["sign","v.","簽署"],["signature","n.","簽名"],["renew","v.","續約；更新"],["expire","v.","到期"],["valid","adj.","有效的"],["obligation","n.","義務"],["liability","n.","責任；負債"],["breach","n.","違反"],["draft","n./v.","草稿；起草"],["amend","v.","修改"],["binding","adj.","有約束力的"],["confidential","adj.","機密的"],["authorize","v.","授權"],["permit","n./v.","許可證；允許"],["policy","n.","政策；保單"],["warranty","n.","保固"],["guarantee","n./v.","保證"],["dispute","n.","爭議"],["legal","adj.","法律的；合法的"],["party","n.","（合約）一方"],["effective","adj.","生效的；有效的"],["terminate","v.","終止"]]},{"name":"客服溝通","cat":"職場商務","words":[["complaint","n.","抱怨；客訴"],["inquiry","n.","詢問"],["respond","v.","回應"],["resolve","v.","解決"],["satisfaction","n.","滿意"],["apologize","v.","道歉"],["inconvenience","n.","不便"],["assistance","n.","協助"],["feedback","n.","回饋意見"],["replace","v.","更換"],["exchange","v./n.","交換；退換"],["representative","n.","代表；專員"],["available","adj.","有空的；可取得的"],["appreciate","v.","感激"],["courteous","adj.","有禮貌的"],["prompt","adj.","迅速的"],["via","prep.","經由"],["regarding","prep.","關於"],["further","adj.","進一步的"],["attention","n.","注意；（信件）收件人"],["accommodate","v.","容納；配合"],["convenient","adj.","方便的"],["on behalf of","phr.","代表"],["get back to","phr.","回覆（某人）"],["look into","phr.","調查；研究"]]}];
 const DEFAULT_SETTINGS = {newPerDay: 15, maxRev: 200, newOrder: 'prio', weight: true,
-  modes: {recog: true, recall: true, cloze: true, produce: true},
+  modes: {recog: true, recall: true, cloze: true, produce: true, syn: true, coll: true, form: true, ant: true, sense: true, order: true, dict: true},
   autoSpeak: true, accent: 'en-US', rate: '0.95', ttsMode: 'device', aiVoice: 'Kore', phon: 'kk', dictVoice: true, azVoice: 'en-US-AvaNeural', deck: '', lastDeck: '',
   gameSound: true, nick: '', avatar: '', board: true, classes: [], curClass: '', subs: [], xp: {week: '', pts: 0}};
 let S = {cards: [], settings: structuredClone(DEFAULT_SETTINGS), daily: {day: '', newDone: 0, revDone: 0}, hist: {}, chunkIds: [], nextChunk: 0};
@@ -4403,11 +4419,311 @@ function clozeFor(c){
   return {sentence: p.en, zh: p.zh, answer: p.m[1], blanked: p.en.replace(re, '_____')};
 }
 
+/* ---------- 趣味題型（全部用內建資料出題，不需 AI） ---------- */
+const QT_NAME = {syn: '同義字辨析', coll: '搭配詞配對', form: '詞性變化', ant: '反義字', sense: '一字多義', order: '句子重組', dict: '聽句子填空'};
+const QT_MC = {syn: 1, coll: 1, form: 1, ant: 1, sense: 1};
+const QT_ASK = {syn: '選出最適合放進空格的字（以原形表示）', coll: '依中文意思，選出正確的搭配字', form: '依文法選出正確的字形（多益 Part 5 常考）', ant: '選出意思相反的字', sense: '這句裡的單字是什麼意思？', order: '照中文意思，依序點字排出句子', dict: '聽整句，填入空格的字'};
+const oneWord = w => /^[A-Za-z][A-Za-z'-]*$/.test(w || '');
+const STOPW = new Set(['a','an','the','of','to','in','on','for','with','at','by','and','or','one','one\'s','someone','someone\'s','sb','sth','something','your','my','his','her','their','our','is','be','as','from','up','out','off','into','over']);
+let COLL_POOL = null, COLL_N = -1;
+function collPool(){
+  if (COLL_POOL && COLL_N === S.cards.length) return COLL_POOL;
+  const set = new Set();
+  for (const c of S.cards) for (const en of c.coll || []) for (const t of String(en).toLowerCase().split(/\s+/)) if (/^[a-z]{3,}$/.test(t) && !STOPW.has(t)) set.add(t);
+  COLL_POOL = [...set]; COLL_N = S.cards.length; return COLL_POOL;
+}
+function otherMeanings(c, n, avoid){
+  const own = new Set([norm(c.meaning || ''), ...(avoid || []).map(norm)]), out = [];
+  for (const x of shuffle(S.cards.filter(x => x !== c && x.meaning)).slice(0, 60)){ const m = norm(x.meaning); if (!own.has(m)){ own.add(m); out.push({t: x.meaning}); } if (out.length >= n) break; }
+  return out;
+}
+function otherWords(c, n, avoid){
+  const own = new Set([norm(c.word), ...(avoid || []).map(norm)]), p0 = (c.pos || '').slice(0, 2), out = [];
+  const pool = S.cards.filter(x => x !== c && oneWord(x.word));
+  for (const x of [...shuffle(pool.filter(x => (x.pos || '').slice(0, 2) === p0)).slice(0, 40), ...shuffle(pool).slice(0, 40)]){ const w = norm(x.word); if (!own.has(w)){ own.add(w); out.push({t: x.word, sub: x.meaning}); } if (out.length >= n) break; }
+  return out;
+}
+function makeQ(type, c){
+  if (!c) return null;
+  if (type === 'syn'){
+    const cz = clozeFor(c); if (!cz) return null;
+    const syns = c.syn.filter(s => oneWord(s.w) && norm(s.w) !== norm(c.word)).slice(0, 3); if (!syns.length) return null;
+    return {type, c, cz, stem: cz.blanked, zh: cz.zh, say: cz.sentence, opts: shuffle([{t: c.word, ok: true, sub: c.meaning}, ...syns.map(s => ({t: s.w, sub: s.zh, note: s.note}))])};
+  }
+  if (type === 'form'){
+    const cz = clozeFor(c); if (!cz) return null;
+    const ans = norm(cz.answer), seen = new Set([ans]), ds = [];
+    if (norm(c.word) !== ans && oneWord(c.word)){ seen.add(norm(c.word)); ds.push({t: c.word, sub: '原形・' + (c.pos || '')}); }
+    for (const f of c.forms) if (f.word && oneWord(f.word) && !seen.has(norm(f.word))){ seen.add(norm(f.word)); ds.push({t: f.word, sub: [f.pos, f.meaning].filter(Boolean).join(' ')}); }
+    if (ds.length < 2) return null;
+    return {type, c, cz, stem: cz.blanked, zh: cz.zh, say: cz.sentence, opts: shuffle([{t: cz.answer, ok: true, sub: [c.pos, c.meaning].filter(Boolean).join(' ')}, ...shuffle(ds).slice(0, 3)])};
+  }
+  if (type === 'coll'){
+    const re = wordRegex(c.word); if (!re) return null;
+    const own = norm(c.word).split(' ');
+    const cands = c.coll.map((en, i) => ({en: String(en), zh: c.collZh[i] || ''})).filter(x => x.zh && x.en.split(/\s+/).length >= 2 && re.test(x.en));
+    for (const x of shuffle(cands)){
+      const toks = x.en.split(/\s+/);
+      const idx = toks.findIndex(t => { const l = t.toLowerCase(); return /^[a-z]{3,}$/.test(l) && !STOPW.has(l) && !own.some(o => l.startsWith(o.slice(0, Math.max(3, o.length - 2)))); });
+      if (idx < 0) continue;
+      const part = toks[idx].toLowerCase(), bad = new Set(c.coll.map(e => String(e).toLowerCase()));
+      const ds = shuffle(collPool()).filter(t => t !== part && !own.some(o => t.startsWith(o.slice(0, Math.max(3, o.length - 2)))) && !x.en.toLowerCase().split(/\s+/).includes(t) && !bad.has(toks.map((v, j) => j === idx ? t : v).join(' ').toLowerCase())).slice(0, 3);
+      if (ds.length < 3) return null;
+      return {type, c, phrase: x.en, stem: toks.map((v, j) => j === idx ? '_____' : v).join(' '), zh: x.zh, say: x.en, opts: shuffle([{t: part, ok: true}, ...ds.map(t => ({t}))]), more: c.coll.map((e, i) => ({en: e, zh: c.collZh[i] || ''})).filter(e => e.en !== x.en).slice(0, 3)};
+    }
+    return null;
+  }
+  if (type === 'ant'){
+    const ai = c.ant.findIndex(a => a && a.length < 30); if (ai < 0) return null;
+    const avoid = [...c.ant, ...c.syn.map(s => s.w)];
+    const syns = shuffle(c.syn.filter(s => s.w && s.w.length < 30)).slice(0, 1).map(s => ({t: s.w, sub: s.zh, note: '同義字，不是反義'}));
+    const rest = otherWords(c, 3 - syns.length, avoid);
+    if (syns.length + rest.length < 3) return null;
+    return {type, c, head: true, say: c.word, opts: shuffle([{t: c.ant[ai], ok: true, sub: (c.antZh || [])[ai] || ''}, ...syns, ...rest])};
+  }
+  if (type === 'sense'){
+    const re = wordRegex(c.word); if (!re) return null;
+    const ss = c.senses.filter(s => s.en && s.meaning && re.test(s.en) && norm(s.meaning) !== norm(c.meaning)); if (!ss.length) return null;
+    const s = ss[Math.floor(Math.random() * ss.length)];
+    const ds = [{t: c.meaning, note: '這是主要意思，但不是這句的意思'}, ...c.senses.filter(x => x !== s && x.meaning && norm(x.meaning) !== norm(s.meaning) && norm(x.meaning) !== norm(c.meaning)).map(x => ({t: x.meaning}))].slice(0, 2);
+    const fill = otherMeanings(c, 3 - ds.length, [s.meaning, ...ds.map(d => d.t)]);
+    return {type, c, sense: s, stem: s.en, hl: re, say: s.en, opts: shuffle([{t: s.meaning, ok: true, sub: s.pos}, ...ds, ...fill])};
+  }
+  if (type === 'order'){
+    const exs = c.ex.filter(e => e.en && e.zh && !e.mine).map(e => ({...e, toks: e.en.trim().split(/\s+/)})).filter(e => e.toks.length >= 4 && e.toks.length <= 12);
+    if (!exs.length) return null;
+    const e = exs[Math.floor(Math.random() * exs.length)];
+    let order = shuffle(e.toks.map((t, i) => i)); for (let k = 0; k < 5 && order.every((v, i) => e.toks[v] === e.toks[i]); k++) order = shuffle(order);
+    return {type, c, sent: e.en, toks: e.toks, order, zh: e.zh, say: e.en};
+  }
+  if (type === 'dict'){
+    const cz = clozeFor(c); if (!cz) return null;
+    return {type, c, cz, stem: cz.blanked, zh: cz.zh, say: cz.sentence};
+  }
+  return null;
+}
+const qNewState = () => ({pick: -1, built: [], typed: ''});
+const ordNorm = s => s.toLowerCase().replace(/[^a-z0-9' ]/g, '').replace(/\s+/g, ' ').trim();
+function qJudge(q, st){
+  if (QT_MC[q.type]){ const o = q.opts[st.pick], r = q.opts.find(x => x.ok); return o && o.ok ? {cls: 'ok', text: '答對了 ✓', sug: 3} : {cls: 'no', text: `${st.pick < 0 ? '' : '選錯了，'}答案是 ${r ? r.t : ''}`, sug: 1}; }
+  if (q.type === 'order'){
+    const got = st.built.map(i => q.toks[i]).join(' ');
+    if (ordNorm(got) === ordNorm(q.sent)) return {cls: 'ok', text: '答對了 ✓', sug: 3};
+    const okN = st.built.filter((v, i) => q.toks[v] === q.toks[i]).length;
+    return {cls: okN >= q.toks.length - 2 && st.built.length === q.toks.length ? 'mid' : 'no', text: st.built.length ? `正確順序如下（對了 ${okN} / ${q.toks.length} 個位置）` : '正確句子如下', sug: okN >= q.toks.length - 2 && st.built.length === q.toks.length ? 2 : 1};
+  }
+  if (q.type === 'dict'){
+    const a = norm(st.typed), ok1 = norm(q.cz.answer), ok2 = norm(q.c.word);
+    if (!a) return {cls: 'no', text: `答案是 ${q.cz.answer}`, sug: 1};
+    if (a === ok1) return {cls: 'ok', text: '答對了 ✓', sug: 3};
+    if (a === ok2) return {cls: 'mid', text: `字對了，但這裡要用 ${q.cz.answer} 這個形式`, sug: 2};
+    if (lev(a, ok1) <= 1) return {cls: 'mid', text: `差一點，拼字是 ${q.cz.answer}`, sug: 2};
+    return {cls: 'no', text: `答案是 ${q.cz.answer}`, sug: 1};
+  }
+  return {cls: 'no', text: '', sug: 1};
+}
+const qHint = (st, done, inner) => done || st.hint ? `<div class="hintWrap">${inner}</div>` : `<button class="hintBtn" id="hintBtn" type="button"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"><path d="M12 3.2c-3.4 0-6 2.5-6 5.8 0 2.2 1.1 3.6 2.4 4.7.6.5.9 1.2.9 2V17h5.4v-1.3c0-.8.4-1.5 1-2 1.3-1.1 2.4-2.6 2.3-4.8C17.9 5.7 15.3 3.2 12 3.2z"/><path d="M9.8 20.2c1.5.4 2.9.4 4.4 0"/></svg>提示</button>`;
+const blankHTML = s => esc(s).replace('_____', '<span class="cfBlank">＿＿＿</span>');
+function qBody(q, st, done){
+  const c = q.c, ask = `<div class="tiny muted qAsk">${QT_ASK[q.type]}</div>`;
+  let h = ask;
+  if (q.type === 'syn' || q.type === 'form'){
+    h += `<div class="cfSent ${done ? 'say' : ''}" ${done ? `data-say="${esc(q.say)}"` : ''}>${done ? esc(q.cz.sentence).replace(esc(q.cz.answer), `<b class="cfAns">${esc(q.cz.answer)}</b>`) : blankHTML(q.stem)}</div>${q.zh ? `<div class="hint zhLine">${esc(q.zh)}</div>` : ''}`;
+  } else if (q.type === 'coll'){
+    h += `<div class="cfSent qPhrase ${done ? 'say' : ''}" ${done ? `data-say="${esc(q.say)}"` : ''}>${done ? esc(q.phrase) : blankHTML(q.stem)}</div><div class="hint zhLine">${esc(q.zh)}</div>`;
+  } else if (q.type === 'ant'){
+    h += `<div style="text-align:center">${headHTML(c)}</div><div class="meaning" style="font-size:1.05rem;margin-top:2px">${esc(c.meaning)}</div>`;
+  } else if (q.type === 'sense'){
+    h += `<div class="cfSent ${done ? 'say' : ''}" ${done ? `data-say="${esc(q.say)}"` : ''}>${esc(q.stem).replace(q.hl, m => `<b class="cfAns">${m}</b>`)}</div>`;
+  } else if (q.type === 'order'){
+    const used = new Set(st.built);
+    h += `<div class="hint zhLine">${esc(q.zh)}</div>${done && !st.built.length ? '' : `<div class="ordLine${done ? ' done' : ''}">${st.built.length ? st.built.map((i, k) => `<button class="tok on" data-unpick="${k}" ${done ? 'disabled' : ''}>${esc(q.toks[i])}</button>`).join('') : '<span class="tiny muted">點下方的字依序排列</span>'}</div>`}
+      ${done ? `<div class="cfSent say" data-say="${esc(q.sent)}" style="font-size:1.05rem">✓ ${esc(q.sent)}</div>` : `<div class="ordPool">${q.order.map(i => `<button class="tok${used.has(i) ? ' used' : ''}" data-pick="${i}" ${used.has(i) ? 'disabled' : ''}>${esc(q.toks[i])}</button>`).join('')}</div>`}`;
+    return h;
+  } else if (q.type === 'dict'){
+    h += `<div style="text-align:center"><button class="bigSay" data-say="${esc(q.say)}" aria-label="再聽一次">${ILL.speaker}</button></div><div class="cfSent">${done ? esc(q.cz.sentence).replace(esc(q.cz.answer), `<b class="cfAns">${esc(q.cz.answer)}</b>`) : blankHTML(q.stem)}</div>
+      ${done ? (q.zh ? `<div class="hint zhLine">${esc(q.zh)}</div>` : '') : qHint(st, done, `${q.zh ? `<div class="hint">${esc(q.zh)}</div>` : ''}<div class="hint">開頭 ${esc(q.cz.answer[0])}…（${q.cz.answer.length} 個字母）</div>`)}
+      <div class="typed"><input type="text" id="typeIn" placeholder="聽到的字，按 Enter 確認" autocapitalize="off" autocorrect="off" spellcheck="false" ${done ? 'disabled' : ''} value="${esc(st.typed)}"></div>`;
+    return h;
+  }
+  h += `<div class="mcOpts">${q.opts.map((o, i) => `<button class="mcOpt${done ? (o.ok ? ' ok' : i === st.pick ? ' no' : ' dim') : ''}" data-qo="${i}" ${done ? 'disabled' : ''}><span class="k">${i + 1}</span><span>${esc(o.t)}${done && o.sub ? ` <span class="zhm">${esc(o.sub)}</span>` : ''}</span></button>`).join('')}</div>`;
+  if (done){
+    const notes = q.opts.filter(o => o.note);
+    if (notes.length) h += `<div class="cfExp">${notes.map(o => `<div class="cfRow"><span class="chip say" data-say="${esc(o.t)}"><span>${esc(o.t)}${o.sub ? ` <span class="zhm">${esc(o.sub)}</span>` : ''}</span></span><span class="tiny muted">${esc(o.note)}</span></div>`).join('')}</div>`;
+    if (q.type === 'coll' && q.more && q.more.length) h += `<div class="tiny muted" style="margin-top:10px">其他常用搭配：${q.more.map(m => `<span class="say" data-say="${esc(m.en)}">${esc(m.en)}</span>${m.zh ? `（${esc(m.zh)}）` : ''}`).join('、')}</div>`;
+  }
+  return h;
+}
+/* 綁定題目互動：onDone(verdict) 作答完成；onChange() 需要重畫 */
+function qBind(root, q, st, onDone, onChange){
+  root.querySelectorAll('[data-qo]').forEach(b => b.onclick = () => { if (st.pick >= 0) return; st.pick = +b.dataset.qo; onDone(qJudge(q, st)); });
+  root.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { st.built.push(+b.dataset.pick); speak(q.toks[+b.dataset.pick]); onChange(); });
+  root.querySelectorAll('[data-unpick]').forEach(b => b.onclick = () => { st.built.splice(+b.dataset.unpick, 1); onChange(); });
+}
+
+/* ---------- 遊戲與挑戰 ---------- */
+const GM = {kind: '', qs: [], i: 0, ok: 0, wrong: [], st: null, v: null, timer: null, t0: 0, left: 0, combo: 0, best: 0, cur: null, opts: null, flash: -1, tiles: null, sel: null, pen: 0};
+function gmPool(){ const p = S.cards.filter(c => inDeck(c) && c.meaning); const learned = p.filter(c => c.state !== 'new'); return learned.length >= 12 ? learned : p; }
+function gmStop(){ clearInterval(GM.timer); GM.timer = null; }
+function gmBest(){ if (!S.settings.gbest) S.settings.gbest = {}; return S.settings.gbest; }
+function gmFinishDaily(okN){ ensureDaily(); S.daily.games = (S.daily.games || 0) + 1; S.daily.gOk = (S.daily.gOk || 0) + (okN || 0); markDirty(); }
+function questList(){
+  ensureDaily();
+  const q = queueInfo(), done = S.hist[S.daily.day] || 0;
+  const revGoal = 20, newGoal = Math.min(S.settings.newPerDay || 0, (S.daily.newDone || 0) + q.news.length);
+  const list = [
+    {t: `複習 ${revGoal} 張卡`, n: Math.min(done, revGoal), g: revGoal},
+    newGoal ? {t: `學完今天的 ${newGoal} 個新字`, n: Math.min(S.daily.newDone || 0, newGoal), g: newGoal} : null,
+    {t: '玩 1 個遊戲或挑戰', n: Math.min(S.daily.games || 0, 1), g: 1},
+    {t: '遊戲中答對 15 題', n: Math.min(S.daily.gOk || 0, 15), g: 15}
+  ].filter(Boolean);
+  return list;
+}
+function questHTML(){
+  const ls = questList(), all = ls.every(x => x.n >= x.g);
+  return `<div class="box questBox"><div class="row spread"><b>今日任務</b><span class="tiny">🔥 連續 ${computeStreak()} 天</span></div>
+    ${ls.map(x => `<div class="quest${x.n >= x.g ? ' ok' : ''}"><span class="qChk">${x.n >= x.g ? '✓' : ''}</span><span class="qTx">${esc(x.t)}</span><span class="tiny muted">${x.n} / ${x.g}</span><span class="qBar"><i style="width:${Math.round(100 * x.n / x.g)}%"></i></span></div>`).join('')}
+    ${all ? '<div class="tiny" style="margin-top:6px;text-align:center">今日任務全部完成 🎉 明天繼續保持連續天數！</div>' : ''}</div>`;
+}
+const GM_HEAD = t => `<div class="pagehead"><svg viewBox="0 0 46 46" aria-hidden="true"><g class="float"><rect x="5" y="12" width="36" height="22" rx="9" fill="#FCE5E0" stroke="#3E3A39" stroke-width="2.4"/><path d="M14 20v6M11 23h6" stroke="#3E3A39" stroke-width="2.4" stroke-linecap="round"/><circle cx="30" cy="21" r="1.8" fill="#3E3A39"/><circle cx="34" cy="25" r="1.8" fill="#3E3A39"/></g></svg><h2>${t}</h2></div>`;
+function gmHome(){
+  gmStop(); GM.kind = '';
+  const el = $('#gmArea'); if (!el) return;
+  const b = gmBest(), p = gmPool();
+  const types = Object.keys(QT_NAME);
+  el.innerHTML = GM_HEAD('趣味題型與挑戰') + questHTML() + (p.length < 8 ? `<div class="notice" style="display:block">單字還不夠多（至少 8 個）。先到「單字」載入多益單字包再來玩。</div>` : '') + `
+    <div class="hubList">
+      <button class="hubItem" data-gm="timed"><span class="hubIc" style="background:var(--coral-s)">⏱</span><span class="hubTx"><b>限時挑戰 60 秒</b><span>看英文選中文，越連對分數越高${b.timed ? `・最高 ${b.timed} 分` : ''}</span></span></button>
+      <button class="hubItem" data-gm="match"><span class="hubIc" style="background:var(--waka-s)">🧩</span><span class="hubTx"><b>配對消消樂</b><span>6 組英中配對，越快越好${b.match ? `・最佳 ${(b.match / 10).toFixed(1)} 秒` : ''}</span></span></button>
+      <button class="hubItem" data-gm="part5"><span class="hubIc" style="background:var(--yama-s)">📝</span><span class="hubTx"><b>多益 Part 5 模擬</b><span>10 題：同義字、詞性變化、搭配詞混合${b.part5 != null ? `・最高 ${b.part5} / 10` : ''}</span></span></button>
+    </div>
+    <div class="box" style="margin-top:12px"><b>題型練習</b><div class="tiny muted" style="margin:2px 0 8px">每種 10 題，答錯的字會排回今天複習。這些題型也會出現在每日複習裡（可在設定調整）。</div>
+      <div class="chips">${types.map(t => `<button class="tagPick" data-qt="${t}">${QT_NAME[t]}</button>`).join('')}</div></div>`;
+  el.querySelectorAll('[data-gm]').forEach(x => x.onclick = () => { if (p.length < 8){ toast('單字還不夠多'); return; } x.dataset.gm === 'timed' ? gmTimed() : x.dataset.gm === 'match' ? gmMatch() : gmQuiz('part5'); });
+  el.querySelectorAll('[data-qt]').forEach(x => x.onclick = () => gmQuiz(x.dataset.qt));
+}
+function gmQuiz(kind){
+  gmStop();
+  const types = kind === 'part5' ? ['syn', 'form', 'coll', 'form', 'syn', 'coll', 'sense'] : [kind];
+  const qs = [], used = new Set();
+  for (const c of shuffle(gmPool())){
+    if (qs.length >= 10) break; if (used.has(c.id)) continue;
+    const t = types[qs.length % types.length], q = makeQ(t, c) || (kind === 'part5' ? makeQ('syn', c) || makeQ('form', c) : null);
+    if (q){ qs.push(q); used.add(c.id); }
+  }
+  Object.assign(GM, {kind, qs, i: 0, ok: 0, wrong: [], st: qNewState(), v: null});
+  gmQuizRender();
+}
+function gmQuizRender(){
+  const el = $('#gmArea'); if (!el) return;
+  const title = GM.kind === 'part5' ? '多益 Part 5 模擬' : QT_NAME[GM.kind];
+  const back = `<button class="btn small" id="gmBack">← 回選單</button>`;
+  if (!GM.qs.length){ el.innerHTML = `<div class="row" style="margin-bottom:8px">${back}</div>` + GM_HEAD(title) + `<div class="box"><p>目前沒有可以出這種題目的單字。</p><p class="tiny muted">這個題型需要有對應資料（例句、同義字、詞性變化或搭配詞）的單字，先載入多益單字包並學幾個字再來。</p></div>`; $('#gmBack').onclick = gmHome; return; }
+  if (GM.i >= GM.qs.length){
+    const n = GM.qs.length, back2 = bringBack(GM.wrong), b = gmBest(), key = GM.kind === 'part5' ? 'part5' : null, rec = key && (b[key] == null || GM.ok > b[key]);
+    if (rec){ b[key] = GM.ok; } gmFinishDaily(GM.ok);
+    el.innerHTML = GM_HEAD(title) + `<div class="box" style="text-align:center"><div class="big" style="font-size:1.8rem">${GM.ok} / ${n}</div>${rec ? '<div class="tiny">🏆 新紀錄！</div>' : ''}<p class="muted">${GM.ok === n ? '全對，太厲害了！' : `答錯的字${back2 ? `已排回今天的複習（${back2} 個）` : '可以到單字卡再看一次'}。`}</p>
+      ${GM.wrong.length ? `<div class="chips" style="justify-content:center;margin-bottom:10px">${GM.wrong.map(c => `<span class="chip say" data-say="${esc(c.word)}"><span>${esc(c.word)} <span class="zhm">${esc(c.meaning)}</span></span></span>`).join('')}</div>` : ''}
+      <div class="row" style="justify-content:center"><button class="btn pri" id="gmAgain">再來一輪</button><button class="btn" id="gmBack">回選單</button></div></div>`;
+    $('#gmAgain').onclick = () => gmQuiz(GM.kind); $('#gmBack').onclick = gmHome; return;
+  }
+  const q = GM.qs[GM.i], done = !!GM.v;
+  el.innerHTML = `<div class="row" style="margin-bottom:8px">${back}</div>` + `<div class="box"><div class="row spread"><span class="tiny muted">${esc(title)}・第 ${GM.i + 1} / ${GM.qs.length} 題${GM.kind === 'part5' ? `・${QT_NAME[q.type]}` : ''}</span><span class="tiny">答對 ${GM.ok}</span></div>
+    <div class="qWrap">${qBody(q, GM.st, done)}</div>
+    ${done && GM.v.text ? `<div class="verdict ${GM.v.cls}"><span>${esc(GM.v.text)}</span></div>` : ''}
+    ${done ? `<div class="tiny muted" style="margin-top:8px;text-align:center"><span class="say" data-say="${esc(q.c.word)}"><b>${esc(q.c.word)}</b></span> ${esc(q.c.meaning)}</div><button class="btn pri" id="gmNext" style="width:100%;margin-top:12px">${GM.i + 1 < GM.qs.length ? '下一題' : '看結果'}</button>`
+      : QT_MC[q.type] ? '' : `<button class="btn pri" id="gmCheck" style="width:100%;margin-top:12px">確認答案</button>`}</div>`;
+  $('#gmBack').onclick = gmHome;
+  const finish = v => { GM.v = v; if (v.sug >= 3) GM.ok++; else GM.wrong.push(q.c); buzz(v.sug >= 3 ? 12 : [25, 40, 25]); addXP(v.sug >= 3 ? 2 : 1); gmQuizRender(); speak(q.say); };
+  qBind(el, q, GM.st, finish, gmQuizRender);
+  if ($('#gmCheck')) $('#gmCheck').onclick = () => { const ti = $('#typeIn'); if (ti) GM.st.typed = ti.value; finish(qJudge(q, GM.st)); };
+  if ($('#hintBtn')) $('#hintBtn').onclick = () => { const ti = $('#typeIn'); if (ti) GM.st.typed = ti.value; GM.st.hint = true; gmQuizRender(); };
+  const ti = $('#typeIn'); if (ti && !done){ ti.focus(); ti.oninput = () => { GM.st.typed = ti.value; }; ti.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); GM.st.typed = ti.value; finish(qJudge(q, GM.st)); } }; }
+  if ($('#gmNext')) $('#gmNext').onclick = () => { GM.i++; GM.st = qNewState(); GM.v = null; gmQuizRender(); window.scrollTo(0, 0); };
+  if (!done && q.type === 'dict' && !GM.st.typed) speak(q.say);
+}
+/* 限時挑戰 */
+function gmTimed(){
+  gmStop();
+  Object.assign(GM, {kind: 'timed', ok: 0, wrong: [], combo: 0, best: 0, score: 0, left: 60, cur: null, opts: null, flash: -1});
+  gmTimedNext();
+  GM.t0 = Date.now();
+  GM.timer = setInterval(() => { GM.left = 60 - (Date.now() - GM.t0) / 1000; const t = $('#gmTime'); if (t) t.textContent = Math.max(0, Math.ceil(GM.left)); const bar = $('#gmBar'); if (bar) bar.style.width = Math.max(0, GM.left / 60 * 100) + '%'; if (GM.left <= 0) gmTimedEnd(); }, 200);
+}
+function gmTimedNext(){
+  const p = gmPool();
+  for (let k = 0; k < 20; k++){ const c = p[Math.floor(Math.random() * p.length)]; if (c === GM.cur && p.length > 1) continue; const o = mcFor(c); if (o){ GM.cur = c; GM.opts = o; break; } }
+  GM.flash = -1; gmTimedRender(); speak(GM.cur.word);
+}
+function gmTimedRender(){
+  const el = $('#gmArea'); if (!el || GM.kind !== 'timed') return;
+  const c = GM.cur;
+  el.innerHTML = `<div class="row spread" style="margin-bottom:8px"><button class="btn small" id="gmBack">← 結束</button><span class="tiny">得分 <b>${GM.score}</b>${GM.combo >= 3 ? `・🔥 ${GM.combo} 連對` : ''}</span><span class="big" id="gmTime" style="font-size:1.3rem">${Math.max(0, Math.ceil(GM.left))}</span></div>
+    <div class="tBar"><i id="gmBar" style="width:${Math.max(0, GM.left / 60 * 100)}%"></i></div>
+    <div class="box" style="text-align:center"><div class="word say" data-say="${esc(c.word)}" style="font-size:1.9rem">${esc(c.word)}</div>${phon(c) ? `<div class="tiny muted">${esc(phon(c))}</div>` : ''}
+    <div class="mcOpts">${GM.opts.map((o, i) => `<button class="mcOpt${GM.flash >= 0 ? (o.ok ? ' ok' : i === GM.flash ? ' no' : ' dim') : ''}" data-to="${i}" ${GM.flash >= 0 ? 'disabled' : ''}><span class="k">${i + 1}</span><span>${esc(o.m)}</span></button>`).join('')}</div></div>
+    <div class="tiny muted" style="text-align:center;margin-top:6px">連對 3 題以上每題加倍計分</div>`;
+  $('#gmBack').onclick = gmTimedEnd;
+  el.querySelectorAll('[data-to]').forEach(b => b.onclick = () => gmTimedPick(+b.dataset.to));
+}
+function gmTimedPick(i){
+  if (GM.flash >= 0 || GM.kind !== 'timed') return;
+  const ok = GM.opts[i].ok; GM.flash = i;
+  if (ok){ GM.ok++; GM.combo++; GM.score += GM.combo >= 3 ? 2 : 1; buzz(10); }
+  else { GM.combo = 0; if (!GM.wrong.includes(GM.cur)) GM.wrong.push(GM.cur); buzz([25, 40, 25]); }
+  gmTimedRender();
+  setTimeout(() => { if (GM.kind === 'timed' && GM.timer) gmTimedNext(); }, ok ? 350 : 900);
+}
+function gmTimedEnd(){
+  if (GM.kind !== 'timed') return;
+  gmStop(); GM.kind = 'timedEnd';
+  const b = gmBest(), rec = GM.score > (b.timed || 0); if (rec) b.timed = GM.score;
+  gmFinishDaily(GM.ok); addXP(Math.ceil(GM.ok / 2));
+  const back2 = bringBack(GM.wrong);
+  $('#gmArea').innerHTML = GM_HEAD('限時挑戰 60 秒') + `<div class="box" style="text-align:center"><div class="big" style="font-size:2rem">${GM.score} 分</div>${rec ? '<div class="tiny">🏆 新紀錄！</div>' : `<div class="tiny muted">最高 ${b.timed || 0} 分</div>`}<p class="muted">答對 ${GM.ok} 題${GM.wrong.length ? `，答錯的字${back2 ? `已排回今天的複習（${back2} 個）` : '列在下方'}` : ''}。</p>
+    ${GM.wrong.length ? `<div class="chips" style="justify-content:center;margin-bottom:10px">${GM.wrong.map(c => `<span class="chip say" data-say="${esc(c.word)}"><span>${esc(c.word)} <span class="zhm">${esc(c.meaning)}</span></span></span>`).join('')}</div>` : ''}
+    <div class="row" style="justify-content:center"><button class="btn pri" id="gmAgain">再挑戰一次</button><button class="btn" id="gmBack">回選單</button></div></div>`;
+  $('#gmAgain').onclick = gmTimed; $('#gmBack').onclick = gmHome;
+}
+/* 配對消消樂 */
+function gmMatch(){
+  gmStop();
+  const p = shuffle(gmPool()), pick = [], seenM = new Set(), seenW = new Set();
+  for (const c of p){ const m = (c.meaning || '').split(/[；;，,]/)[0].trim(); if (!m || m.length > 10 || seenM.has(m) || seenW.has(norm(c.word)) || c.word.length > 18) continue; seenM.add(m); seenW.add(norm(c.word)); pick.push({c, m}); if (pick.length >= 6) break; }
+  const tiles = shuffle([...pick.map((x, i) => ({k: i, side: 'w', t: x.c.word})), ...pick.map((x, i) => ({k: i, side: 'm', t: x.m}))]);
+  Object.assign(GM, {kind: 'match', tiles, pairs: pick, sel: null, gone: new Set(), bad: null, pen: 0, miss: 0, t0: Date.now()});
+  gmMatchRender();
+  GM.timer = setInterval(() => { const t = $('#gmTime'); if (t) t.textContent = ((Date.now() - GM.t0) / 1000 + GM.pen).toFixed(1); }, 100);
+}
+function gmMatchRender(){
+  const el = $('#gmArea'); if (!el || GM.kind !== 'match') return;
+  el.innerHTML = `<div class="row spread" style="margin-bottom:8px"><button class="btn small" id="gmBack">← 回選單</button><span class="tiny">點一個英文、再點對應的中文${GM.pen ? `・罰時 +${GM.pen} 秒` : ''}</span><span class="big" style="font-size:1.3rem"><span id="gmTime">${((Date.now() - GM.t0) / 1000 + GM.pen).toFixed(1)}</span>s</span></div>
+    <div class="mtGrid">${GM.tiles.map((x, i) => `<button class="mtTile ${x.side}${GM.gone.has(i) ? ' gone' : ''}${GM.sel === i ? ' sel' : ''}${GM.bad && GM.bad.includes(i) ? ' bad' : ''}" data-mt="${i}" ${GM.gone.has(i) ? 'disabled' : ''}>${esc(x.t)}</button>`).join('')}</div>`;
+  $('#gmBack').onclick = gmHome;
+  el.querySelectorAll('[data-mt]').forEach(b => b.onclick = () => gmMatchPick(+b.dataset.mt));
+}
+function gmMatchPick(i){
+  const t = GM.tiles[i]; GM.bad = null;
+  if (GM.sel == null || GM.tiles[GM.sel].side === t.side){ GM.sel = i; if (t.side === 'w') speak(t.t); gmMatchRender(); return; }
+  const a = GM.tiles[GM.sel];
+  if (a.k === t.k){ GM.gone.add(i); GM.gone.add(GM.sel); buzz(10); GM.sel = null; }
+  else { GM.bad = [i, GM.sel]; GM.sel = null; GM.pen += 2; GM.miss++; buzz([25, 40, 25]); }
+  gmMatchRender();
+  if (GM.gone.size === GM.tiles.length){
+    gmStop(); const sec = (Date.now() - GM.t0) / 1000 + GM.pen, ds = Math.round(sec * 10), b = gmBest(), rec = !b.match || ds < b.match; if (rec) b.match = ds;
+    gmFinishDaily(GM.pairs.length); addXP(3); GM.kind = 'matchEnd';
+    $('#gmArea').innerHTML = GM_HEAD('配對消消樂') + `<div class="box" style="text-align:center"><div class="big" style="font-size:2rem">${sec.toFixed(1)} 秒</div>${rec ? '<div class="tiny">🏆 新紀錄！</div>' : `<div class="tiny muted">最佳 ${(b.match / 10).toFixed(1)} 秒</div>`}<p class="muted">${GM.miss ? `配錯 ${GM.miss} 次（每次罰 2 秒）` : '一次都沒配錯！'}</p>
+      <div class="chips" style="justify-content:center;margin-bottom:10px">${GM.pairs.map(x => `<span class="chip say" data-say="${esc(x.c.word)}"><span>${esc(x.c.word)} <span class="zhm">${esc(x.m)}</span></span></span>`).join('')}</div>
+      <div class="row" style="justify-content:center"><button class="btn pri" id="gmAgain">再玩一局</button><button class="btn" id="gmBack">回選單</button></div></div>`;
+    $('#gmAgain').onclick = gmMatch; $('#gmBack').onclick = gmHome;
+  }
+}
+
 /* ---------- review UI ---------- */
 let cur = null, revealed = false, curMode = 'recog', typedVal = '', cz = null, verdict = null, aiFb = null, grading = false;
 const undoStack = [];
-const MODE_NAME = {recog: '看字想意思', recall: '看中文拼英文', cloze: '例句克漏字', produce: '用單字造句', mc: '選出中文意思', listen: '聽發音選意思'};
-let mcOpts = null, mcPick = -1;
+const MODE_NAME = {recog: '看字想意思', recall: '看中文拼英文', cloze: '例句克漏字', produce: '用單字造句', mc: '選出中文意思', listen: '聽發音選意思', ...QT_NAME};
+let mcOpts = null, mcPick = -1, QQ = null, QST = qNewState();
 function mcFor(c){
   const own = norm(c.meaning || ''); if (!own) return null;
   const pool = S.cards.filter(x => x !== c && x.meaning && norm(x.meaning) !== own && norm(x.word) !== norm(c.word));
@@ -4419,6 +4735,7 @@ function mcFor(c){
   if (picked.length < 3) return null;
   return shuffle([{m: c.meaning, ok: true}, ...picked.map(x => ({m: x.meaning, w: x.word}))]);
 }
+function qAnswer(v){ if (!cur || revealed) return; verdict = v; revealed = true; buzz(v.sug >= 3 ? 12 : [25, 40, 25]); renderReview(); if (QQ) speak(QQ.say); }
 function buzz(pattern){ if (S.settings.haptic === false || !navigator.vibrate) return; try { navigator.vibrate(pattern); } catch(e){} }
 function chooseMc(i){
   if (!cur || revealed || !mcOpts) return;
@@ -4441,6 +4758,7 @@ function pickMode(c){
   if (m.recall) w.push(['recall', young ? 1.5 : 1.5]);
   if (m.cloze && clozeFor(c)) w.push(['cloze', young ? 1.5 : 2]);
   if (m.produce && AI && !aiOff && c.state === 'review' && c.ivl >= 4) w.push(['produce', 1.2]);
+  if (c.state === 'review') for (const [k, wt] of [['syn', 1.2], ['form', 1.2], ['coll', 0.9], ['ant', 0.6], ['sense', 0.8], ['order', 0.7], ['dict', 0.8]]) if (m[k] !== false && makeQ(k, c)) w.push([k, wt]);
   if (!w.length) return 'recog';
   let r = Math.random() * w.reduce((a, x) => a + x[1], 0);
   for (const [k, v] of w){ if ((r -= v) <= 0) return k; }
@@ -4473,9 +4791,11 @@ function showNext(){
   if (cur && AI && !aiOff && !cur.ai && cur.lazy) lazyEnrich();
   mcOpts = null; mcPick = -1; hintOn = false;
   if (cur){ curMode = pickMode(cur); if (curMode === 'cloze') cz = clozeFor(cur); if (curMode === 'cloze' && !cz) curMode = 'recog';
-    if (curMode === 'mc' || curMode === 'listen'){ mcOpts = mcFor(cur); if (!mcOpts) curMode = 'recog'; } }
+    if (curMode === 'mc' || curMode === 'listen'){ mcOpts = mcFor(cur); if (!mcOpts) curMode = 'recog'; }
+    if (QT_NAME[curMode]){ QQ = makeQ(curMode, cur); QST = qNewState(); if (!QQ) curMode = 'recog'; } }
   renderReview();
   if (inSession && cur && ((curMode === 'recog' && S.settings.autoSpeak) || curMode === 'listen')) speak(cur.word);
+  if (inSession && cur && curMode === 'dict' && QQ) speak(QQ.say);
 }
 const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
 function videoUrl(src){
@@ -4556,6 +4876,7 @@ const hintBox = inner => revealed || hintOn ? `<div class="hintWrap">${inner}</d
 function frontHTML(c){
   const tag = `${marksHTML(c)}<div class="modeTag">${MODE_NAME[curMode]}</div>`;
   if (curMode === 'recog') return `<div class="front">${tag}${headHTML(c)}</div>`;
+  if (QT_NAME[curMode] && QQ) return `<div class="front">${tag}<div class="qWrap">${qBody(QQ, QST, revealed)}</div></div>`;
   if ((curMode === 'mc' || curMode === 'listen') && mcOpts){
     const top = curMode === 'mc' ? headHTML(c) : `<button class="bigSay" data-say="${esc(c.word)}" aria-label="再聽一次">${ILL.speaker}</button><div class="tiny muted" style="margin-top:6px">點喇叭可以再聽一次</div>`;
     return `<div class="front">${tag}${top}<div class="mcOpts">${mcOpts.map((o, i) => `<button class="mcOpt${revealed ? (o.ok ? ' ok' : i === mcPick ? ' no' : ' dim') : ''}" data-mc="${i}" ${revealed ? 'disabled' : ''}><span class="k">${i + 1}</span><span>${esc(o.m)}</span></button>`).join('')}</div></div>`;
@@ -4635,7 +4956,9 @@ function renderToday(){
       ${left ? `<button class="linkBtn" id="startBtn">全部一起來・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
       <div class="tiny muted todayFoot">🔥 連續 ${computeStreak()} 天　・　本週 ${myXP()} XP　・　已學 ${learned} 字</div>
     </div>
+    ${questHTML()}
     <div class="quick">
+      <button class="qt" data-q="games">${QI('<path d="M14 4l2.6 5.6 6 .7-4.5 4.1 1.2 6L14 17.4l-5.3 3 1.2-6-4.5-4.1 6-.7z"/>', '趣味挑戰')}</button>
       <button class="qt" data-q="listen">${QI('<path d="M5 16v-3a9 9 0 0 1 18 0v3"/><rect x="4" y="15" width="5" height="8" rx="2.5"/><rect x="19" y="15" width="5" height="8" rx="2.5"/>', '聽力模式')}</button>
       <button class="qt" data-q="confuse">${QI('<path d="M5 9h8M5 14h6M15 9l4 5-4 5M21 9l-2 2.5"/><circle cx="21.5" cy="19" r="1" fill="currentColor"/>', '易混淆字')}</button>
       ${hardN ? `<button class="qt" data-q="hard">${QI('<path d="M14 5c-4 0-7 3-7 7 0 2.5 1.2 4.3 3 5.6V21h8v-3.4c1.8-1.3 3-3.1 3-5.6 0-4-3-7-7-7z"/><path d="M11 24h6"/><path d="M14 9v4M14 15.5v.5"/>', '常忘的字 ' + hardN)}</button>` : `<button class="qt" data-q="add">${QI('<circle cx="14" cy="14" r="10"/><path d="M14 9v10M9 14h10"/>', '新增單字')}</button>`}
@@ -4650,7 +4973,7 @@ function renderToday(){
   if ($('#moreNew')) $('#moreNew').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); go('new'); };
   area.querySelectorAll('[data-q]').forEach(b => b.onclick = () => {
     const k = b.dataset.q;
-    if (k === 'games'){ SOC.sub = 'games'; switchTab('friends'); }
+    if (k === 'games') switchTab('games');
     else if (k === 'hard'){ HARDQ = shuffle(hardCards()).slice(0, 20); HARDREP.clear(); go('hard'); }
     else if (k === 'toeic'){ switchTab('add'); setTimeout(() => { const el = $('#toeicBox'); if (el) el.scrollIntoView({behavior: 'smooth'}); }, 60); }
     else switchTab(k);
@@ -4752,7 +5075,7 @@ function renderReview(){
   else if (revealed && S.settings.twoBtn){ const good = sug >= 3 ? sug : 3; controls = `<div class="answers two"><button class="ans a1${sug === 1 ? ' sug' : ''}" data-r="1">不記得<small>${previewLabel(c, 1)}</small></button><button class="ans a3${sug >= 2 ? ' sug' : ''}" data-r="${good}">記得<small>${previewLabel(c, good)}</small></button></div>`; }
   else if (revealed) controls = `<div class="answers">${[1,2,3,4].map(r => `<button class="ans a${r}${sug === r ? ' sug' : ''}" data-r="${r}">${['','忘記','困難','良好','簡單'][r]}<small>${previewLabel(c, r)}</small></button>`).join('')}</div>`;
   else if (curMode === 'produce') controls = `<div class="row" style="margin-top:14px"><button class="btn ai" id="gradeBtn" style="flex:2" ${grading ? 'disabled' : ''}>✨ 請 AI 批改</button><button class="btn" id="revealBtn" style="flex:1">直接看答案</button></div>`;
-  else if (curMode === 'mc' || curMode === 'listen') controls = `<button class="btn reveal" id="mcSkip">不知道，看答案</button>`;
+  else if (curMode === 'mc' || curMode === 'listen' || QT_MC[curMode]) controls = `<button class="btn reveal" id="${QT_MC[curMode] ? 'qSkip' : 'mcSkip'}">不知道，看答案</button>`;
   else controls = `<button class="btn pri reveal" id="revealBtn">${curMode === 'recog' ? '顯示答案' : '確認答案'}</button>`;
   area.innerHTML = sessionHead() + `<div class="card swipeable">${frontHTML(c)}${verdictHTML}${fbHTML}${back}</div><div class="sesControls">${controls}</div>`;
   bindSessionHead(c);
@@ -4762,14 +5085,16 @@ function renderReview(){
   area.querySelectorAll('[data-enrich]').forEach(b => b.onclick = () => queueEnrich([b.dataset.enrich]));
   if ($('#revealBtn')) $('#revealBtn').onclick = reveal;
   if ($('#mcSkip')) $('#mcSkip').onclick = () => chooseMc(-1);
-  if ($('#hintBtn')) $('#hintBtn').onclick = () => { hintOn = true; const v = $('#typeIn') ? $('#typeIn').value : ''; typedVal = v; renderReview(); };
+  if (QT_NAME[curMode] && QQ && !revealed){ qBind(area, QQ, QST, v => qAnswer(v), () => renderReview()); }
+  if ($('#qSkip')) $('#qSkip').onclick = () => qAnswer(qJudge(QQ, QST));
+  if ($('#hintBtn')) $('#hintBtn').onclick = () => { hintOn = true; if (QST) QST.hint = true; const v = $('#typeIn') ? $('#typeIn').value : ''; typedVal = v; if (QST) QST.typed = v; renderReview(); };
   area.querySelectorAll('[data-mc]').forEach(b => b.onclick = () => chooseMc(+b.dataset.mc));
   if ($('#gradeBtn')) $('#gradeBtn').onclick = grade;
   if (revealed) ensureZh(c);
   ensureIpa(c);
   const ti = $('#typeIn');
   if (ti && !revealed && !grading){
-    ti.focus(); ti.oninput = () => { typedVal = ti.value; };
+    ti.focus(); ti.oninput = () => { typedVal = ti.value; if (QST) QST.typed = ti.value; };
     ti.onkeydown = e => { if (e.key === 'Enter' && !(curMode === 'produce' && e.shiftKey)){ e.preventDefault(); typedVal = ti.value; curMode === 'produce' ? grade() : reveal(); } };
   }
 }
@@ -4777,6 +5102,7 @@ function reveal(){
   if (!cur || revealed) return;
   if (curMode === 'mc' || curMode === 'listen'){ chooseMc(-1); return; }
   const ti = $('#typeIn'); if (ti) typedVal = ti.value;
+  if (QT_NAME[curMode] && QQ){ QST.typed = typedVal; qAnswer(qJudge(QQ, QST)); return; }
   if (curMode === 'recall' || curMode === 'cloze'){
     const a = norm(typedVal), ok1 = curMode === 'cloze' ? norm(cz.answer) : norm(cur.word), ok2 = norm(cur.word);
     if (!a) verdict = {cls: 'no', text: '未作答', sug: 1};
@@ -4853,6 +5179,8 @@ document.addEventListener('keydown', e => {
   if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (cur && cur.state === 'new' && (e.key === ' ' || e.key === 'Enter')){ e.preventDefault(); rate(1); return; }
+  if (cur && !revealed && QT_MC[curMode] && QQ){ if (['1','2','3','4'].includes(e.key) && QQ.opts[+e.key - 1]){ QST.pick = +e.key - 1; qAnswer(qJudge(QQ, QST)); } else if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); qAnswer(qJudge(QQ, QST)); } return; }
+  if (cur && !revealed && curMode === 'order'){ if (e.key === 'Enter'){ e.preventDefault(); reveal(); } return; }
   if (cur && !revealed && (curMode === 'mc' || curMode === 'listen')){ if (['1','2','3','4'].includes(e.key)) chooseMc(+e.key - 1); else if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); chooseMc(-1); } return; }
   if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); if (revealed) rate(verdict && verdict.sug ? verdict.sug : 3); else if (curMode !== 'produce') reveal(); }
   else if (['1','2','3','4'].includes(e.key) && revealed) rate(+e.key);
@@ -5318,7 +5646,7 @@ if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener('change', () => a
 function fillSettings(){
   const s = S.settings;
   $('#sNew').value = s.newPerDay; $('#sRev').value = s.maxRev; $('#sAutoNew').checked = s.autoNew !== false; $('#sFont').value = String(s.font || 16); $('#sTheme').value = s.theme || 'auto'; $('#sTwoBtn').value = s.twoBtn ? '1' : '0'; $('#sHaptic').checked = s.haptic !== false; applyLook(); $('#sOrder').value = s.newOrder; $('#sWeight').checked = !!s.weight;
-  $('#mRecog').checked = s.modes.recog; $('#mRecall').checked = s.modes.recall; $('#mCloze').checked = s.modes.cloze; $('#mProduce').checked = s.modes.produce;
+  $('#mRecog').checked = s.modes.recog; $('#mRecall').checked = s.modes.recall; $('#mCloze').checked = s.modes.cloze; $('#mProduce').checked = s.modes.produce; Object.keys(QT_NAME).forEach(k => { const x = $('#mq_' + k); if (x) x.checked = s.modes[k] !== false; });
   $('#sSpeak').checked = !!s.autoSpeak; $('#sAccent').value = s.accent; $('#sRate').value = ['0.7','0.85','0.95','1.05'].includes(String(s.rate)) ? String(s.rate) : '0.95';
   $('#sTtsMode').value = s.ttsMode || 'device'; $('#sAiVoice').value = s.aiVoice || 'Kore'; $('#sDict').checked = s.dictVoice !== false; $('#sPhon').value = s.phon === 'ipa' ? 'ipa' : 'kk'; $('#sAzVoice').value = s.azVoice || 'en-US-AvaNeural'; $('#sAzKey').value = lsGet(AZ_KEY_LS); $('#sAzReg').value = lsGet(AZ_REG_LS); fillVoiceSelect(); syncTtsBoxes();
   $('#fDeck').value = s.lastDeck || '';
@@ -5349,7 +5677,7 @@ $('#saveSettings').onclick = () => {
   const s = S.settings;
   s.newPerDay = clamp(parseInt($('#sNew').value) || 0, 0, 999); s.maxRev = clamp(parseInt($('#sRev').value) || 0, 0, 9999);
   s.newOrder = $('#sOrder').value; s.weight = $('#sWeight').checked; s.autoNew = $('#sAutoNew').checked; s.font = +$('#sFont').value || 16; s.theme = $('#sTheme').value; s.twoBtn = $('#sTwoBtn').value === '1'; s.haptic = $('#sHaptic').checked;
-  s.modes = {recog: $('#mRecog').checked, recall: $('#mRecall').checked, cloze: $('#mCloze').checked, produce: $('#mProduce').checked};
+  s.modes = {recog: $('#mRecog').checked, recall: $('#mRecall').checked, cloze: $('#mCloze').checked, produce: $('#mProduce').checked}; Object.keys(QT_NAME).forEach(k => { const x = $('#mq_' + k); s.modes[k] = x ? x.checked : true; });
   s.autoSpeak = $('#sSpeak').checked; s.accent = $('#sAccent').value; s.rate = $('#sRate').value; s.ttsMode = $('#sTtsMode').value; s.aiVoice = $('#sAiVoice').value; s.dictVoice = $('#sDict').checked; s.phon = $('#sPhon').value; s.azVoice = $('#sAzVoice').value; saveAzKeys(); ttsWarned = false;
   try { if ($('#sVoice').value) localStorage.setItem('vocab-voice-' + s.accent, $('#sVoice').value); } catch(e){}
   markDirty(); fillSettings(); refreshAll();
@@ -5402,7 +5730,7 @@ $('#resetProg').onclick = e => {
 
 /* ---------- shell ---------- */
 
-const TAB_OF = {add: 'browse', video: 'train', practice: 'train', listen: 'train', confuse: 'train', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
+const TAB_OF = {add: 'browse', games: 'train', video: 'train', practice: 'train', listen: 'train', confuse: 'train', stats: 'me', settings: 'me', guide: 'me', account: 'me'};
 function switchTab(t){
   let sub = null;
   if (t === 'stats' || t === 'settings' || t === 'guide' || t === 'account'){ sub = t; t = 'me'; }
@@ -5416,6 +5744,7 @@ function switchTab(t){
   if (t === 'friends') renderClass();
   if (t === 'listen') renderListen();
   if (t === 'confuse') cfStart();
+  if (t === 'games') gmHome(); else gmStop();
   if (t !== 'listen' && LSN.playing) lsStop();
   if (t === 'me' && statsVisible()) renderStats();
 }
