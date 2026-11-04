@@ -35,6 +35,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;fl
 .brand svg{width:38px;height:38px;flex:none}
 h1{font-weight:400;font-size:1.3rem;margin:0;line-height:1.2;letter-spacing:.5px}
 h1 small{display:block;font-size:.78rem;color:var(--muted)}
+.muteBtn{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:999px;padding:4px 8px;cursor:pointer;font:inherit;font-size:.8rem}.muteBtn.on{background:var(--yama-s)}
+.muteNote{margin-top:10px;font-size:.85rem;background:var(--yama-s);border-radius:10px;padding:6px 10px;text-align:center}.muteNote .linkBtn{margin-left:6px}
 .status{font-size:.8rem;display:flex;align-items:center;gap:6px;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 11px}
 .dot{width:9px;height:9px;border-radius:50%;background:#ccc;border:1.5px solid var(--ink)}
 .dot.ok{background:var(--waka)} .dot.busy{background:var(--yama)} .dot.err{background:var(--coral)}
@@ -446,7 +448,7 @@ nav#nav button.center.on{color:var(--ink)}
 <div class="wrap">
   <header>
     <div class="brand"><svg viewBox="0 0 38 38" aria-hidden="true"><rect x="1.5" y="1.5" width="35" height="35" rx="10" fill="#F2A497" stroke="#3E3A39" stroke-width="2"/><path d="M19 12c-3-2-7-2.2-10-1.2v15c3-1 7-.8 10 1.2 3-2 7-2.2 10-1.2v-15c-3-1-7-.8-10 1.2z" fill="#FFFCF6" stroke="#3E3A39" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 12v15" stroke="#3E3A39" stroke-width="1.6"/></svg><h1>Vocab Studio<small>英文單字學習・影片／間隔複習／活用</small></h1></div>
-    <div class="row" style="gap:8px"><button class="mechip" id="meChip" style="display:none"></button><div class="status"><span class="dot" id="dot"></span><span id="statusText">載入中…</span></div></div>
+    <div class="row" style="gap:8px"><button class="muteBtn" id="muteBtn" type="button" aria-label="切換靜音"></button><button class="mechip" id="meChip" style="display:none"></button><div class="status"><span class="dot" id="dot"></span><span id="statusText">載入中…</span></div></div>
   </header>
 
 
@@ -4034,6 +4036,7 @@ const LSN = {list: [], i: 0, playing: false, token: 0, wake: null, opts: {src: '
 function speakP(text, lang, rate){
   return new Promise(res => {
     try {
+      if (MUTE){ setTimeout(res, 1200); return; }
       if (!('speechSynthesis' in window) || !text){ res(); return; }
       const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate;
       const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.replace('_', '-').startsWith(lang)); if (v) u.voice = v;
@@ -4056,6 +4059,7 @@ function lsPool(src){
 }
 function renderListen(){
   const el = $('#listenArea'); if (!el) return;
+  if (MUTE){ el.innerHTML = `<div class="box" style="text-align:center"><p>目前是靜音模式，聽力模式需要播放聲音。</p><p class="tiny muted">戴上耳機後，點下面的按鈕或右上角喇叭開啟聲音。</p><button class="btn pri" id="lsUnmute">開啟聲音</button></div>`; $('#lsUnmute').onclick = () => setMute(false); return; }
   const o = LSN.opts;
   if (!LSN.list.length || (!LSN.playing && LSN.i >= LSN.list.length && !LSN.finished)){
     const ds = decks();
@@ -4347,8 +4351,19 @@ async function azureTTS(text, lang, voiceOverride){
 const useAiVoice = () => S.settings.ttsMode === 'ai' && !!lsGet(AI_KEY_LS) && !(Date.now() < +(lsGet('vocab-tts-cool') || 0));
 let sayTok = 0, ttsWarned = false;
 function stopSpeech(){ sayTok++; try { AUD.pause(); } catch(e){} if (audFin){ const f = audFin; audFin = null; f(); } try { speechSynthesis.cancel(); } catch(e){} }
+let MUTE = (() => { try { return localStorage.getItem('vocab-mute') === '1'; } catch(e){ return false; } })();
+const MUTE_ON_SVG = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9c1 .9 1.5 1.9 1.5 3s-.5 2.1-1.5 3"/><path d="M18 6.5c1.7 1.5 2.6 3.4 2.6 5.5s-.9 4-2.6 5.5"/></svg>', MUTE_OFF_SVG = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
+function syncMuteBtn(){ const b = $('#muteBtn'); if (!b) return; b.innerHTML = MUTE ? MUTE_OFF_SVG + '<span>靜音</span>' : MUTE_ON_SVG; b.classList.toggle('on', MUTE); b.title = MUTE ? '靜音中：不播放聲音、不出聽力題（點一下開啟聲音）' : '點一下切換成靜音模式'; }
+function setMute(v){
+  MUTE = !!v; try { localStorage.setItem('vocab-mute', MUTE ? '1' : '0'); } catch(e){}
+  if (MUTE){ stopSpeech(); try { speechSynthesis.cancel(); } catch(e){} if (typeof LSN !== 'undefined' && LSN.playing) lsStop(); }
+  syncMuteBtn(); toast(MUTE ? '已切換成靜音模式：不播放聲音，也不會出聽力題' : '已開啟聲音');
+  if (inSession && cur && !revealed && (curMode === 'listen' || curMode === 'dict')){ cur = null; showNext(); }
+  else if ($('#p-review').classList.contains('on') && !inSession) renderReview();
+  if ($('#p-listen').classList.contains('on')) renderListen();
+}
 async function say(text, lang, rate){
-  if (!text) return;
+  if (!text || MUTE) return;
   lang = lang || S.settings.accent; rate = rate || Number(S.settings.rate) || 0.95;
   stopSpeech(); const tok = sayTok;
   const pr = lang.startsWith('zh') ? 1 : Math.min(1.1, rate / 0.95);
@@ -4383,9 +4398,10 @@ async function say(text, lang, rate){
   return deviceSay(text, lang, rate);
 }
 function speak(text){ say(text); }
-function prefetchTTS(texts){ const t = texts.filter(Boolean)[0]; if (!t) return; if (dictOn() && isSingleWord(t)){ dictAudio(t, S.settings.accent).catch(() => {}); return; } if (useAzure()) azureTTS(t, S.settings.accent).catch(() => {}); else if (useAiVoice()) aiTTS(t, S.settings.accent).catch(() => {}); }
+function prefetchTTS(texts){ if (MUTE) return; const t = texts.filter(Boolean)[0]; if (!t) return; if (dictOn() && isSingleWord(t)){ dictAudio(t, S.settings.accent).catch(() => {}); return; } if (useAzure()) azureTTS(t, S.settings.accent).catch(() => {}); else if (useAiVoice()) aiTTS(t, S.settings.accent).catch(() => {}); }
 document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('more') && e.target.closest('#reviewArea')) UI.moreOpen = e.target.open; }, true);
-document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
+syncMuteBtn(); $('#muteBtn').onclick = () => setMute(!MUTE);
+document.addEventListener('click', e => { if (e.target.closest('.addable .w') || e.target.closest('input,textarea')) return; const b = e.target.closest('[data-say]'); if (b){ e.preventDefault(); if (MUTE){ toast('目前是靜音模式，點右上角喇叭可開啟聲音'); return; } speak(b.dataset.say); b.classList.add('speaking'); setTimeout(() => b.classList.remove('speaking'), 700); } });
 const sayBtn = (t, sm) => `<button class="speak${sm ? ' sm' : ''}" data-say="${esc(t)}" title="朗讀" aria-label="朗讀">${ILL.speaker}</button>`;
 
 /* ---------- word matching ---------- */
@@ -4610,6 +4626,7 @@ function gmHome(){
 }
 function gmQuiz(kind){
   gmStop();
+  if (MUTE && kind === 'dict'){ toast('聽句子填空需要聲音，請先點右上角喇叭關閉靜音'); return; }
   const types = kind === 'part5' ? ['syn', 'form', 'coll', 'form', 'syn', 'coll', 'sense'] : [kind];
   const qs = [], used = new Set();
   for (const c of shuffle(gmPool())){
@@ -4756,7 +4773,7 @@ function pickMode(c){
   if (c.state === 'new') return 'recog';
   if (SES_KIND === 'hard') return S.settings.modes.recall && Math.random() < 0.5 ? 'recall' : 'mc';
   // 新字由易到難：選意思 → 聽音選意思 → 拼字
-  if (c.state === 'learning'){ if ((c.step || 0) === 0) return 'mc'; if (c.step === 1) return 'listen'; return S.settings.modes.recall ? 'recall' : 'recog'; }
+  if (c.state === 'learning'){ if ((c.step || 0) === 0) return 'mc'; if (c.step === 1) return MUTE ? 'mc' : 'listen'; return S.settings.modes.recall ? 'recall' : 'recog'; }
   if (c.state === 'review' && (c.reps || 0) <= 4 && (c.ivl || 0) <= 3 && S.settings.modes.recall) return 'recall';
   const m = S.settings.modes, young = c.state !== 'review' || c.ivl < 7;
   const w = [];
@@ -4764,7 +4781,7 @@ function pickMode(c){
   if (m.recall) w.push(['recall', young ? 1.5 : 1.5]);
   if (m.cloze && clozeFor(c)) w.push(['cloze', young ? 1.5 : 2]);
   if (m.produce && AI && !aiOff && c.state === 'review' && c.ivl >= 4) w.push(['produce', 1.2]);
-  if (c.state === 'review') for (const [k, wt] of [['syn', 1.2], ['form', 1.2], ['coll', 0.9], ['ant', 0.6], ['sense', 0.8], ['order', 0.7], ['dict', 0.8]]) if (m[k] !== false && makeQ(k, c)) w.push([k, wt]);
+  if (c.state === 'review') for (const [k, wt] of [['syn', 1.2], ['form', 1.2], ['coll', 0.9], ['ant', 0.6], ['sense', 0.8], ['order', 0.7], ['dict', 0.8]]) if (m[k] !== false && !(MUTE && k === 'dict') && makeQ(k, c)) w.push([k, wt]);
   if (!w.length) return 'recog';
   let r = Math.random() * w.reduce((a, x) => a + x[1], 0);
   for (const [k, v] of w){ if ((r -= v) <= 0) return k; }
@@ -4960,7 +4977,7 @@ function renderToday(){
         ${q.revs.length + q.learnToday.length ? `<button class="btn pri startRev" id="revBtn"><b>複習</b><small>${q.revs.length + q.learnToday.length} 張到期</small></button>` : `<button class="btn startRev" disabled><b>複習</b><small>今天沒有到期的卡</small></button>`}
       </div>
       ${left ? `<button class="linkBtn" id="startBtn">全部一起來・約 ${mins} 分鐘</button>` : `<div class="allDone">今天的份都完成了 🎉<div class="tiny muted">可以聽聽單字、做活用練習，或和同學對戰</div></div>`}
-      <div class="tiny muted todayFoot">🔥 連續 ${computeStreak()} 天　・　本週 ${myXP()} XP　・　已學 ${learned} 字</div>
+      ${MUTE ? '<div class="muteNote">靜音模式中：不播放聲音，也不會出聽力題。<button class="linkBtn" id="unmuteBtn">開啟聲音</button></div>' : ''}<div class="tiny muted todayFoot">🔥 連續 ${computeStreak()} 天　・　本週 ${myXP()} XP　・　已學 ${learned} 字</div>
     </div>
     ${questHTML()}
     <div class="quick">
@@ -4974,6 +4991,7 @@ function renderToday(){
   $('#deckSel').onchange = e => { S.settings.deck = e.target.value; markDirty(); cur = null; showNext(); };
   const go = kind => { SES_KIND = kind; inSession = true; cur = null; showNext(); window.scrollTo(0, 0); };
   if ($('#startBtn')) $('#startBtn').onclick = () => go('all');
+  if ($('#unmuteBtn')) $('#unmuteBtn').onclick = () => setMute(false);
   if ($('#newBtn')) $('#newBtn').onclick = () => go('new');
   if ($('#revBtn')) $('#revBtn').onclick = () => go('rev');
   if ($('#moreNew')) $('#moreNew').onclick = () => { ensureDaily(); S.daily.bonus = (S.daily.bonus || 0) + 5; markDirty(); go('new'); };
