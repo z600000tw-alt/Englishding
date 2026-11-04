@@ -361,6 +361,8 @@ nav#nav button.center.on{color:var(--ink)}
 .segs{display:flex;gap:6px;overflow-x:auto;margin:10px 0 4px;padding-bottom:2px}
 .segs button{border:1.5px solid var(--ink);background:var(--paper);border-radius:999px;padding:4px 12px;cursor:pointer;white-space:nowrap;flex:none;font-size:.88rem}
 .segs button.on{background:var(--ink);color:#fff}
+.groupRow{display:flex;align-items:center;gap:8px;margin-top:8px}.groupRow select{flex:1;max-width:220px}.groupSegs{margin-top:6px}.groupSegs small{opacity:.7;margin-left:2px}.segs button.on small{opacity:.85}
+.pager{display:flex;gap:8px;justify-content:center;align-items:center;margin:10px 0}.pager:empty{display:none}.pgSel{width:auto}
 .fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 10px}
 .fgrid label{margin-top:6px}
 .filterPanel{margin-top:10px;padding:12px 14px}
@@ -616,6 +618,9 @@ nav#nav button.center.on{color:var(--ink)}
     <div class="pageTop"><h2 class="ptitle">我的單字 <span class="tiny muted" id="browseCount"></span></h2><button class="btn pri small" data-goto="add">＋ 新增</button></div>
     <div class="searchRow"><input type="search" id="search" placeholder="搜尋單字或中文"><button class="btn small" id="filterBtn">篩選</button></div>
     <div class="segs" id="stateSegs"></div>
+    <div class="groupRow"><span class="tiny muted">分類檢視</span><select id="browseGroup"><option value="">不分類</option><option value="toeic">多益級別</option><option value="skill">熟練度</option><option value="cat">主題</option><option value="az">字首 A–Z</option><option value="imp">重要度</option><option value="pos">詞性</option></select></div>
+    <div class="segs groupSegs" id="groupSegs"></div>
+    <div class="pager" id="pagerTop"></div>
     <div class="filterPanel box" id="filterPanel" style="display:none">
       <div class="fgrid">
         <div><label>牌組／標籤</label><select id="browseDeck"></select></div>
@@ -628,6 +633,7 @@ nav#nav button.center.on{color:var(--ink)}
       <button class="btn small ai aiOnly" id="fillAll" style="margin-top:12px">✨ 補齊未補齊的單字</button>
     </div>
     <div class="list" id="list"></div>
+    <div class="pager" id="pagerBot"></div>
     <div class="tiny muted" id="browseInfo" style="text-align:center;margin-top:10px"></div>
   </section>
 
@@ -2997,7 +3003,7 @@ function hydrate(c){
   c.usage = d.usage || '';
   if (!c.userMeaning && d.m) c.meaning = d.m;
   if (!c.pos && d.p) c.pos = d.p;
-  if (!c.cat && d.c) c.cat = d.c;
+  if (d.c && (!c.cat || was)) c.cat = d.c;
   if (!c.level && d.cefr) c.level = d.cefr;
   c.pk = 1; c.ai = true; c.lazy = false; c.builtin = true;
   return !was;
@@ -5504,7 +5510,18 @@ function stateLabel(c){
   const days = Math.round((c.due - dayStartOf(now)) / DAY);
   return ['b-review', days <= 0 ? '今天' : days < 30 ? days + ' 天後' : Math.round(days / 30) + ' 個月後'];
 }
-const BR = {state: '', open: false};
+const BR = {state: '', open: false, page: 0, group: '', gval: null};
+const BR_PAGE = 100;
+const TLV_NAME = ['其他', '基礎', '600 分', '750 分', '860 分以上'];
+const posKey = c => { const p = (c.pos || '').toLowerCase().split(/[\/ ,]/)[0].replace(/\.$/, ''); return {n: '名詞', v: '動詞', adj: '形容詞', adv: '副詞', prep: '介系詞', conj: '連接詞', phr: '片語', phrase: '片語', pron: '代名詞'}[p] || (/\s/.test(c.word) ? '片語' : '其他'); };
+const BR_GROUPS = {
+  toeic: c => { const d = packFor(c.word); const lv = d ? clamp(+d.lv || 1, 1, 4) : 0; return [lv || 9, TLV_NAME[lv]]; },
+  skill: c => (c.lapses || 0) >= 3 ? [5, '常忘記'] : c.state === 'new' ? [1, '還沒學'] : c.state !== 'review' ? [2, '學習中'] : (c.ivl || 0) < 21 ? [3, '剛記住（3 週內）'] : (c.ivl || 0) < 90 ? [4, '熟悉（3 週以上）'] : [4.5, '精通（3 個月以上）'],
+  cat: c => [0, c.cat || '未分類'],
+  az: c => { const ch = (c.word[0] || '#').toUpperCase(); return /[A-Z]/.test(ch) ? [ch.charCodeAt(0), ch] : [999, '#']; },
+  imp: c => { const n = c.imp || 3; return [6 - n, `重要度 ${'★'.repeat(n)}`]; },
+  pos: c => { const k = posKey(c); return [['名詞','動詞','形容詞','副詞','片語'].indexOf(k) + 1 || 9, k]; }
+};
 const BR_SEGS = [['', '全部'], ['new', '新字'], ['learning', '學習中'], ['review', '複習中'], ['star', '★ 標記'], ['leech', '常忘記']];
 function renderBrowse(){
   const q = $('#search').value.trim().toLowerCase(), d = $('#browseDeck').value, st = BR.state;
@@ -5513,25 +5530,40 @@ function renderBrowse(){
   $('#filterBtn').textContent = nf ? `篩選・${nf}` : '篩選';
   $('#filterBtn').classList.toggle('on', !!nf);
   $('#stateSegs').innerHTML = BR_SEGS.map(([k, l]) => `<button data-st="${k}" class="${st === k ? 'on' : ''}">${l}</button>`).join('');
-  $('#stateSegs').querySelectorAll('[data-st]').forEach(b => b.onclick = () => { BR.state = b.dataset.st; renderBrowse(); });
+  $('#stateSegs').querySelectorAll('[data-st]').forEach(b => b.onclick = () => { BR.state = b.dataset.st; BR.page = 0; renderBrowse(); });
   let items = S.cards.filter(c => matchDeck(c, d) && (!cat || c.cat === cat) && (!lv || c.level === lv) && (!ty || c.type === ty) &&
     (!q || c.word.toLowerCase().includes(q) || (c.meaning || '').toLowerCase().includes(q) || (c.topic || '').includes(q) || c.ex.some(e => e.en.toLowerCase().includes(q)) || c.syn.some(s => s.w.toLowerCase().includes(q))) &&
     (!st || (st === 'learning' ? isLearning(c) : st === 'leech' ? (c.lapses||0) >= 4 : st === 'star' ? c.star : c.state === st)));
   const sorters = {az: (a,b) => a.word.localeCompare(b.word), prio: (a,b) => prio(b) - prio(a), due: (a,b) => (a.state === 'new') - (b.state === 'new') || a.due - b.due, new: (a,b) => (b.created||0) - (a.created||0)};
   items.sort(sorters[sort] || sorters.az);
-  const total = items.length; items = items.slice(0, 300);
+  BR.group = $('#browseGroup').value;
+  const gf = BR_GROUPS[BR.group];
+  if (gf){
+    const gm = new Map(); items.forEach(c => { const [o, l] = gf(c); const e = gm.get(l) || {o, l, n: 0}; e.n++; gm.set(l, e); });
+    const gs = [...gm.values()].sort((a, b) => a.o - b.o || b.n - a.n || a.l.localeCompare(b.l));
+    if (BR.gval != null && !gm.has(BR.gval)) BR.gval = null;
+    $('#groupSegs').innerHTML = `<button data-g="" class="${BR.gval == null ? 'on' : ''}">全部 ${items.length}</button>` + gs.map(g => `<button data-g="${esc(g.l)}" class="${BR.gval === g.l ? 'on' : ''}">${esc(g.l)} <small>${g.n}</small></button>`).join('');
+    $('#groupSegs').style.display = '';
+    $('#groupSegs').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { BR.gval = b.dataset.g || null; BR.page = 0; renderBrowse(); });
+    if (BR.gval != null) items = items.filter(c => gf(c)[1] === BR.gval);
+  } else { BR.gval = null; $('#groupSegs').innerHTML = ''; $('#groupSegs').style.display = 'none'; }
+  const total = items.length, pages = Math.max(1, Math.ceil(total / BR_PAGE));
+  if (BR.page >= pages) BR.page = pages - 1; if (BR.page < 0) BR.page = 0;
+  const from = BR.page * BR_PAGE; items = items.slice(from, from + BR_PAGE);
+  const pager = pages > 1 ? `<button class="btn small" data-pg="-1" ${BR.page ? '' : 'disabled'}>‹ 上一頁</button><select class="pgSel" aria-label="跳到頁數">${Array.from({length: pages}, (_, i) => `<option value="${i}"${i === BR.page ? ' selected' : ''}>第 ${i + 1} / ${pages} 頁</option>`).join('')}</select><button class="btn small" data-pg="1" ${BR.page < pages - 1 ? '' : 'disabled'}>下一頁 ›</button>` : '';
+  ['#pagerTop', '#pagerBot'].forEach(id => { const el = $(id); el.innerHTML = pager; el.querySelectorAll('[data-pg]').forEach(b => b.onclick = () => { BR.page += +b.dataset.pg; renderBrowse(); if (id === '#pagerBot') $('#p-browse').scrollIntoView(); }); const sl = el.querySelector('.pgSel'); if (sl) sl.onchange = () => { BR.page = +sl.value; renderBrowse(); }; });
   const noai = S.cards.filter(c => !c.ai).length;
   $('#fillAll').style.display = noai && AI ? '' : 'none';
   $('#fillAll').textContent = `✨ 用 AI 補齊 ${noai} 個單字的細節`;
   $('#browseCount').textContent = `${S.cards.length} 字`;
-  $('#browseInfo').textContent = total > 300 ? `共 ${total} 個，只顯示前 300 個，請用搜尋或篩選縮小範圍` : (total ? `共 ${total} 個` : '');
+  $('#browseInfo').textContent = total ? `共 ${total} 個${pages > 1 ? `，目前顯示第 ${from + 1}–${Math.min(total, from + BR_PAGE)} 個` : ''}` : '';
   $('#list').innerHTML = items.map(c => {
     const [cls, lab] = stateLabel(c);
     return `<div class="item wi" data-id="${c.id}"><div class="wiMain"><div class="wiTop">${c.star ? '<span class="starMark">★</span>' : ''}<b>${esc(c.word)}</b><span class="pos">${esc(c.pos || '')}</span></div><div class="m">${esc(c.meaning || '（尚未有中文）')}</div></div><span class="wiState ${cls}">${lab}</span></div>`;
   }).join('') || '<p class="muted" style="text-align:center;margin-top:20px">沒有符合的單字</p>';
   $('#list').querySelectorAll('.item').forEach(el => el.onclick = () => openEditor(S.cards.find(c => c.id === el.dataset.id)));
 }
-['#search','#browseDeck','#browseCat','#browseLevel','#browseType','#browseSort'].forEach(s => $(s).addEventListener('input', renderBrowse));
+['#search','#browseDeck','#browseCat','#browseLevel','#browseType','#browseSort','#browseGroup'].forEach(s => $(s).addEventListener('input', () => { BR.page = 0; if (s === '#browseGroup') BR.gval = null; renderBrowse(); }));
 $('#filterBtn').onclick = () => { const f = $('#filterPanel'); f.style.display = f.style.display === 'none' ? '' : 'none'; };
 $('#filterReset').onclick = () => { ['#browseDeck','#browseCat','#browseLevel','#browseType'].forEach(s => $(s).value = ''); BR.state = ''; renderBrowse(); };
 $('#fillAll').onclick = () => queueEnrich(S.cards.filter(c => !c.ai).map(c => c.id));
